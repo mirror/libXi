@@ -45,6 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
+/* $XFree86: xc/lib/Xi/XAllowDv.c,v 3.4 2002/10/16 00:37:28 dawes Exp $ */
 
 /***********************************************************************
  *
@@ -52,11 +53,12 @@ SOFTWARE.
  *
  */
 
-#include "XI.h"
-#include "XIproto.h"
-#include "Xlibint.h"
-#include "XInput.h"
-#include "extutil.h"
+#include <X11/extensions/XI.h>
+#include <X11/extensions/XIproto.h>
+#include <X11/Xlibint.h>
+#include <X11/extensions/XInput.h>
+#include <X11/extensions/extutil.h>
+#include "XIint.h"
 
 int
 XAllowDeviceEvents (dpy, dev, event_mode, time)
@@ -66,7 +68,7 @@ XAllowDeviceEvents (dpy, dev, event_mode, time)
     Time		time;
     {       
     xAllowDeviceEventsReq 	*req;
-    XExtDisplayInfo *info = (XExtDisplayInfo *) XInput_find_display (dpy);
+    XExtDisplayInfo *info = XInput_find_display (dpy);
 
     LockDisplay (dpy);
     if (_XiCheckExtInit(dpy, XInput_Initial_Release) == -1)

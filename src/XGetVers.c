@@ -45,6 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
+/* $XFree86: xc/lib/Xi/XGetVers.c,v 3.4 2002/10/16 00:37:29 dawes Exp $ */
 
 /***********************************************************************
  *
@@ -52,11 +53,12 @@ SOFTWARE.
  *
  */
 
-#include "XIproto.h"
-#include "Xlibint.h"
-#include "XI.h"
-#include "XInput.h"
-#include "extutil.h"
+#include <X11/extensions/XI.h>
+#include <X11/extensions/XIproto.h>
+#include <X11/Xlibint.h>
+#include <X11/extensions/XInput.h>
+#include <X11/extensions/extutil.h>
+#include "XIint.h"
 
 XExtensionVersion
 #if NeedFunctionPrototypes
@@ -72,7 +74,7 @@ XExtensionVersion
     xGetExtensionVersionReq 	*req;
     xGetExtensionVersionReply 	rep;
     XExtensionVersion		*ext;
-    XExtDisplayInfo *info = (XExtDisplayInfo *) XInput_find_display (dpy);
+    XExtDisplayInfo *info = XInput_find_display (dpy);
 
     LockDisplay (dpy);
     if (_XiCheckExtInit(dpy, Dont_Check) == -1)

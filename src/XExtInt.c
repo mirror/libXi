@@ -45,6 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
+/* $XFree86: xc/lib/Xi/XExtInt.c,v 3.7 2002/10/16 00:37:28 dawes Exp $ */
 
 /***********************************************************************
  *
@@ -55,11 +56,12 @@ SOFTWARE.
 #define NEED_EVENTS
 #define NEED_REPLIES
 #include <stdio.h>
-#include "XI.h"
-#include "XIproto.h"
-#include "Xlibint.h"
-#include "XInput.h"
-#include "extutil.h"
+#include <X11/extensions/XI.h>
+#include <X11/extensions/XIproto.h>
+#include <X11/Xlibint.h>
+#include <X11/extensions/XInput.h>
+#include <X11/extensions/extutil.h>
+#include "XIint.h"
 
 #define ENQUEUE_EVENT	True
 #define DONT_ENQUEUE	False
@@ -132,7 +134,7 @@ void _xibaddevice (dpy, error)
     Display *dpy;
     int *error;
     {
-    XExtDisplayInfo 	*info = (XExtDisplayInfo *) XInput_find_display (dpy);
+    XExtDisplayInfo *info = XInput_find_display (dpy);
     *error = info->codes->first_error + XI_BadDevice;
     }
 
@@ -140,7 +142,7 @@ void _xibadclass (dpy, error)
     Display *dpy;
     int *error;
     {
-    XExtDisplayInfo 	*info = (XExtDisplayInfo *) XInput_find_display (dpy); 
+    XExtDisplayInfo *info = XInput_find_display (dpy); 
     *error = info->codes->first_error + XI_BadClass;
     }
 
@@ -148,7 +150,7 @@ void _xibadevent (dpy, error)
     Display *dpy;
     int *error;
     {
-    XExtDisplayInfo 	*info = (XExtDisplayInfo *) XInput_find_display (dpy);
+    XExtDisplayInfo *info = XInput_find_display (dpy);
     *error = info->codes->first_error + XI_BadEvent;
     }
 
@@ -156,7 +158,7 @@ void _xibadmode (dpy, error)
     Display *dpy;
     int *error;
     {
-    XExtDisplayInfo 	*info = (XExtDisplayInfo *) XInput_find_display (dpy);
+    XExtDisplayInfo *info = XInput_find_display (dpy);
     *error = info->codes->first_error + XI_BadMode;
     }
 
@@ -164,7 +166,7 @@ void _xidevicebusy (dpy, error)
     Display *dpy;
     int *error;
     {
-    XExtDisplayInfo 	*info = (XExtDisplayInfo *) XInput_find_display (dpy); 
+    XExtDisplayInfo *info = XInput_find_display (dpy); 
     *error = info->codes->first_error + XI_DeviceBusy;
     }
 
@@ -175,6 +177,7 @@ void _xidevicebusy (dpy, error)
  *
  */
 
+int
 _XiCheckExtInit(dpy, version_index)
     register	Display *dpy;
     register	int	version_index;
