@@ -86,7 +86,7 @@ XSelectExtensionEvent (dpy, w, event_list, count)
        statement */
 
     count <<= 2;
-    Data (dpy, (char *) event_list, count);
+    Data32 (dpy, (long *) event_list, count);
 
     UnlockDisplay(dpy);
     SyncHandle();
