@@ -45,6 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
+/* $XFree86: xc/lib/Xi/XExtToWire.c,v 3.6 2002/10/16 12:56:28 tsi Exp $ */
 
 /****************************************************************
  *
@@ -54,10 +55,11 @@ SOFTWARE.
 #define NEED_EVENTS
 #define NEED_REPLIES
 
-#include "Xlibint.h"
-#include "XInput.h"
-#include "XIproto.h"
-#include "extutil.h"
+#include <X11/extensions/XIproto.h>
+#include <X11/Xlibint.h>
+#include <X11/extensions/XInput.h>
+#include <X11/extensions/extutil.h>
+#include "XIint.h"
 
 Status
 _XiEventToWire(dpy, re, event, count)
@@ -66,7 +68,7 @@ _XiEventToWire(dpy, re, event, count)
     register xEvent **event;	/* wire protocol event */
     register int *count;
     {
-    XExtDisplayInfo *info = (XExtDisplayInfo *) XInput_find_display (dpy);
+    XExtDisplayInfo *info = XInput_find_display (dpy);
     int i;
 
     switch ((re->type & 0x7f) - info->codes->first_event) 
@@ -81,7 +83,7 @@ _XiEventToWire(dpy, re, event, count)
 	    *count = 2;
 	    kev = (deviceKeyButtonPointer *) Xmalloc (*count * sizeof (xEvent));
 	    if (!kev)
-	        return(_XUnknownNativeEvent(dpy, re, event));
+	        return(_XUnknownNativeEvent(dpy, re, *event));
 	    *event = (xEvent *) kev;
 
 	    kev->type		= ev->type;
@@ -128,7 +130,7 @@ _XiEventToWire(dpy, re, event, count)
 	    *count = 2;
 	    pev = (deviceKeyButtonPointer *) Xmalloc (*count * sizeof (xEvent));
 	    if (!pev)
-	        return(_XUnknownNativeEvent(dpy, re, event));
+	        return(_XUnknownNativeEvent(dpy, re, *event));
 	    *event = (xEvent *) pev;
 
 	    pev->type		= ev->type;
@@ -175,7 +177,7 @@ _XiEventToWire(dpy, re, event, count)
 	    *count = 2;
 	    bev = (deviceKeyButtonPointer *) Xmalloc (*count * sizeof (xEvent));
 	    if (!bev)
-	        return(_XUnknownNativeEvent(dpy, re, event));
+	        return(_XUnknownNativeEvent(dpy, re, *event));
 	    *event = (xEvent *) bev;
 
 	    bev->type		= ev->type;
@@ -222,7 +224,7 @@ _XiEventToWire(dpy, re, event, count)
 	    *count = 2;
 	    mev = (deviceKeyButtonPointer *) Xmalloc (*count * sizeof (xEvent));
 	    if (!mev)
-	        return(_XUnknownNativeEvent(dpy, re, event));
+	        return(_XUnknownNativeEvent(dpy, re, *event));
 	    *event = (xEvent *) mev;
 
 	    mev->type		= ev->type;
@@ -269,7 +271,7 @@ _XiEventToWire(dpy, re, event, count)
 	    *count = 1;
 	    fev = (deviceFocus *) Xmalloc (*count * sizeof (xEvent));
 	    if (!fev)
-	        return(_XUnknownNativeEvent(dpy, re, event));
+	        return(_XUnknownNativeEvent(dpy, re, *event));
 	    *event = (xEvent *) fev;
 
 	    fev->type		= ev->type;
@@ -288,7 +290,7 @@ _XiEventToWire(dpy, re, event, count)
 	    *count = 1;
 	    mev = (deviceMappingNotify *) Xmalloc (*count * sizeof (xEvent));
 	    if (!mev)
-	        return(_XUnknownNativeEvent(dpy, re, event));
+	        return(_XUnknownNativeEvent(dpy, re, *event));
 	    *event = (xEvent *) mev;
 
 	    mev->type		= ev->type;
@@ -334,7 +336,7 @@ _XiEventToWire(dpy, re, event, count)
 
 	    sev = (deviceStateNotify *) Xmalloc (*count * sizeof (xEvent));
 	    if (!sev)
-	        return(_XUnknownNativeEvent(dpy, re, event));
+	        return(_XUnknownNativeEvent(dpy, re, *event));
 	    *event = (xEvent *) sev;
 	    tev = (xEvent *) (sev+1);
 
@@ -434,7 +436,7 @@ _XiEventToWire(dpy, re, event, count)
 	    *count = 1;
 	    cev = (changeDeviceNotify *) Xmalloc (*count * sizeof (xEvent));
 	    if (!cev)
-	        return(_XUnknownNativeEvent(dpy, re, event));
+	        return(_XUnknownNativeEvent(dpy, re, *event));
 	    *event = (xEvent *) cev;
 
 	    cev->type		= ev->type;
@@ -444,7 +446,7 @@ _XiEventToWire(dpy, re, event, count)
 	    break;
 	    }
 	default:
-	    return(_XUnknownNativeEvent(dpy, re, event));
+	    return(_XUnknownNativeEvent(dpy, re, *event));
 	}
     return(1);
     }
