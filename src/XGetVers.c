@@ -45,7 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
-/* $XFree86$ */
+/* $XFree86: xc/lib/Xi/XGetVers.c,v 3.7 2003/11/17 22:20:21 dawes Exp $ */
 
 /***********************************************************************
  *

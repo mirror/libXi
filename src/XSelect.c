@@ -45,7 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
-/* $XFree86$ */
+/* $XFree86: xc/lib/Xi/XSelect.c,v 3.4 2002/10/16 00:37:29 dawes Exp $ */
 
 /***********************************************************************
  *

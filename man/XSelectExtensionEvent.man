@@ -1,5 +1,5 @@
 .\"
-.\" $XFree86$
+.\" $XFree86: xc/doc/man/Xi/XSelExtEv.man,v 1.2 2001/01/27 18:20:22 dawes Exp $
 .\"
 .\"
 .\" Copyright ([\d,\s]*) by Hewlett-Packard Company, Ardent Computer, 

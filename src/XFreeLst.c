@@ -45,7 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
-/* $XFree86$ */
+/* $XFree86: xc/lib/Xi/XFreeLst.c,v 1.3 2002/10/16 00:37:28 dawes Exp $ */
 
 /***********************************************************************
  *

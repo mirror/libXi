@@ -1,4 +1,4 @@
-/* $XFree86$ */
+/* $XFree86: xc/lib/Xi/XIint.h,v 3.3 2003/11/17 22:20:22 dawes Exp $ */
 
 /*
  *	XIint.h - Header definition and support file for the internal
