@@ -45,7 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
-/* $XFree86: xc/lib/Xi/XExtToWire.c,v 3.5 2002/10/16 00:37:28 dawes Exp $ */
+/* $XFree86: xc/lib/Xi/XExtToWire.c,v 3.6 2002/10/16 12:56:28 tsi Exp $ */
 
 /****************************************************************
  *
