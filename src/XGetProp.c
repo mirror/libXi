@@ -93,7 +93,7 @@ XEventClass
     if (*count)
 	{
 	rlen = rep.length << 2;
-	list = (XEventClass *) Xmalloc (rlen);
+	list = (XEventClass *) Xmalloc (rep.length * sizeof(XEventClass));
 	if (list)
 	    {
 		int i;
