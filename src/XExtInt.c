@@ -45,7 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
-/* $XFree86: xc/lib/Xi/XExtInt.c,v 3.8 2003/07/07 15:34:22 eich Exp $ */
+/* $XFree86$ */
 
 /***********************************************************************
  *
