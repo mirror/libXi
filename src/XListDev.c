@@ -45,7 +45,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ********************************************************/
-/* $XFree86: xc/lib/Xi/XListDev.c,v 3.5 2002/10/16 00:37:29 dawes Exp $ */
+/* $XFree86: xc/lib/Xi/XListDev.c,v 3.4 2001/12/14 19:55:19 dawes Exp $ */
 
 /***********************************************************************
  *
