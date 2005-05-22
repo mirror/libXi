@@ -1,0 +1,6 @@
+2005-05-22  Alan Coopersmith  <alan.coopersmith@sun.com>
+
+	* Makefile.am, src/Makefile.am, man/Makefile.am, configure.ac,
+	  COPYING, NEWS, README, AUTHORS, xi.pc.in:
+	Initial autotooling.
+
