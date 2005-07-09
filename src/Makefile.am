@@ -1,4 +1,4 @@
-# $XdotOrg: $
+# $XdotOrg: lib/Xi/src/Makefile.am,v 1.1 2005/05/22 19:37:27 alanc Exp $
 
 lib_LTLIBRARIES = libXi.la
 
@@ -43,7 +43,7 @@ libXi_la_SOURCES = \
 
 libXi_la_LIBADD = $(XI_LIBS)
 
-libXi_la_CFLAGS = $(XI_CFLAGS)
+AM_CFLAGS = $(XI_CFLAGS)
 
 #INCLUDES = -I$(top_srcdir)/include/X11/extensions
 

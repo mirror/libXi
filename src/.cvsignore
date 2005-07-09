@@ -1,0 +1,9 @@
+config.h
+config.h.in
+.deps
+.libs
+libXi.la
+*.lo
+Makefile
+Makefile.in
+stamp-h1
