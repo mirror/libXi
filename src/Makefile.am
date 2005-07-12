@@ -39,7 +39,8 @@ libXi_la_SOURCES = \
 		  XUngrDev.c \
 		  XUngrDvB.c \
 		  XUngrDvK.c \
-		  XExtInt.c 
+		  XExtInt.c  \
+		  XIint.h
 
 libXi_la_LIBADD = $(XI_LIBS)
 
@@ -52,7 +53,7 @@ AM_CFLAGS = $(XI_CFLAGS)
 # instructions on when and how to change this value
 #
 # bump when the ABI changes
-XI_CURRENT=1
+XI_CURRENT=6
 # bump for non-ABI changes, reset to zero when CURRENT changes
 XI_REVISION=0
 # bump when the ABI changes in backward-compatible fashion
