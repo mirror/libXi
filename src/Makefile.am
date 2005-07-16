@@ -48,18 +48,7 @@ AM_CFLAGS = $(XI_CFLAGS)
 
 #INCLUDES = -I$(top_srcdir)/include/X11/extensions
 
-#
-# Library version info.  Check the libtool docs for
-# instructions on when and how to change this value
-#
-# bump when the ABI changes
-XI_CURRENT=6
-# bump for non-ABI changes, reset to zero when CURRENT changes
-XI_REVISION=0
-# bump when the ABI changes in backward-compatible fashion
-XI_AGE=0
-
-libXi_la_LDFLAGS = -version-info ${XI_CURRENT}:${XI_REVISION}:${XI_AGE}
+libXi_la_LDFLAGS = -version-number 6:0:0
 
 #libXiincludedir = $(includedir)/X11/extensions
 #libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xi.h 
