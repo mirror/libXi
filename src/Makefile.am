@@ -52,3 +52,5 @@ libXi_la_LDFLAGS = -version-number 6:0:0
 
 #libXiincludedir = $(includedir)/X11/extensions
 #libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/Xi.h 
+
+EXTRA_DIST = XFreeLst.c
