@@ -1,6 +1,33 @@
-# $XdotOrg: $
+# $Id$
+#
+# Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
+# 
+# Permission to use, copy, modify, distribute, and sell this software and its
+# documentation for any purpose is hereby granted without fee, provided that
+# the above copyright notice appear in all copies and that both that
+# copyright notice and this permission notice appear in supporting
+# documentation.
+# 
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+# 
+# Except as contained in this notice, the name of the copyright holders shall
+# not be used in advertising or otherwise to promote the sale, use or
+# other dealings in this Software without prior written authorization
+# from the copyright holders.
+# 
 
-man3_MANS = \
+libmandir = $(mandir)/man$(LIB_MAN_SUFFIX)
+
+libman_SOURCES = \
 	XAllowDeviceEvents.man \
 	XChangeDeviceDontPropagateList.man \
 	XChangeKeyboardDevice.man \
@@ -25,4 +52,128 @@ man3_MANS = \
 	XSetDeviceMode.man \
 	XSetDeviceValuators.man
 
-EXTRA_DIST=$(man3_MANS)
+BUILT_SOURCES = .shadows.DONE
+
+EXTRA_DIST = $(libman_SOURCES)
+
+CLEANFILES = $(libman_DATA) $(BUILT_SOURCES)
+
+libman_DATA = $(libman_SOURCES:man=$(LIB_MAN_SUFFIX)) \
+	      $(all_shadows:=.$(LIB_MAN_SUFFIX))
+
+SED = sed
+
+# Strings to replace in man pages
+XORGRELSTRING = @PACKAGE_STRING@
+  XORGMANNAME = X Version 11
+
+SUFFIXES = .$(LIB_MAN_SUFFIX) .man
+
+.man.$(LIB_MAN_SUFFIX):
+	sed 's/__xorgversion__/"$(XORGRELSTRING)" "$(XORGMANNAME)"/' < $< > $@
+
+# Generate man page shadow files (Replaces InstallManPageAliases from Imake)
+
+all_shadows =                                \
+    $(XGetDeviceControl_shadows)             \
+    $(XGetFeedbackControl_shadows)           \
+    $(XGetDeviceKeyMapping_shadows)          \
+    $(XGetDeviceModifierMapping_shadows)     \
+    $(XChangeDeviceDontPropagateList_shadows) \
+    $(XGetDeviceMotionEvents_shadows)        \
+    $(XGrabDeviceButton_shadows)             \
+    $(XGrabDeviceKey_shadows)                \
+    $(XGrabDevice_shadows)                   \
+    $(XListInputDevices_shadows)             \
+    $(XOpenDevice_shadows)                   \
+    $(XSetDeviceButtonMapping_shadows)       \
+    $(XSetDeviceFocus_shadows)               \
+    $(XSelectExtensionEvent_shadows)
+
+
+XGetDeviceControl_shadows =                 \
+    XChangeDeviceControl
+
+XGetFeedbackControl_shadows =               \
+    XChangeFeedbackControl
+
+XGetDeviceKeyMapping_shadows =              \
+    XChangeDeviceKeyMapping
+
+XGetDeviceModifierMapping_shadows =         \
+    XSetDeviceModifierMapping
+
+XChangeDeviceDontPropagateList_shadows =    \
+    XGetDeviceDontPropagateList
+
+XGetDeviceMotionEvents_shadows =            \
+    XDeviceTimeCoord
+
+XGrabDeviceButton_shadows =                 \
+    XUngrabDeviceButton
+
+XGrabDeviceKey_shadows =                    \
+    XUngrabDeviceKey
+
+XGrabDevice_shadows =                       \
+    XUngrabDevice
+
+XListInputDevices_shadows =                 \
+    XFreeDeviceList
+
+XOpenDevice_shadows =                       \
+    XCloseDevice
+
+XSetDeviceButtonMapping_shadows =           \
+    XGetDeviceButtonMapping
+
+XSetDeviceFocus_shadows =                   \
+    XGetDeviceFocus
+
+XSelectExtensionEvent_shadows =             \
+    XGetSelectedExtensionEvents
+
+.shadows.DONE:
+	-rm -f $(all_shadows:=.$(LIB_MAN_SUFFIX))
+	(for i in $(XGetDeviceControl_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XGetDeviceControl.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XGetFeedbackControl_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XGetFeedbackControl.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XGetDeviceKeyMapping_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XGetDeviceKeyMapping.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XGetDeviceModifierMapping_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XGetDeviceModifierMapping.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XChangeDeviceDontPropagateList_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XChangeDeviceDontPropagateList.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XGetDeviceMotionEvents_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XGetDeviceMotionEvents.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XGrabDeviceButton_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XGrabDeviceButton.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XGrabDeviceKey_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XGrabDeviceKey.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XGrabDevice_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XGrabDevice.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XListInputDevices_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XListInputDevices.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XOpenDevice_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XOpenDevice.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XSetDeviceButtonMapping_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XSetDeviceButtonMapping.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XSetDeviceFocus_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XSetDeviceFocus.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
+	(for i in $(XSelectExtensionEvent_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
+	 echo .so man$(LIB_MAN_SUFFIX)/XSelectExtensionEvent.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
