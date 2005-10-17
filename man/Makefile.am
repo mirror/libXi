@@ -52,7 +52,7 @@ libman_SOURCES = \
 	XSetDeviceMode.man \
 	XSetDeviceValuators.man
 
-BUILT_SOURCES = .shadows.DONE
+BUILT_SOURCES = shadows.DONE
 
 EXTRA_DIST = $(libman_SOURCES)
 
@@ -133,7 +133,7 @@ XSetDeviceFocus_shadows =                   \
 XSelectExtensionEvent_shadows =             \
     XGetSelectedExtensionEvents
 
-.shadows.DONE:
+shadows.DONE:
 	-rm -f $(all_shadows:=.$(LIB_MAN_SUFFIX))
 	(for i in $(XGetDeviceControl_shadows:=.$(LIB_MAN_SUFFIX)) ; do \
 	 echo .so man$(LIB_MAN_SUFFIX)/XGetDeviceControl.$(LIB_MAN_SUFFIX) > $$i; \
