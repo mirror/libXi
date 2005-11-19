@@ -1,3 +1,9 @@
+2005-11-19  Kevin E. Martin  <kem-at-freedesktop-dot-org>
+
+	* xi.pc.in:
+	Update pkgconfig files to separate library build-time dependencies
+	from application build-time dependencies.
+
 2005-10-18  Kevin E. Martin  <kem-at-freedesktop-dot-org>
 
 	* configure.ac:
