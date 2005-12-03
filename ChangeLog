@@ -1,3 +1,9 @@
+2005-12-02  Kevin E. Martin  <kem-at-freedesktop-dot-org>
+
+	* configure.ac:
+	* src/Makefile.am:
+	Add check and cflags for malloc(0) returning NULL.
+
 2005-11-19  Kevin E. Martin  <kem-at-freedesktop-dot-org>
 
 	* xi.pc.in:

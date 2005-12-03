@@ -44,7 +44,7 @@ libXi_la_SOURCES = \
 
 libXi_la_LIBADD = $(XI_LIBS)
 
-AM_CFLAGS = $(XI_CFLAGS)
+AM_CFLAGS = $(XI_CFLAGS) $(MALLOC_ZERO_CFLAGS)
 
 #INCLUDES = -I$(top_srcdir)/include/X11/extensions
 
