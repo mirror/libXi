@@ -27,7 +27,7 @@
 
 libmandir = $(LIB_MAN_DIR)
 
-libman_SOURCES = \
+libman_PRE = \
 	XAllowDeviceEvents.man \
 	XChangeDeviceDontPropagateList.man \
 	XChangeKeyboardDevice.man \
@@ -54,11 +54,11 @@ libman_SOURCES = \
 
 BUILT_SOURCES = shadows.DONE
 
-EXTRA_DIST = $(libman_SOURCES)
+EXTRA_DIST = $(libman_PRE)
 
 CLEANFILES = $(libman_DATA) $(BUILT_SOURCES)
 
-libman_DATA = $(libman_SOURCES:man=@LIB_MAN_SUFFIX@) \
+libman_DATA = $(libman_PRE:man=@LIB_MAN_SUFFIX@) \
 	      $(all_shadows:=.@LIB_MAN_SUFFIX@)
 
 SED = sed
