@@ -1,3 +1,9 @@
+2006-03-31  Daniel Stone  <daniel@freedesktop.org>
+
+	* **/*.[ch]:
+	Reindent with -bad -bap -c0 -cd0 -cp0 -ncdb -ci4 -cli0 -ncs -d0 -di4
+	-i4 -ip4 -l80 -npcs -psl -sob -ss -ce -sc -br -cdw -lp -cbi0.
+
 2006-03-20  Adam Jackson  <ajax@freedesktop.org>
 
 	* src/Makefile.am:
