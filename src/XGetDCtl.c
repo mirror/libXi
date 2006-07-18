@@ -61,13 +61,11 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-XDeviceControl * XGetDeviceControl(dpy, dev, control)
-    register Display *
-	dpy;
-    XDevice *
-	dev;
-    int
-	control;
+XDeviceControl *
+XGetDeviceControl(dpy, dev, control)
+    register Display *dpy;
+    XDevice *dev;
+    int control;
 {
     int size = 0;
     int nbytes, i;
@@ -116,6 +114,15 @@ XDeviceControl * XGetDeviceControl(dpy, dev, control)
 		(3 * sizeof(int) * r->num_valuators);
 	    break;
 	}
+        case DEVICE_TOUCHSCREEN:
+        {
+            size += sizeof(xDeviceTSState);
+            break;
+        }
+        case DEVICE_CORE:
+        {
+            size += sizeof(xDeviceCoreState);
+        }
 	default:
 	    size += d->length;
 	    break;
@@ -152,6 +159,32 @@ XDeviceControl * XGetDeviceControl(dpy, dev, control)
 		*iptr++ = *iptr2++;
 	    break;
 	}
+        case DEVICE_TOUCHSCREEN:
+        {
+            xDeviceTSState *t = (xDeviceTSState *) d;
+            XDeviceTSState *T = (XDeviceTSState *) Device;
+
+            T->control = DEVICE_TOUCHSCREEN;
+            T->length = sizeof(T);
+            T->min_x = t->min_x;
+            T->max_x = t->max_x;
+            T->min_y = t->min_y;
+            T->max_y = t->max_y;
+            T->button_threshold = t->button_threshold;
+
+            break;
+        }
+        case DEVICE_CORE:
+        {
+            xDeviceCoreState *c = (xDeviceCoreState *) d;
+            XDeviceCoreState *C = (XDeviceCoreState *) Device;
+
+            C->control = DEVICE_CORE;
+            C->length = sizeof(C);
+            C->status = c->status;
+
+            break;
+        }
 	default:
 	    break;
 	}
