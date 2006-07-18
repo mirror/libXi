@@ -66,10 +66,9 @@ XDeviceTimeCoord
 	dpy;
     XDevice *
 	dev;
-    Time
-	start;
-    Time
-	stop;
+
+Time start;
+Time stop;
     int *
 	nEvents;
     int *

@@ -60,11 +60,10 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-XDevice * XOpenDevice(dpy, id)
-    register Display *
-	dpy;
-    register XID
-	id;
+XDevice *
+XOpenDevice(dpy, id)
+    register Display *dpy;
+    register XID id;
 {
     register long rlen;	/* raw length */
     xOpenDeviceReq *req;

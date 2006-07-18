@@ -63,11 +63,10 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-XDeviceInfo * XListInputDevices(dpy, ndevices)
-    register Display *
-	dpy;
-    int *
-	ndevices;
+XDeviceInfo *
+XListInputDevices(dpy, ndevices)
+    register Display *dpy;
+    int *ndevices;
 {
     int size;
     xListInputDevicesReq *req;

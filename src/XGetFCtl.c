@@ -61,13 +61,11 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-XFeedbackState * XGetFeedbackControl(dpy, dev, num_feedbacks)
-    register Display *
-	dpy;
-    XDevice *
-	dev;
-    int *
-	num_feedbacks;
+XFeedbackState *
+XGetFeedbackControl(dpy, dev, num_feedbacks)
+    register Display *dpy;
+    XDevice *dev;
+    int *num_feedbacks;
 {
     int size = 0;
     int nbytes, i;

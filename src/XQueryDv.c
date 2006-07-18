@@ -60,11 +60,10 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-XDeviceState * XQueryDeviceState(dpy, dev)
-    register Display *
-	dpy;
-    XDevice *
-	dev;
+XDeviceState *
+XQueryDeviceState(dpy, dev)
+    register Display *dpy;
+    XDevice *dev;
 {
     int i, j;
     int rlen;

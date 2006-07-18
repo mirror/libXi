@@ -60,11 +60,10 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-XModifierKeymap * XGetDeviceModifierMapping(dpy, dev)
-    register Display *
-	dpy;
-    XDevice *
-	dev;
+XModifierKeymap *
+XGetDeviceModifierMapping(dpy, dev)
+    register Display *dpy;
+    XDevice *dev;
 {
     unsigned long nbytes;
     XModifierKeymap *res;
