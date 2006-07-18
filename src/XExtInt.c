@@ -122,7 +122,9 @@ XEXT_GENERATE_FIND_DISPLAY(XInput_find_display, xinput_info,
     {XI_Present, XI_Add_XSetDeviceValuators_Major,
      XI_Add_XSetDeviceValuators_Minor},
     {XI_Present, XI_Add_XChangeDeviceControl_Major,
-     XI_Add_XChangeDeviceControl_Minor}
+     XI_Add_XChangeDeviceControl_Minor},
+    {XI_Present, XI_Add_DevicePresenceNotify_Major,
+     XI_Add_DevicePresenceNotify_Minor}
     };
 
 /***********************************************************************
@@ -249,6 +251,14 @@ Ones(mask)
     y = (mask >> 1) & 033333333333;
     y = mask - y - ((y >> 1) & 033333333333);
     return (((y + (y >> 3)) & 030707070707) % 077);
+}
+
+static int
+_XiGetDevicePresenceNotifyEvent(Display * dpy)
+{
+    XExtDisplayInfo *info = XInput_find_display(dpy);
+
+    return info->codes->first_event + XI_DevicePresenceNotify;
 }
 
 /***********************************************************************
@@ -665,6 +675,22 @@ XInputWireToEvent(dpy, re, event)
 	return (ENQUEUE_EVENT);
     }
 	break;
+
+    case XI_DevicePresenceNotify:
+    {
+	XDevicePresenceNotifyEvent *ev = (XDevicePresenceNotifyEvent *) re;
+	devicePresenceNotify *ev2 = (devicePresenceNotify *) event;
+
+	fprintf(stderr, "got DevicePresenceNotify event (reltype=%d)\n",
+		reltype);
+
+	*ev = *(XDevicePresenceNotifyEvent *) save;
+	ev->window = 0;
+	ev->time = ev2->time;
+	return (ENQUEUE_EVENT);
+    }
+	break;
+
     default:
 	printf("XInputWireToEvent: UNKNOWN WIRE EVENT! type=%d\n", type);
 	break;
