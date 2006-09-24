@@ -92,7 +92,7 @@ XChangeDeviceControl(dpy, dev, control, d)
 	R = (XDeviceResolutionControl *) d;
 	r.control = DEVICE_RESOLUTION;
 	r.length = sizeof(xDeviceResolutionCtl) +
-	    R->num_valuators * sizeof(int);
+        R->num_valuators * sizeof(int);
 	r.first_valuator = R->first_valuator;
 	r.num_valuators = R->num_valuators;
 	req->length += ((unsigned)(r.length + 3) >> 2);
@@ -106,6 +106,52 @@ XChangeDeviceControl(dpy, dev, control, d)
 	    return (NoSuchExtension);
 	} else
 	    return (rep.status);
+    }
+    case DEVICE_TOUCHSCREEN:
+    {
+        XDeviceTSControl *T = (XDeviceTSControl *) d;
+        xDeviceTSCtl t;
+        
+        t.control = DEVICE_TOUCHSCREEN;
+        t.length = sizeof(t);
+        t.min_x = T->min_x;
+        t.max_x = T->max_x;
+        t.min_y = T->min_y;
+        t.max_y = T->max_y;
+        t.button_threshold = T->button_threshold;
+
+        req->length += (sizeof(t) + 3) >> 2;
+        Data(dpy, (char *) &t, sizeof(t));
+
+        if (!_XReply(dpy, (xReply *) &rep, 0, xTrue)) {
+            UnlockDisplay(dpy);
+            SyncHandle();
+            return NoSuchExtension;
+        }
+        else {
+            return rep.status;
+        }
+    }
+    case DEVICE_CORE:
+    {
+        XDeviceCoreControl *C = (XDeviceCoreControl *) d;
+        xDeviceCoreCtl c;
+
+        c.control = DEVICE_CORE;
+        c.length = sizeof(c);
+        c.status = C->status;
+
+        req->length += (sizeof(c) + 3) >> 2;
+        Data (dpy, (char *) &c, sizeof(c));
+
+        if (!_XReply(dpy, (xReply *) &rep, 0, xTrue)) {
+            UnlockDisplay(dpy);
+            SyncHandle();
+            return NoSuchExtension;
+        }
+        else {
+            return rep.status;
+        }
     }
     default:
     {
