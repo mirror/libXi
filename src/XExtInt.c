@@ -211,7 +211,7 @@ _XiCheckExtInit(dpy, version_index, info)
 	    return (-1);
 	}
 	((XInputData *) info->data)->vers =
-	    _XiGetExtensionVersion(dpy, "XInputExtension");
+	    _XiGetExtensionVersion(dpy, "XInputExtension", info);
     }
 
     if (versions[version_index].major_version > Dont_Check) {
