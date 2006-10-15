@@ -78,7 +78,7 @@ XGetFeedbackControl(dpy, dev, num_feedbacks)
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
-    if (_XiCheckExtInit(dpy, XInput_Initial_Release) == -1)
+    if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return ((XFeedbackState *) NoSuchExtension);
 
     GetReq(GetFeedbackControl, req);

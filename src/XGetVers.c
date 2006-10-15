@@ -82,7 +82,7 @@ _XiGetExtensionVersion(register Display * dpy, _Xconst char *name, XExtDisplayIn
     xGetExtensionVersionReply rep;
     XExtensionVersion *ext;
 
-    if (_XiCheckExtInit(dpy, Dont_Check) == -1)
+    if (_XiCheckExtInit(dpy, Dont_Check, info) == -1)
 	return ((XExtensionVersion *) NoSuchExtension);
 
     GetReq(GetExtensionVersion, req);
