@@ -3,6 +3,7 @@ config.h.in
 .deps
 .libs
 libXi.la
+*.o
 *.lo
 Makefile
 Makefile.in
