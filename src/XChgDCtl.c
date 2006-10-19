@@ -153,6 +153,27 @@ XChangeDeviceControl(dpy, dev, control, d)
             return rep.status;
         }
     }
+    case DEVICE_ENABLE:
+    {
+        XDeviceEnableControl *E = (XDeviceEnableControl *) d;
+        xDeviceEnableCtl e;
+
+        e.control = DEVICE_ENABLE;
+        e.length = sizeof(e);
+        e.enable = E->enable;
+
+        req->length += (sizeof(e) + 3) >> 2;
+        Data (dpy, (char *) &e, sizeof(e));
+
+        if (!_XReply(dpy, (xReply *) &rep, 0, xTrue)) {
+            UnlockDisplay(dpy);
+            SyncHandle();
+            return NoSuchExtension;
+        }
+        else {
+            return rep.status;
+        }
+    }
     default:
     {
 	xDeviceCtl u;
