@@ -114,9 +114,14 @@ XGetDeviceControl(dpy, dev, control)
 		(3 * sizeof(int) * r->num_valuators);
 	    break;
 	}
-        case DEVICE_TOUCHSCREEN:
+        case DEVICE_ABS_CALIB:
         {
-            size += sizeof(xDeviceTSState);
+            size += sizeof(xDeviceAbsCalibState);
+            break;
+        }
+        case DEVICE_ABS_AREA:
+        {
+            size += sizeof(xDeviceAbsAreaState);
             break;
         }
         case DEVICE_CORE:
@@ -159,18 +164,37 @@ XGetDeviceControl(dpy, dev, control)
 		*iptr++ = *iptr2++;
 	    break;
 	}
-        case DEVICE_TOUCHSCREEN:
+        case DEVICE_ABS_CALIB:
         {
-            xDeviceTSState *t = (xDeviceTSState *) d;
-            XDeviceTSState *T = (XDeviceTSState *) Device;
+            xDeviceAbsCalibState *c = (xDeviceAbsCalibState *) d;
+            XDeviceAbsCalibState *C = (XDeviceAbsCalibState *) Device;
 
-            T->control = DEVICE_TOUCHSCREEN;
-            T->length = sizeof(T);
-            T->min_x = t->min_x;
-            T->max_x = t->max_x;
-            T->min_y = t->min_y;
-            T->max_y = t->max_y;
-            T->button_threshold = t->button_threshold;
+            C->control = DEVICE_ABS_CALIB;
+            C->length = sizeof(C);
+            C->min_x = c->min_x;
+            C->max_x = c->max_x;
+            C->min_y = c->min_y;
+            C->max_y = c->max_y;
+            C->flip_x = c->flip_x;
+            C->flip_y = c->flip_y;
+            C->rotation = c->rotation;
+            C->button_threshold = c->button_threshold;
+
+            break;
+        }
+        case DEVICE_ABS_AREA:
+        {
+            xDeviceAbsAreaState *a = (xDeviceAbsAreaState *) d;
+            XDeviceAbsAreaState *A = (XDeviceAbsAreaState *) Device;
+
+            A->control = DEVICE_ABS_AREA;
+            A->length = sizeof(A);
+            A->offset_x = a->offset_x;
+            A->offset_y = a->offset_y;
+            A->width = a->width;
+            A->height = a->height;
+            A->screen = a->screen;
+            A->following = a->following;
 
             break;
         }
@@ -182,10 +206,13 @@ XGetDeviceControl(dpy, dev, control)
             C->control = DEVICE_CORE;
             C->length = sizeof(C);
             C->status = c->status;
+#if 0
             C->iscore = c->iscore;
+#endif
 
             break;
         }
+#if 0
         case DEVICE_ENABLE:
         {
             xDeviceEnableState *e = (xDeviceEnableState *) d;
@@ -197,6 +224,7 @@ XGetDeviceControl(dpy, dev, control)
 
             break;
         }
+#endif
 	default:
 	    break;
 	}
