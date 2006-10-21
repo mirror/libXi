@@ -182,7 +182,6 @@ XChangeDeviceControl(dpy, dev, control, d)
             return rep.status;
         }
     }
-#if 0
     case DEVICE_ENABLE:
     {
         XDeviceEnableControl *E = (XDeviceEnableControl *) d;
@@ -204,7 +203,6 @@ XChangeDeviceControl(dpy, dev, control, d)
             return rep.status;
         }
     }
-#endif
     default:
     {
 	xDeviceCtl u;

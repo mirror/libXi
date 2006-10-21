@@ -206,13 +206,10 @@ XGetDeviceControl(dpy, dev, control)
             C->control = DEVICE_CORE;
             C->length = sizeof(C);
             C->status = c->status;
-#if 0
             C->iscore = c->iscore;
-#endif
 
             break;
         }
-#if 0
         case DEVICE_ENABLE:
         {
             xDeviceEnableState *e = (xDeviceEnableState *) d;
@@ -224,7 +221,6 @@ XGetDeviceControl(dpy, dev, control)
 
             break;
         }
-#endif
 	default:
 	    break;
 	}
