@@ -681,12 +681,12 @@ XInputWireToEvent(dpy, re, event)
 	XDevicePresenceNotifyEvent *ev = (XDevicePresenceNotifyEvent *) re;
 	devicePresenceNotify *ev2 = (devicePresenceNotify *) event;
 
-	fprintf(stderr, "got DevicePresenceNotify event (reltype=%d)\n",
-		reltype);
-
 	*ev = *(XDevicePresenceNotifyEvent *) save;
 	ev->window = 0;
 	ev->time = ev2->time;
+        ev->devchange = ev2->devchange;
+        ev->deviceid = ev2->deviceid;
+        ev->control = ev2->control;
 	return (ENQUEUE_EVENT);
     }
 	break;
