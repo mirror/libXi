@@ -80,9 +80,6 @@ typedef struct _XInputData
     XExtensionVersion *vers;
 } XInputData;
 
-#define XInputCheckExtension(dpy,i,val) \
-  XextCheckExtension (dpy, i, xinput_extension_name, val)
-
 static /* const */ XExtensionHooks xinput_extension_hooks = {
     NULL,	/* create_gc */
     NULL,	/* copy_gc */
@@ -183,6 +180,12 @@ _xidevicebusy(dpy, error)
     *error = info->codes->first_error + XI_DeviceBusy;
 }
 
+static int XInputCheckExtension(Display *dpy, XExtDisplayInfo *info)
+{
+    XextCheckExtension (dpy, info, xinput_extension_name, 0);
+    return 1;
+}
+
 /***********************************************************************
  *
  * Check to see if the input extension is installed in the server.
@@ -198,7 +201,10 @@ _XiCheckExtInit(dpy, version_index, info)
 {
     XExtensionVersion *ext;
 
-    XInputCheckExtension(dpy, info, -1);
+    if (!XInputCheckExtension(dpy, info)) {
+	UnlockDisplay(dpy);
+	return (-1);
+    }
 
     if (info->data == NULL) {
 	info->data = (XPointer) Xmalloc(sizeof(XInputData));
