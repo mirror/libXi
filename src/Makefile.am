@@ -29,6 +29,7 @@ libXi_la_SOURCES = \
 		  XListDev.c \
 		  XOpenDev.c \
 		  XQueryDv.c \
+                  XQueryDvPtr.c \
 		  XSelect.c \
 		  XSetBMap.c \
 		  XSetDVal.c \
@@ -39,6 +40,7 @@ libXi_la_SOURCES = \
 		  XUngrDev.c \
 		  XUngrDvB.c \
 		  XUngrDvK.c \
+                  XWarpDvPtr.c \
 		  XExtInt.c  \
 		  XIint.h
 

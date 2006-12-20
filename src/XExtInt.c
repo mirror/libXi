@@ -259,7 +259,7 @@ Ones(mask)
     return (((y + (y >> 3)) & 030707070707) % 077);
 }
 
-static int
+int
 _XiGetDevicePresenceNotifyEvent(Display * dpy)
 {
     XExtDisplayInfo *info = XInput_find_display(dpy);

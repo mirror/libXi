@@ -1,0 +1,10 @@
+MPX Changelog
+
+== 20.12.06 ==
+Adding XWarpDevicePointer and XQueryDevicePointer calls.
+
+Files:
+	Makefile.am
+	XExtInt.c
+	XQueryDvPtr.c
+	XWarpDvPtr.c
