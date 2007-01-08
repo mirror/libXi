@@ -5,6 +5,7 @@ lib_LTLIBRARIES = libXi.la
 libXi_la_SOURCES = \
 		  XAllowDv.c \
 		  XChgDCtl.c \
+		  XDefDevCur.c \
 		  XChgFCtl.c \
 		  XChgKbd.c \
 		  XChgKMap.c \
@@ -37,6 +38,7 @@ libXi_la_SOURCES = \
 		  XSetMode.c \
 		  XSndExEv.c \
 		  XStFocus.c \
+		  XUndefDevCur.c \
 		  XUngrDev.c \
 		  XUngrDvB.c \
 		  XUngrDvK.c \

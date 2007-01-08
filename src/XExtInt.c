@@ -106,23 +106,23 @@ XEXT_GENERATE_FIND_DISPLAY(XInput_find_display, xinput_info,
 			   xinput_extension_name, &xinput_extension_hooks,
 			   IEVENTS, NULL)
 
-    static XEXT_GENERATE_ERROR_STRING(XInputError, xinput_extension_name,
-				      IERRORS, XInputErrorList)
+static XEXT_GENERATE_ERROR_STRING(XInputError, xinput_extension_name,
+                                  IERRORS, XInputErrorList)
 /*******************************************************************
- *
- * Input extension versions.
- *
- */
-    static XExtensionVersion versions[] = { {XI_Absent, 0, 0},
-    {XI_Present, XI_Initial_Release_Major, XI_Initial_Release_Minor},
-    {XI_Present, XI_Add_XDeviceBell_Major, XI_Add_XDeviceBell_Minor},
-    {XI_Present, XI_Add_XSetDeviceValuators_Major,
-     XI_Add_XSetDeviceValuators_Minor},
-    {XI_Present, XI_Add_XChangeDeviceControl_Major,
-     XI_Add_XChangeDeviceControl_Minor},
-    {XI_Present, XI_Add_DevicePresenceNotify_Major,
-     XI_Add_DevicePresenceNotify_Minor}
-    };
+*
+* Input extension versions.
+*
+*/
+static XExtensionVersion versions[] = { {XI_Absent, 0, 0},
+{XI_Present, XI_Initial_Release_Major, XI_Initial_Release_Minor},
+{XI_Present, XI_Add_XDeviceBell_Major, XI_Add_XDeviceBell_Minor},
+{XI_Present, XI_Add_XSetDeviceValuators_Major,
+ XI_Add_XSetDeviceValuators_Minor},
+{XI_Present, XI_Add_XChangeDeviceControl_Major,
+ XI_Add_XChangeDeviceControl_Minor},
+{XI_Present, XI_Add_DevicePresenceNotify_Major,
+ XI_Add_DevicePresenceNotify_Minor}
+};
 
 /***********************************************************************
  *

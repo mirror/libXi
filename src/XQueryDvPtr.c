@@ -58,7 +58,7 @@ XQueryDevicePointer(dpy, dev, w, root, child, root_x, root_y, win_x, win_y,
 
     LockDisplay(dpy);
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
-	return ((XDeviceState *) NoSuchExtension);
+	return (NoSuchExtension);
 
     GetReq(QueryDevicePointer, req);
     req->reqType = info->codes->major_opcode;

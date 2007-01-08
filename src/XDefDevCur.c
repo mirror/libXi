@@ -26,10 +26,9 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XWarpDevicePointer - Warp the pointer of an extension input device.
+ * XDefineDeviceCursor - Change the cursor of an extension input device.
  *
  */
-
 #include <X11/extensions/XI.h>
 #include <X11/extensions/XIproto.h>
 #include <X11/Xlibint.h>
@@ -37,38 +36,27 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-int
-XWarpDevicePointer(dpy, dev, src_win, dst_win, src_x, src_y, src_width,
-        src_height, dst_x, dst_y) 
+
+int XDefineDeviceCursor(dpy, dev, w, cursor)
     register Display *dpy;
     XDevice* dev;
-    Window src_win, dst_win;
-    int src_x, src_y;
-    unsigned int src_width, src_height;
-    int dst_x, dst_y;
+    Window w;
+    Cursor cursor;
 {
-    register xWarpDevicePointerReq *req;
+    register xChangeDeviceCursorReq *req;
 
     XExtDisplayInfo *info = XInput_find_display(dpy);
-
     LockDisplay(dpy);
+
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return (NoSuchExtension);
 
-    GetReq(WarpDevicePointer, req);
+    GetReq(ChangeDeviceCursor, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_WarpDevicePointer;
+    req->ReqType = X_ChangeDeviceCursor;
     req->deviceid = dev->device_id;
-    req->src_win = src_win;
-    req->dst_win = dst_win;
-    req->src_x = src_x;
-    req->src_y = src_y;
-    req->src_width = src_width;
-    req->src_height = src_height;
-    req->dst_x = dst_x;
-    req->dst_y = dst_y;
-
-
+    req->win = w;
+    req->cursor = cursor;
     UnlockDisplay(dpy);
     SyncHandle();
     return Success;
