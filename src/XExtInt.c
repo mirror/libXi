@@ -121,7 +121,8 @@ static XExtensionVersion versions[] = { {XI_Absent, 0, 0},
 {XI_Present, XI_Add_XChangeDeviceControl_Major,
  XI_Add_XChangeDeviceControl_Minor},
 {XI_Present, XI_Add_DevicePresenceNotify_Major,
- XI_Add_DevicePresenceNotify_Minor}
+ XI_Add_DevicePresenceNotify_Minor},
+{XI_Present, XI_Add_MPX_Major, XI_Add_MPX_Minor}
 };
 
 /***********************************************************************
@@ -697,6 +698,26 @@ XInputWireToEvent(dpy, re, event)
     }
 	break;
 
+    case XI_DeviceEnterNotify:
+    case XI_DeviceLeaveNotify:
+        {
+            XDeviceCrossingEvent *ev = (XDeviceCrossingEvent*)re;
+            deviceEnterNotify *ev2 = (deviceEnterNotify*) event;
+            *ev = *(XDeviceCrossingEvent*)save;
+            ev->root = ev2->root;
+            ev->window = ev2->event;
+            ev->subwindow = ev2->child;
+            ev->time = ev2->time;
+            ev->x_root = ev2->rootX;
+            ev->y_root = ev2->rootY;
+            ev->x = ev2->eventX;
+            ev->y = ev2->eventY;
+            ev->state = ev2->state;
+            ev->mode = ev2->mode;
+            ev->deviceid = ev2->deviceid & DEVICE_BITS;
+            return (ENQUEUE_EVENT);
+        }
+        break;
     default:
 	printf("XInputWireToEvent: UNKNOWN WIRE EVENT! type=%d\n", type);
 	break;
