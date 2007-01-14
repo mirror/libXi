@@ -175,7 +175,7 @@ num_buttons specifies the number of buttons that the device has.
 The XValuatorInfo structure defines the characteristics of the valuators
 on the device.  It is defined as follows:
 .LP
-.DE
+.DS
 .nf
 typedef struct	_XValuatorInfo {
 	XID			class;
@@ -186,7 +186,7 @@ typedef struct	_XValuatorInfo {
 	XAxisInfoPtr		axes;
 } XValuatorInfo;
 .fi
-.DS
+.DE
 num_axes contains the number of axes the device supports.
 .LP
 mode is a constant that has one of the following
