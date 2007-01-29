@@ -11,6 +11,7 @@ libXi_la_SOURCES = \
 		  XChgKMap.c \
 		  XChgPnt.c \
 		  XChgProp.c \
+		  XChPKPair.c \
 		  XCloseDev.c \
 		  XDevBell.c \
 		  XExtToWire.c \

@@ -268,6 +268,14 @@ _XiGetDevicePresenceNotifyEvent(Display * dpy)
     return info->codes->first_event + XI_DevicePresenceNotify;
 }
 
+int
+_XiGetPointerKeyboardPairingNotifyEvent(Display * dpy)
+{
+    XExtDisplayInfo *info = XInput_find_display(dpy);
+
+    return info->codes->first_event + XI_PointerKeyboardPairingChangedNotify;
+}
+
 /***********************************************************************
  *
  * Handle Input extension events.
@@ -718,6 +726,17 @@ XInputWireToEvent(dpy, re, event)
             return (ENQUEUE_EVENT);
         }
         break;
+    case XI_PointerKeyboardPairingChangedNotify:
+        {
+            XPointerKeyboardPairingChangedNotifyEvent *ev = 
+                (XPointerKeyboardPairingChangedNotifyEvent*)re;
+            pairingChangedNotify *ev2 = (pairingChangedNotify*) event;
+            *ev = *(XPointerKeyboardPairingChangedNotifyEvent*)save;
+            ev->time = ev2->time;
+            ev->pointerid = ev2->pointer;
+            ev->keyboardid = ev2->keyboard;
+            return (ENQUEUE_EVENT);
+        }
     default:
 	printf("XInputWireToEvent: UNKNOWN WIRE EVENT! type=%d\n", type);
 	break;

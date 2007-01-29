@@ -480,6 +480,23 @@ _XiEventToWire(dpy, re, event, count)
         elev->mode  = ev->mode;
         break;
     }
+    case XI_PointerKeyboardPairingChangedNotify:
+    {
+        register XPointerKeyboardPairingChangedNotifyEvent *ev =
+            (XPointerKeyboardPairingChangedNotifyEvent*)re;
+        register pairingChangedNotify *pcev;
+        *count = 1;
+        pcev = (pairingChangedNotify *)Xmalloc(*count * sizeof(xEvent));
+        if (!pcev)
+            return (_XUnknownNativeEvent(dpy, re, *event));
+
+        *event = (xEvent *) pcev;
+        pcev->type = ev->type;
+        pcev->time = ev->time;
+        pcev->pointer = ev->pointerid;
+        pcev->keyboard = ev->keyboardid;
+        break;
+    }
     default:
 	return (_XUnknownNativeEvent(dpy, re, *event));
     }
