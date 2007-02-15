@@ -723,6 +723,12 @@ XInputWireToEvent(dpy, re, event)
             ev->state = ev2->state;
             ev->mode = ev2->mode;
             ev->deviceid = ev2->deviceid & DEVICE_BITS;
+            if (ev2->flags & ELFlagSameScreen) {
+                ev->same_screen = True;
+            }
+            if (ev2->flags & ELFlagFocus) {
+                ev->focus = True;
+            }
             return (ENQUEUE_EVENT);
         }
         break;

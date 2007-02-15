@@ -478,6 +478,13 @@ _XiEventToWire(dpy, re, event, count)
         elev->rootY = ev->y_root;
         elev->state = ev->state;
         elev->mode  = ev->mode;
+        elev->flags = 0;
+        if (ev->same_screen) {
+            elev->flags |= ELFlagSameScreen;
+        }
+        if (ev->focus) {
+            elev->flags |= ELFlagFocus;
+        }
         break;
     }
     case XI_PointerKeyboardPairingChangedNotify:
