@@ -4,15 +4,18 @@ lib_LTLIBRARIES = libXi.la
 
 libXi_la_SOURCES = \
 		  XAllowDv.c \
+                  XChAccRl.c \
 		  XChgDCtl.c \
-		  XDefDevCur.c \
 		  XChgFCtl.c \
 		  XChgKbd.c \
 		  XChgKMap.c \
 		  XChgPnt.c \
 		  XChgProp.c \
 		  XChPKPair.c \
+                  XClrAcc.c \
 		  XCloseDev.c \
+		  XDefDevCur.c \
+                  XDenyDev.c \
 		  XDevBell.c \
 		  XExtToWire.c \
 		  XGetBMap.c \
@@ -23,6 +26,7 @@ libXi_la_SOURCES = \
 		  XGetProp.c \
 		  XGetVers.c \
 		  XGMotion.c \
+		  XGrabAcc.c \
 		  XGrabDev.c \
 		  XGrDvBut.c \
 		  XGrDvKey.c \
@@ -30,6 +34,8 @@ libXi_la_SOURCES = \
 		  XGtSelect.c \
 		  XListDev.c \
 		  XOpenDev.c \
+                  XPermDev.c \
+		  XQryAccRl.c \
 		  XQueryDv.c \
                   XQueryDvPtr.c \
 		  XRegPair.c \
@@ -41,6 +47,7 @@ libXi_la_SOURCES = \
 		  XSndExEv.c \
 		  XStFocus.c \
 		  XUndefDevCur.c \
+		  XUngrabAcc.c \
 		  XUngrDev.c \
 		  XUngrDvB.c \
 		  XUngrDvK.c \
