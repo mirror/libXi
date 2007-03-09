@@ -41,6 +41,7 @@ libXi_la_SOURCES = \
 		  XRegPair.c \
 		  XSelect.c \
 		  XSetBMap.c \
+		  XSetCPtr.c \
 		  XSetDVal.c \
 		  XSetMMap.c \
 		  XSetMode.c \
