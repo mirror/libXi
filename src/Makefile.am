@@ -19,10 +19,12 @@ libXi_la_SOURCES = \
 		  XDevBell.c \
 		  XExtToWire.c \
 		  XGetBMap.c \
+		  XGetCPtr.c \
 		  XGetDCtl.c \
 		  XGetFCtl.c \
 		  XGetKMap.c \
 		  XGetMMap.c \
+		  XGetPairP.c \
 		  XGetProp.c \
 		  XGetVers.c \
 		  XGMotion.c \
