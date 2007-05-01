@@ -61,6 +61,9 @@ SOFTWARE.
 #include <X11/Xlibint.h>
 #include <X11/extensions/XInput.h>
 #include <X11/extensions/extutil.h>
+#include <X11/extensions/geproto.h>
+#include <X11/extensions/ge.h>
+#include <X11/extensions/Xge.h>
 #include "XIint.h"
 
 #define ENQUEUE_EVENT	True
@@ -73,6 +76,10 @@ static char *XInputError();
 static Bool XInputWireToEvent();
 Status _XiEventToWire();
 static /* const */ XEvent emptyevent;
+
+/* ge events handling */
+static Bool XInputWireToGEEvent(Display*, XEvent*, xEvent*);
+static Status XIGEEventToWire(Display*, XEvent*, xEvent*);
 
 typedef struct _XInputData
 {
@@ -268,14 +275,6 @@ _XiGetDevicePresenceNotifyEvent(Display * dpy)
     return info->codes->first_event + XI_DevicePresenceNotify;
 }
 
-int
-_XiGetPointerKeyboardPairingNotifyEvent(Display * dpy)
-{
-    XExtDisplayInfo *info = XInput_find_display(dpy);
-
-    return info->codes->first_event + XI_PointerKeyboardPairingChangedNotify;
-}
-
 /***********************************************************************
  *
  * Handle Input extension events.
@@ -297,9 +296,10 @@ XInputWireToEvent(dpy, re, event)
     type = event->u.u.type & 0x7f;
     reltype = (type - info->codes->first_event);
 
-    if (reltype != XI_DeviceValuator &&
+    if (type == GenericEvent || 
+        (reltype != XI_DeviceValuator &&
 	reltype != XI_DeviceKeystateNotify &&
-	reltype != XI_DeviceButtonstateNotify) {
+	reltype != XI_DeviceButtonstateNotify)) {
 	*save = emptyevent;
 	save->type = type;
 	((XAnyEvent *) save)->serial = _XSetLastRequestRead(dpy,
@@ -309,444 +309,505 @@ XInputWireToEvent(dpy, re, event)
 	((XAnyEvent *) save)->display = dpy;
     }
 
-    switch (reltype) {
-    case XI_DeviceMotionNotify:
+    /* Process traditional events */
+    if (type != GenericEvent)
     {
-	register XDeviceMotionEvent *ev = (XDeviceMotionEvent *) save;
-	deviceKeyButtonPointer *ev2 = (deviceKeyButtonPointer *) event;
+        switch (reltype) {
+            case XI_DeviceMotionNotify:
+                {
+                    register XDeviceMotionEvent *ev = (XDeviceMotionEvent *) save;
+                    deviceKeyButtonPointer *ev2 = (deviceKeyButtonPointer *) event;
 
-	ev->root = ev2->root;
-	ev->window = ev2->event;
-	ev->subwindow = ev2->child;
-	ev->time = ev2->time;
-	ev->x_root = ev2->root_x;
-	ev->y_root = ev2->root_y;
-	ev->x = ev2->event_x;
-	ev->y = ev2->event_y;
-	ev->state = ev2->state;
-	ev->same_screen = ev2->same_screen;
-	ev->is_hint = ev2->detail;
-	ev->deviceid = ev2->deviceid & DEVICE_BITS;
-	return (DONT_ENQUEUE);
-    }
-	break;
-    case XI_DeviceKeyPress:
-    case XI_DeviceKeyRelease:
-    {
-	register XDeviceKeyEvent *ev = (XDeviceKeyEvent *) save;
-	deviceKeyButtonPointer *ev2 = (deviceKeyButtonPointer *) event;
+                    ev->root = ev2->root;
+                    ev->window = ev2->event;
+                    ev->subwindow = ev2->child;
+                    ev->time = ev2->time;
+                    ev->x_root = ev2->root_x;
+                    ev->y_root = ev2->root_y;
+                    ev->x = ev2->event_x;
+                    ev->y = ev2->event_y;
+                    ev->state = ev2->state;
+                    ev->same_screen = ev2->same_screen;
+                    ev->is_hint = ev2->detail;
+                    ev->deviceid = ev2->deviceid & DEVICE_BITS;
+                    return (DONT_ENQUEUE);
+                }
+                break;
+            case XI_DeviceKeyPress:
+            case XI_DeviceKeyRelease:
+                {
+                    register XDeviceKeyEvent *ev = (XDeviceKeyEvent *) save;
+                    deviceKeyButtonPointer *ev2 = (deviceKeyButtonPointer *) event;
 
-	ev->root = ev2->root;
-	ev->window = ev2->event;
-	ev->subwindow = ev2->child;
-	ev->time = ev2->time;
-	ev->x_root = ev2->root_x;
-	ev->y_root = ev2->root_y;
-	ev->x = ev2->event_x;
-	ev->y = ev2->event_y;
-	ev->state = ev2->state;
-	ev->same_screen = ev2->same_screen;
-	ev->keycode = ev2->detail;
-	ev->deviceid = ev2->deviceid & DEVICE_BITS;
-	if (ev2->deviceid & MORE_EVENTS)
-	    return (DONT_ENQUEUE);
-	else {
-	    *re = *save;
-	    return (ENQUEUE_EVENT);
-	}
-    }
-	break;
-    case XI_DeviceButtonPress:
-    case XI_DeviceButtonRelease:
-    {
-	register XDeviceButtonEvent *ev = (XDeviceButtonEvent *) save;
-	deviceKeyButtonPointer *ev2 = (deviceKeyButtonPointer *) event;
+                    ev->root = ev2->root;
+                    ev->window = ev2->event;
+                    ev->subwindow = ev2->child;
+                    ev->time = ev2->time;
+                    ev->x_root = ev2->root_x;
+                    ev->y_root = ev2->root_y;
+                    ev->x = ev2->event_x;
+                    ev->y = ev2->event_y;
+                    ev->state = ev2->state;
+                    ev->same_screen = ev2->same_screen;
+                    ev->keycode = ev2->detail;
+                    ev->deviceid = ev2->deviceid & DEVICE_BITS;
+                    if (ev2->deviceid & MORE_EVENTS)
+                        return (DONT_ENQUEUE);
+                    else {
+                        *re = *save;
+                        return (ENQUEUE_EVENT);
+                    }
+                }
+                break;
+            case XI_DeviceButtonPress:
+            case XI_DeviceButtonRelease:
+                {
+                    register XDeviceButtonEvent *ev = (XDeviceButtonEvent *) save;
+                    deviceKeyButtonPointer *ev2 = (deviceKeyButtonPointer *) event;
 
-	ev->root = ev2->root;
-	ev->window = ev2->event;
-	ev->subwindow = ev2->child;
-	ev->time = ev2->time;
-	ev->x_root = ev2->root_x;
-	ev->y_root = ev2->root_y;
-	ev->x = ev2->event_x;
-	ev->y = ev2->event_y;
-	ev->state = ev2->state;
-	ev->same_screen = ev2->same_screen;
-	ev->button = ev2->detail;
-	ev->deviceid = ev2->deviceid & DEVICE_BITS;
-	if (ev2->deviceid & MORE_EVENTS)
-	    return (DONT_ENQUEUE);
-	else {
-	    *re = *save;
-	    return (ENQUEUE_EVENT);
-	}
-    }
-	break;
-    case XI_ProximityIn:
-    case XI_ProximityOut:
-    {
-	register XProximityNotifyEvent *ev = (XProximityNotifyEvent *) save;
-	deviceKeyButtonPointer *ev2 = (deviceKeyButtonPointer *) event;
+                    ev->root = ev2->root;
+                    ev->window = ev2->event;
+                    ev->subwindow = ev2->child;
+                    ev->time = ev2->time;
+                    ev->x_root = ev2->root_x;
+                    ev->y_root = ev2->root_y;
+                    ev->x = ev2->event_x;
+                    ev->y = ev2->event_y;
+                    ev->state = ev2->state;
+                    ev->same_screen = ev2->same_screen;
+                    ev->button = ev2->detail;
+                    ev->deviceid = ev2->deviceid & DEVICE_BITS;
+                    if (ev2->deviceid & MORE_EVENTS)
+                        return (DONT_ENQUEUE);
+                    else {
+                        *re = *save;
+                        return (ENQUEUE_EVENT);
+                    }
+                }
+                break;
+            case XI_ProximityIn:
+            case XI_ProximityOut:
+                {
+                    register XProximityNotifyEvent *ev = (XProximityNotifyEvent *) save;
+                    deviceKeyButtonPointer *ev2 = (deviceKeyButtonPointer *) event;
 
-	ev->root = ev2->root;
-	ev->window = ev2->event;
-	ev->subwindow = ev2->child;
-	ev->time = ev2->time;
-	ev->x_root = ev2->root_x;
-	ev->y_root = ev2->root_y;
-	ev->x = ev2->event_x;
-	ev->y = ev2->event_y;
-	ev->state = ev2->state;
-	ev->same_screen = ev2->same_screen;
-	ev->deviceid = ev2->deviceid & DEVICE_BITS;
-	if (ev2->deviceid & MORE_EVENTS)
-	    return (DONT_ENQUEUE);
-	else {
-	    *re = *save;
-	    return (ENQUEUE_EVENT);
-	}
-    }
-	break;
-    case XI_DeviceValuator:
-    {
-	deviceValuator *xev = (deviceValuator *) event;
-	int save_type = save->type - info->codes->first_event;
+                    ev->root = ev2->root;
+                    ev->window = ev2->event;
+                    ev->subwindow = ev2->child;
+                    ev->time = ev2->time;
+                    ev->x_root = ev2->root_x;
+                    ev->y_root = ev2->root_y;
+                    ev->x = ev2->event_x;
+                    ev->y = ev2->event_y;
+                    ev->state = ev2->state;
+                    ev->same_screen = ev2->same_screen;
+                    ev->deviceid = ev2->deviceid & DEVICE_BITS;
+                    if (ev2->deviceid & MORE_EVENTS)
+                        return (DONT_ENQUEUE);
+                    else {
+                        *re = *save;
+                        return (ENQUEUE_EVENT);
+                    }
+                }
+                break;
+            case XI_DeviceValuator:
+                {
+                    deviceValuator *xev = (deviceValuator *) event;
+                    int save_type = save->type - info->codes->first_event;
 
-	if (save_type == XI_DeviceKeyPress || save_type == XI_DeviceKeyRelease) {
-	    XDeviceKeyEvent *kev = (XDeviceKeyEvent *) save;
+                    if (save_type == XI_DeviceKeyPress || save_type == XI_DeviceKeyRelease) {
+                        XDeviceKeyEvent *kev = (XDeviceKeyEvent *) save;
 
-	    kev->device_state = xev->device_state;
-	    kev->axes_count = xev->num_valuators;
-	    kev->first_axis = xev->first_valuator;
-	    i = xev->num_valuators;
-	    if (i > 6)
-		i = 6;
-	    switch (i) {
-	    case 6:
-		kev->axis_data[5] = xev->valuator5;
-	    case 5:
-		kev->axis_data[4] = xev->valuator4;
-	    case 4:
-		kev->axis_data[3] = xev->valuator3;
-	    case 3:
-		kev->axis_data[2] = xev->valuator2;
-	    case 2:
-		kev->axis_data[1] = xev->valuator1;
-	    case 1:
-		kev->axis_data[0] = xev->valuator0;
-	    }
-	} else if (save_type == XI_DeviceButtonPress ||
-		   save_type == XI_DeviceButtonRelease) {
-	    XDeviceButtonEvent *bev = (XDeviceButtonEvent *) save;
+                        kev->device_state = xev->device_state;
+                        kev->axes_count = xev->num_valuators;
+                        kev->first_axis = xev->first_valuator;
+                        i = xev->num_valuators;
+                        if (i > 6)
+                            i = 6;
+                        switch (i) {
+                            case 6:
+                                kev->axis_data[5] = xev->valuator5;
+                            case 5:
+                                kev->axis_data[4] = xev->valuator4;
+                            case 4:
+                                kev->axis_data[3] = xev->valuator3;
+                            case 3:
+                                kev->axis_data[2] = xev->valuator2;
+                            case 2:
+                                kev->axis_data[1] = xev->valuator1;
+                            case 1:
+                                kev->axis_data[0] = xev->valuator0;
+                        }
+                    } else if (save_type == XI_DeviceButtonPress ||
+                            save_type == XI_DeviceButtonRelease) {
+                        XDeviceButtonEvent *bev = (XDeviceButtonEvent *) save;
 
-	    bev->device_state = xev->device_state;
-	    bev->axes_count = xev->num_valuators;
-	    bev->first_axis = xev->first_valuator;
-	    i = xev->num_valuators;
-	    if (i > 6)
-		i = 6;
-	    switch (i) {
-	    case 6:
-		bev->axis_data[5] = xev->valuator5;
-	    case 5:
-		bev->axis_data[4] = xev->valuator4;
-	    case 4:
-		bev->axis_data[3] = xev->valuator3;
-	    case 3:
-		bev->axis_data[2] = xev->valuator2;
-	    case 2:
-		bev->axis_data[1] = xev->valuator1;
-	    case 1:
-		bev->axis_data[0] = xev->valuator0;
-	    }
-	} else if (save_type == XI_DeviceMotionNotify) {
-	    XDeviceMotionEvent *mev = (XDeviceMotionEvent *) save;
+                        bev->device_state = xev->device_state;
+                        bev->axes_count = xev->num_valuators;
+                        bev->first_axis = xev->first_valuator;
+                        i = xev->num_valuators;
+                        if (i > 6)
+                            i = 6;
+                        switch (i) {
+                            case 6:
+                                bev->axis_data[5] = xev->valuator5;
+                            case 5:
+                                bev->axis_data[4] = xev->valuator4;
+                            case 4:
+                                bev->axis_data[3] = xev->valuator3;
+                            case 3:
+                                bev->axis_data[2] = xev->valuator2;
+                            case 2:
+                                bev->axis_data[1] = xev->valuator1;
+                            case 1:
+                                bev->axis_data[0] = xev->valuator0;
+                        }
+                    } else if (save_type == XI_DeviceMotionNotify) {
+                        XDeviceMotionEvent *mev = (XDeviceMotionEvent *) save;
 
-	    mev->device_state = xev->device_state;
-	    mev->axes_count = xev->num_valuators;
-	    mev->first_axis = xev->first_valuator;
-	    i = xev->num_valuators;
-	    if (i > 6)
-		i = 6;
-	    switch (i) {
-	    case 6:
-		mev->axis_data[5] = xev->valuator5;
-	    case 5:
-		mev->axis_data[4] = xev->valuator4;
-	    case 4:
-		mev->axis_data[3] = xev->valuator3;
-	    case 3:
-		mev->axis_data[2] = xev->valuator2;
-	    case 2:
-		mev->axis_data[1] = xev->valuator1;
-	    case 1:
-		mev->axis_data[0] = xev->valuator0;
-	    }
-	} else if (save_type == XI_ProximityIn || save_type == XI_ProximityOut) {
-	    XProximityNotifyEvent *pev = (XProximityNotifyEvent *) save;
+                        mev->device_state = xev->device_state;
+                        mev->axes_count = xev->num_valuators;
+                        mev->first_axis = xev->first_valuator;
+                        i = xev->num_valuators;
+                        if (i > 6)
+                            i = 6;
+                        switch (i) {
+                            case 6:
+                                mev->axis_data[5] = xev->valuator5;
+                            case 5:
+                                mev->axis_data[4] = xev->valuator4;
+                            case 4:
+                                mev->axis_data[3] = xev->valuator3;
+                            case 3:
+                                mev->axis_data[2] = xev->valuator2;
+                            case 2:
+                                mev->axis_data[1] = xev->valuator1;
+                            case 1:
+                                mev->axis_data[0] = xev->valuator0;
+                        }
+                    } else if (save_type == XI_ProximityIn || save_type == XI_ProximityOut) {
+                        XProximityNotifyEvent *pev = (XProximityNotifyEvent *) save;
 
-	    pev->device_state = xev->device_state;
-	    pev->axes_count = xev->num_valuators;
-	    pev->first_axis = xev->first_valuator;
-	    i = xev->num_valuators;
-	    if (i > 6)
-		i = 6;
-	    switch (i) {
-	    case 6:
-		pev->axis_data[5] = xev->valuator5;
-	    case 5:
-		pev->axis_data[4] = xev->valuator4;
-	    case 4:
-		pev->axis_data[3] = xev->valuator3;
-	    case 3:
-		pev->axis_data[2] = xev->valuator2;
-	    case 2:
-		pev->axis_data[1] = xev->valuator1;
-	    case 1:
-		pev->axis_data[0] = xev->valuator0;
-	    }
-	} else if (save_type == XI_DeviceStateNotify) {
-	    XDeviceStateNotifyEvent *sev = (XDeviceStateNotifyEvent *) save;
-	    XInputClass *any = (XInputClass *) & sev->data[0];
-	    XValuatorStatus *v;
+                        pev->device_state = xev->device_state;
+                        pev->axes_count = xev->num_valuators;
+                        pev->first_axis = xev->first_valuator;
+                        i = xev->num_valuators;
+                        if (i > 6)
+                            i = 6;
+                        switch (i) {
+                            case 6:
+                                pev->axis_data[5] = xev->valuator5;
+                            case 5:
+                                pev->axis_data[4] = xev->valuator4;
+                            case 4:
+                                pev->axis_data[3] = xev->valuator3;
+                            case 3:
+                                pev->axis_data[2] = xev->valuator2;
+                            case 2:
+                                pev->axis_data[1] = xev->valuator1;
+                            case 1:
+                                pev->axis_data[0] = xev->valuator0;
+                        }
+                    } else if (save_type == XI_DeviceStateNotify) {
+                        XDeviceStateNotifyEvent *sev = (XDeviceStateNotifyEvent *) save;
+                        XInputClass *any = (XInputClass *) & sev->data[0];
+                        XValuatorStatus *v;
 
-	    for (i = 0; i < sev->num_classes; i++)
-		if (any->class != ValuatorClass)
-		    any = (XInputClass *) ((char *)any + any->length);
-	    v = (XValuatorStatus *) any;
-	    i = v->num_valuators;
-	    j = xev->num_valuators;
-	    if (j > 3)
-		j = 3;
-	    switch (j) {
-	    case 3:
-		v->valuators[i + 2] = xev->valuator2;
-	    case 2:
-		v->valuators[i + 1] = xev->valuator1;
-	    case 1:
-		v->valuators[i + 0] = xev->valuator0;
-	    }
-	    v->num_valuators += j;
+                        for (i = 0; i < sev->num_classes; i++)
+                            if (any->class != ValuatorClass)
+                                any = (XInputClass *) ((char *)any + any->length);
+                        v = (XValuatorStatus *) any;
+                        i = v->num_valuators;
+                        j = xev->num_valuators;
+                        if (j > 3)
+                            j = 3;
+                        switch (j) {
+                            case 3:
+                                v->valuators[i + 2] = xev->valuator2;
+                            case 2:
+                                v->valuators[i + 1] = xev->valuator1;
+                            case 1:
+                                v->valuators[i + 0] = xev->valuator0;
+                        }
+                        v->num_valuators += j;
 
-	}
-	*re = *save;
-	return (ENQUEUE_EVENT);
-    }
-	break;
-    case XI_DeviceFocusIn:
-    case XI_DeviceFocusOut:
-    {
-	register XDeviceFocusChangeEvent *ev = (XDeviceFocusChangeEvent *) re;
-	deviceFocus *fev = (deviceFocus *) event;
+                    }
+                    *re = *save;
+                    return (ENQUEUE_EVENT);
+                }
+                break;
+            case XI_DeviceFocusIn:
+            case XI_DeviceFocusOut:
+                {
+                    register XDeviceFocusChangeEvent *ev = (XDeviceFocusChangeEvent *) re;
+                    deviceFocus *fev = (deviceFocus *) event;
 
-	*ev = *((XDeviceFocusChangeEvent *) save);
-	ev->window = fev->window;
-	ev->time = fev->time;
-	ev->mode = fev->mode;
-	ev->detail = fev->detail;
-	ev->deviceid = fev->deviceid & DEVICE_BITS;
-	return (ENQUEUE_EVENT);
-    }
-	break;
-    case XI_DeviceStateNotify:
-    {
-	XDeviceStateNotifyEvent *stev = (XDeviceStateNotifyEvent *) save;
-	deviceStateNotify *sev = (deviceStateNotify *) event;
-	char *data;
+                    *ev = *((XDeviceFocusChangeEvent *) save);
+                    ev->window = fev->window;
+                    ev->time = fev->time;
+                    ev->mode = fev->mode;
+                    ev->detail = fev->detail;
+                    ev->deviceid = fev->deviceid & DEVICE_BITS;
+                    return (ENQUEUE_EVENT);
+                }
+                break;
+            case XI_DeviceStateNotify:
+                {
+                    XDeviceStateNotifyEvent *stev = (XDeviceStateNotifyEvent *) save;
+                    deviceStateNotify *sev = (deviceStateNotify *) event;
+                    char *data;
 
-	stev->window = None;
-	stev->deviceid = sev->deviceid & DEVICE_BITS;
-	stev->time = sev->time;
-	stev->num_classes = Ones((Mask) sev->classes_reported & InputClassBits);
-	data = (char *)&stev->data[0];
-	if (sev->classes_reported & (1 << KeyClass)) {
-	    register XKeyStatus *kstev = (XKeyStatus *) data;
+                    stev->window = None;
+                    stev->deviceid = sev->deviceid & DEVICE_BITS;
+                    stev->time = sev->time;
+                    stev->num_classes = Ones((Mask) sev->classes_reported & InputClassBits);
+                    data = (char *)&stev->data[0];
+                    if (sev->classes_reported & (1 << KeyClass)) {
+                        register XKeyStatus *kstev = (XKeyStatus *) data;
 
-	    kstev->class = KeyClass;
-	    kstev->length = sizeof(XKeyStatus);
-	    kstev->num_keys = sev->num_keys;
-	    memcpy((char *)&kstev->keys[0], (char *)&sev->keys[0], 4);
-	    data += sizeof(XKeyStatus);
-	}
-	if (sev->classes_reported & (1 << ButtonClass)) {
-	    register XButtonStatus *bev = (XButtonStatus *) data;
+                        kstev->class = KeyClass;
+                        kstev->length = sizeof(XKeyStatus);
+                        kstev->num_keys = sev->num_keys;
+                        memcpy((char *)&kstev->keys[0], (char *)&sev->keys[0], 4);
+                        data += sizeof(XKeyStatus);
+                    }
+                    if (sev->classes_reported & (1 << ButtonClass)) {
+                        register XButtonStatus *bev = (XButtonStatus *) data;
 
-	    bev->class = ButtonClass;
-	    bev->length = sizeof(XButtonStatus);
-	    bev->num_buttons = sev->num_buttons;
-	    memcpy((char *)bev->buttons, (char *)sev->buttons, 4);
-	    data += sizeof(XButtonStatus);
-	}
-	if (sev->classes_reported & (1 << ValuatorClass)) {
-	    register XValuatorStatus *vev = (XValuatorStatus *) data;
+                        bev->class = ButtonClass;
+                        bev->length = sizeof(XButtonStatus);
+                        bev->num_buttons = sev->num_buttons;
+                        memcpy((char *)bev->buttons, (char *)sev->buttons, 4);
+                        data += sizeof(XButtonStatus);
+                    }
+                    if (sev->classes_reported & (1 << ValuatorClass)) {
+                        register XValuatorStatus *vev = (XValuatorStatus *) data;
 
-	    vev->class = ValuatorClass;
-	    vev->length = sizeof(XValuatorStatus);
-	    vev->num_valuators = sev->num_valuators;
-	    vev->mode = sev->classes_reported >> ModeBitsShift;
-	    j = sev->num_valuators;
-	    if (j > 3)
-		j = 3;
-	    switch (j) {
-	    case 3:
-		vev->valuators[2] = sev->valuator2;
-	    case 2:
-		vev->valuators[1] = sev->valuator1;
-	    case 1:
-		vev->valuators[0] = sev->valuator0;
-	    }
-	    data += sizeof(XValuatorStatus);
-	}
-	if (sev->deviceid & MORE_EVENTS)
-	    return (DONT_ENQUEUE);
-	else {
-	    *re = *save;
-	    stev = (XDeviceStateNotifyEvent *) re;
-	    return (ENQUEUE_EVENT);
-	}
-    }
-	break;
-    case XI_DeviceKeystateNotify:
-    {
-	int i;
-	XInputClass *anyclass;
-	register XKeyStatus *kv;
-	deviceKeyStateNotify *ksev = (deviceKeyStateNotify *) event;
-	XDeviceStateNotifyEvent *kstev = (XDeviceStateNotifyEvent *) save;
+                        vev->class = ValuatorClass;
+                        vev->length = sizeof(XValuatorStatus);
+                        vev->num_valuators = sev->num_valuators;
+                        vev->mode = sev->classes_reported >> ModeBitsShift;
+                        j = sev->num_valuators;
+                        if (j > 3)
+                            j = 3;
+                        switch (j) {
+                            case 3:
+                                vev->valuators[2] = sev->valuator2;
+                            case 2:
+                                vev->valuators[1] = sev->valuator1;
+                            case 1:
+                                vev->valuators[0] = sev->valuator0;
+                        }
+                        data += sizeof(XValuatorStatus);
+                    }
+                    if (sev->deviceid & MORE_EVENTS)
+                        return (DONT_ENQUEUE);
+                    else {
+                        *re = *save;
+                        stev = (XDeviceStateNotifyEvent *) re;
+                        return (ENQUEUE_EVENT);
+                    }
+                }
+                break;
+            case XI_DeviceKeystateNotify:
+                {
+                    int i;
+                    XInputClass *anyclass;
+                    register XKeyStatus *kv;
+                    deviceKeyStateNotify *ksev = (deviceKeyStateNotify *) event;
+                    XDeviceStateNotifyEvent *kstev = (XDeviceStateNotifyEvent *) save;
 
-	anyclass = (XInputClass *) & kstev->data[0];
-	for (i = 0; i < kstev->num_classes; i++)
-	    if (anyclass->class == KeyClass)
-		break;
-	    else
-		anyclass = (XInputClass *) ((char *)anyclass +
-					    anyclass->length);
+                    anyclass = (XInputClass *) & kstev->data[0];
+                    for (i = 0; i < kstev->num_classes; i++)
+                        if (anyclass->class == KeyClass)
+                            break;
+                        else
+                            anyclass = (XInputClass *) ((char *)anyclass +
+                                    anyclass->length);
 
-	kv = (XKeyStatus *) anyclass;
-	kv->num_keys = 256;
-	memcpy((char *)&kv->keys[4], (char *)ksev->keys, 28);
-	if (ksev->deviceid & MORE_EVENTS)
-	    return (DONT_ENQUEUE);
-	else {
-	    *re = *save;
-	    kstev = (XDeviceStateNotifyEvent *) re;
-	    return (ENQUEUE_EVENT);
-	}
-    }
-	break;
-    case XI_DeviceButtonstateNotify:
-    {
-	int i;
-	XInputClass *anyclass;
-	register XButtonStatus *bv;
-	deviceButtonStateNotify *bsev = (deviceButtonStateNotify *) event;
-	XDeviceStateNotifyEvent *bstev = (XDeviceStateNotifyEvent *) save;
+                    kv = (XKeyStatus *) anyclass;
+                    kv->num_keys = 256;
+                    memcpy((char *)&kv->keys[4], (char *)ksev->keys, 28);
+                    if (ksev->deviceid & MORE_EVENTS)
+                        return (DONT_ENQUEUE);
+                    else {
+                        *re = *save;
+                        kstev = (XDeviceStateNotifyEvent *) re;
+                        return (ENQUEUE_EVENT);
+                    }
+                }
+                break;
+            case XI_DeviceButtonstateNotify:
+                {
+                    int i;
+                    XInputClass *anyclass;
+                    register XButtonStatus *bv;
+                    deviceButtonStateNotify *bsev = (deviceButtonStateNotify *) event;
+                    XDeviceStateNotifyEvent *bstev = (XDeviceStateNotifyEvent *) save;
 
-	anyclass = (XInputClass *) & bstev->data[0];
-	for (i = 0; i < bstev->num_classes; i++)
-	    if (anyclass->class == ButtonClass)
-		break;
-	    else
-		anyclass = (XInputClass *) ((char *)anyclass +
-					    anyclass->length);
+                    anyclass = (XInputClass *) & bstev->data[0];
+                    for (i = 0; i < bstev->num_classes; i++)
+                        if (anyclass->class == ButtonClass)
+                            break;
+                        else
+                            anyclass = (XInputClass *) ((char *)anyclass +
+                                    anyclass->length);
 
-	bv = (XButtonStatus *) anyclass;
-	bv->num_buttons = 256;
-	memcpy((char *)&bv->buttons[4], (char *)bsev->buttons, 28);
-	if (bsev->deviceid & MORE_EVENTS)
-	    return (DONT_ENQUEUE);
-	else {
-	    *re = *save;
-	    bstev = (XDeviceStateNotifyEvent *) re;
-	    return (ENQUEUE_EVENT);
-	}
-    }
-	break;
-    case XI_DeviceMappingNotify:
-    {
-	register XDeviceMappingEvent *ev = (XDeviceMappingEvent *) re;
-	deviceMappingNotify *ev2 = (deviceMappingNotify *) event;
+                    bv = (XButtonStatus *) anyclass;
+                    bv->num_buttons = 256;
+                    memcpy((char *)&bv->buttons[4], (char *)bsev->buttons, 28);
+                    if (bsev->deviceid & MORE_EVENTS)
+                        return (DONT_ENQUEUE);
+                    else {
+                        *re = *save;
+                        bstev = (XDeviceStateNotifyEvent *) re;
+                        return (ENQUEUE_EVENT);
+                    }
+                }
+                break;
+            case XI_DeviceMappingNotify:
+                {
+                    register XDeviceMappingEvent *ev = (XDeviceMappingEvent *) re;
+                    deviceMappingNotify *ev2 = (deviceMappingNotify *) event;
 
-	*ev = *((XDeviceMappingEvent *) save);
-	ev->window = 0;
-	ev->first_keycode = ev2->firstKeyCode;
-	ev->request = ev2->request;
-	ev->count = ev2->count;
-	ev->time = ev2->time;
-	ev->deviceid = ev2->deviceid & DEVICE_BITS;
-	return (ENQUEUE_EVENT);
-    }
-	break;
-    case XI_ChangeDeviceNotify:
-    {
-	register XChangeDeviceNotifyEvent *ev = (XChangeDeviceNotifyEvent *) re;
-	changeDeviceNotify *ev2 = (changeDeviceNotify *) event;
+                    *ev = *((XDeviceMappingEvent *) save);
+                    ev->window = 0;
+                    ev->first_keycode = ev2->firstKeyCode;
+                    ev->request = ev2->request;
+                    ev->count = ev2->count;
+                    ev->time = ev2->time;
+                    ev->deviceid = ev2->deviceid & DEVICE_BITS;
+                    return (ENQUEUE_EVENT);
+                }
+                break;
+            case XI_ChangeDeviceNotify:
+                {
+                    register XChangeDeviceNotifyEvent *ev = (XChangeDeviceNotifyEvent *) re;
+                    changeDeviceNotify *ev2 = (changeDeviceNotify *) event;
 
-	*ev = *((XChangeDeviceNotifyEvent *) save);
-	ev->window = 0;
-	ev->request = ev2->request;
-	ev->time = ev2->time;
-	ev->deviceid = ev2->deviceid & DEVICE_BITS;
-	return (ENQUEUE_EVENT);
-    }
-	break;
+                    *ev = *((XChangeDeviceNotifyEvent *) save);
+                    ev->window = 0;
+                    ev->request = ev2->request;
+                    ev->time = ev2->time;
+                    ev->deviceid = ev2->deviceid & DEVICE_BITS;
+                    return (ENQUEUE_EVENT);
+                }
+                break;
 
-    case XI_DevicePresenceNotify:
-    {
-	XDevicePresenceNotifyEvent *ev = (XDevicePresenceNotifyEvent *) re;
-	devicePresenceNotify *ev2 = (devicePresenceNotify *) event;
+            case XI_DevicePresenceNotify:
+                {
+                    XDevicePresenceNotifyEvent *ev = (XDevicePresenceNotifyEvent *) re;
+                    devicePresenceNotify *ev2 = (devicePresenceNotify *) event;
 
-	*ev = *(XDevicePresenceNotifyEvent *) save;
-	ev->window = 0;
-	ev->time = ev2->time;
-        ev->devchange = ev2->devchange;
-        ev->deviceid = ev2->deviceid;
-        ev->control = ev2->control;
-	return (ENQUEUE_EVENT);
-    }
-	break;
+                    *ev = *(XDevicePresenceNotifyEvent *) save;
+                    ev->window = 0;
+                    ev->time = ev2->time;
+                    ev->devchange = ev2->devchange;
+                    ev->deviceid = ev2->deviceid;
+                    ev->control = ev2->control;
+                    return (ENQUEUE_EVENT);
+                }
+                break;
 
-    case XI_DeviceEnterNotify:
-    case XI_DeviceLeaveNotify:
-        {
-            XDeviceCrossingEvent *ev = (XDeviceCrossingEvent*)re;
-            deviceEnterNotify *ev2 = (deviceEnterNotify*) event;
-            *ev = *(XDeviceCrossingEvent*)save;
-            ev->root = ev2->root;
-            ev->window = ev2->event;
-            ev->subwindow = ev2->child;
-            ev->time = ev2->time;
-            ev->x_root = ev2->rootX;
-            ev->y_root = ev2->rootY;
-            ev->x = ev2->eventX;
-            ev->y = ev2->eventY;
-            ev->state = ev2->state;
-            ev->mode = ev2->mode;
-            ev->deviceid = ev2->deviceid & DEVICE_BITS;
-            if (ev2->flags & ELFlagSameScreen) {
-                ev->same_screen = True;
-            }
-            if (ev2->flags & ELFlagFocus) {
-                ev->focus = True;
-            }
-            return (ENQUEUE_EVENT);
+            case XI_DeviceEnterNotify:
+            case XI_DeviceLeaveNotify:
+                {
+                    XDeviceCrossingEvent *ev = (XDeviceCrossingEvent*)re;
+                    deviceEnterNotify *ev2 = (deviceEnterNotify*) event;
+                    *ev = *(XDeviceCrossingEvent*)save;
+                    ev->root = ev2->root;
+                    ev->window = ev2->event;
+                    ev->subwindow = ev2->child;
+                    ev->time = ev2->time;
+                    ev->x_root = ev2->rootX;
+                    ev->y_root = ev2->rootY;
+                    ev->x = ev2->eventX;
+                    ev->y = ev2->eventY;
+                    ev->state = ev2->state;
+                    ev->mode = ev2->mode;
+                    ev->deviceid = ev2->deviceid & DEVICE_BITS;
+                    if (ev2->flags & ELFlagSameScreen) {
+                        ev->same_screen = True;
+                    }
+                    if (ev2->flags & ELFlagFocus) {
+                        ev->focus = True;
+                    }
+                    return (ENQUEUE_EVENT);
+                }
+                break;
+            default:
+                printf("XInputWireToEvent: UNKNOWN WIRE EVENT! type=%d\n", type);
+                break;
         }
-        break;
-    case XI_PointerKeyboardPairingChangedNotify:
+    } else /* if type == GenericEvent */
+    {
+        xGenericEvent* ge = (xGenericEvent*)event;
+        if (ge->extension == info->codes->major_opcode)
         {
-            XPointerKeyboardPairingChangedNotifyEvent *ev = 
-                (XPointerKeyboardPairingChangedNotifyEvent*)re;
-            pairingChangedNotify *ev2 = (pairingChangedNotify*) event;
-            *ev = *(XPointerKeyboardPairingChangedNotifyEvent*)save;
-            ev->time = ev2->time;
-            ev->pointerid = ev2->pointer;
-            ev->keyboardid = ev2->keyboard;
-            return (ENQUEUE_EVENT);
-        }
-    default:
-	printf("XInputWireToEvent: UNKNOWN WIRE EVENT! type=%d\n", type);
-	break;
-    }
+            switch(ge->evtype)
+            {
+                case XI_PointerKeyboardPairingChangedNotify:
+                    {
+                        XPointerKeyboardPairingChangedNotifyEvent* pkc_event = 
+                            (XPointerKeyboardPairingChangedNotifyEvent*)save;
+                        pairingChangedNotify* pkc_wire =
+                            (pairingChangedNotify*)event;
 
+                        pkc_event->extension = pkc_wire->extension;
+                        pkc_event->evtype = pkc_wire->evtype;
+                        pkc_event->pointerid = pkc_wire->pointer;
+                        pkc_event->keyboardid = pkc_wire->keyboard;
+                        pkc_event->time = pkc_wire->time;
+                        *re = *save;
+                        return ENQUEUE_EVENT;
+                    }
+                case XI_RandomStringEvent:
+                    {
+                        XRandomStringEvent* xrs_event = 
+                            (XRandomStringEvent*)save;
+                        randomStringEvent* xrs_wire =
+                            (randomStringEvent*)event;
+
+                        xrs_event->extension = xrs_wire->extension;
+                        xrs_event->evtype = xrs_wire->evtype;
+
+                        xrs_event->string = (char*)calloc((xrs_wire->slen +
+                                    1), sizeof(char));
+                        memcpy(xrs_event->string,
+                                &xrs_wire[1],
+                                xrs_wire->slen);
+                        *re = *save;
+                        return ENQUEUE_EVENT;
+                    }
+                case XI_RawDeviceEvent:
+                    {
+                        XRawDeviceEvent* raw_event = 
+                            (XRawDeviceEvent*)save;
+                        rawDeviceEvent* raw_wire = 
+                            (rawDeviceEvent*)event;
+
+                        raw_event->extension = raw_wire->extension;
+                        raw_event->evtype = raw_wire->evtype;
+                        raw_event->num_valuators = raw_wire->num_valuators;
+                        raw_event->first_valuator = raw_wire->first_valuator;
+                        raw_event->buttons = raw_wire->buttons;
+                        if (raw_event->num_valuators)
+                        {
+                            raw_event->valuators =
+                                (char*)calloc((raw_event->num_valuators), sizeof(int));
+                            memcpy(raw_event->valuators, &raw_wire->valuator0,
+                                    raw_event->num_valuators * sizeof(CARD32));
+                        } else
+                            raw_event->valuators = NULL;
+                        *re = *save;
+                        return ENQUEUE_EVENT;
+                    }
+                default:
+                    printf("XInputWireToEvent: Unknown generic event. type %d\n", ge->evtype);
+
+            }
+        }
+
+    }
     return (DONT_ENQUEUE);
 }

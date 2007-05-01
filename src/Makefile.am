@@ -57,6 +57,7 @@ libXi_la_SOURCES = \
 		  XUnregPair.c \
                   XWarpDvPtr.c \
 		  XExtInt.c  \
+                  XiSelEv.c \
 		  XIint.h
 
 libXi_la_LIBADD = $(XI_LIBS)
