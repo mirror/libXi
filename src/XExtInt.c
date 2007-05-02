@@ -791,12 +791,17 @@ XInputWireToEvent(dpy, re, event)
                         raw_event->num_valuators = raw_wire->num_valuators;
                         raw_event->first_valuator = raw_wire->first_valuator;
                         raw_event->buttons = raw_wire->buttons;
+                        raw_event->deviceid = raw_wire->deviceid;
                         if (raw_event->num_valuators)
                         {
+                            int i;
+                            CARD32* valptr;
                             raw_event->valuators =
                                 (char*)calloc((raw_event->num_valuators), sizeof(int));
-                            memcpy(raw_event->valuators, &raw_wire->valuator0,
-                                    raw_event->num_valuators * sizeof(CARD32));
+                            valptr = &raw_wire->valuator0;
+                            for (i = 0; i < raw_event->num_valuators; i++,
+                                    valptr++)
+                                raw_event->valuators[i] = *valptr;
                         } else
                             raw_event->valuators = NULL;
                         *re = *save;
