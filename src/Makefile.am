@@ -17,7 +17,9 @@ libXi_la_SOURCES = \
 		  XDefDevCur.c \
                   XDenyDev.c \
 		  XDevBell.c \
+		  XExtGrabDev.c \
 		  XExtToWire.c \
+                  XExtUngrDev.c \
                   XFakeDevData.c \
 		  XGetBMap.c \
 		  XGetCPtr.c \
