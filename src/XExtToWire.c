@@ -481,12 +481,12 @@ _XiEventToWire(dpy, re, event, count)
                     elev->rootY = ev->y_root;
                     elev->state = ev->state;
                     elev->mode  = ev->mode;
-                    elev->flags = 0;
+                    elev->detail = ev->detail;
                     if (ev->same_screen) {
-                        elev->flags |= ELFlagSameScreen;
+                        elev->mode |= ELFlagSameScreen << 4;
                     }
                     if (ev->focus) {
-                        elev->flags |= ELFlagFocus;
+                        elev->mode |= ELFlagFocus << 4;
                     }
                     break;
                 }
@@ -532,6 +532,7 @@ _XiEventToWire(dpy, re, event, count)
                     rev->buttons = ev->buttons;
                     rev->num_valuators = ev->num_valuators;
                     rev->first_valuator = ev->first_valuator;
+                    rev->event_type = ev->event_type;
                     valptr = &rev->valuator0;
                     for(i = 0; i < ev->num_valuators; i++, valptr++)
                         *valptr = ev->valuators[i];

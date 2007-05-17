@@ -724,12 +724,14 @@ XInputWireToEvent(dpy, re, event)
                     ev->x = ev2->eventX;
                     ev->y = ev2->eventY;
                     ev->state = ev2->state;
-                    ev->mode = ev2->mode;
+                    /* mode has same_screen and focus stuffed in the upper 4 bits */
+                    ev->mode = ev2->mode & 0xF;
                     ev->deviceid = ev2->deviceid & DEVICE_BITS;
-                    if (ev2->flags & ELFlagSameScreen) {
+                    ev->detail = ev2->detail;
+                    if ((ev2->mode >> 4) & ELFlagSameScreen) {
                         ev->same_screen = True;
                     }
-                    if (ev2->flags & ELFlagFocus) {
+                    if ((ev2->mode >> 4) & ELFlagFocus) {
                         ev->focus = True;
                     }
                     return (ENQUEUE_EVENT);
@@ -792,6 +794,7 @@ XInputWireToEvent(dpy, re, event)
                         raw_event->first_valuator = raw_wire->first_valuator;
                         raw_event->buttons = raw_wire->buttons;
                         raw_event->deviceid = raw_wire->deviceid;
+                        raw_event->event_type = raw_wire->event_type;
                         if (raw_event->num_valuators)
                         {
                             int i;
