@@ -17,7 +17,6 @@
 .SH NAME
 XGrabDeviceKey, XUngrabDeviceKey \- grab/ungrab extension input device Keys
 .SH SYNTAX
-.SP
 .HP
 int XGrabDeviceKey\^(\^Display *\fIdisplay\fP\^, XDevice *\fIdevice\fP\^,
 unsigned int \fIKey\fP\^, unsigned int \fImodifiers\fP\^, XDevice
