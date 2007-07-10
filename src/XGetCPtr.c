@@ -41,7 +41,7 @@ Bool
 XGetClientPointer(dpy, win, deviceid)
     Display* dpy;
     Window win;
-    int* deviceid;
+    XID* deviceid;
 {
     xGetClientPointerReq *req;
     xGetClientPointerReply rep;

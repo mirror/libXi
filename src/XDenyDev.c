@@ -38,7 +38,7 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 Status
-XDenyDevices(Display* dpy, Window win, char* devices, int count)
+XDenyDevices(Display* dpy, Window win, XID* devices, int count)
 {
     xChangeWindowAccessReq* req;
 
@@ -52,12 +52,16 @@ XDenyDevices(Display* dpy, Window win, char* devices, int count)
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_ChangeWindowAccess;
     req->win = win;
-    req->clear = WindowAccessClearNone;
+    /* If list is empty, clear all devices */
+    if (!count)
+	req->clear = WindowAccessClearDeny;
+    else
+        req->clear = WindowAccessClearNone;
     req->defaultRule = WindowAccessKeepRule;
     req->ndeny = count;
-    req->length += (count + 3) >> 2;
+    req->length += (count * sizeof(XID) + 3) >> 2;
     req->npermit = 0;
-    Data(dpy, devices, count);
+    Data(dpy, (char*)devices, count * sizeof(XID));
 
     UnlockDisplay(dpy);
     SyncHandle();

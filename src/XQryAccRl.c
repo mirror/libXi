@@ -41,9 +41,9 @@ Status
 XQueryWindowAccess(Display* dpy, 
              Window win, 
              int* rule,
-             char** permdevs, 
+             XID** permdevs, 
              int* nperm, 
-             char** denydevs,
+             XID** denydevs,
              int* ndeny)
 {
     xQueryWindowAccessReq* req;
@@ -69,7 +69,7 @@ XQueryWindowAccess(Display* dpy,
     *rule = rep.defaultRule;
     *nperm = rep.npermit;
     *ndeny = rep.ndeny;
-    *permdevs = (char*)Xmalloc(*nperm * sizeof(int));
+    *permdevs = (XID *)Xmalloc(*nperm * sizeof(XID));
     if (!*permdevs)
     {
         _XEatData(dpy, (unsigned long)rep.length << 2);
@@ -78,7 +78,7 @@ XQueryWindowAccess(Display* dpy,
 	return BadImplementation;
     }
 
-    *denydevs = (char*)Xmalloc(*ndeny * sizeof(int));
+    *denydevs = (XID*)Xmalloc(*ndeny * sizeof(XID));
     if (!*denydevs)
     {
         _XEatData(dpy, (unsigned long)rep.length << 2);
@@ -86,11 +86,11 @@ XQueryWindowAccess(Display* dpy,
         SyncHandle();
 	return BadImplementation;
     }
-    _XRead(dpy, *permdevs, *nperm);
-    _XRead(dpy, *denydevs, *ndeny);
+    _XRead(dpy, (char*)*permdevs, *nperm * sizeof(XID));
+    _XRead(dpy, (char*)*denydevs, *ndeny * sizeof(XID));
 
     /* discard padding */
-    _XEatData(dpy, (rep.length << 2) - *ndeny - *nperm);
+    _XEatData(dpy, (rep.length << 2) - (*ndeny * sizeof(XID)) - (*nperm * sizeof(XID)));
 
     UnlockDisplay(dpy);
     SyncHandle();

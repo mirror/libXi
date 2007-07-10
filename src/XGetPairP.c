@@ -41,7 +41,7 @@ Bool
 XGetPairedPointer(dpy, keyboard, deviceid)
     Display* dpy;
     XDevice* keyboard;
-    int* deviceid;
+    XID* deviceid;
 {
     xGetPairedPointerReq *req;
     xGetPairedPointerReply rep;
