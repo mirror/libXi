@@ -34,6 +34,7 @@ libman_PRE = \
 	XChangeDeviceDontPropagateList.man \
 	XChangeKeyboardDevice.man \
 	XChangePointerDevice.man \
+	XChangePointerKeyboardPairing.man \
 	XDeviceBell.man \
 	XGetDeviceControl.man \
 	XGetDeviceKeyMapping.man \
@@ -41,6 +42,7 @@ libman_PRE = \
 	XGetDeviceMotionEvents.man \
 	XGetExtensionVersion.man \
 	XGetFeedbackControl.man \
+	XGetPairedPointer.man \
 	XGrabDevice.man \
 	XGrabDeviceButton.man \
 	XGrabDeviceKey.man \
@@ -49,6 +51,7 @@ libman_PRE = \
 	XQueryDeviceState.man \
 	XSelectExtensionEvent.man \
 	XSendExtensionEvent.man \
+	XSetClientPointer.man \
 	XSetDeviceButtonMapping.man \
 	XSetDeviceFocus.man \
 	XSetDeviceMode.man \

@@ -1,0 +1,46 @@
+.\" Copyright ([\d,\s]*) by Peter Hutterer
+.\" 
+.\" Permission to use, copy, modify, distribute, and sell this documentation 
+.\" for any purpose and without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\" The authors make no representations about the .\" suitability for any
+.\" purpose of the information in this document.  It is .\" provided \`\`as is''
+.\" without express or implied warranty.
+.\" 
+.ds xL Programming with Xlib
+.TH XGetPairedPointer __LIB_MAN_SUFFIX__ __xorgversion__ "X FUNCTIONS"
+.SH NAME
+XGetPairedPointer \- get the ID of the pointer paired with the given keyboard.
+.SH SYNTAX
+.HP
+Bool XGetPairedPointer\^(\^Display *\fIdisplay\fP\^, XDevice
+*\fIkeyboard\fP\^, XID* deviceid); 
+.fi
+\fP
+.SH ARGUMENTS
+.TP 12
+.I display
+Specifies the connection to the X server.
+.TP 12
+.I keyboard
+Specifies the keyboard device to query.
+.TP 12
+.I deviceid
+Returns the ID of the pointer device the keyboard is paired with.
+.SH DESCRIPTION
+The \fIXGetPairedPointer\fP
+request retrieves the ID of the device that is paired with the given keyboard.
+\fIXGetPairedPointer\fP returns \fITRUE\fP if the given keyboard is paired
+with a pointer device and sets \fIdeviceid\fP to the ID of this pointer
+device. Otherwise, \fIXGetPairedPointer\fP returns \fIFALSE\fP.
+.LP
+\fIXGetPairedPointer\fP can generate a \fIBadDevice\fP error.
+.SH DIAGNOSTICS
+.TP 12
+\fIBadDevice\fP
+An invalid device was specified.  The specified device does not exist,
+or is not a keyboards device.
+.SH "SEE ALSO"
+XChangePointerKeyboardPairing(__LIB_MAN_SUFFIX__)
+.br
+\fI\*(xL\fP
