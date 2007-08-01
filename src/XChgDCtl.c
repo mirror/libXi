@@ -104,8 +104,11 @@ XChangeDeviceControl(dpy, dev, control, d)
 	    UnlockDisplay(dpy);
 	    SyncHandle();
 	    return (NoSuchExtension);
-	} else
+	} else {
+            UnlockDisplay(dpy);
+            SyncHandle();
 	    return (rep.status);
+        }
     }
     case DEVICE_ABS_CALIB:
     {
@@ -132,6 +135,8 @@ XChangeDeviceControl(dpy, dev, control, d)
             return NoSuchExtension;
         }
         else {
+            UnlockDisplay(dpy);
+            SyncHandle();
             return rep.status;
         }
     }
@@ -158,6 +163,8 @@ XChangeDeviceControl(dpy, dev, control, d)
             return NoSuchExtension;
         }
         else {
+            UnlockDisplay(dpy);
+            SyncHandle();
             return rep.status;
         }
     }
@@ -179,6 +186,8 @@ XChangeDeviceControl(dpy, dev, control, d)
             return NoSuchExtension;
         }
         else {
+            UnlockDisplay(dpy);
+            SyncHandle();
             return rep.status;
         }
     }
@@ -200,6 +209,8 @@ XChangeDeviceControl(dpy, dev, control, d)
             return NoSuchExtension;
         }
         else {
+            UnlockDisplay(dpy);
+            SyncHandle();
             return rep.status;
         }
     }
