@@ -133,6 +133,11 @@ XListInputDevices(dpy, ndevices)
 		}
 		any = (xAnyClassPtr) ((char *)any + any->length);
 	    }
+            /* Thanks to Xlibs braindead abstraction of XListInputDevices we
+             * have to fake up a new class to indicate attachment, otherwise
+             * we need to break the ABI. Each device has such a class.
+             */ 
+            size += sizeof(XAttachInfo);
 	}
 
 	for (i = 0, nptr = (char *)any; i < *ndevices; i++) {
@@ -156,7 +161,7 @@ XListInputDevices(dpy, ndevices)
 	    clist->type = list->type;
 	    clist->id = list->id;
 	    clist->use = list->use;
-	    clist->num_classes = list->num_classes;
+	    clist->num_classes = list->num_classes + 1; /*fake attach class */
 	    clist->inputclassinfo = Any;
 	    for (j = 0; j < (int)list->num_classes; j++) {
 		switch (any->class) {
@@ -211,6 +216,14 @@ XListInputDevices(dpy, ndevices)
 		any = (xAnyClassPtr) ((char *)any + any->length);
 		Any = (XAnyClassPtr) ((char *)Any + Any->length);
 	    }
+
+            /* Insert fake AttachInfo class */
+            {
+                ((XAttachInfoPtr)Any)->length = sizeof(XAttachInfo);
+                ((XAttachInfoPtr)Any)->class = AttachClass;
+                ((XAttachInfoPtr)Any)->attached = list->attached;
+                Any = (XAnyClassPtr) ((char *)Any + Any->length);
+            }
 	}
 
 	clist = sclist;
