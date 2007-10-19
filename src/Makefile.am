@@ -5,13 +5,13 @@ lib_LTLIBRARIES = libXi.la
 libXi_la_SOURCES = \
 		  XAllowDv.c \
                   XChAccRl.c \
+		  XChDevHier.c \
 		  XChgDCtl.c \
 		  XChgFCtl.c \
 		  XChgKbd.c \
 		  XChgKMap.c \
 		  XChgPnt.c \
 		  XChgProp.c \
-		  XChPKPair.c \
                   XClrAcc.c \
 		  XCloseDev.c \
 		  XDefDevCur.c \
