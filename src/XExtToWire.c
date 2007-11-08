@@ -497,21 +497,19 @@ _XiEventToWire(dpy, re, event, count)
     {
         switch (((XGenericEvent*)re)->evtype)
         {
-            case XI_PointerKeyboardPairingChangedNotify:
+            case XI_DeviceHierarchyChangedNotify:
                 {
-                    register XPointerKeyboardPairingChangedNotifyEvent *ev =
-                        (XPointerKeyboardPairingChangedNotifyEvent*)re;
-                    register pairingChangedNotify *pcev;
+                    XDeviceHierarchyChangedEvent *ev =
+                        (XDeviceHierarchyChangedEvent*)re;
+                    deviceHierarchyChangedEvent *dhcev;
                     *count = 1;
-                    pcev = (pairingChangedNotify *)Xmalloc(*count * sizeof(xEvent));
-                    if (!pcev)
+                    dhcev = (deviceHierarchyChangedEvent *)Xmalloc(*count * sizeof(xEvent));
+                    if (!dhcev)
                         return (_XUnknownNativeEvent(dpy, re, *event));
 
-                    *event = (xEvent *) pcev;
-                    pcev->type = ev->type;
-                    pcev->time = ev->time;
-                    pcev->pointer = ev->pointerid;
-                    pcev->keyboard = ev->keyboardid;
+                    *event = (xEvent *) dhcev;
+                    dhcev->type = ev->type;
+                    dhcev->time = ev->time;
                     break;
                 }
             case XI_RawDeviceEvent:

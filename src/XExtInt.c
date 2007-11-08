@@ -748,36 +748,16 @@ XInputWireToEvent(dpy, re, event)
         {
             switch(ge->evtype)
             {
-                case XI_PointerKeyboardPairingChangedNotify:
+                case XI_DeviceHierarchyChangedNotify:
                     {
-                        XPointerKeyboardPairingChangedNotifyEvent* pkc_event = 
-                            (XPointerKeyboardPairingChangedNotifyEvent*)save;
-                        pairingChangedNotify* pkc_wire =
-                            (pairingChangedNotify*)event;
+                        XDeviceHierarchyChangedEvent* dhc_event = 
+                            (XDeviceHierarchyChangedEvent*)save;
+                        deviceHierarchyChangedEvent* dhc_wire =
+                            (deviceHierarchyChangedEvent*)event;
 
-                        pkc_event->extension = pkc_wire->extension;
-                        pkc_event->evtype = pkc_wire->evtype;
-                        pkc_event->pointerid = pkc_wire->pointer;
-                        pkc_event->keyboardid = pkc_wire->keyboard;
-                        pkc_event->time = pkc_wire->time;
-                        *re = *save;
-                        return ENQUEUE_EVENT;
-                    }
-                case XI_RandomStringEvent:
-                    {
-                        XRandomStringEvent* xrs_event = 
-                            (XRandomStringEvent*)save;
-                        randomStringEvent* xrs_wire =
-                            (randomStringEvent*)event;
-
-                        xrs_event->extension = xrs_wire->extension;
-                        xrs_event->evtype = xrs_wire->evtype;
-
-                        xrs_event->string = (char*)calloc((xrs_wire->slen +
-                                    1), sizeof(char));
-                        memcpy(xrs_event->string,
-                                &xrs_wire[1],
-                                xrs_wire->slen);
+                        dhc_event->extension = dhc_wire->extension;
+                        dhc_event->evtype = dhc_wire->evtype;
+                        dhc_event->time = dhc_wire->time;
                         *re = *save;
                         return ENQUEUE_EVENT;
                     }
