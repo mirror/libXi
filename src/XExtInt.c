@@ -761,6 +761,40 @@ XInputWireToEvent(dpy, re, event)
                         *re = *save;
                         return ENQUEUE_EVENT;
                     }
+                case XI_DeviceClassesChangedNotify:
+                    {
+                        XDeviceClassesChangedEvent* dcc_event =
+                            (XDeviceClassesChangedEvent*)save;
+                        deviceClassesChangedEvent* dcc_wire =
+                            (deviceClassesChangedEvent*)event;
+                        int size;
+                        XAnyClassPtr Any;
+                        xAnyClassPtr any;
+
+                        dcc_event->extension = dcc_wire->extension;
+                        dcc_event->evtype = dcc_wire->evtype;
+                        dcc_event->time = dcc_wire->time;
+                        dcc_event->deviceid = dcc_wire->deviceid;
+                        dcc_event->slaveid = dcc_wire->new_slave;
+                        dcc_event->num_classes = dcc_wire->num_classes;
+
+                        any = (xAnyClassPtr)&dcc_wire[1];
+                        size = SizeClassInfo(&any, dcc_wire->num_classes);
+
+                        dcc_event->inputclassinfo = Xmalloc(size);
+                        if (!dcc_event)
+                        {
+                            printf("Allocation error.\n");
+                            return DONT_ENQUEUE;
+                        }
+
+                        any = (xAnyClassPtr)&dcc_wire[1];
+                        Any = (XAnyClassPtr)dcc_event->inputclassinfo;
+                        ParseClassInfo(&any, &Any, dcc_wire->num_classes);
+
+                        *re = *save;
+                        return ENQUEUE_EVENT;
+                    }
                 case XI_RawDeviceEvent:
                     {
                         XRawDeviceEvent* raw_event = 
@@ -780,7 +814,7 @@ XInputWireToEvent(dpy, re, event)
                             int i;
                             CARD32* valptr;
                             raw_event->valuators =
-                                (char*)calloc((raw_event->num_valuators), sizeof(int));
+                                calloc((raw_event->num_valuators), sizeof(int));
                             valptr = &raw_wire->valuator0;
                             for (i = 0; i < raw_event->num_valuators; i++,
                                     valptr++)

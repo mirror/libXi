@@ -63,6 +63,97 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
+int
+SizeClassInfo(xAnyClassPtr *any, int num_classes)
+{
+    int size = 0;
+    int j;
+    for (j = 0; j < num_classes; j++) {
+        switch ((*any)->class) {
+            case KeyClass:
+                size += sizeof(XKeyInfo);
+                break;
+            case ButtonClass:
+                size += sizeof(XButtonInfo);
+                break;
+            case ValuatorClass:
+                {
+                    xValuatorInfoPtr v;
+
+                    v = (xValuatorInfoPtr) *any;
+                    size += sizeof(XValuatorInfo) +
+                        (v->num_axes * sizeof(XAxisInfo));
+                    break;
+                }
+            default:
+                break;
+        }
+        *any = (xAnyClassPtr) ((char *)(*any) + (*any)->length);
+    }
+
+    return size;
+}
+
+void
+ParseClassInfo(xAnyClassPtr *any, XAnyClassPtr *Any, int num_classes)
+{
+    int j, k;
+
+    for (j = 0; j < num_classes; j++) {
+        switch ((*any)->class) {
+            case KeyClass:
+                {
+                    XKeyInfoPtr K = (XKeyInfoPtr) *Any;
+                    xKeyInfoPtr k = (xKeyInfoPtr) *any;
+
+                    K->class = KeyClass;
+                    K->length = sizeof(XKeyInfo);
+                    K->min_keycode = k->min_keycode;
+                    K->max_keycode = k->max_keycode;
+                    K->num_keys = k->num_keys;
+                    break;
+                }
+            case ButtonClass:
+                {
+                    XButtonInfoPtr B = (XButtonInfoPtr) *Any;
+                    xButtonInfoPtr b = (xButtonInfoPtr) *any;
+
+                    B->class = ButtonClass;
+                    B->length = sizeof(XButtonInfo);
+                    B->num_buttons = b->num_buttons;
+                    break;
+                }
+            case ValuatorClass:
+                {
+                    XValuatorInfoPtr V = (XValuatorInfoPtr) *Any;
+                    xValuatorInfoPtr v = (xValuatorInfoPtr) *any;
+                    XAxisInfoPtr A;
+                    xAxisInfoPtr a;
+
+                    V->class = ValuatorClass;
+                    V->length = sizeof(XValuatorInfo) +
+                        (v->num_axes * sizeof(XAxisInfo));
+                    V->num_axes = v->num_axes;
+                    V->motion_buffer = v->motion_buffer_size;
+                    V->mode = v->mode;
+                    A = (XAxisInfoPtr) ((char *)V + sizeof(XValuatorInfo));
+                    V->axes = A;
+                    a = (xAxisInfoPtr) ((char *)(*any) + sizeof(xValuatorInfo));
+                    for (k = 0; k < (int)v->num_axes; k++, a++, A++) {
+                        A->min_value = a->min_value;
+                        A->max_value = a->max_value;
+                        A->resolution = a->resolution;
+                    }
+                    break;
+                }
+            default:
+                break;
+        }
+        *any = (xAnyClassPtr) ((char *)(*any) + (*any)->length);
+        *Any = (XAnyClassPtr) ((char *)(*Any) + (*Any)->length);
+    }
+}
+
 XDeviceInfo *
 XListInputDevices(dpy, ndevices)
     register Display *dpy;
@@ -77,8 +168,8 @@ XListInputDevices(dpy, ndevices)
     xAnyClassPtr any, sav_any;
     XAnyClassPtr Any;
     char *nptr, *Nptr;
-    register int i, j, k;
-    register long rlen;
+    int i;
+    long rlen;
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
@@ -111,28 +202,7 @@ XListInputDevices(dpy, ndevices)
 	any = (xAnyClassPtr) ((char *)list + (*ndevices * sizeof(xDeviceInfo)));
 	sav_any = any;
 	for (i = 0; i < *ndevices; i++, list++) {
-	    for (j = 0; j < (int)list->num_classes; j++) {
-		switch (any->class) {
-		case KeyClass:
-		    size += sizeof(XKeyInfo);
-		    break;
-		case ButtonClass:
-		    size += sizeof(XButtonInfo);
-		    break;
-		case ValuatorClass:
-		{
-		    xValuatorInfoPtr v;
-
-		    v = (xValuatorInfoPtr) any;
-		    size += sizeof(XValuatorInfo) +
-			(v->num_axes * sizeof(XAxisInfo));
-		    break;
-		}
-		default:
-		    break;
-		}
-		any = (xAnyClassPtr) ((char *)any + any->length);
-	    }
+            size += SizeClassInfo(&any, (int)list->num_classes);
             /* Thanks to Xlibs braindead abstraction of XListInputDevices we
              * have to fake up a new class to indicate attachment, otherwise
              * we need to break the ABI. Each device has such a class.
@@ -163,59 +233,8 @@ XListInputDevices(dpy, ndevices)
 	    clist->use = list->use;
 	    clist->num_classes = list->num_classes + 1; /*fake attach class */
 	    clist->inputclassinfo = Any;
-	    for (j = 0; j < (int)list->num_classes; j++) {
-		switch (any->class) {
-		case KeyClass:
-		{
-		    XKeyInfoPtr K = (XKeyInfoPtr) Any;
-		    xKeyInfoPtr k = (xKeyInfoPtr) any;
 
-		    K->class = KeyClass;
-		    K->length = sizeof(XKeyInfo);
-		    K->min_keycode = k->min_keycode;
-		    K->max_keycode = k->max_keycode;
-		    K->num_keys = k->num_keys;
-		    break;
-		}
-		case ButtonClass:
-		{
-		    XButtonInfoPtr B = (XButtonInfoPtr) Any;
-		    xButtonInfoPtr b = (xButtonInfoPtr) any;
-
-		    B->class = ButtonClass;
-		    B->length = sizeof(XButtonInfo);
-		    B->num_buttons = b->num_buttons;
-		    break;
-		}
-		case ValuatorClass:
-		{
-		    XValuatorInfoPtr V = (XValuatorInfoPtr) Any;
-		    xValuatorInfoPtr v = (xValuatorInfoPtr) any;
-		    XAxisInfoPtr A;
-		    xAxisInfoPtr a;
-
-		    V->class = ValuatorClass;
-		    V->length = sizeof(XValuatorInfo) +
-			(v->num_axes * sizeof(XAxisInfo));
-		    V->num_axes = v->num_axes;
-		    V->motion_buffer = v->motion_buffer_size;
-		    V->mode = v->mode;
-		    A = (XAxisInfoPtr) ((char *)V + sizeof(XValuatorInfo));
-		    V->axes = A;
-		    a = (xAxisInfoPtr) ((char *)any + sizeof(xValuatorInfo));
-		    for (k = 0; k < (int)v->num_axes; k++, a++, A++) {
-			A->min_value = a->min_value;
-			A->max_value = a->max_value;
-			A->resolution = a->resolution;
-		    }
-		    break;
-		}
-		default:
-		    break;
-		}
-		any = (xAnyClassPtr) ((char *)any + any->length);
-		Any = (XAnyClassPtr) ((char *)Any + Any->length);
-	    }
+            ParseClassInfo(&any, &Any, (int)list->num_classes);
 
             /* Insert fake AttachInfo class */
             {
