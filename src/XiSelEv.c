@@ -34,13 +34,14 @@ in this Software without prior written authorization from the author.
 #include <X11/Xlibint.h>
 #include <X11/extensions/XI.h>
 #include <X11/extensions/XIproto.h>
+#include <X11/extensions/XInput.h>
 #include <X11/extensions/extutil.h>
 #include <X11/extensions/ge.h>
 #include <X11/extensions/geproto.h>
 #include "XIint.h"
 
-int 
-XiSelectEvent(Display* dpy, Window win, Mask mask)
+int
+XiSelectEvent(Display* dpy, Window win, XDevice* dev, Mask mask)
 {
     xXiSelectEventReq* req;
 
@@ -53,6 +54,10 @@ XiSelectEvent(Display* dpy, Window win, Mask mask)
     GetReq(XiSelectEvent, req);
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_XiSelectEvent;
+    if (dev)
+        req->deviceid = dev->device_id;
+    else
+        req->deviceid = (1 << 7); /* all devices */
     req->window = win;
     req->mask = mask;
 
