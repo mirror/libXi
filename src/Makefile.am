@@ -31,7 +31,6 @@ libXi_la_SOURCES = \
 		  XGetProp.c \
 		  XGetVers.c \
 		  XGMotion.c \
-		  XGrabAcc.c \
 		  XGrabDev.c \
 		  XGrDvBut.c \
 		  XGrDvKey.c \
@@ -52,7 +51,6 @@ libXi_la_SOURCES = \
 		  XSndExEv.c \
 		  XStFocus.c \
 		  XUndefDevCur.c \
-		  XUngrabAcc.c \
 		  XUngrDev.c \
 		  XUngrDvB.c \
 		  XUngrDvK.c \
