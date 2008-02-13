@@ -512,30 +512,6 @@ _XiEventToWire(dpy, re, event, count)
                     dhcev->time = ev->time;
                     break;
                 }
-            case XI_RawDeviceEvent:
-                {
-                    int i;
-                    CARD32* valptr;
-                    XRawDeviceEvent* ev = (XRawDeviceEvent*)re;
-                    rawDeviceEvent* rev;
-                    *count = 1;
-                    rev = (rawDeviceEvent*)Xmalloc(*count * (sizeof(xEvent) +  ev->num_valuators * sizeof(CARD32)));
-                    if (!rev)
-                        return (_XUnknownNativeEvent(dpy, re, *event));
-
-                    *event = (xEvent*)rev;
-                    rev->type = ev->type;
-                    rev->extension = ev->extension;
-                    rev->deviceid = ev->deviceid;
-                    rev->buttons = ev->buttons;
-                    rev->num_valuators = ev->num_valuators;
-                    rev->first_valuator = ev->first_valuator;
-                    rev->event_type = ev->event_type;
-                    valptr = &rev->valuator0;
-                    for(i = 0; i < ev->num_valuators; i++, valptr++)
-                        *valptr = ev->valuators[i];
-                    break;
-                }
             default:
                 return (_XUnknownNativeEvent(dpy, re, *event));
         }

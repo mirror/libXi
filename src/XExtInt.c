@@ -795,35 +795,6 @@ XInputWireToEvent(dpy, re, event)
                         *re = *save;
                         return ENQUEUE_EVENT;
                     }
-                case XI_RawDeviceEvent:
-                    {
-                        XRawDeviceEvent* raw_event = 
-                            (XRawDeviceEvent*)save;
-                        rawDeviceEvent* raw_wire = 
-                            (rawDeviceEvent*)event;
-
-                        raw_event->extension = raw_wire->extension;
-                        raw_event->evtype = raw_wire->evtype;
-                        raw_event->num_valuators = raw_wire->num_valuators;
-                        raw_event->first_valuator = raw_wire->first_valuator;
-                        raw_event->buttons = raw_wire->buttons;
-                        raw_event->deviceid = raw_wire->deviceid;
-                        raw_event->event_type = raw_wire->event_type;
-                        if (raw_event->num_valuators)
-                        {
-                            int i;
-                            CARD32* valptr;
-                            raw_event->valuators =
-                                calloc((raw_event->num_valuators), sizeof(int));
-                            valptr = &raw_wire->valuator0;
-                            for (i = 0; i < raw_event->num_valuators; i++,
-                                    valptr++)
-                                raw_event->valuators[i] = *valptr;
-                        } else
-                            raw_event->valuators = NULL;
-                        *re = *save;
-                        return ENQUEUE_EVENT;
-                    }
                 default:
                     printf("XInputWireToEvent: Unknown generic event. type %d\n", ge->evtype);
 
