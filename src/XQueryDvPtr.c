@@ -46,9 +46,6 @@ XQueryDevicePointer(dpy, dev, w, root, child, root_x, root_y, win_x, win_y,
     int *root_x, *root_y, *win_x, *win_y;
     unsigned int *mask;
 {
-    int i, j;
-    int rlen;
-    int size = 0;
     xQueryDevicePointerReq *req;
     xQueryDevicePointerReply rep;
 
