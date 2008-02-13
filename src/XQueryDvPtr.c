@@ -39,13 +39,12 @@ in this Software without prior written authorization from The Open Group.
 
 Bool
 XQueryDevicePointer(dpy, dev, w, root, child, root_x, root_y, win_x, win_y,
-        mask, shared)
+        mask )
     register Display *dpy;
     XDevice* dev;
     Window w, *root, *child;
     int *root_x, *root_y, *win_x, *win_y;
     unsigned int *mask;
-    Bool *shared;
 {
     int i, j;
     int rlen;
@@ -78,7 +77,6 @@ XQueryDevicePointer(dpy, dev, w, root, child, root_x, root_y, win_x, win_y,
     *win_x = cvtINT16toInt(rep.winX);
     *win_y = cvtINT16toInt(rep.winY);
     *mask = rep.mask;
-    *shared = rep.shared;
     UnlockDisplay(dpy);
     SyncHandle();
     return rep.sameScreen;
