@@ -38,12 +38,12 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 int
-XChangeDeviceHierarchy(dpy, num_changes, changes)
-        Display* dpy; 
-        int num_changes; 
-        XAnyHierarchyChangeInfo** changes;
+XChangeDeviceHierarchy(dpy, changes, num_changes)
+        Display* dpy;
+        XAnyHierarchyChangeInfo* changes;
+        int num_changes;
 {
-    XAnyHierarchyChangeInfo** any;
+    XAnyHierarchyChangeInfo* any;
     xChangeDeviceHierarchyReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);
     char *data = NULL, *dptr;
@@ -61,11 +61,11 @@ XChangeDeviceHierarchy(dpy, num_changes, changes)
     /* alloc required memory */
     for (i = 0, any = changes; i < num_changes; i++, any++)
     {
-        switch((*any)->type)
+        switch(any->type)
         {
             case CH_CreateMasterDevice:
                 {
-                    int slen = (strlen(((XCreateMasterInfo*)(*any))->name));
+                    int slen = (strlen(any->create.name));
                     dlen += sizeof(xCreateMasterInfo) + 
                         slen + (4 - (slen % 4));
                 }
@@ -89,11 +89,11 @@ XChangeDeviceHierarchy(dpy, num_changes, changes)
     dptr = data;
     for (i = 0, any = changes; i < num_changes; i++, any++)
     {
-        switch((*any)->type)
+        switch(any->type)
         {
                 case CH_CreateMasterDevice:
                 {
-                    XCreateMasterInfo* C = (XCreateMasterInfo*)*any;
+                    XCreateMasterInfo* C = &any->create;
                     xCreateMasterInfo* c = (xCreateMasterInfo*)dptr;
                     c->type = C->type;
                     c->sendCore = C->sendCore;
@@ -107,7 +107,7 @@ XChangeDeviceHierarchy(dpy, num_changes, changes)
                 break;
             case CH_RemoveMasterDevice:
                 {
-                    XRemoveMasterInfo* R = (XRemoveMasterInfo*)*any;
+                    XRemoveMasterInfo* R = &any->remove;
                     xRemoveMasterInfo* r = (xRemoveMasterInfo*)dptr;
                     r->type = R->type;
                     r->returnMode = R->returnMode;
@@ -123,7 +123,7 @@ XChangeDeviceHierarchy(dpy, num_changes, changes)
                 break;
             case CH_ChangeAttachment:
                 {
-                    XChangeAttachmentInfo* C = (XChangeAttachmentInfo*)*any;
+                    XChangeAttachmentInfo* C = &any->change;
                     xChangeAttachmentInfo* c = (xChangeAttachmentInfo*)dptr;
 
                     c->type = C->type;
