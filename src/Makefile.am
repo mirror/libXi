@@ -19,7 +19,6 @@ libXi_la_SOURCES = \
 		  XDevBell.c \
 		  XExtGrabDev.c \
 		  XExtToWire.c \
-                  XExtUngrDev.c \
 		  XGetBMap.c \
 		  XGetCPtr.c \
 		  XGetDCtl.c \

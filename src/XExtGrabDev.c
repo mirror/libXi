@@ -64,7 +64,6 @@ XExtendedGrabDevice(Display*      dpy,
     req->ReqType = X_ExtendedGrabDevice;
     req->deviceid = dev->device_id;
     req->grab_window = grab_window;
-    req->ungrab = False;
     req->device_mode = device_mode;
     req->owner_events = ownerEvents;
     req->confine_to = confineTo;
