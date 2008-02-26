@@ -25,7 +25,6 @@ libXi_la_SOURCES = \
 		  XGetFCtl.c \
 		  XGetKMap.c \
 		  XGetMMap.c \
-		  XGetPairP.c \
 		  XGetProp.c \
 		  XGetVers.c \
 		  XGMotion.c \
