@@ -61,12 +61,12 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XSetDeviceFocus(dpy, dev, focus, revert_to, time)
-    register Display *dpy;
-    XDevice *dev;
-    Window focus;
-    int revert_to;
-    Time time;
+XSetDeviceFocus(
+    register Display	*dpy,
+    XDevice		*dev,
+    Window		 focus,
+    int			 revert_to,
+    Time		 time)
 {
     xSetDeviceFocusReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);

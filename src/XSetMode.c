@@ -61,10 +61,10 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XSetDeviceMode(dpy, dev, mode)
-    register Display *dpy;
-    XDevice *dev;
-    int mode;
+XSetDeviceMode(
+    register Display	*dpy,
+    XDevice		*dev,
+    int			 mode)
 {
     xSetDeviceModeReq *req;
     xSetDeviceModeReply rep;

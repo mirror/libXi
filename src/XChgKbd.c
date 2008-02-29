@@ -61,9 +61,9 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XChangeKeyboardDevice(dpy, dev)
-    register Display *dpy;
-    XDevice *dev;
+XChangeKeyboardDevice(
+    register Display	*dpy,
+    XDevice		*dev)
 {
     xChangeKeyboardDeviceReq *req;
     xChangeKeyboardDeviceReply rep;

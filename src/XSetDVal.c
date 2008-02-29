@@ -62,12 +62,12 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XSetDeviceValuators(dpy, dev, valuators, first_valuator, num_valuators)
-    register Display *dpy;
-    XDevice *dev;
-    int *valuators;
-    int first_valuator;
-    int num_valuators;
+XSetDeviceValuators(
+    register Display	*dpy,
+    XDevice		*dev,
+    int			*valuators,
+    int			 first_valuator,
+    int			 num_valuators)
 {
     xSetDeviceValuatorsReq *req;
     xSetDeviceValuatorsReply rep;

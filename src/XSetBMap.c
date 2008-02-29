@@ -64,11 +64,11 @@ SOFTWARE.
 /* returns either  DeviceMappingSuccess or DeviceMappingBusy  */
 
 int
-XSetDeviceButtonMapping(dpy, device, map, nmap)
-    register Display *dpy;
-    XDevice *device;
-    unsigned char map[];
-    int nmap;
+XSetDeviceButtonMapping(
+    register Display	*dpy,
+    XDevice		*device,
+    unsigned char	 map[],
+    int			 nmap)
 {
     register xSetDeviceButtonMappingReq *req;
     xSetDeviceButtonMappingReply rep;

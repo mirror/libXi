@@ -62,10 +62,10 @@ SOFTWARE.
 #include "XIint.h"
 
 XDeviceControl *
-XGetDeviceControl(dpy, dev, control)
-    register Display *dpy;
-    XDevice *dev;
-    int control;
+XGetDeviceControl(
+    register Display	*dpy,
+    XDevice		*dev,
+    int			 control)
 {
     int size = 0;
     int nbytes, i;
@@ -239,8 +239,7 @@ XGetDeviceControl(dpy, dev, control)
 }
 
 void
-XFreeDeviceControl(control)
-    XDeviceControl *control;
+XFreeDeviceControl(XDeviceControl *control)
 {
     XFree(control);
 }

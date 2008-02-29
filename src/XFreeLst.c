@@ -62,8 +62,7 @@ SOFTWARE.
  *
  */
 
-XFreeDeviceList(list)
-    XDeviceList *list;
+XFreeDeviceList(XDeviceList *list)
 {
     if (list != NULL) {
 	XFree((list->name) - sizeof(XDeviceList));

@@ -61,9 +61,9 @@ SOFTWARE.
 #include "XIint.h"
 
 XDevice *
-XOpenDevice(dpy, id)
-    register Display *dpy;
-    register XID id;
+XOpenDevice(
+    register Display	*dpy,
+    register XID	 id)
 {
     register long rlen;	/* raw length */
     xOpenDeviceReq *req;

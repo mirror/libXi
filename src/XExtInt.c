@@ -66,12 +66,64 @@ SOFTWARE.
 #define ENQUEUE_EVENT	True
 #define DONT_ENQUEUE	False
 
+extern void _xibaddevice(
+    Display *		/* dpy */,
+    int *		/* error */
+);
+
+extern void _xibadclass(
+    Display *		/* dpy */,
+    int *		/* error */
+);
+
+extern void _xibadevent(
+    Display *		/* dpy */,
+    int *		/* error */
+);
+
+extern void _xibadmode(
+    Display *		/* dpy */,
+    int *		/* error */
+);
+
+extern void _xidevicebusy(
+    Display *		/* dpy */,
+    int *		/* error */
+);
+
+extern int _XiGetDevicePresenceNotifyEvent(
+    Display *		/* dpy */
+);
+
 static XExtensionInfo *xinput_info;
 static /* const */ char *xinput_extension_name = INAME;
-static int XInputClose();
-static char *XInputError();
-static Bool XInputWireToEvent();
-Status _XiEventToWire();
+
+static int XInputClose(
+    Display *		/* dpy */,
+    XExtCodes *		/* codes */
+);
+
+static char *XInputError(
+    Display *		/* dpy */,
+    int			/* code */,
+    XExtCodes *		/* codes */,
+    char *		/* buf */,
+    int			/* n */
+);
+
+static Bool XInputWireToEvent(
+    Display *		/* dpy */,
+    XEvent *		/* re */,
+    xEvent *		/* event */
+);
+
+Status _XiEventToWire(
+    register Display *	/* dpy */,
+    register XEvent *	/* re */,
+    register xEvent **	/* event */,
+    register int *	/* count */
+);
+
 static /* const */ XEvent emptyevent;
 
 typedef struct _XInputData
@@ -131,9 +183,9 @@ XEXT_GENERATE_FIND_DISPLAY(XInput_find_display, xinput_info,
  */
 
 void
-_xibaddevice(dpy, error)
-    Display *dpy;
-    int *error;
+_xibaddevice(
+    Display	*dpy,
+    int		*error)
 {
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -141,9 +193,9 @@ _xibaddevice(dpy, error)
 }
 
 void
-_xibadclass(dpy, error)
-    Display *dpy;
-    int *error;
+_xibadclass(
+    Display	*dpy,
+    int		*error)
 {
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -151,9 +203,9 @@ _xibadclass(dpy, error)
 }
 
 void
-_xibadevent(dpy, error)
-    Display *dpy;
-    int *error;
+_xibadevent(
+    Display	*dpy,
+    int		*error)
 {
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -161,9 +213,9 @@ _xibadevent(dpy, error)
 }
 
 void
-_xibadmode(dpy, error)
-    Display *dpy;
-    int *error;
+_xibadmode(
+    Display	*dpy,
+    int		*error)
 {
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -171,9 +223,9 @@ _xibadmode(dpy, error)
 }
 
 void
-_xidevicebusy(dpy, error)
-    Display *dpy;
-    int *error;
+_xidevicebusy(
+    Display	*dpy,
+    int		*error)
 {
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -194,10 +246,10 @@ static int XInputCheckExtension(Display *dpy, XExtDisplayInfo *info)
  */
 
 int
-_XiCheckExtInit(dpy, version_index, info)
-    register Display *dpy;
-    register int version_index;
-    XExtDisplayInfo *info;
+_XiCheckExtInit(
+    register Display	*dpy,
+    register int	 version_index,
+    XExtDisplayInfo	*info)
 {
     XExtensionVersion *ext;
 
@@ -235,9 +287,9 @@ _XiCheckExtInit(dpy, version_index, info)
  */
 
 static int
-XInputClose(dpy, codes)
-    Display *dpy;
-    XExtCodes *codes;
+XInputClose(
+    Display	*dpy,
+    XExtCodes	*codes)
 {
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -249,8 +301,7 @@ XInputClose(dpy, codes)
 }
 
 static int
-Ones(mask)
-    Mask mask;
+Ones(Mask mask)
 {
     register Mask y;
 
@@ -275,10 +326,10 @@ _XiGetDevicePresenceNotifyEvent(Display * dpy)
  */
 
 static Bool
-XInputWireToEvent(dpy, re, event)
-    Display *dpy;
-    XEvent *re;
-    xEvent *event;
+XInputWireToEvent(
+    Display	*dpy,
+    XEvent	*re,
+    xEvent	*event)
 {
     unsigned int type, reltype;
     unsigned int i, j;

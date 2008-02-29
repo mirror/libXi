@@ -61,10 +61,10 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XSetDeviceModifierMapping(dpy, dev, modmap)
-    register Display *dpy;
-    XDevice *dev;
-    XModifierKeymap *modmap;
+XSetDeviceModifierMapping(
+    register Display	*dpy,
+    XDevice		*dev,
+    XModifierKeymap	*modmap)
 {
     int mapSize = modmap->max_keypermod << 3;	/* 8 modifiers */
     xSetDeviceModifierMappingReq *req;

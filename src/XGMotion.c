@@ -60,21 +60,15 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-XDeviceTimeCoord
-    * XGetDeviceMotionEvents(dpy, dev, start, stop, nEvents, mode, axis_count)
-    register Display *
-	dpy;
-    XDevice *
-	dev;
-
-Time start;
-Time stop;
-    int *
-	nEvents;
-    int *
-	mode;
-    int *
-	axis_count;
+XDeviceTimeCoord *
+XGetDeviceMotionEvents(
+    register Display	*dpy,
+    XDevice		*dev,
+    Time		 start,
+    Time		 stop,
+    int			*nEvents,
+    int			*mode,
+    int			*axis_count)
 {
     xGetDeviceMotionEventsReq *req;
     xGetDeviceMotionEventsReply rep;
@@ -140,8 +134,7 @@ Time stop;
 }
 
 void
-XFreeDeviceMotionEvents(events)
-    XDeviceTimeCoord *events;
+XFreeDeviceMotionEvents(XDeviceTimeCoord *events)
 {
     XFree((char *)events);
 }

@@ -61,9 +61,9 @@ SOFTWARE.
 #include "XIint.h"
 
 XModifierKeymap *
-XGetDeviceModifierMapping(dpy, dev)
-    register Display *dpy;
-    XDevice *dev;
+XGetDeviceModifierMapping(
+    register Display	*dpy,
+    XDevice		*dev)
 {
     unsigned long nbytes;
     XModifierKeymap *res;

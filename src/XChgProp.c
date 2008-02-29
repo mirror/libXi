@@ -62,12 +62,12 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XChangeDeviceDontPropagateList(dpy, window, count, events, mode)
-    register Display *dpy;
-    Window window;
-    int count;
-    XEventClass *events;
-    int mode;
+XChangeDeviceDontPropagateList(
+    register Display	*dpy,
+    Window		 window,
+    int			 count,
+    XEventClass		*events,
+    int			 mode)
 {
     xChangeDeviceDontPropagateListReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);

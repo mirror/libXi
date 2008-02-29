@@ -61,17 +61,16 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XGrabDevice(dpy, dev, grab_window, ownerEvents, event_count, event_list,
-	    this_device_mode, other_devices_mode, time)
-    register Display *dpy;
-    XDevice *dev;
-    Window grab_window;
-    Bool ownerEvents;
-    int event_count;
-    XEventClass *event_list;
-    int this_device_mode;
-    int other_devices_mode;
-    Time time;
+XGrabDevice(
+    register Display	*dpy,
+    XDevice		*dev,
+    Window		 grab_window,
+    Bool		 ownerEvents,
+    int			 event_count,
+    XEventClass		*event_list,
+    int			 this_device_mode,
+    int			 other_devices_mode,
+    Time		 time)
 {
     xGrabDeviceReply rep;
     register xGrabDeviceReq *req;

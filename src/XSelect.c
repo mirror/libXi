@@ -61,11 +61,11 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XSelectExtensionEvent(dpy, w, event_list, count)
-    register Display *dpy;
-    Window w;
-    XEventClass *event_list;
-    int count;
+XSelectExtensionEvent(
+    register Display	*dpy,
+    Window		 w,
+    XEventClass		*event_list,
+    int			 count)
 {
     register xSelectExtensionEventReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);
