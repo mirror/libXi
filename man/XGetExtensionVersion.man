@@ -15,8 +15,10 @@
 .ds xL Programming With Xlib
 .TH XGetExtensionVersion __LIB_MAN_SUFFIX__ __xorgversion__ "X FUNCTIONS"
 .SH NAME
-XGetExtensionVersion \- query the version of the input extension.
+XQueryInputVersion, XGetExtensionVersion \- query the version of the input extension.
 .SH SYNTAX
+.HP
+XExtensionVersion *XQueryInputVersion\^(\^Display *\fIdisplay\fP\^, int \fImajor\fP\^, int \fIminor\fP\^);
 .HP
 XExtensionVersion *XGetExtensionVersion\^(\^Display *\fIdisplay\fP\^, char
 *\fIname\fP\^); 
@@ -28,7 +30,22 @@ Specifies the connection to the X server.
 .I name
 Specifies the extension to be queried.  The input extension name is defined
 in the header file \fIXI.h\fP.
+.TP 12
+.I major
+Specifies the major version as supported by the client.
+.TP 12
+.I minor
+Specifies the minor version as supported by the client.
 .SH DESCRIPTION
+The \fIXQueryInputVersion\fP request queries the version of the input
+extension and returns an \fIXExtensionVersion\fP structure. This structure
+contains a major_version and minor_version number which can be compared
+with constants defined in \fIXI.h\fP. The client must specify the highest
+version numbers it can supports.
+.LP
+The \fIXGetExtensionVersion\fP request is deprecated and should not be used.
+Clients issuing a \fIXgetExtensionVersion\fP request will not be able to use
+MPX features.
 The \fIXGetExtensionVersion\fP request queries the version of the input 
 extension, and returns an \fIXExtensionVersion\fP structure.  This structure
 contains a major_version and minor_version number which can be compared
