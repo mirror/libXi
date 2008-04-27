@@ -60,12 +60,11 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef>
-                    <function>int XAllowDeviceEvents</function></funcdef>
+                <funcdef>int <function>XAllowDeviceEvents</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>int <parameter>event_mode</parameter></paramdef>
-                <paramdef> Time <parameter>time</parameter></paramdef>
+                <paramdef>Time <parameter>time</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -157,16 +156,16 @@
             <funcprototype>
                 <funcdef>int <function>XChangeDeviceDontPropagateList</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> Window*<parameter>window</parameter></paramdef>
-                <paramdef> int *<parameter>count</parameter></paramdef>
-                <paramdef> XEventClass *<parameter>event_list</parameter></paramdef>
-                <paramdef> int<parameter>mode</parameter></paramdef>
+                <paramdef>Window*<parameter>window</parameter></paramdef>
+                <paramdef>int *<parameter>count</parameter></paramdef>
+                <paramdef>XEventClass *<parameter>event_list</parameter></paramdef>
+                <paramdef>int<parameter>mode</parameter></paramdef>
             </funcprototype>
             <funcprototype>
                 <funcdef>XEventClass* <function>XGetDeviceDontPropagateList</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> Window *<parameter>window</parameter></paramdef>
-                <paramdef> int *<parameter>count</parameter></paramdef>
+                <paramdef>Window *<parameter>window</parameter></paramdef>
+                <paramdef>int *<parameter>count</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -252,9 +251,9 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>Status XChangeKeyboardDevice</function></funcdef>
+                <funcdef>Status <function>XChangeKeyboardDevice</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice*<parameter>device</parameter></paramdef>
+                <paramdef>XDevice*<parameter>device</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -321,11 +320,11 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>Status XChangePointerDevice</function></funcdef>
+                <funcdef>Status <function>XChangePointerDevice</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
-                <paramdef> int <parameter>xaxis</parameter></paramdef>
-                <paramdef> int <parameter>yaxis</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>int <parameter>xaxis</parameter></paramdef>
+                <paramdef>int <parameter>yaxis</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -400,13 +399,12 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef>
-                    <function>Status XDeviceBell</function></funcdef>
+                <funcdef>Status <function>XDeviceBell</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
-                <paramdef> XID *<parameter>feedbackclass</parameter></paramdef>
-                <paramdef> XID *<parameter>feedbackid</parameter></paramdef>
-                <paramdef> int *<parameter>percent</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>XID *<parameter>feedbackclass</parameter></paramdef>
+                <paramdef>XID *<parameter>feedbackid</parameter></paramdef>
+                <paramdef>int *<parameter>percent</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -487,17 +485,17 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>XDeviceControl *XGetDeviceControl</function></funcdef>
+                <funcdef>XDeviceControl *<function>XGetDeviceControl</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice*<parameter>device</parameter></paramdef>
-                <paramdef> int *<parameter>controlType</parameter></paramdef>
+                <paramdef>XDevice*<parameter>device</parameter></paramdef>
+                <paramdef>int *<parameter>controlType</parameter></paramdef>
             </funcprototype>
             <funcprototype>
-                <funcdef><function>int XChangeDeviceControl</function></funcdef>
+                <funcdef>int <function>XChangeDeviceControl</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice*<parameter>device</parameter></paramdef>
-                <paramdef> int <parameter>controlType</parameter></paramdef>
-                <paramdef> XDeviceControl *<parameter>control</parameter></paramdef>
+                <paramdef>XDevice*<parameter>device</parameter></paramdef>
+                <paramdef>int <parameter>controlType</parameter></paramdef>
+                <paramdef>XDeviceControl *<parameter>control</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -621,12 +619,12 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>KeySym *XGetDeviceKeyMapping</function></funcdef>
+                <funcdef>KeySym *<function>XGetDeviceKeyMapping</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
-                <paramdef> KeyCode <parameter>first_keycode</parameter></paramdef>
-                <paramdef> int <parameter>keycode_count</parameter></paramdef>
-                <paramdef> int *<parameter>keysyms_per_keycode_return</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>KeyCode <parameter>first_keycode</parameter></paramdef>
+                <paramdef>int <parameter>keycode_count</parameter></paramdef>
+                <paramdef>int *<parameter>keysyms_per_keycode_return</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -753,15 +751,15 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>int XSetDeviceModifierMapping</function></funcdef>
+                <funcdef>int <function>XSetDeviceModifierMapping</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
-                <paramdef> XModifierKeymap *<parameter>modmap</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>XModifierKeymap *<parameter>modmap</parameter></paramdef>
         </funcprototype>
         <funcprototype>
-          <funcdef><function>XModifierKeymap *XGetDeviceModifierMapping</function></funcdef>
+          <funcdef>XModifierKeymap *<function>XGetDeviceModifierMapping</function></funcdef>
           <paramdef>Display *<parameter>display</parameter></paramdef>
-          <paramdef> XDevice *<parameter>device</parameter></paramdef>
+          <paramdef>XDevice *<parameter>device</parameter></paramdef>
         </funcprototype>
       </funcsynopsis>
     </refsynopsisdiv>
@@ -868,14 +866,14 @@
       <funcsynopsis>
         <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
         <funcprototype>
-          <funcdef><function>XDeviceTimeCoord *XGetDeviceMotionEvents</function></funcdef>
+          <funcdef>XDeviceTimeCoord *<function>XGetDeviceMotionEvents</function></funcdef>
           <paramdef>Display *<parameter>display</parameter></paramdef>
-          <paramdef> XDevice *<parameter>device</parameter></paramdef>
-          <paramdef> Time <parameter>start</parameter></paramdef>
-          <paramdef> Time <parameter>stop</parameter></paramdef>
-          <paramdef> int *<parameter>nevents_return</parameter></paramdef>
-          <paramdef> int *<parameter>mode_return</parameter></paramdef>
-          <paramdef> int *<parameter>axis_count_return</parameter></paramdef>
+          <paramdef>XDevice *<parameter>device</parameter></paramdef>
+          <paramdef>Time <parameter>start</parameter></paramdef>
+          <paramdef>Time <parameter>stop</parameter></paramdef>
+          <paramdef>int *<parameter>nevents_return</parameter></paramdef>
+          <paramdef>int *<parameter>mode_return</parameter></paramdef>
+          <paramdef>int *<parameter>axis_count_return</parameter></paramdef>
         </funcprototype>
       </funcsynopsis>
     </refsynopsisdiv>
@@ -975,13 +973,13 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>XExtensionVersion *XQueryInputVersion</function></funcdef>
+                <funcdef>XExtensionVersion *<function>XQueryInputVersion</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> int <parameter>major</parameter></paramdef>
-                <paramdef> int <parameter>minor</parameter></paramdef>
+                <paramdef>int <parameter>major</parameter></paramdef>
+                <paramdef>int <parameter>minor</parameter></paramdef>
             </funcprototype>
             <funcprototype>
-                <funcdef><function>XExtensionVersion *XGetExtensionVersion</function></funcdef>
+                <funcdef>XExtensionVersion *<function>XGetExtensionVersion</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>char *<parameter>name</parameter></paramdef>
             </funcprototype>
@@ -1053,17 +1051,17 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>XFeedbackState *XGetFeedbackControl</function></funcdef>
+                <funcdef>XFeedbackState *<function>XGetFeedbackControl</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
-                <paramdef> int *<parameter>num_feedbacks</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>int *<parameter>num_feedbacks</parameter></paramdef>
             </funcprototype>
             <funcprototype>
-                <funcdef><function>int XChangeFeedbackControl</function></funcdef>
+                <funcdef>int <function>XChangeFeedbackControl</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice* <parameter>device</parameter></paramdef>
-                <paramdef> Mask <parameter>mask</parameter></paramdef>
-                <paramdef> XFeedbackControl *<parameter>control</parameter></paramdef>
+                <paramdef>XDevice* <parameter>device</parameter></paramdef>
+                <paramdef>Mask <parameter>mask</parameter></paramdef>
+                <paramdef>XFeedbackControl *<parameter>control</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -1335,27 +1333,27 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>int XGrabDeviceButton</function></funcdef>
+                <funcdef>int <function>XGrabDeviceButton</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>unsigned int <parameter>button</parameter></paramdef>
-                <paramdef> unsigned int <parameter>modifiers</parameter></paramdef>
-                <paramdef> XDevice*<parameter>modifier_device</parameter></paramdef>
-                <paramdef> Window <parameter>grab_window</parameter></paramdef>
-                <paramdef> Bool<parameter>owner_events</parameter></paramdef>
-                <paramdef> unsigned int <parameter>event_count</parameter></paramdef>
-                <paramdef> XEventClass*<parameter>event_list</parameter></paramdef>
-                <paramdef> int <parameter>this_device_mode</parameter></paramdef>
-                <paramdef> int<parameter>other_devices_mode</parameter></paramdef>
+                <paramdef>unsigned int <parameter>modifiers</parameter></paramdef>
+                <paramdef>XDevice*<parameter>modifier_device</parameter></paramdef>
+                <paramdef>Window <parameter>grab_window</parameter></paramdef>
+                <paramdef>Bool<parameter>owner_events</parameter></paramdef>
+                <paramdef>unsigned int <parameter>event_count</parameter></paramdef>
+                <paramdef>XEventClass*<parameter>event_list</parameter></paramdef>
+                <paramdef>int <parameter>this_device_mode</parameter></paramdef>
+                <paramdef>int<parameter>other_devices_mode</parameter></paramdef>
             </funcprototype>
             <funcprototype>
-                <funcdef><function>int XUngrabDeviceButton</function></funcdef>
+                <funcdef>int <function>XUngrabDeviceButton</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>unsigned int <parameter>button</parameter></paramdef>
-                <paramdef> unsigned int <parameter>modifiers</parameter></paramdef>
-                <paramdef> XDevice*<parameter>modifier_device</parameter></paramdef>
-                <paramdef> Window <parameter>grab_window</parameter></paramdef>
+                <paramdef>unsigned int <parameter>modifiers</parameter></paramdef>
+                <paramdef>XDevice*<parameter>modifier_device</parameter></paramdef>
+                <paramdef>Window <parameter>grab_window</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -1506,7 +1504,7 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>int XGrabDeviceKey</function></funcdef>
+                <funcdef>int <function>XGrabDeviceKey</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>unsigned int <parameter>Key</parameter></paramdef>
@@ -1520,7 +1518,7 @@
                 <paramdef>int <parameter>other_devices_mode</parameter></paramdef>
             </funcprototype>
             <funcprototype>
-                <funcdef><function>int XUngrabDeviceKey</function></funcdef>
+                <funcdef>int <function>XUngrabDeviceKey</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>unsigned int <parameter>Key</parameter></paramdef>
@@ -1667,7 +1665,7 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef> <function>int XGrabDevice</function></funcdef>
+                <funcdef> int <function>XGrabDevice</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>Window <parameter>grab_window</parameter></paramdef>
@@ -1679,7 +1677,7 @@
                 <paramdef>Time <parameter>time</parameter></paramdef>
             </funcprototype>
             <funcprototype>
-                <funcdef><function>int XUngrabDevice</function></funcdef>
+                <funcdef>int <function>XUngrabDevice</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>Time <parameter>time</parameter></paramdef>
@@ -1786,12 +1784,12 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef><function>XDeviceInfo *XListInputDevices</function></funcdef>
+                <funcdef>XDeviceInfo *<function>XListInputDevices</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>int *<parameter>ndevices_return</parameter></paramdef>
             </funcprototype>
             <funcprototype>
-                <funcdef><function>int XFreeDeviceList</function></funcdef>
+                <funcdef>int <function>XFreeDeviceList</function></funcdef>
                 <paramdef>XDeviceInfo *<parameter>list</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
@@ -1967,15 +1965,14 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef>
-                    <function>XDevice *XOpenDevice</function></funcdef>
+                <funcdef>XDevice *<function>XOpenDevice</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XID <parameter>device_id</parameter></paramdef>
+                <paramdef>XID <parameter>device_id</parameter></paramdef>
             </funcprototype>
             <funcprototype>
                 <funcdef><function>XCloseDevice</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -2082,10 +2079,9 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef>
-                    <function>int XQueryDeviceState</function></funcdef>
+                <funcdef>int <function>XQueryDeviceState</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -2377,15 +2373,14 @@
             <funcsynopsis>
                 <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
                 <funcprototype>
-                    <funcdef>
-                        <function>Status XSendExtensionEvent</function></funcdef>
+                    <funcdef>Status <function>XSendExtensionEvent</function></funcdef>
                     <paramdef>Display *<parameter>display</parameter></paramdef>
-                    <paramdef> XDevice *<parameter>device</parameter></paramdef>
-                    <paramdef> Window <parameter>destination</parameter></paramdef>
-                    <paramdef> Bool <parameter>propagate</parameter></paramdef>
-                    <paramdef> int <parameter>event_count</parameter></paramdef>
-                    <paramdef> XEventClass *<parameter>event_list</parameter></paramdef>
-                    <paramdef> XEvent *<parameter>event_send</parameter></paramdef>
+                    <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                    <paramdef>Window <parameter>destination</parameter></paramdef>
+                    <paramdef>Bool <parameter>propagate</parameter></paramdef>
+                    <paramdef>int <parameter>event_count</parameter></paramdef>
+                    <paramdef>XEventClass *<parameter>event_list</parameter></paramdef>
+                    <paramdef>XEvent *<parameter>event_send</parameter></paramdef>
                 </funcprototype>
             </funcsynopsis>
         </refsynopsisdiv>
@@ -2519,15 +2514,14 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef>
-                    <function>int XSetDeviceButtonMapping</function></funcdef>
+                <funcdef>int <function>XSetDeviceButtonMapping</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef> XDevice *<parameter>device</parameter></paramdef>
-                <paramdef> unsigned char <parameter>map</parameter>[]</paramdef>
-                <paramdef> int <parameter>nmap</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>unsigned char <parameter>map</parameter>[]</paramdef>
+                <paramdef>int <parameter>nmap</parameter></paramdef>
             </funcprototype>
             <funcprototype>
-                <funcdef><function>int XGetDeviceButtonMapping</function></funcdef>
+                <funcdef>int <function>XGetDeviceButtonMapping</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>unsigned char <parameter>map_return</parameter>[]</paramdef>
@@ -2615,8 +2609,7 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef>
-                    <function>XSetDeviceFocus</function></funcdef>
+                <funcdef><function>XSetDeviceFocus</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>Window <parameter>focus</parameter></paramdef>
@@ -2845,8 +2838,7 @@
         <funcsynopsis>
             <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
             <funcprototype>
-                <funcdef>
-                    <function>XSetDeviceValuators</function></funcdef>
+                <funcdef><function>XSetDeviceValuators</function></funcdef>
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>int *<parameter>valuators</parameter></paramdef>
