@@ -19,6 +19,12 @@ PKG_CHECK_MODULES(XI, xproto x11 xextproto xext inputproto >= 1.4)
 AC_SUBST(XI_CFLAGS)
 AC_SUBST(XI_LIBS)
 
+# Check for xmlto for man page conversion 
+# (only needed by people building tarballs)
+AC_ARG_VAR([XMLTO], [Path to xmlto command])
+AC_PATH_PROG([XMLTO], [xmlto])
+AM_CONDITIONAL([HAVE_XMLTO], [test "x$XMLTO" != "x"])
+
 XORG_CHECK_MALLOC_ZERO
 XORG_MANPAGE_SECTIONS
 XORG_RELEASE_VERSION
