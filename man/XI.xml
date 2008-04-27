@@ -2,17 +2,19 @@
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
             "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" >
 <reference>
-<title>X Input Extension Library (MPX)</title>
+<title>X Input Extension Library</title>
 
 <refentry id="XAllowDeviceEvents.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XAllowDeviceEvents</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+	<refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XAllowDeviceEvents</refname>
         <refpurpose>release queued events</refpurpose>
@@ -42,49 +44,49 @@
                     <listitem><para>Specifies the device from which events are to be allowed.</para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_mode</parameter></term>
-                    <listitem><para>Specifies the event mode.You can pass <constant>AsyncThisDevice</constant> , <constant>SyncThisDevice</constant> , <constant>ReplayThisDevice</constant> , <constant>AsyncOtherDevices</constant> , <constant>SyncAll</constant> ,or <constant>AsyncAll</constant> .</para></listitem>
+                    <listitem><para>Specifies the event mode.You can pass <constant>AsyncThisDevice</constant>, <constant>SyncThisDevice</constant>, <constant>ReplayThisDevice</constant>, <constant>AsyncOtherDevices</constant>, <constant>SyncAll</constant>,or <constant>AsyncAll</constant>.</para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>time</parameter></term>
-                    <listitem><para>Specifies the time.You can pass either a timestamp or <constant>CurrentTime</constant> .</para></listitem>
+                    <listitem><para>Specifies the time.You can pass either a timestamp or <constant>CurrentTime</constant>.</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
     </refsect1>
 
     <refsect1><title>Description</title>
-    <para>The <constant>XAllowDeviceEvents</constant> function releases some queued events if the client has caused a device to freeze. It has no effect if the specified time is earlier than the last-grab time of the most recent active grab for the client and device, or if the specified time is later than the current X server time. </para>
+    <para>The <constant>XAllowDeviceEvents</constant> function releases some queued events if the client has caused a device to freeze. It has no effect if the specified time is earlier than the last-grab time of the most recent active grab for the client and device, or if the specified time is later than the current X server time.</para>
     <para>
-      The following describes the processing that occurs depending on what constant you pass to the event_mode argument. </para>
+      The following describes the processing that occurs depending on what constant you pass to the event_mode argument.</para>
     <para>
-      <constant>AsyncThisDevice</constant> If the specified device is frozen by the client, event processing for that device continues as usual. If the device is frozen multiple times by the client on behalf of multiple separate grabs, <constant>AsyncThisDevice</constant> thaws for all. <constant>AsyncThisDevice</constant> has no effect if the specified device is not frozen by the client, but the device need not be grabbed by the client. </para>
+      <constant>AsyncThisDevice</constant> If the specified device is frozen by the client, event processing for that device continues as usual. If the device is frozen multiple times by the client on behalf of multiple separate grabs, <constant>AsyncThisDevice</constant> thaws for all.<constant>AsyncThisDevice</constant> has no effect if the specified device is not frozen by the client, but the device need not be grabbed by the client.</para>
     <para>
-      <constant>SyncThisDevice</constant> If the specified device is frozen and actively grabbed by the client, event processing for that device continues normally until the next key or button event is reported to the client. At this time, the specified device again appears to freeze. However, if the reported event causes the grab to be released, the specified device does not freeze.  <constant>SyncThisDevice</constant> has no effect if the specified device is not frozen by the client or is not grabbed by the client. </para>
+      <constant>SyncThisDevice</constant> If the specified device is frozen and actively grabbed by the client, event processing for that device continues normally until the next key or button event is reported to the client. At this time, the specified device again appears to freeze. However, if the reported event causes the grab to be released, the specified device does not freeze.  <constant>SyncThisDevice</constant> has no effect if the specified device is not frozen by the client or is not grabbed by the client.</para>
     <para>
-      <constant>ReplayThisDevice</constant> If the specified device is actively grabbed by the client and is frozen as the result of an event having been sent to the client (either from the activation of a GrabDeviceButton or from a previous AllowDeviceEvents with mode SyncThisDevice, but not from a GrabDevice), the grab is released and that event is completely reprocessed. This time, however, the request ignores any passive grabs at or above (toward the root) that the grab-window of the grab just released. The request has no effect if the specified device is not grabbed by the client or if it is not frozen as the result of an event. </para>
+      <constant>ReplayThisDevice</constant> If the specified device is actively grabbed by the client and is frozen as the result of an event having been sent to the client (either from the activation of a GrabDeviceButton or from a previous AllowDeviceEvents with mode SyncThisDevice, but not from a GrabDevice), the grab is released and that event is completely reprocessed. This time, however, the request ignores any passive grabs at or above (toward the root) that the grab-window of the grab just released. The request has no effect if the specified device is not grabbed by the client or if it is not frozen as the result of an event.</para>
     <para>
-      <constant>AsyncOtherDevices</constant> If the remaining devices are frozen by the client, event processing for them continues as usual. If the other devices are frozen multiple times by the client on behalf of multiple grabs, <constant>AsyncOtherDevices</constant> &quot;thaws&quot; for all.  <constant>AsyncOtherDevices</constant> has no effect if the devices are not frozen by the client. </para>
+      <constant>AsyncOtherDevices</constant> If the remaining devices are frozen by the client, event processing for them continues as usual. If the other devices are frozen multiple times by the client on behalf of multiple grabs, <constant>AsyncOtherDevices</constant> &quot;thaws&quot; for all.  <constant>AsyncOtherDevices</constant> has no effect if the devices are not frozen by the client.</para>
     <para>
-      <constant>SyncAll</constant> If all devices are frozen by the client, event processing (for all devices) continues normally until the next button or key event is reported to the client for a grabbed device, at which time all devices again appear to freeze. However, if the reported event causes the grab to be released, then the devices do not freeze. If any device is still grabbed, then a subsequent event for it will still cause all devices to freeze.  <constant>SyncAll</constant> has no effect unless all devices are frozen by the client. If any device is frozen twice by the client on behalf of two separate grabs, <constant>SyncAll</constant> thaws for both. A subsequent freeze for <constant>SyncAll</constant> will only freeze each device once. </para>
+      <constant>SyncAll</constant> If all devices are frozen by the client, event processing (for all devices) continues normally until the next button or key event is reported to the client for a grabbed device, at which time all devices again appear to freeze. However, if the reported event causes the grab to be released, then the devices do not freeze. If any device is still grabbed, then a subsequent event for it will still cause all devices to freeze.  <constant>SyncAll</constant> has no effect unless all devices are frozen by the client. If any device is frozen twice by the client on behalf of two separate grabs, <constant>SyncAll</constant> thaws for both. A subsequent freeze for <constant>SyncAll</constant> will only freeze each device once.</para>
     <para>
-      <constant>AsyncAll</constant> If all devices are frozen by the client, event processing for all devices continues normally. If any device is frozen multiple times by the client on behalf of multiple separate grabs, <constant>AsyncAll</constant> thaws for all.  <constant>AsyncAll</constant> has no effect unless all devices are frozen by the client. </para>
+      <constant>AsyncAll</constant> If all devices are frozen by the client, event processing for all devices continues normally. If any device is frozen multiple times by the client on behalf of multiple separate grabs, <constant>AsyncAll</constant> thaws for all.  <constant>AsyncAll</constant> has no effect unless all devices are frozen by the client.</para>
     <para>
-      <constant>AsyncThisDevice</constant>, <constant>SyncThisDevice</constant>, and <constant>ReplayThisDevice</constant> have no effect on the processing of events from the remaining devices. <constant>AsyncOtherDevices</constant> has no effect on the processing of events from the specified device. When the event_mode is <constant>SyncAll</constant> or <constant>AsyncAll</constant>, the device parameter is ignored. </para>
+      <constant>AsyncThisDevice</constant>, <constant>SyncThisDevice</constant>, and <constant>ReplayThisDevice</constant> have no effect on the processing of events from the remaining devices.<constant>AsyncOtherDevices</constant> has no effect on the processing of events from the specified device. When the event_mode is <constant>SyncAll</constant> or <constant>AsyncAll</constant>, the device parameter is ignored.</para>
     <para>
-      It is possible for several grabs of different devices by the same or different clients to be active simultaneously. If a device is frozen on behalf of any grab, no event processing is performed for the device. It is possible for a single device to be frozen because of several grabs. In this case, the freeze must be released on behalf of each grab before events can again be processed. </para>
+      It is possible for several grabs of different devices by the same or different clients to be active simultaneously. If a device is frozen on behalf of any grab, no event processing is performed for the device. It is possible for a single device to be frozen because of several grabs. In this case, the freeze must be released on behalf of each grab before events can again be processed.</para>
     <para>
-      <constant>XAllowDeviceEvents</constant> can generate a <constant>BadDevice</constant> or <constant>BadValue</constant> error. </para>
+      <constant>XAllowDeviceEvents</constant> can generate a <constant>BadDevice</constant> or <constant>BadValue</constant> error.</para>
   </refsect1>
 
   <refsect1><title>Diagnostics</title><para>
       <variablelist>
         <varlistentry>
           <term><errorname>BadDevice</errorname></term>
-          <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant> . This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+          <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term><errorname>BadValue</errorname></term>
-          <listitem><para>An invalid mode was specified on the request. </para>
+          <listitem><para>An invalid mode was specified on the request.</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -98,15 +100,18 @@
 
 <refentry id="XChangeDeviceDontPropagateList.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XChangeDeviceDontPropagateList</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XChangeDeviceDontPropagateList, XGetDeviceDontPropagateList</refname>
+	<refname>XChangeDeviceDontPropagateList</refname>
+	<refname>XGetDeviceDontPropagateList</refname>
         <refpurpose>query or change the dont-propagate-list for extension devices</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -153,37 +158,37 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XChangeDeviceDontPropagateList</constant> request modifies the list of events that should not be propagated to ancestors of the event window. This request allows extension events to be added to or deleted from that list. By default, all events are propagated to ancestor windows. Once modified, the list remains modified for the life of the window. Events are not removed from the list because the client that added them has terminated. </para>
+        <para>The <constant>XChangeDeviceDontPropagateList</constant> request modifies the list of events that should not be propagated to ancestors of the event window. This request allows extension events to be added to or deleted from that list. By default, all events are propagated to ancestor windows. Once modified, the list remains modified for the life of the window. Events are not removed from the list because the client that added them has terminated.</para>
         <para>
-            Suppression of event propagation is not allowed for all input extension events. If a specified event class is one that cannot be suppressed, a <constant>BadClass</constant> error will result. Events that can be suppressed include <constant>DeviceKeyPress</constant>, <constant>DeviceKeyRelease</constant>, <constant>DeviceButtonPress</constant>, <constant>DeviceButtonRelease</constant>, <constant>DeviceMotionNotify</constant>, <constant>ProximityIn</constant>, and <constant>ProximityOut</constant>. </para>
+            Suppression of event propagation is not allowed for all input extension events. If a specified event class is one that cannot be suppressed, a <constant>BadClass</constant> error will result. Events that can be suppressed include <constant>DeviceKeyPress</constant>, <constant>DeviceKeyRelease</constant>, <constant>DeviceButtonPress</constant>, <constant>DeviceButtonRelease</constant>, <constant>DeviceMotionNotify</constant>, <constant>ProximityIn</constant>, and <constant>ProximityOut</constant>.</para>
         <para>
-            <constant>XChangeDeviceDontPropagateList</constant> can generate a <constant>BadDevice</constant>, <constant>BadClass</constant>, or <constant>BadValue</constant> error. </para>
+            <constant>XChangeDeviceDontPropagateList</constant> can generate a <constant>BadDevice</constant>, <constant>BadClass</constant>, or <constant>BadValue</constant> error.</para>
         <para>
-            The <constant>XGetDeviceDontPropagateList</constant> request queries the list of events that should not be propagated to ancestors of the event window. </para>
+            The <constant>XGetDeviceDontPropagateList</constant> request queries the list of events that should not be propagated to ancestors of the event window.</para>
         <para>
-            <constant>XGetDeviceDontPropagateList</constant> can generate a <constant>BadClass</constant>  or <constant>BadWindow</constant> error. </para>
+            <constant>XGetDeviceDontPropagateList</constant> can generate a <constant>BadClass</constant>  or <constant>BadWindow</constant> error.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>An invalid window id was specified. </para>
+                    <listitem><para>An invalid window id was specified.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadClass</errorname></term>
-                    <listitem><para>An invalid event class was specified. </para>
+                    <listitem><para>An invalid event class was specified.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -193,13 +198,15 @@
 
 <refentry id="XChangeKeyboardDevice.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XChangeKeyboardDevice</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XChangeKeyboardDevice</refname>
         <refpurpose>change which device is used as the X keyboard</refpurpose>
@@ -229,25 +236,25 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XChangeKeyboardDevice</constant> request causes the server to use the specified device as the X keyboard. The device must have been previously opened by the requesting client via <constant>XOpenDevice</constant> or a <constant>BadDevice</constant> error will result. The device must support input class <constant>Keys</constant>, or a <constant>BadMatch</constant> error will result. If the server implementation does not support using the requested device as the X keyboard, a <constant>BadDevice</constant> error will result. </para>
+        <para>The <constant>XChangeKeyboardDevice</constant> request causes the server to use the specified device as the X keyboard. The device must have been previously opened by the requesting client via <constant>XOpenDevice</constant> or a <constant>BadDevice</constant> error will result. The device must support input class <constant>Keys</constant>, or a <constant>BadMatch</constant> error will result. If the server implementation does not support using the requested device as the X keyboard, a <constant>BadDevice</constant> error will result.</para>
         <para>
-            If the specified device is grabbed by another client, <constant>AlreadyGrabbed</constant> is returned. If the specified device is frozen by a grab on another device, <constant>GrabFrozen</constant> is returned. If the request is successful, <constant>Success</constant> is returned. </para>
+            If the specified device is grabbed by another client, <constant>AlreadyGrabbed</constant> is returned. If the specified device is frozen by a grab on another device, <constant>GrabFrozen</constant> is returned. If the request is successful, <constant>Success</constant> is returned.</para>
         <para>
-            If the request succeeds, a <constant>ChangeDeviceNotify</constant> event is sent to all clients that have selected that event. A <constant>MappingNotify</constant> event with request = <constant>MappingKeyboard</constant> is sent to all clients. The specified device becomes the X keyboard and the old X keyboard becomes accessible through the input extension protocol requests. </para>
+            If the request succeeds, a <constant>ChangeDeviceNotify</constant> event is sent to all clients that have selected that event. A <constant>MappingNotify</constant> event with request = <constant>MappingKeyboard</constant> is sent to all clients. The specified device becomes the X keyboard and the old X keyboard becomes accessible through the input extension protocol requests.</para>
         <para>
-            <constant>XChangeKeyboardDevice</constant> can generate a <constant>BadDevice</constant> or a <constant>BadMatch</constant> error. </para>
+            <constant>XChangeKeyboardDevice</constant> can generate a <constant>BadDevice</constant> or a <constant>BadMatch</constant> error.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist, has not been opened by this client via <constant>XOpenInputDevice</constant>, or is already one of the core X device (pointer or keyboard). This error may also occur if the server implementation does not support using the specified device as the X keyboard. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist, has not been opened by this client via <constant>XOpenInputDevice</constant>, or is already one of the core X device (pointer or keyboard). This error may also occur if the server implementation does not support using the specified device as the X keyboard.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XChangeKeyboardDevice</constant> request was made specifying a device that has no keys. </para>
+                    <listitem><para>This error may occur if an <constant>XChangeKeyboardDevice</constant> request was made specifying a device that has no keys.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -260,13 +267,15 @@
 
 <refentry id="XChangePointerDevice.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XChangePointerDevice</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XChangePointerDevice</refname>
         <refpurpose>change which device is the X pointer</refpurpose>
@@ -305,25 +314,25 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XChangePointerDevice</constant> request causes the server to use the specified device as the X pointer. The device must have been opened by the client via <constant>XOpenDevice</constant> or a <constant>BadDevice</constant> error will result. The device must support input class <constant>Valuators</constant> or a <constant>BadMatch</constant> error will result. If the implementation does not support use of the specified device as the X pointer, a <constant>BadDevice</constant> error will result. </para>
+        <para>The <constant>XChangePointerDevice</constant> request causes the server to use the specified device as the X pointer. The device must have been opened by the client via <constant>XOpenDevice</constant> or a <constant>BadDevice</constant> error will result. The device must support input class <constant>Valuators</constant> or a <constant>BadMatch</constant> error will result. If the implementation does not support use of the specified device as the X pointer, a <constant>BadDevice</constant> error will result.</para>
         <para>
-            If the specified device is grabbed by another client, <constant>AlreadyGrabbed</constant> is returned. If the specified device is frozen by a grab on another device, <constant>GrabFrozen</constant> is returned. If the request is successful, <constant>Success</constant> is returned. </para>
+            If the specified device is grabbed by another client, <constant>AlreadyGrabbed</constant> is returned. If the specified device is frozen by a grab on another device, <constant>GrabFrozen</constant> is returned. If the request is successful, <constant>Success</constant> is returned.</para>
         <para>
-            If the request succeeds, a <constant>ChangeDeviceNotify</constant> event is sent to all clients that have selected that event. A <constant>MappingNotify</constant> event with request = <constant>MappingPointer</constant> is sent to all clients. The specified device becomes the X pointer, and the old X pointer becomes accessible through the input extension protocol requests. </para>
+            If the request succeeds, a <constant>ChangeDeviceNotify</constant> event is sent to all clients that have selected that event. A <constant>MappingNotify</constant> event with request = <constant>MappingPointer</constant> is sent to all clients. The specified device becomes the X pointer, and the old X pointer becomes accessible through the input extension protocol requests.</para>
         <para>
-            <constant>XChangePointerDevice</constant> can generate a <constant>BadDevice</constant> or a <constant>BadMatch</constant> error. </para>
+            <constant>XChangePointerDevice</constant> can generate a <constant>BadDevice</constant> or a <constant>BadMatch</constant> error.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist, has not been opened by this client via <constant>XOpenInputDevice</constant>, or is already one of the core X input devices (pointer or keyboard). This error may also occur if the server implementation does not support using the specified device as the X pointer. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist, has not been opened by this client via <constant>XOpenInputDevice</constant>, or is already one of the core X input devices (pointer or keyboard). This error may also occur if the server implementation does not support using the specified device as the X pointer.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XChangePointerDevice</constant> request was made specifying a device that has less than two valuators, or specifying a valuator index beyond the range supported by the device. </para>
+                    <listitem><para>This error may occur if an <constant>XChangePointerDevice</constant> request was made specifying a device that has less than two valuators, or specifying a valuator index beyond the range supported by the device.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -337,13 +346,15 @@
 
 <refentry id="XDeviceBell.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XDeviceBell</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XDeviceBell</refname>
         <refpurpose>ring a bell on a device supported through the input extension</refpurpose>
@@ -387,27 +398,27 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XDeviceBell</constant> request causes the server to ring a bell on the specified feedback of the specified device, if possible. The specified volume is relative to the base volume for the bell. If an invalid device is specified, a <constant>BadDevice</constant> error will be returned. The feedbackclass and feedbackid parameters contain values returned by an <constant>XGetFeedbackControl</constant> request and uniquely identify the bell to ring. If a feedbackclass is specified that does not support a bell, or if a nonexistent feedbackid is specified, or a percent value is specified that is not in the range -100 to 100, a <constant>BadValue</constant> error will be returned. </para>
+        <para>The <constant>XDeviceBell</constant> request causes the server to ring a bell on the specified feedback of the specified device, if possible. The specified volume is relative to the base volume for the bell. If an invalid device is specified, a <constant>BadDevice</constant> error will be returned. The feedbackclass and feedbackid parameters contain values returned by an <constant>XGetFeedbackControl</constant> request and uniquely identify the bell to ring. If a feedbackclass is specified that does not support a bell, or if a nonexistent feedbackid is specified, or a percent value is specified that is not in the range -100 to 100, a <constant>BadValue</constant> error will be returned.</para>
         <para>
             The volume at which the bell is rung when the percent argument is nonnegative is: base \- [(base * percent) / 100] + percent </para>
         <para>
             The volume at which the bell rings when the percent argument is negative is: base + [(base * percent) / 100] </para>
         <para>
-            To change the base volume of the bell, use <constant>XChangeFeedbackControl</constant> . </para>
+            To change the base volume of the bell, use <constant>XChangeFeedbackControl</constant>.</para>
         <para>
-            <constant>XDeviceBell</constant> can generate a <constant>BadDevice</constant> or a <constant>BadValue</constant> error. </para>
+            <constant>XDeviceBell</constant> can generate a <constant>BadDevice</constant> or a <constant>BadValue</constant> error.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist, or has not been opened by this client via <constant>XOpenInputDevice</constant> . </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist, or has not been opened by this client via <constant>XOpenInputDevice</constant>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>An invalid feedbackclass, feedbackid, or percent value was specified. </para>
+                    <listitem><para>An invalid feedbackclass, feedbackid, or percent value was specified.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -421,15 +432,18 @@
 
 <refentry id="XGetDeviceControl.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XGetDeviceControl</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XGetDeviceControl, XChangeDeviceControl</refname>
+	<refname>XGetDeviceControl</refname>
+	<refname>XChangeDeviceControl</refname>
         <refpurpose>query and change input device controls</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -472,19 +486,19 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>These requests are provided to manipulate those input devices that support device control. A <constant>BadMatch</constant> error will be generated if the requested device does not support any device controls. </para>
+        <para>These requests are provided to manipulate those input devices that support device control. A <constant>BadMatch</constant> error will be generated if the requested device does not support any device controls.</para>
         <para>
             Valid device control types that can be used with these requests include the following: </para>
         <para>
-            DEVICE_RESOLUTION Queries or changes the resolution of valuators on input devices. </para>
+            DEVICE_RESOLUTION Queries or changes the resolution of valuators on input devices.</para>
         <para>
-            The <constant>XGetDeviceControl</constant> request returns a pointer to an <constant>XDeviceControl</constant> structure. </para>
+            The <constant>XGetDeviceControl</constant> request returns a pointer to an <constant>XDeviceControl</constant> structure.</para>
         <para>
-            <constant>XGetDeviceControl</constant> can generate a <constant>BadDevice</constant> or <constant>BadMatch</constant> error. </para>
+            <constant>XGetDeviceControl</constant> can generate a <constant>BadDevice</constant> or <constant>BadMatch</constant> error.</para>
         <para>
-            The <constant>XChangeDeviceControl</constant> request modifies the values of one control on the specified device. The control is identified by the id field of the <constant>XDeviceControl</constant> structure that is passed with the request. </para>
+            The <constant>XChangeDeviceControl</constant> request modifies the values of one control on the specified device. The control is identified by the id field of the <constant>XDeviceControl</constant> structure that is passed with the request.</para>
         <para>
-            <constant>XChangeDeviceControl</constant> can generate a <constant>BadDevice</constant>, <constant>BadMatch</constant>, or <constant>BadValue</constant>  error. .SH STRUCTURES Each control is described by a structure specific to that control. These structures are defined in the file <constant>XInput.h</constant> . </para>
+            <constant>XChangeDeviceControl</constant> can generate a <constant>BadDevice</constant>, <constant>BadMatch</constant>, or <constant>BadValue</constant>  error..SH STRUCTURES Each control is described by a structure specific to that control. These structures are defined in the file <constant>XInput.h</constant>.</para>
         <para>
             <constant>XDeviceControl</constant> is a generic structure that contains two fields that are at the beginning of each class of control: </para>
         <para>
@@ -496,7 +510,7 @@
             </synopsis>
         </para>
         <para>
-            The <constant>XDeviceResolutionState</constant> structure defines the information that is returned for device resolution for devices with valuators. </para>
+            The <constant>XDeviceResolutionState</constant> structure defines the information that is returned for device resolution for devices with valuators.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -510,7 +524,7 @@
             </synopsis>
         </para>
         <para>
-            The <constant>XDeviceResolutionControl</constant> structure defines the attributes that can be controlled for keyboard Devices. </para>
+            The <constant>XDeviceResolutionControl</constant> structure defines the attributes that can be controlled for keyboard Devices.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -528,17 +542,17 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant> . This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceControl</constant> request was made specifying a device that has no controls or an <constant>XChangeDeviceControl</constant> request was made with an <constant>XDeviceControl</constant> structure that contains an invalid Device type. It may also occur if an invalid combination of mask bits is specified ( <constant>DvKey</constant> but no <constant>DvAutoRepeatMode</constant> for keyboard Devices), or if an invalid KeySym is specified for a string Device. </para>
+                    <listitem><para>This error may occur if an <constant>XGetDeviceControl</constant> request was made specifying a device that has no controls or an <constant>XChangeDeviceControl</constant> request was made with an <constant>XDeviceControl</constant> structure that contains an invalid Device type. It may also occur if an invalid combination of mask bits is specified ( <constant>DvKey</constant> but no <constant>DvAutoRepeatMode</constant> for keyboard Devices), or if an invalid KeySym is specified for a string Device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the <constant>XChangeDeviceControl</constant> request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the <constant>XChangeDeviceControl</constant> request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -552,15 +566,18 @@
 
 <refentry id="XGetDeviceKeyMapping.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XGetDeviceKeyMapping</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XGetDeviceKeyMapping, XChangeDeviceKeyMapping</refname>
+	<refname>XGetDeviceKeyMapping</refname>
+	<refname>XChangeDeviceKeyMapping</refname>
         <refpurpose>query or change device key mappings</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -619,11 +636,11 @@
         <para>
             KeySym number N, counting from zero, for KeyCode K has the following index in the list, counting from zero: (K - first_code) * keysyms_per_code_return + N </para>
         <para>
-            The X server arbitrarily chooses the keysyms_per_keycode_return value to be large enough to report all requested symbols. A special KeySym value of <constant>NoSymbol</constant> is used to fill in unused elements for individual KeyCodes. To free the storage returned by <constant>XGetDeviceKeyMapping</constant>, use <constant>XFree</constant>. </para>
+            The X server arbitrarily chooses the keysyms_per_keycode_return value to be large enough to report all requested symbols. A special KeySym value of <constant>NoSymbol</constant> is used to fill in unused elements for individual KeyCodes. To free the storage returned by <constant>XGetDeviceKeyMapping</constant>, use <constant>XFree</constant>.</para>
         <para>
-            If the specified device does not support input class keys, a <constant>BadMatch</constant> error will result. </para>
+            If the specified device does not support input class keys, a <constant>BadMatch</constant> error will result.</para>
         <para>
-            <constant>XGetDeviceKeyMapping</constant> can generate a <constant>BadDevice</constant>, <constant>BadMatch</constant>, or <constant>BadValue</constant> error. </para>
+            <constant>XGetDeviceKeyMapping</constant> can generate a <constant>BadDevice</constant>, <constant>BadMatch</constant>, or <constant>BadValue</constant> error.</para>
         <para>
             For the specified device, the <constant>XChangeDeviceKeyMapping</constant> request defines the symbols for the specified number of KeyCodes starting with first_keycode. The symbols for KeyCodes outside this range remain unchanged. The number of elements in keysyms must be: </para>
         <para>
@@ -637,13 +654,13 @@
         <para>
             (K - first_keycode) * keysyms_per_keycode + N</para>
         <para>
-            The specified keysyms_per_keycode can be chosen arbitrarily by the client to be large enough to hold all desired symbols. A special KeySym value of <constant>NoSymbol</constant> should be used to fill in unused elements for individual KeyCodes. It is legal for <constant>NoSymbol</constant> to appear in nontrailing positions of the effective list for a KeyCode. <constant>XChangeDeviceKeyMapping</constant> generates a <constant>DeviceMappingNotify</constant> event that is sent to all clients that have selected that type of event. </para>
+            The specified keysyms_per_keycode can be chosen arbitrarily by the client to be large enough to hold all desired symbols. A special KeySym value of <constant>NoSymbol</constant> should be used to fill in unused elements for individual KeyCodes. It is legal for <constant>NoSymbol</constant> to appear in nontrailing positions of the effective list for a KeyCode.<constant>XChangeDeviceKeyMapping</constant> generates a <constant>DeviceMappingNotify</constant> event that is sent to all clients that have selected that type of event.</para>
         <para>
-            There is no requirement that the X server interpret this mapping. It is merely stored for reading and writing by clients. </para>
+            There is no requirement that the X server interpret this mapping. It is merely stored for reading and writing by clients.</para>
         <para>
-            If the specified device does not support input class keys, a <constant>BadMatch</constant> error results. </para>
+            If the specified device does not support input class keys, a <constant>BadMatch</constant> error results.</para>
         <para>
-            <constant>XChangeDeviceKeyMapping</constant> can generate a <constant>BadDevice</constant>, <constant>BadMatch</constant>, <constant>BadAlloc</constant>, or <constant>BadValue</constant>  error. </para>
+            <constant>XChangeDeviceKeyMapping</constant> can generate a <constant>BadDevice</constant>, <constant>BadMatch</constant>, <constant>BadAlloc</constant>, or <constant>BadValue</constant>  error.</para>
         <para>
         </para>
     </refsect1>
@@ -652,22 +669,22 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant> . This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceKeyMapping</constant> or <constant>XChangeDeviceKeyMapping</constant> request was made specifying a device that has no keys. </para>
+                    <listitem><para>This error may occur if an <constant>XGetDeviceKeyMapping</constant> or <constant>XChangeDeviceKeyMapping</constant> request was made specifying a device that has no keys.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadAlloc</errorname></term>
-                    <listitem><para>The server failed to allocate the requested resource or server memory. </para>
+                    <listitem><para>The server failed to allocate the requested resource or server memory.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -681,15 +698,18 @@
 
 <refentry id="XGetDeviceModifierMapping.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XGetDeviceModifierMapping</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XGetDeviceModifierMapping, XSetDeviceModifierMapping</refname>
+	<refname>XGetDeviceModifierMapping</refname>
+	<refname>XSetDeviceModifierMapping</refname>
         <refpurpose>query or change device modifier mappings</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -727,16 +747,16 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XSetDeviceModifierMapping</constant> request specifies the KeyCodes of the keys (if any) that are to be used as modifiers for the specified device. If it succeeds, the X server generates a <constant>DeviceMappingNotify</constant> event, and <constant>XSetDeviceModifierMapping</constant> returns <constant>MappingSuccess</constant> . X permits at most eight modifier keys. If more than eight are specified in the <constant>XModifierKeymap</constant> structure, a <constant>BadLength</constant> error results. </para>
+        <para>The <constant>XSetDeviceModifierMapping</constant> request specifies the KeyCodes of the keys (if any) that are to be used as modifiers for the specified device. If it succeeds, the X server generates a <constant>DeviceMappingNotify</constant> event, and <constant>XSetDeviceModifierMapping</constant> returns <constant>MappingSuccess</constant>. X permits at most eight modifier keys. If more than eight are specified in the <constant>XModifierKeymap</constant> structure, a <constant>BadLength</constant> error results.</para>
         <para>
-            The modifiermap member of the <constant>XModifierKeymap</constant> structure contains eight sets of max_keypermod KeyCodes, one for each modifier in the order <constant>Shift</constant>, <constant>Lock</constant>, <constant>Control</constant>, <constant>Mod1</constant>, <constant>Mod2</constant>, <constant>Mod3</constant>, <constant>Mod4</constant>, and <constant>Mod5</constant> . Only nonzero KeyCodes have meaning in each set, and zero KeyCodes are ignored. In addition, all of the nonzero KeyCodes must be in the range specified by min_keycode and max_keycode as returned by <constant>XListInputDevices</constant>, or a <constant>BadValue</constant> error results. No KeyCode may appear twice in the entire map, or a <constant>BadValue</constant> error results. </para>
+            The modifiermap member of the <constant>XModifierKeymap</constant> structure contains eight sets of max_keypermod KeyCodes, one for each modifier in the order <constant>Shift</constant>, <constant>Lock</constant>, <constant>Control</constant>, <constant>Mod1</constant>, <constant>Mod2</constant>, <constant>Mod3</constant>, <constant>Mod4</constant>, and <constant>Mod5</constant>. Only nonzero KeyCodes have meaning in each set, and zero KeyCodes are ignored. In addition, all of the nonzero KeyCodes must be in the range specified by min_keycode and max_keycode as returned by <constant>XListInputDevices</constant>, or a <constant>BadValue</constant> error results. No KeyCode may appear twice in the entire map, or a <constant>BadValue</constant> error results.</para>
         <para>
-            An X server can impose restrictions on how modifiers can be changed, for example, if certain keys do not generate up transitions in hardware, if auto-repeat cannot be disabled on certain keys, or if multiple modifier keys are not supported. If some such restriction is violated, the status reply is <constant>MappingFailed</constant>, and none of the modifiers are changed. If the new KeyCodes specified for a modifier differ from those currently defined and any (current or new) keys for that modifier are in the logically down state, <constant>XSetDeviceModifierMapping</constant> returns <constant>MappingBusy</constant>, and none of the modifiers is changed. </para>
+            An X server can impose restrictions on how modifiers can be changed, for example, if certain keys do not generate up transitions in hardware, if auto-repeat cannot be disabled on certain keys, or if multiple modifier keys are not supported. If some such restriction is violated, the status reply is <constant>MappingFailed</constant>, and none of the modifiers are changed. If the new KeyCodes specified for a modifier differ from those currently defined and any (current or new) keys for that modifier are in the logically down state, <constant>XSetDeviceModifierMapping</constant> returns <constant>MappingBusy</constant>, and none of the modifiers is changed.</para>
         <para>
             <constant>XSetDeviceModifierMapping</constant> can generate
-            <constant>BadLength</constant>, <constant>BadDevice</constant>, <constant>BadMatch</constant>, <constant>BadAlloc</constant>, and <constant>BadValue</constant> errors. </para>
+            <constant>BadLength</constant>, <constant>BadDevice</constant>, <constant>BadMatch</constant>, <constant>BadAlloc</constant>, and <constant>BadValue</constant> errors.</para>
         <para>
-            The <constant>XGetDeviceModifierMapping</constant> request returns a pointer to a newly created <constant>XModifierKeymap</constant> structure that contains the keys being used as modifiers. The structure should be freed after use by calling <constant>XFreeModifierMapping </constant> . If only zero values appear in the set for any modifier, that modifier is disabled. </para>
+            The <constant>XGetDeviceModifierMapping</constant> request returns a pointer to a newly created <constant>XModifierKeymap</constant> structure that contains the keys being used as modifiers. The structure should be freed after use by calling <constant>XFreeModifierMapping </constant>. If only zero values appear in the set for any modifier, that modifier is disabled.</para>
         <para>
             <constant>XGetDeviceModifierMapping</constant> can generate <constant>BadDevice</constant> and <constant>BadMatch</constant> errors. 
         </para>
@@ -759,27 +779,27 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadLength</errorname></term>
-                    <listitem><para>More than eight keys were specified in the <constant>XModifierKeymap</constant> structure. </para>
+                    <listitem><para>More than eight keys were specified in the <constant>XModifierKeymap</constant> structure.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadAlloc</errorname></term>
-                    <listitem><para>The server failed to allocate the requested resource or server memory. </para>
+                    <listitem><para>The server failed to allocate the requested resource or server memory.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant> . This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceModifierMapping</constant> or <constant>XChangeDeviceModifierMapping</constant> request was made specifying a device that has no keys. </para>
+                    <listitem><para>This error may occur if an <constant>XGetDeviceModifierMapping</constant> or <constant>XChangeDeviceModifierMapping</constant> request was made specifying a device that has no keys.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -793,15 +813,18 @@
 
 <refentry id="XGetDeviceMotionEvents.man"> 
     <refentryinfo>
-      <productname>_vendorversion_</productname>
+      <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
       <refentrytitle>XGetDeviceMotionEvents</refentrytitle>
-      <manvolnum>3</manvolnum>
-    </refmeta>
+      <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-       <refname>XGetDeviceMotionEvents, XDeviceTimeCoord</refname>
+	<refname>XGetDeviceMotionEvents</refname>
+	<refname>XDeviceTimeCoord</refname>
        <refpurpose>get device motion history</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -849,11 +872,11 @@
       </refsect1>
 
       <refsect1><title>Description</title>
-        <para>The server may retain the recent history of the device motion and do so to a finer granularity than is reported by <constant>DeviceMotionNotify</constant> events. The <constant>XGetDeviceMotionEvents</constant> request makes this history available. </para>
+        <para>The server may retain the recent history of the device motion and do so to a finer granularity than is reported by <constant>DeviceMotionNotify</constant> events. The <constant>XGetDeviceMotionEvents</constant> request makes this history available.</para>
         <para>
-          The <constant>XGetDeviceMotionEvents</constant> request returns all events in the motion history buffer that fall between the specified start and stop times, inclusive. If the start time is later than the stop time or if the start time is in the future, no events are returned. If the stop time is in the future, it is equivalent to specifying <constant>CurrentTime</constant> . </para>
+          The <constant>XGetDeviceMotionEvents</constant> request returns all events in the motion history buffer that fall between the specified start and stop times, inclusive. If the start time is later than the stop time or if the start time is in the future, no events are returned. If the stop time is in the future, it is equivalent to specifying <constant>CurrentTime</constant>.</para>
         <para>
-          The <constant>mode</constant> indicates whether the device is reporting absolute positional data (mode= <constant>Absolute</constant> ) or relative motion data (mode= <constant>Relative</constant> ). Some devices allow their mode to be changed via the <constant>XSetDeviceMode</constant> request. These constants are defined in the file XI.h. The <constant>axis_count</constant> returns the number of axes or valuators being reported by the device. </para>
+          The <constant>mode</constant> indicates whether the device is reporting absolute positional data (mode= <constant>Absolute</constant> ) or relative motion data (mode= <constant>Relative</constant> ). Some devices allow their mode to be changed via the <constant>XSetDeviceMode</constant> request. These constants are defined in the file XI.h. The <constant>axis_count</constant> returns the number of axes or valuators being reported by the device.</para>
         <para>
             <constant>XGetDeviceMotionEvents</constant> can generate a <constant>BadDevice</constant>, or <constant>BadMatch</constant> error. 
     </para>
@@ -870,11 +893,11 @@
             </synopsis>
         </para>
         <para>
-            The time member is set to the time, in milliseconds. The data member is a pointer to an array of integers. These integers are set to the values of each valuator or axis reported by the device. There is one element in the array per axis of motion reported by the device. The value of the array elements depends on the mode of the device. If the mode is <constant>Absolute</constant>, the values are the raw values generated by the device. These may be scaled by client programs using the maximum values that the device can generate. The maximum value for each axis of the device is reported in the max_val field of the <constant>XAxisInfo</constant> returned by the <constant>XListInputDevices</constant> request. If the mode is <constant>Relative</constant>, the data values are the relative values generated by the device. </para>
+            The time member is set to the time, in milliseconds. The data member is a pointer to an array of integers. These integers are set to the values of each valuator or axis reported by the device. There is one element in the array per axis of motion reported by the device. The value of the array elements depends on the mode of the device. If the mode is <constant>Absolute</constant>, the values are the raw values generated by the device. These may be scaled by client programs using the maximum values that the device can generate. The maximum value for each axis of the device is reported in the max_val field of the <constant>XAxisInfo</constant> returned by the <constant>XListInputDevices</constant> request. If the mode is <constant>Relative</constant>, the data values are the relative values generated by the device.</para>
         <para>
-            You should use <constant>XFreeDeviceMotionEvents</constant> to free the data returned by this request. </para>
+            You should use <constant>XFreeDeviceMotionEvents</constant> to free the data returned by this request.</para>
         <para>
-            Errors returned by this request: <constant>BadDevice</constant>, <constant>BadMatch</constant> . </para>
+            Errors returned by this request: <constant>BadDevice</constant>, <constant>BadMatch</constant>.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title>
@@ -882,12 +905,12 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant> . This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceMotionEvents</constant> request is made specifying a device that has no valuators and reports no axes of motion. </para>
+                    <listitem><para>This error may occur if an <constant>XGetDeviceMotionEvents</constant> request is made specifying a device that has no valuators and reports no axes of motion.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -897,15 +920,18 @@
 
 <refentry id="XGetExtensionVersion.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XGetExtensionVersion</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XQueryInputVersion, XGetExtensionVersion</refname>
+	<refname>XQueryInputVersion</refname>
+	<refname>XGetExtensionVersion</refname>
         <refpurpose>query the version of the input extension.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -946,9 +972,9 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The  <constant>XQueryInputVersion</constant>  request queries the version of the input extension and returns an  <constant>XExtensionVersion</constant>  structure. This structure contains a major_version and minor_version number which can be compared with constants defined in  <constant>XI.h</constant> . The client must specify the highest version numbers it can supports. </para>
+        <para>The  <constant>XQueryInputVersion</constant>  request queries the version of the input extension and returns an  <constant>XExtensionVersion</constant>  structure. This structure contains a major_version and minor_version number which can be compared with constants defined in  <constant>XI.h</constant>. The client must specify the highest version numbers it can supports.</para>
         <para>
-            The  <constant>XGetExtensionVersion</constant>  request is deprecated and should not be used. Clients issuing a  <constant>XgetExtensionVersion</constant>  request will not be able to use MPX features. The  <constant>XGetExtensionVersion</constant>  request queries the version of the input extension, and returns an  <constant>XExtensionVersion</constant>  structure.  This structure contains a major_version and minor_version number which can be compared with constants defined in  <constant>XI.h</constant> .  Support for additional protocol requests added to the input extension after its initial release is indicated by a version number corresponding to the added requests.  Each version contains all the protocol requests contained by previous versions. </para>
+            The  <constant>XGetExtensionVersion</constant>  request is deprecated and should not be used. Clients issuing a  <constant>XgetExtensionVersion</constant>  request will not be able to use MPX features. The  <constant>XGetExtensionVersion</constant>  request queries the version of the input extension, and returns an  <constant>XExtensionVersion</constant>  structure.  This structure contains a major_version and minor_version number which can be compared with constants defined in  <constant>XI.h</constant>.  Support for additional protocol requests added to the input extension after its initial release is indicated by a version number corresponding to the added requests.  Each version contains all the protocol requests contained by previous versions.</para>
         <para>
             You should use  <constant>XFree</constant>  to free the  <constant>XExtensionVersion</constant>  structure. 
         </para>
@@ -972,15 +998,18 @@
 
 <refentry id="XGetFeedbackControl.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XGetFeedbackControl</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XGetFeedbackControl, XChangeFeedbackControl</refname>
+	<refname>XGetFeedbackControl</refname>
+	<refname>XChangeFeedbackControl</refname>
         <refpurpose>query and change input device feedbacks</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -1026,24 +1055,24 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>These requests are provided to manipulate those input devices that support feedbacks.  A  <constant>BadMatch</constant>  error will be generated if the requested device does not support feedbacks.  Whether or not a given device supports feedbacks can be determined by examining the information returned by the  <constant>XOpenDevice</constant>  request.  For those devices that support feedbacks,  <constant>XOpenDevice</constant>  will return an  <constant>XInputClassInfo</constant>  structure with the input_class field equal to the constant  <constant>FeedbackClass</constant>  (defined in the file  <constant>XI.h</constant> ). </para>
+        <para>These requests are provided to manipulate those input devices that support feedbacks.  A  <constant>BadMatch</constant>  error will be generated if the requested device does not support feedbacks.  Whether or not a given device supports feedbacks can be determined by examining the information returned by the  <constant>XOpenDevice</constant>  request.  For those devices that support feedbacks,  <constant>XOpenDevice</constant>  will return an  <constant>XInputClassInfo</constant>  structure with the input_class field equal to the constant  <constant>FeedbackClass</constant>  (defined in the file  <constant>XI.h</constant> ).</para>
         <para>
-            The  <constant>XGetFeedbackControl</constant>  request returns a pointer to a list of  <constant>XFeedbackState</constant>  structures.  Each item in this list describes one of the feedbacks supported by the device.  The items are variable length, so each contains its length to allow traversal to the next item in the list. </para>
+            The  <constant>XGetFeedbackControl</constant>  request returns a pointer to a list of  <constant>XFeedbackState</constant>  structures.  Each item in this list describes one of the feedbacks supported by the device.  The items are variable length, so each contains its length to allow traversal to the next item in the list.</para>
         <para>
-            The feedback classes that are currently defined are:   <constant>KbdFeedbackClass</constant> ,  <constant>PtrFeedbackClass</constant> ,  <constant>StringFeedbackClass</constant> ,  <constant>IntegerFeedbackClass</constant> ,  <constant>LedFeedbackClass</constant> , and  <constant>BellFeedbackClass</constant> .  These constants are defined in the file  <constant>XI.h</constant> .  An input device may support zero or more classes of feedback, and may support multiple feedbacks of the same class.  Each feedback contains a class identifier and an id that is unique within that class for that input device.  The id is used to identify the feedback when making an  <constant>XChangeFeedbackControl</constant>  request. </para>
+            The feedback classes that are currently defined are:   <constant>KbdFeedbackClass</constant>,  <constant>PtrFeedbackClass</constant>,  <constant>StringFeedbackClass</constant>,  <constant>IntegerFeedbackClass</constant>,  <constant>LedFeedbackClass</constant>, and  <constant>BellFeedbackClass</constant>.  These constants are defined in the file  <constant>XI.h</constant>.  An input device may support zero or more classes of feedback, and may support multiple feedbacks of the same class.  Each feedback contains a class identifier and an id that is unique within that class for that input device.  The id is used to identify the feedback when making an  <constant>XChangeFeedbackControl</constant>  request.</para>
         <para>
-            <constant>XGetFeedbackControl</constant>  can generate a  <constant>BadDevice</constant>  or  <constant>BadMatch</constant>  error. </para>
+            <constant>XGetFeedbackControl</constant>  can generate a  <constant>BadDevice</constant>  or  <constant>BadMatch</constant>  error.</para>
         <para>
-            The  <constant>XChangeFeedbackControl</constant>  request modifies the values of one feedback on the specified device.  The feedback is identified by the id field of the  <constant>XFeedbackControl</constant>  structure that is passed with the request.  The fields of the feedback that are to be modified are identified by the bits of the mask that is passed with the request. </para>
+            The  <constant>XChangeFeedbackControl</constant>  request modifies the values of one feedback on the specified device.  The feedback is identified by the id field of the  <constant>XFeedbackControl</constant>  structure that is passed with the request.  The fields of the feedback that are to be modified are identified by the bits of the mask that is passed with the request.</para>
         <para>
-            <constant>XChangeFeedbackControl</constant>  can generate a  <constant>BadDevice</constant> ,  <constant>BadMatch</constant> , or  <constant>BadValue</constant>   error. 
+            <constant>XChangeFeedbackControl</constant>  can generate a  <constant>BadDevice</constant>,  <constant>BadMatch</constant>, or  <constant>BadValue</constant>   error. 
 
         </para>
     </refsect1>
     <refsect1><title>Structures</title>
         <para>
 
-            Each class of feedback is described by a structure specific to that class. These structures are defined in the file  <constant>XInput.h</constant> .  <constant>XFeedbackState</constant>  and  <constant>XFeedbackControl</constant>  are generic structures that contain three fields that are at the beginning of each class of feedback: </para>
+            Each class of feedback is described by a structure specific to that class. These structures are defined in the file  <constant>XInput.h</constant>.  <constant>XFeedbackState</constant>  and  <constant>XFeedbackControl</constant>  are generic structures that contain three fields that are at the beginning of each class of feedback: </para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1055,7 +1084,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XKbdFeedbackState</constant>  structure defines the attributes that are returned for feedbacks equivalent to those on the X keyboard. </para>
+            The  <constant>XKbdFeedbackState</constant>  structure defines the attributes that are returned for feedbacks equivalent to those on the X keyboard.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1073,7 +1102,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XPtrFeedbackState</constant>  structure defines the attributes that are returned for feedbacks equivalent to those on the the X pointer. </para>
+            The  <constant>XPtrFeedbackState</constant>  structure defines the attributes that are returned for feedbacks equivalent to those on the the X pointer.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1087,7 +1116,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XIntegerFeedbackState</constant>  structure defines attributes that are returned for integer feedbacks. </para>
+            The  <constant>XIntegerFeedbackState</constant>  structure defines attributes that are returned for integer feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1101,7 +1130,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XStringFeedbackState</constant>  structure defines the attributes that are returned for string feedbacks. </para>
+            The  <constant>XStringFeedbackState</constant>  structure defines the attributes that are returned for string feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1115,7 +1144,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XBellFeedbackState</constant>  structure defines the attributes that are returned for bell feedbacks. </para>
+            The  <constant>XBellFeedbackState</constant>  structure defines the attributes that are returned for bell feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1129,7 +1158,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XLedFeedbackState</constant>  structure defines the attributes that are returned for LED feedbacks. </para>
+            The  <constant>XLedFeedbackState</constant>  structure defines the attributes that are returned for LED feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { XID <structfield>class</structfield>;
@@ -1140,7 +1169,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XPrtFeedbackControl</constant>  structure defines the attributes that can be controlled for pointer feedbacks. </para>
+            The  <constant>XPrtFeedbackControl</constant>  structure defines the attributes that can be controlled for pointer feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1154,7 +1183,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XKbdFeedbackControl</constant>  structure defines the attributes that can be controlled for keyboard feedbacks. </para>
+            The  <constant>XKbdFeedbackControl</constant>  structure defines the attributes that can be controlled for keyboard feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1173,7 +1202,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XStringFeedbackControl</constant>  structure defines the attributes that can be controlled for string feedbacks. </para>
+            The  <constant>XStringFeedbackControl</constant>  structure defines the attributes that can be controlled for string feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1186,7 +1215,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XIntegerFeedbackControl</constant>  structure defines the attributes that can be controlled for integer feedbacks. </para>
+            The  <constant>XIntegerFeedbackControl</constant>  structure defines the attributes that can be controlled for integer feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct {
@@ -1198,7 +1227,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XBellFeedbackControl</constant>  structure defines the attributes that can be controlled for bell feedbacks. </para>
+            The  <constant>XBellFeedbackControl</constant>  structure defines the attributes that can be controlled for bell feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1212,7 +1241,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XLedFeedbackControl</constant>  structure defines the attributes that can be controlled for LED feedbacks. </para>
+            The  <constant>XLedFeedbackControl</constant>  structure defines the attributes that can be controlled for LED feedbacks.</para>
         <para>
             <synopsis>
                 typedef struct { 
@@ -1230,17 +1259,17 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant> .  This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the  <constant>XChangeKeyboardDevice</constant>  or  <constant>XChangePointerDevice</constant>  requests. </para>
+                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.  This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the  <constant>XChangeKeyboardDevice</constant>  or  <constant>XChangePointerDevice</constant>  requests.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XGetFeedbackControl</constant>  request was made specifying a device that has no feedbacks, or an  <constant>XChangeFeedbackControl</constant>  request was made with an  <constant>XFeedbackControl</constant>  structure that contains an invalid feedback type.  It may also occur if an invalid combination of mask bits is specified ( <constant>DvKey</constant>  but no  <constant>DvAutoRepeatMode</constant>  for keyboard feedbacks), or if an invalid KeySym is specified for a string feedback. </para>
+                    <listitem><para>This error may occur if an  <constant>XGetFeedbackControl</constant>  request was made specifying a device that has no feedbacks, or an  <constant>XChangeFeedbackControl</constant>  request was made with an  <constant>XFeedbackControl</constant>  structure that contains an invalid feedback type.  It may also occur if an invalid combination of mask bits is specified ( <constant>DvKey</constant>  but no  <constant>DvAutoRepeatMode</constant>  for keyboard feedbacks), or if an invalid KeySym is specified for a string feedback.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the  <constant>XChangeFeedbackControl</constant>  request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the  <constant>XChangeFeedbackControl</constant>  request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1251,15 +1280,18 @@
 
 <refentry id="XGrabDeviceButton.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XGrabDeviceButton</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XGrabDeviceButton, XUngrabDeviceButton</refname>
+	<refname>XGrabDeviceButton</refname>
+	<refname>XUngrabDeviceButton</refname>
         <refpurpose>grab/ungrab extension input device buttons</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -1345,7 +1377,7 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The  <constant>XGrabDeviceButton</constant>  request establishes a passive grab. In the future, the device is actively grabbed (as for  <constant>XGrabDevice</constant> , the last-grab time is set to the time at which the button was pressed (as transmitted in the  <constant>DeviceButtonPress</constant>  event), and the  <constant>DeviceButtonPress</constant>  event is reported if all of the following conditions are true: 
+        <para>The  <constant>XGrabDeviceButton</constant>  request establishes a passive grab. In the future, the device is actively grabbed (as for  <constant>XGrabDevice</constant>, the last-grab time is set to the time at which the button was pressed (as transmitted in the  <constant>DeviceButtonPress</constant>  event), and the  <constant>DeviceButtonPress</constant>  event is reported if all of the following conditions are true: 
 
             <itemizedlist>
                 <listitem>
@@ -1353,12 +1385,12 @@
                         The device is not grabbed, and the specified button is
                         logically pressed when the specified modifier keys are
                         logically down on the specified modifier device and no
-                        other buttons or modifier keys are logically down. </para>
+                        other buttons or modifier keys are logically down.</para>
                 </listitem>
                 <listitem>
                     <para>Either the grab window is an ancestor of (or is) the
                         focus window, OR the grab window is a descendent of the
-                        focus window and contains the device. </para>
+                        focus window and contains the device.</para>
                 </listitem>
                 <listitem>
                     <para>
@@ -1369,43 +1401,43 @@
             </itemizedlist>
         </para>
         <para>
-            The interpretation of the remaining arguments is as for  <constant>XGrabDevice</constant> . The active grab is terminated automatically when the logical state of the device has all buttons released (independent of the logical state of the modifier keys). </para>
+            The interpretation of the remaining arguments is as for  <constant>XGrabDevice</constant>. The active grab is terminated automatically when the logical state of the device has all buttons released (independent of the logical state of the modifier keys).</para>
         <para>
-            Note that the logical state of a device (as seen by client applications) may lag the physical state if device event processing is frozen. </para>
+            Note that the logical state of a device (as seen by client applications) may lag the physical state if device event processing is frozen.</para>
         <para>
-            This request overrides all previous grabs by the same client on the same button/modifier combinations on the same window. A modifiers of  <constant>AnyModifier</constant>  is equivalent to issuing the grab request for all possible modifier combinations (including the combination of no modifiers). It is not required that all modifiers specified have currently assigned KeyCodes. A button of  <constant>AnyButton</constant>  is equivalent to issuing the request for all possible buttons. Otherwise, it is not required that the specified button currently be assigned to a physical button. </para>
+            This request overrides all previous grabs by the same client on the same button/modifier combinations on the same window. A modifiers of  <constant>AnyModifier</constant>  is equivalent to issuing the grab request for all possible modifier combinations (including the combination of no modifiers). It is not required that all modifiers specified have currently assigned KeyCodes. A button of  <constant>AnyButton</constant>  is equivalent to issuing the request for all possible buttons. Otherwise, it is not required that the specified button currently be assigned to a physical button.</para>
         <para>
-            A modifier_device of NULL indicates that the X keyboard is to be used as the modifier_device. </para>
+            A modifier_device of NULL indicates that the X keyboard is to be used as the modifier_device.</para>
         <para>
-            If some other client has already issued a  <constant>XGrabDeviceButton</constant>  with the same button/modifier combination on the same window, a  <constant>BadAccess</constant>  error results. When using  <constant>AnyModifier</constant>  or  <constant>AnyButton</constant>  , the request fails completely, and a  <constant>BadAccess</constant>  error results (no grabs are established) if there is a conflicting grab for any combination.  <constant>XGrabDeviceButton</constant>  has no effect on an active grab. </para>
+            If some other client has already issued a  <constant>XGrabDeviceButton</constant>  with the same button/modifier combination on the same window, a  <constant>BadAccess</constant>  error results. When using  <constant>AnyModifier</constant>  or  <constant>AnyButton</constant> , the request fails completely, and a  <constant>BadAccess</constant>  error results (no grabs are established) if there is a conflicting grab for any combination.  <constant>XGrabDeviceButton</constant>  has no effect on an active grab.</para>
         <para>
-            <constant>XGrabDeviceButton</constant>  can generate  <constant>BadClass</constant> ,  <constant>BadDevice</constant> ,  <constant>BadMatch</constant> ,  <constant>BadValue</constant> , and  <constant>BadWindow</constant>  errors. .P The  <constant>XUngrabDeviceButton</constant>  request releases the passive grab for a button/modifier combination on the specified window if it was grabbed by this client. A modifier of  <constant>AnyModifier</constant>  is equivalent to issuing the ungrab request for all possible modifier combinations, including the combination of no modifiers. A button of  <constant>AnyButton</constant>  is equivalent to issuing the request for all possible buttons.  <constant>XUngrabDeviceButton</constant>  has no effect on an active grab. </para>
+            <constant>XGrabDeviceButton</constant>  can generate  <constant>BadClass</constant>,  <constant>BadDevice</constant>,  <constant>BadMatch</constant>,  <constant>BadValue</constant>, and  <constant>BadWindow</constant>  errors..P The  <constant>XUngrabDeviceButton</constant>  request releases the passive grab for a button/modifier combination on the specified window if it was grabbed by this client. A modifier of  <constant>AnyModifier</constant>  is equivalent to issuing the ungrab request for all possible modifier combinations, including the combination of no modifiers. A button of  <constant>AnyButton</constant>  is equivalent to issuing the request for all possible buttons.  <constant>XUngrabDeviceButton</constant>  has no effect on an active grab.</para>
         <para>
-            A modifier_device of NULL indicates that the X keyboard should be used as the modifier_device. </para>
+            A modifier_device of NULL indicates that the X keyboard should be used as the modifier_device.</para>
         <para>
-            <constant>XUngrabDeviceButton</constant>  can generate  <constant>BadDevice</constant> ,  <constant>BadMatch</constant> ,  <constant>BadValue</constant>  and  <constant>BadWindow</constant>  errors. </para>
+            <constant>XUngrabDeviceButton</constant>  can generate  <constant>BadDevice</constant>,  <constant>BadMatch</constant>,  <constant>BadValue</constant>  and  <constant>BadWindow</constant>  errors.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant> .  This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.  This error may also occur if the specified device is the X keyboard or X pointer device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XGrabDeviceButton</constant>  request was made specifying a device that has no buttons, or specifying a modifier device that has no keys. </para>
+                    <listitem><para>This error may occur if an  <constant>XGrabDeviceButton</constant>  request was made specifying a device that has no buttons, or specifying a modifier device that has no keys.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not name a defined Window. </para>
+                    <listitem><para>A value for a Window argument does not name a defined Window.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1419,15 +1451,18 @@
 
 <refentry id="XGrabDeviceKey.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XGrabDeviceKey</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XGrabDeviceKey, XUngrabDeviceKey</refname>
+	<refname>XGrabDeviceKey</refname>
+	<refname>XUngrabDeviceKey</refname>
         <refpurpose>grab/ungrab extension input device Keys</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -1507,7 +1542,7 @@
 
             <itemizedlist>
                 <listitem>
-                    <para>The device is not grabbed, and the specified key is logically pressed when the specified modifier keys are logically down, and no other keys or modifier keys are logically down. </para>
+                    <para>The device is not grabbed, and the specified key is logically pressed when the specified modifier keys are logically down, and no other keys or modifier keys are logically down.</para>
                 </listitem>
                 <listitem>
                     <para>The grab_window is an ancestor (or is) the focus window OR the grab window is a descendant of the focus window and contains the device.</para>
@@ -1517,53 +1552,53 @@
                         viewable.</para>
                 </listitem>
                 <listitem>
-                    <para>A passive grab on the same key/modifier combination does not exist on any ancestor of grab_window. </para>
+                    <para>A passive grab on the same key/modifier combination does not exist on any ancestor of grab_window.</para>
                 </listitem>
             </itemizedlist>
         </para>
         <para>
-            The interpretation of the remaining arguments is as for <constant>XGrabDevice</constant> . The active grab is terminated automatically when the logical state of the device has the specified key released. </para>
+            The interpretation of the remaining arguments is as for <constant>XGrabDevice</constant>. The active grab is terminated automatically when the logical state of the device has the specified key released.</para>
         <para>
-            Note that the logical state of a device (as seen by means of the X protocol ) may lag the physical state if device event processing is frozen. </para>
+            Note that the logical state of a device (as seen by means of the X protocol ) may lag the physical state if device event processing is frozen.</para>
         <para>
-            If the key is not <constant>AnyKey</constant>, it must be in the range specified by min_keycode and max_keycode as returned by the <constant>XListInputDevices</constant> request. Otherwise, a <constant>BadValue</constant> error results. </para>
+            If the key is not <constant>AnyKey</constant>, it must be in the range specified by min_keycode and max_keycode as returned by the <constant>XListInputDevices</constant> request. Otherwise, a <constant>BadValue</constant> error results.</para>
         <para>
-            This request overrides all previous grabs by the same client on the same Key/modifier combinations on the same window. A modifier of <constant>AnyModifier</constant> is equivalent to issuing the grab request for all possible modifier combinations (including the combination of no modifiers). It is not required that all modifiers specified have currently assigned KeyCodes. A key of <constant>AnyKey</constant> is equivalent to issuing the request for all possible keys. Otherwise, it is not required that the specified key currently be assigned to a physical Key. </para>
+            This request overrides all previous grabs by the same client on the same Key/modifier combinations on the same window. A modifier of <constant>AnyModifier</constant> is equivalent to issuing the grab request for all possible modifier combinations (including the combination of no modifiers). It is not required that all modifiers specified have currently assigned KeyCodes. A key of <constant>AnyKey</constant> is equivalent to issuing the request for all possible keys. Otherwise, it is not required that the specified key currently be assigned to a physical Key.</para>
         <para>
-            If a modifier_device of NULL is specified, the X keyboard will be used as the modifier_device. </para>
+            If a modifier_device of NULL is specified, the X keyboard will be used as the modifier_device.</para>
         <para>
-            If some other client has already issued a <constant>XGrabDeviceKey</constant> with the same Key/modifier combination on the same window, a <constant>BadAccess</constant> error results. When using <constant>AnyModifier</constant> or <constant>AnyKey</constant> , the request fails completely, and a <constant>BadAccess</constant> error results (no grabs are established) if there is a conflicting grab for any combination. <constant>XGrabDeviceKey</constant> has no effect on an active grab. </para>
+            If some other client has already issued a <constant>XGrabDeviceKey</constant> with the same Key/modifier combination on the same window, a <constant>BadAccess</constant> error results. When using <constant>AnyModifier</constant> or <constant>AnyKey</constant>, the request fails completely, and a <constant>BadAccess</constant> error results (no grabs are established) if there is a conflicting grab for any combination.<constant>XGrabDeviceKey</constant> has no effect on an active grab.</para>
         <para>
             <constant>XGrabDeviceKey</constant> can generate <constant>BadAccess</constant>, <constant>BadClass</constant>, <constant>BadDevice</constant>, <constant>BadMatch</constant>, <constant>BadValue</constant>, and <constant>BadWindow</constant> errors. It returns <constant>Success</constant> on successful completion of the request. 
         </para>
         <para>
-            The <constant>XUngrabDeviceKey</constant> request releases the passive grab for a key/modifier combination on the specified window if it was grabbed by this client. A modifier of <constant>AnyModifier</constant> is equivalent to issuing the ungrab request for all possible modifier combinations, including the combination of no modifiers. A Key of <constant>AnyKey</constant> is equivalent to issuing the request for all possible Keys. <constant>XUngrabDeviceKey</constant> has no effect on an active grab. </para>
+            The <constant>XUngrabDeviceKey</constant> request releases the passive grab for a key/modifier combination on the specified window if it was grabbed by this client. A modifier of <constant>AnyModifier</constant> is equivalent to issuing the ungrab request for all possible modifier combinations, including the combination of no modifiers. A Key of <constant>AnyKey</constant> is equivalent to issuing the request for all possible Keys.<constant>XUngrabDeviceKey</constant> has no effect on an active grab.</para>
         <para>
-            If a modifier_device of NULL is specified, the X keyboard will be used as the modifier_device. </para>
+            If a modifier_device of NULL is specified, the X keyboard will be used as the modifier_device.</para>
         <para>
-            <constant>XUngrabDeviceKey</constant> can generate <constant>BadDevice</constant>, <constant>BadMatch</constant>, <constant>BadValue</constant> and <constant>BadWindow</constant> errors. </para>
+            <constant>XUngrabDeviceKey</constant> can generate <constant>BadDevice</constant>, <constant>BadMatch</constant>, <constant>BadValue</constant> and <constant>BadWindow</constant> errors.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant> . This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGrabDeviceKey</constant> request was made specifying a device that has no keys, or a modifier device that has no keys. </para>
+                    <listitem><para>This error may occur if an <constant>XGrabDeviceKey</constant> request was made specifying a device that has no keys, or a modifier device that has no keys.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not name a defined Window. </para>
+                    <listitem><para>A value for a Window argument does not name a defined Window.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1577,15 +1612,18 @@
 
 <refentry id="XGrabDevice.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XGrabDevice</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XGrabDevice, XUngrabDevice</refname>
+	<refname>XGrabDevice</refname>
+	<refname>XUngrabDevice</refname>
         <refpurpose>grab/release the specified extension device</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -1648,38 +1686,38 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XGrabDevice</constant> request actively grabs control of the device and generates <constant>DeviceFocusIn</constant> and <constant>DeviceFocusOut</constant> events. Further device events are reported only to the grabbing client. <constant>XGrabDevice</constant> overrides any active device grab by this client. event_list is a pointer to a list of event classes. This list indicates which events the client wishes to receive while the grab is active. If owner_events is <constant>False</constant>, all generated device events are reported with respect to grab_window if selected. If owner_events is <constant>True</constant> and if a generated device event would normally be reported to this client, it is reported normally; otherwise, the event is reported with respect to the grab_window, and is only reported if specified in the event_list. </para>
+        <para>The <constant>XGrabDevice</constant> request actively grabs control of the device and generates <constant>DeviceFocusIn</constant> and <constant>DeviceFocusOut</constant> events. Further device events are reported only to the grabbing client.<constant>XGrabDevice</constant> overrides any active device grab by this client. event_list is a pointer to a list of event classes. This list indicates which events the client wishes to receive while the grab is active. If owner_events is <constant>False</constant>, all generated device events are reported with respect to grab_window if selected. If owner_events is <constant>True</constant> and if a generated device event would normally be reported to this client, it is reported normally; otherwise, the event is reported with respect to the grab_window, and is only reported if specified in the event_list.</para>
         <para>
-            If the this_device_mode argument is <constant>GrabModeAsync</constant>, device event processing continues as usual. If the device is currently frozen by this client, then processing of device events is resumed. If the this_device_mode argument is <constant>GrabModeSync</constant>, the state of the device (as seen by client applications) appears to freeze, and the X server generates no further device events until the grabbing client issues a releasing <constant>XAllowDeviceEvents</constant> call or until the device grab is released. Actual device changes are not lost while the device is frozen; they are simply queued in the server for later processing. </para>
+            If the this_device_mode argument is <constant>GrabModeAsync</constant>, device event processing continues as usual. If the device is currently frozen by this client, then processing of device events is resumed. If the this_device_mode argument is <constant>GrabModeSync</constant>, the state of the device (as seen by client applications) appears to freeze, and the X server generates no further device events until the grabbing client issues a releasing <constant>XAllowDeviceEvents</constant> call or until the device grab is released. Actual device changes are not lost while the device is frozen; they are simply queued in the server for later processing.</para>
         <para>
-            If other_devices_mode is <constant>GrabModeAsync</constant>, processing of events from other devices is unaffected by activation of the grab. If other_devices_mode is <constant>GrabModeSync</constant>, the state of all devices except the grabbed device (as seen by client applications) appears to freeze, and the X server generates no further events from those devices until the grabbing client issues a releasing <constant>XAllowDeviceEvents</constant> call or until the device grab is released. Actual events are not lost while the devices are frozen; they are simply queued in the server for later processing. </para>
+            If other_devices_mode is <constant>GrabModeAsync</constant>, processing of events from other devices is unaffected by activation of the grab. If other_devices_mode is <constant>GrabModeSync</constant>, the state of all devices except the grabbed device (as seen by client applications) appears to freeze, and the X server generates no further events from those devices until the grabbing client issues a releasing <constant>XAllowDeviceEvents</constant> call or until the device grab is released. Actual events are not lost while the devices are frozen; they are simply queued in the server for later processing.</para>
         <para>
-            If the device is actively grabbed by some other client, <constant>XGrabDevice</constant> fails and returns <constant>AlreadyGrabbed</constant>. If grab_window is not viewable, it fails and returns <constant>GrabNotViewable</constant>. If the device is frozen by an active grab of another client, it fails and returns <constant>GrabFrozen</constant>. If the specified time is earlier than the last-device-grab time or later than the current X server time, it fails and returns <constant>GrabInvalidTime</constant>. Otherwise, the last-device-grab time is set to the specified time <constant>( CurrentTime</constant> is replaced by the current X server time). </para>
+            If the device is actively grabbed by some other client, <constant>XGrabDevice</constant> fails and returns <constant>AlreadyGrabbed</constant>. If grab_window is not viewable, it fails and returns <constant>GrabNotViewable</constant>. If the device is frozen by an active grab of another client, it fails and returns <constant>GrabFrozen</constant>. If the specified time is earlier than the last-device-grab time or later than the current X server time, it fails and returns <constant>GrabInvalidTime</constant>. Otherwise, the last-device-grab time is set to the specified time <constant>( CurrentTime</constant> is replaced by the current X server time).</para>
         <para>
-            If a grabbed device is closed by a client while an active grab by that client is in effect, the active grab is released. If the device is frozen only by an active grab of the requesting client, it is thawed. </para>
+            If a grabbed device is closed by a client while an active grab by that client is in effect, the active grab is released. If the device is frozen only by an active grab of the requesting client, it is thawed.</para>
         <para>
-            <constant>XGrabDevice</constant> can generate <constant>BadClass</constant>, <constant>BadDevice</constant>, <constant>BadValue</constant>, and <constant>BadWindow</constant> errors. </para>
+            <constant>XGrabDevice</constant> can generate <constant>BadClass</constant>, <constant>BadDevice</constant>, <constant>BadValue</constant>, and <constant>BadWindow</constant> errors.</para>
         <para>
-            The <constant>XUngrabDevice</constant> request releases the device and any queued events if this client has it actively grabbed from either <constant>XGrabDevice</constant> or <constant>XGrabDeviceKey</constant>. If other devices are frozen by the grab, <constant>XUngrabDevice</constant> thaws them. <constant>XUngrabDevice</constant> does not release the device and any queued events if the specified time is earlier than the last-device-grab time or is later than the current X server time. It also generates <constant>DeviceFocusIn</constant> and <constant>DeviceFocusOut</constant> events. The X server automatically performs an <constant>UngrabDevice</constant> request if the event window for an active device grab becomes not viewable. </para>
+            The <constant>XUngrabDevice</constant> request releases the device and any queued events if this client has it actively grabbed from either <constant>XGrabDevice</constant> or <constant>XGrabDeviceKey</constant>. If other devices are frozen by the grab, <constant>XUngrabDevice</constant> thaws them.<constant>XUngrabDevice</constant> does not release the device and any queued events if the specified time is earlier than the last-device-grab time or is later than the current X server time. It also generates <constant>DeviceFocusIn</constant> and <constant>DeviceFocusOut</constant> events. The X server automatically performs an <constant>UngrabDevice</constant> request if the event window for an active device grab becomes not viewable.</para>
         <para>
-            <constant>XUngrabDevice</constant> can generate a <constant>BadDevice</constant> error. </para>
+            <constant>XUngrabDevice</constant> can generate a <constant>BadDevice</constant> error.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not name a defined Window. </para>
+                    <listitem><para>A value for a Window argument does not name a defined Window.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1693,15 +1731,18 @@
 
 <refentry id="XListInputDevices.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XListInputDevices</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XListInputDevices, XFreeDeviceList</refname>
+	<refname>XListInputDevices</refname>
+	<refname>XFreeDeviceList</refname>
         <refpurpose>list available input devices</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -1737,13 +1778,13 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XListInputDevices</constant> request lists the available input devices. This list includes all master pointers and master keyboards as well as the physical input devices currently accessible through the X server, and any input devices that are not currently accessible through the X server but could be accessed if requested. </para>
+        <para>The <constant>XListInputDevices</constant> request lists the available input devices. This list includes all master pointers and master keyboards as well as the physical input devices currently accessible through the X server, and any input devices that are not currently accessible through the X server but could be accessed if requested.</para>
         <para>
-            A master pointer is a virtual pointer device that does not represent a physical device. It is visually represented through a cursor. A master keyboard is a virtual keyboard device that does not represent a physical device. It is virtually representd through a keyboard focus. A master pointer and a master keyboard are always paired (i.e. if shift is pressed on the master keyboard, a pointer click would be a shift-click). Multiple master pointer/keyboard pairs can exist. </para>
+            A master pointer is a virtual pointer device that does not represent a physical device. It is visually represented through a cursor. A master keyboard is a virtual keyboard device that does not represent a physical device. It is virtually representd through a keyboard focus. A master pointer and a master keyboard are always paired (i.e. if shift is pressed on the master keyboard, a pointer click would be a shift-click). Multiple master pointer/keyboard pairs can exist.</para>
         <para>
-            Physical devices (so-called slave devices) are attached to either a master pointer or a master keyboard, depending on their capabilities. If a slave device generates an event, the event is also generated by the respective master device. Multiple slave devices can be attached to a single master device. </para>
+            Physical devices (so-called slave devices) are attached to either a master pointer or a master keyboard, depending on their capabilities. If a slave device generates an event, the event is also generated by the respective master device. Multiple slave devices can be attached to a single master device.</para>
         <para>
-            Some server implementations may make all physical input devices available at the time the server is initialized. Others may wait until requested by a client to access an input device. In the latter case, it is possible that an input device will be listed as available at one time but not at another. </para>
+            Some server implementations may make all physical input devices available at the time the server is initialized. Others may wait until requested by a client to access an input device. In the latter case, it is possible that an input device will be listed as available at one time but not at another.</para>
         <para>
             For each input device available to the server, the XListInputDevices request returns an XDeviceInfo structure. That structure contains a pointer to a list of structures, each of which contains information about one class of input supported by the device. The XDeviceInfo structure is defined as follows: 
 
@@ -1760,27 +1801,27 @@
         </para>
 
         <para>
-            The id is a number in the range 0-128 that uniquely identifies the device. It is assigned to the device when it is initialized by the server. </para>
+            The id is a number in the range 0-128 that uniquely identifies the device. It is assigned to the device when it is initialized by the server.</para>
         <para>
-            The type field is of type Atom and indicates the nature of the device. </para>
+            The type field is of type Atom and indicates the nature of the device.</para>
         <para>
             The name field contains a pointer to a null-terminated string that corresponds to one of the defined device types. The name will correspond to one of the following strings (defined in the header file <constant>XI.h</constant>:</para>
         <para>
             <constant>XI_MOUSE</constant> <constant>XI_TABLET</constant> <constant>XI_KEYBOARD</constant> <constant>XI_TOUCHSCREEN</constant> <constant>XI_TOUCHPAD</constant> <constant>XI_BUTTONBOX</constant> <constant>XI_BARCODE</constant> <constant>XI_TRACKBALL</constant> <constant>XI_QUADRATURE</constant> <constant>XI_ID_MODULE</constant> <constant>XI_ONE_KNOB</constant> <constant>XI_NINE_KNOB</constant> <constant>XI_KNOB_BOX</constant> <constant>XI_SPACEBALL</constant> <constant>XI_DATAGLOVE</constant> <constant>XI_EYETRACKER</constant> <constant>XI_CURSORKEYS</constant> <constant>XI_FOOTMOUSE</constant></para>
         <para>
-            These names may be directly compared with the name field of the XDeviceInfo structure, or used in an XInternAtom request to return an atom that can be compared with the type field of the XDeviceInfo structure. </para>
+            These names may be directly compared with the name field of the XDeviceInfo structure, or used in an XInternAtom request to return an atom that can be compared with the type field of the XDeviceInfo structure.</para>
         <para>
-            The num_classes field is a number in the range 0-255 that specifies the number of input classes supported by the device for which information is returned by ListInputDevices. Some input classes, such as class Focus and class Proximity do not have any information to be returned by ListInputDevices. </para>
+            The num_classes field is a number in the range 0-255 that specifies the number of input classes supported by the device for which information is returned by ListInputDevices. Some input classes, such as class Focus and class Proximity do not have any information to be returned by ListInputDevices.</para>
         <para>
-            All devices provide an AttachClass. This class specifies the master device a given slave device is attached to. For master devices, the class specifies the respective paired master device. </para>
+            All devices provide an AttachClass. This class specifies the master device a given slave device is attached to. For master devices, the class specifies the respective paired master device.</para>
         <para>
-            The use field specifies how the device is currently being used. If the value is <constant>IsXKeyboard</constant>, the device is a master keyboard. If the value is <constant>IsXPointer</constant>, the device is a master pointer. If the value is <constant>IsXExtensionPointer</constant>, the device is a slave pointer. If the value is <constant>IsXExtensionKeyboard</constant>, the device is a slave keyboard. If the value is <constant>IsXExtensionDevice</constant>, the device is available for use as an extension device. </para>
+            The use field specifies how the device is currently being used. If the value is <constant>IsXKeyboard</constant>, the device is a master keyboard. If the value is <constant>IsXPointer</constant>, the device is a master pointer. If the value is <constant>IsXExtensionPointer</constant>, the device is a slave pointer. If the value is <constant>IsXExtensionKeyboard</constant>, the device is a slave keyboard. If the value is <constant>IsXExtensionDevice</constant>, the device is available for use as an extension device.</para>
         <para>
-            The inputclassinfo field contains a pointer to the first input-class specific data. The first two fields are common to all classes. </para>
+            The inputclassinfo field contains a pointer to the first input-class specific data. The first two fields are common to all classes.</para>
         <para>
-            The class field is a number in the range 0-255. It uniquely identifies the class of input for which information is returned. Currently defined classes are KeyClass, ButtonClass, and ValuatorClass. </para>
+            The class field is a number in the range 0-255. It uniquely identifies the class of input for which information is returned. Currently defined classes are KeyClass, ButtonClass, and ValuatorClass.</para>
         <para>
-            The length field is a number in the range 0- 255. It specifies the number of bytes of data that are contained in this input class. The length includes the class and length fields. </para>
+            The length field is a number in the range 0- 255. It specifies the number of bytes of data that are contained in this input class. The length includes the class and length fields.</para>
         <para>
             The XKeyInfo structure describes the characteristics of the keys on the device. It is defined as follows: </para>
         <para>
@@ -1796,11 +1837,11 @@
             </synopsis>
         </para>
         <para>
-            min_keycode is of type KEYCODE. It specifies the minimum keycode that the device will report. The minimum keycode will not be smaller than 8. </para>
+            min_keycode is of type KEYCODE. It specifies the minimum keycode that the device will report. The minimum keycode will not be smaller than 8.</para>
         <para>
-            max_keycode is of type KEYCODE. It specifies the maximum keycode that the device will report. The maximum keycode will not be larger than 255. </para>
+            max_keycode is of type KEYCODE. It specifies the maximum keycode that the device will report. The maximum keycode will not be larger than 255.</para>
         <para>
-            num_keys specifies the number of keys that the device has. </para>
+            num_keys specifies the number of keys that the device has.</para>
         <para>
             The XButtonInfo structure defines the characteristics of the buttons on the device. It is defined as follows: </para>
         <para>
@@ -1813,7 +1854,7 @@
             </synopsis>
         </para>
         <para>
-            num_buttons specifies the number of buttons that the device has. </para>
+            num_buttons specifies the number of buttons that the device has.</para>
         <para>
             The XValuatorInfo structure defines the characteristics of the valuators on the device. It is defined as follows: </para>
         <para>
@@ -1829,13 +1870,13 @@
             </synopsis>
         </para>
         <para>
-            num_axes contains the number of axes the device supports. </para>
+            num_axes contains the number of axes the device supports.</para>
         <para>
-            mode is a constant that has one of the following values: Absolute or Relative. Some devices allow the mode to be changed dynamically via the SetDeviceMode request. </para>
+            mode is a constant that has one of the following values: Absolute or Relative. Some devices allow the mode to be changed dynamically via the SetDeviceMode request.</para>
         <para>
-            motion_buffer_size is a cardinal number that specifies the number of elements that can be contained in the motion history buffer for the device. </para>
+            motion_buffer_size is a cardinal number that specifies the number of elements that can be contained in the motion history buffer for the device.</para>
         <para>
-            The axes field contains a pointer to an XAxisInfo structure. </para>
+            The axes field contains a pointer to an XAxisInfo structure.</para>
         <para>
             The XAxisInfo structure is defined as follows: </para>
         <para>
@@ -1848,11 +1889,11 @@
             </synopsis>
         </para>
         <para>
-            The resolution contains a number in counts/meter. </para>
+            The resolution contains a number in counts/meter.</para>
         <para>
-            The min_val field contains a number that specifies the minimum value the device reports for this axis. For devices whose mode is Relative, the min_val field will contain 0. </para>
+            The min_val field contains a number that specifies the minimum value the device reports for this axis. For devices whose mode is Relative, the min_val field will contain 0.</para>
         <para>
-            The max_val field contains a number that specifies the maximum value the device reports for this axis. For devices whose mode is Relative, the max_val field will contain 0. </para>
+            The max_val field contains a number that specifies the maximum value the device reports for this axis. For devices whose mode is Relative, the max_val field will contain 0.</para>
         <para>
             The XAttachInfo structure is defined as follows: </para>
         <para>
@@ -1863,23 +1904,26 @@
             </synopsis>
         </para>
         <para>
-            If the device is a slave device, attached specifies the device ID of the master device this device is attached to. If the device is not attached to a master device, attached is <constant>Floating</constant>. If the device is a master device, attached specifies the device ID of the master device this device is paired with. </para>
+            If the device is a slave device, attached specifies the device ID of the master device this device is attached to. If the device is not attached to a master device, attached is <constant>Floating</constant>. If the device is a master device, attached specifies the device ID of the master device this device is paired with.</para>
         <para>
-            To free the <constant>XDeviceInfo</constant> array created by <constant>XListInputDevices</constant>, use <constant>XFreeDeviceList</constant>. </para>
+            To free the <constant>XDeviceInfo</constant> array created by <constant>XListInputDevices</constant>, use <constant>XFreeDeviceList</constant>.</para>
     </refsect1>
 </refentry>
 
 <refentry id="XOpenDevice.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XOpenDevice</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XOpenDevice, XCloseDevice</refname>
+        <refname>XOpenDevice</refname>
+	<refname>XCloseDevice</refname>
         <refpurpose>open or close an extension input device</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -1919,11 +1963,11 @@
     <refsect1><title>Description</title>
         <para>The <constant>XOpenDevice</constant> request makes an input
             device accessible to a client through input extension protocol
-            requests. If successful, it returns a pointer to an <constant>XDevice</constant> structure. </para>
+            requests. If successful, it returns a pointer to an <constant>XDevice</constant> structure.</para>
         <para>
-            The <constant>XCloseDevice</constant> request makes an input device inaccessible to a client through input extension protocol requests. Before terminating, and client that has opened input devices through the input extension should close them via <constant>CloseDevice</constant>. </para>
+            The <constant>XCloseDevice</constant> request makes an input device inaccessible to a client through input extension protocol requests. Before terminating, and client that has opened input devices through the input extension should close them via <constant>CloseDevice</constant>.</para>
         <para>
-            When a client makes an <constant>XCloseDevice</constant> request, any active grabs that the client has on the device are released. Any event selections that the client has are deleted, as well as any passive grabs. If the requesting client is the last client accessing the device, the server may disable all access by X to the device. </para>
+            When a client makes an <constant>XCloseDevice</constant> request, any active grabs that the client has on the device are released. Any event selections that the client has are deleted, as well as any passive grabs. If the requesting client is the last client accessing the device, the server may disable all access by X to the device.</para>
         <para>
             <constant>XOpenDevice</constant> and <constant>XCloseDevice</constant> can generate a <constant>BadDevice</constant> error.
 
@@ -1942,7 +1986,7 @@
             </synopsis>
         </para>
         <para>
-            The classes field is a pointer to an array of XInputClassInfo structures. Each element of this array contains an event type base for a class of input supported by the specified device. The num_classes field indicates the number of elements in the classes array. </para>
+            The classes field is a pointer to an array of XInputClassInfo structures. Each element of this array contains an event type base for a class of input supported by the specified device. The num_classes field indicates the number of elements in the classes array.</para>
         <para>
             The <constant>XInputClassInfo</constant> structure contains: </para>
         <para>
@@ -1954,9 +1998,9 @@
             </synopsis>
         </para>
         <para>
-            The input_class field identifies one class of input supported by the device. Defined types include <constant>KeyClass</constant>, <constant>ButtonClass</constant>, <constant>ValuatorClass</constant>, <constant>ProximityClass</constant>, <constant>FeedbackClass</constant>, <constant>FocusClass</constant>, and <constant>OtherClass</constant>. The event_type_base identifies the event type of the first event in that class. </para>
+            The input_class field identifies one class of input supported by the device. Defined types include <constant>KeyClass</constant>, <constant>ButtonClass</constant>, <constant>ValuatorClass</constant>, <constant>ProximityClass</constant>, <constant>FeedbackClass</constant>, <constant>FocusClass</constant>, and <constant>OtherClass</constant>. The event_type_base identifies the event type of the first event in that class.</para>
         <para>
-            The information contained in the <constant>XInputClassInfo</constant> structure is used by macros to obtain the event classes that clients use in making <constant>XSelectExtensionEvent</constant> requests. Currently defined macros include <constant>DeviceKeyPress</constant>, <constant>DeviceKeyRelease</constant>, <constant>DeviceButtonPress</constant>, <constant>DeviceButtonRelese</constant>, <constant>DeviceMotionNotify</constant>, <constant>DeviceFocusIn</constant>, <constant>DeviceFocusOut</constant>, <constant>ProximityIn</constant>, <constant>ProximityOut</constant>, <constant>DeviceStateNotify</constant>, <constant>DeviceMappingNotify</constant>, <constant>ChangeDeviceNotify</constant>, <constant>DevicePointerMotionHint</constant>, <constant>DeviceButton1Motion</constant>, <constant>DeviceButton2Motion</constant>, <constant>DeviceButton3Motion</constant>, <constant>DeviceButton4Motion</constant>, <constant>DeviceButton5Motion</constant>, <constant>DeviceButtonMotion</constant>, <constant>DeviceOwnerGrabButton</constant>, <constant>DeviceButtonPressGrab</constant>, and <constant>NoExtensionEvent</constant>. </para>
+            The information contained in the <constant>XInputClassInfo</constant> structure is used by macros to obtain the event classes that clients use in making <constant>XSelectExtensionEvent</constant> requests. Currently defined macros include <constant>DeviceKeyPress</constant>, <constant>DeviceKeyRelease</constant>, <constant>DeviceButtonPress</constant>, <constant>DeviceButtonRelese</constant>, <constant>DeviceMotionNotify</constant>, <constant>DeviceFocusIn</constant>, <constant>DeviceFocusOut</constant>, <constant>ProximityIn</constant>, <constant>ProximityOut</constant>, <constant>DeviceStateNotify</constant>, <constant>DeviceMappingNotify</constant>, <constant>ChangeDeviceNotify</constant>, <constant>DevicePointerMotionHint</constant>, <constant>DeviceButton1Motion</constant>, <constant>DeviceButton2Motion</constant>, <constant>DeviceButton3Motion</constant>, <constant>DeviceButton4Motion</constant>, <constant>DeviceButton5Motion</constant>, <constant>DeviceButtonMotion</constant>, <constant>DeviceOwnerGrabButton</constant>, <constant>DeviceButtonPressGrab</constant>, and <constant>NoExtensionEvent</constant>.</para>
         <para>
             To obtain the proper event class for a particular device, one of the above macros is invoked using the <constant>XDevice</constant> structure for that device. For example, </para>
         <para>
@@ -1965,16 +2009,16 @@
             </synopsis>
         </para>
         <para>
-            returns the <constant>DeviceKeyPress</constant> event type and the eventclass for <constant>DeviceKeyPress</constant> events from the specified device. </para>
+            returns the <constant>DeviceKeyPress</constant> event type and the eventclass for <constant>DeviceKeyPress</constant> events from the specified device.</para>
         <para>
-            This <constant>eventclass</constant> can then be used in an <constant>XSelectExtensionEvent</constant> request to ask the server to send <constant>DeviceKeyPress</constant> events from this device. When a selected event is received via <constant>XNextEvent</constant>, the <constant>type</constant> can be used for comparison with the type in the event. </para>
+            This <constant>eventclass</constant> can then be used in an <constant>XSelectExtensionEvent</constant> request to ask the server to send <constant>DeviceKeyPress</constant> events from this device. When a selected event is received via <constant>XNextEvent</constant>, the <constant>type</constant> can be used for comparison with the type in the event.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist, or is the X keyboard or X pointer. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist, or is the X keyboard or X pointer. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1984,13 +2028,15 @@
 
 <refentry id="XQueryDeviceState.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XQueryDeviceState</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XQueryDeviceState</refname>
         <refpurpose>query the state of an extension input device.</refpurpose>
@@ -2022,7 +2068,7 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XQueryDeviceState</constant> request queries the state of an input device. The current state of keys and buttons (up or down), and valuators (current value) on the device is reported by this request. Each key or button is represented by a bit in the <constant>XDeviceState</constant> structure that is returned. Valuators on the device report 0 if they are reporting relative information, and the current value if they are reporting absolute information. </para>
+        <para>The <constant>XQueryDeviceState</constant> request queries the state of an input device. The current state of keys and buttons (up or down), and valuators (current value) on the device is reported by this request. Each key or button is represented by a bit in the <constant>XDeviceState</constant> structure that is returned. Valuators on the device report 0 if they are reporting relative information, and the current value if they are reporting absolute information.</para>
         <para>
             <constant>XQueryDeviceState</constant> can generate a <constant>BadDevice</constant> error.
 
@@ -2083,7 +2129,7 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -2094,15 +2140,18 @@
 
 <refentry id="XSelectExtensionEvent.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XSelectExtensionEvent</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XSelectExtensionEvent, XGetSelectedExtensionEvents</refname>
+        <refname>XSelectExtensionEvent</refname>
+	<refname>XGetSelectedExtensionEvents</refname>
         <refpurpose>select extension events, get the list of currently selected extension events</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -2274,13 +2323,15 @@
 
 <refentry id="XSendExtensionEvent.man"> 
         <refentryinfo>
-            <productname>_vendorversion_</productname>
+            <productname>__vendorversion__</productname>
         </refentryinfo>
 
         <refmeta>
             <refentrytitle>XSendExtensionEvent</refentrytitle>
-            <manvolnum>3</manvolnum>
-        </refmeta>
+            <manvolnum>__libmansuffix__</manvolnum>
+        <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
         <refnamediv>
              <refname>XSendExtensionEvent</refname>
              <refpurpose>send input extension events to a client</refpurpose>
@@ -2341,7 +2392,7 @@
             <itemizedlist>
                 <listitem>
                     <para>
-                        If w is <constant>PointerWindow</constant> ,the destination window is the window that contains the pointer.
+                        If w is <constant>PointerWindow</constant>,the destination window is the window that contains the pointer.
                     </para>
                 </listitem>
                 <listitem>
@@ -2371,7 +2422,7 @@
             The event in the <constant>XEvent</constant>structure must be one of the events defined by the input extension (or a <constant>BadValue</constant>error results) so that the X server can correctly byte-swapthe contents as necessary. The contents of the event areotherwise unaltered and unchecked by the X server except to force send_event to <constant>True</constant>in the forwarded event and to set the serial number in the event correctly.
         </para>
         <para>
-            <constant>XSendExtensionEvent</constant>returns zero if the conversion to wire protocol format failedand returns nonzero otherwise. <constant>XSendExtensionEvent</constant>can generate <constant>BadClass</constant>, <constant>BadDevice</constant>, <constant>BadValue</constant>, and <constant>BadWindow</constant> errors.
+            <constant>XSendExtensionEvent</constant>returns zero if the conversion to wire protocol format failedand returns nonzero otherwise.<constant>XSendExtensionEvent</constant>can generate <constant>BadClass</constant>, <constant>BadDevice</constant>, <constant>BadValue</constant>, and <constant>BadWindow</constant> errors.
         </para>
     </refsect1>
     <refsect1><title>Diagnosis</title>
@@ -2413,15 +2464,18 @@
 
 <refentry id="XSetDeviceButtonMapping.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XSetDeviceButtonMapping</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XSetDeviceButtonMapping, XGetDeviceButtonMapping</refname>
+        <refname>XSetDeviceButtonMapping</refname>
+	<refname>XGetDeviceButtonMapping</refname>
         <refpurpose>query or change device button mappings</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -2468,30 +2522,30 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The <constant>XSetDeviceButtonMapping</constant> request sets the mapping of the specified device. If it succeeds, the X server generates a <constant>DeviceMappingNotify</constant> event, and <constant>XSetDeviceButtonMapping</constant> returns <constant>MappingSuccess</constant>. Element map[i] defines the logical button number for the physical button i+1. The length of the list must be the same as <constant>XGetDeviceButtonMapping</constant> would return, or a <constant>BadValue</constant> error results. A zero element disables a button, and elements are not restricted in value by the number of physical buttons. However, no two elements can have the same nonzero value, or a <constant>BadValue</constant> error results. If any of the buttons to be altered are logically in the down state, <constant>XSetDeviceButtonMapping</constant> returns <constant>MappingBusy</constant>, and the mapping is not changed. </para>
+        <para>The <constant>XSetDeviceButtonMapping</constant> request sets the mapping of the specified device. If it succeeds, the X server generates a <constant>DeviceMappingNotify</constant> event, and <constant>XSetDeviceButtonMapping</constant> returns <constant>MappingSuccess</constant>. Element map[i] defines the logical button number for the physical button i+1. The length of the list must be the same as <constant>XGetDeviceButtonMapping</constant> would return, or a <constant>BadValue</constant> error results. A zero element disables a button, and elements are not restricted in value by the number of physical buttons. However, no two elements can have the same nonzero value, or a <constant>BadValue</constant> error results. If any of the buttons to be altered are logically in the down state, <constant>XSetDeviceButtonMapping</constant> returns <constant>MappingBusy</constant>, and the mapping is not changed.</para>
         <para>
-            <constant>XSetDeviceButtonMapping</constant> can generate <constant>BadDevice</constant>, <constant>BadMatch</constant>, and  <constant>BadValue</constant> errors. </para>
+            <constant>XSetDeviceButtonMapping</constant> can generate <constant>BadDevice</constant>, <constant>BadMatch</constant>, and  <constant>BadValue</constant> errors.</para>
         <para>
-            The <constant>XGetDeviceButtonMapping</constant> request returns the current mapping of the specified device. Buttons are numbered starting from one. <constant>XGetDeviceButtonMapping</constant> returns the number of physical buttons actually on the device. The nominal mapping for a device is map[i]=i+1. The nmap argument specifies the length of the array where the device mapping is returned, and only the first nmap elements are returned in map_return. </para>
+            The <constant>XGetDeviceButtonMapping</constant> request returns the current mapping of the specified device. Buttons are numbered starting from one.<constant>XGetDeviceButtonMapping</constant> returns the number of physical buttons actually on the device. The nominal mapping for a device is map[i]=i+1. The nmap argument specifies the length of the array where the device mapping is returned, and only the first nmap elements are returned in map_return.</para>
         <para>
-            <constant>XGetDeviceButtonMapping</constant> can generate <constant>BadDevice</constant> or <constant>BadMatch</constant> errors. </para>
+            <constant>XGetDeviceButtonMapping</constant> can generate <constant>BadDevice</constant> or <constant>BadMatch</constant> errors.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceButtonMapping</constant> or <constant>XSetDeviceButtonMapping</constant> request was made specifying a device that has no buttons. </para>
+                    <listitem><para>This error may occur if an <constant>XGetDeviceButtonMapping</constant> or <constant>XSetDeviceButtonMapping</constant> request was made specifying a device that has no buttons.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -2506,15 +2560,18 @@
 
 <refentry id="XSetDeviceFocus.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XSetDeviceFocus</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XSetDeviceFocus, XGetDeviceFocus</refname>
+        <refname>XSetDeviceFocus</refname>
+	<refname>XGetDeviceFocus</refname>
         <refpurpose>control extension input device focus</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -2573,20 +2630,20 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The  <constant>XSetDeviceFocus</constant>  request changes the focus of the specified device and its last-focus-change time. It has no effect if the specified time is earlier than the current last-focus-change time or is later than the current X server time. Otherwise, the last-focus-change time is set to the specified time  <constant>CurrentTime</constant>  is replaced by the current X server time).  <constant>XSetDeviceFocus</constant>  causes the X server to generate  <constant>DeviceFocusIn</constant>  and  <constant>DeviceFocusOut</constant>  events. </para>
+        <para>The  <constant>XSetDeviceFocus</constant>  request changes the focus of the specified device and its last-focus-change time. It has no effect if the specified time is earlier than the current last-focus-change time or is later than the current X server time. Otherwise, the last-focus-change time is set to the specified time  <constant>CurrentTime</constant>  is replaced by the current X server time).  <constant>XSetDeviceFocus</constant>  causes the X server to generate  <constant>DeviceFocusIn</constant>  and  <constant>DeviceFocusOut</constant>  events.</para>
         <para>
             Depending on the focus argument, the following occurs:
 
             <itemizedlist>
-                <listitem><para> If focus is  <constant>None</constant>  , all device events are discarded until a new focus window is set, and the revert_to argument is ignored. 
+                <listitem><para> If focus is  <constant>None</constant> , all device events are discarded until a new focus window is set, and the revert_to argument is ignored. 
                 </para></listitem>
                 <listitem><para>If focus is a window, it becomes the device's focus window. If a generated device event would normally be reported to this window or one of its inferiors, the event is reported as usual. Otherwise, the event is reported relative to the focus window. 
                 </para></listitem>
                 <listitem><para>
-                        If focus is  <constant>PointerRoot</constant> , the focus window is dynamically taken to be the root window of whatever screen the pointer is on at each event from the specified device. In this case, the revert_to argument is ignored. 
+                        If focus is  <constant>PointerRoot</constant>, the focus window is dynamically taken to be the root window of whatever screen the pointer is on at each event from the specified device. In this case, the revert_to argument is ignored. 
                 </para></listitem>
                 <listitem><para>
-                        If focus is  <constant>FollowKeyboard</constant> , the focus window is dynamically taken to be the window to which the X keyboard focus is set at each input event. </para>
+                        If focus is  <constant>FollowKeyboard</constant>, the focus window is dynamically taken to be the window to which the X keyboard focus is set at each input event.</para>
                 </listitem>
             </itemizedlist>
         </para>
@@ -2594,9 +2651,9 @@
             The specified focus window must be viewable at the time  <constant>XSetDeviceFocus</constant>  is called, or a  <constant>BadMatch</constant>  error results. If the focus window later becomes not viewable, the X server evaluates the revert_to argument to determine the new focus window as follows: 
 
             <itemizedlist>
-                <listitem><para>If revert_to is  <constant>RevertToParent</constant> , the focus reverts to the parent (or the closest viewable ancestor), and the new revert_to value is taken to be  <constant>RevertToNone</constant>.</para></listitem>
+                <listitem><para>If revert_to is  <constant>RevertToParent</constant>, the focus reverts to the parent (or the closest viewable ancestor), and the new revert_to value is taken to be  <constant>RevertToNone</constant>.</para></listitem>
                 <listitem><para>
-                        If revert_to is  <constant>RevertToPointerRoot</constant> ,  <constant>RevertToFollowKeyboard</constant> , or  <constant>RevertToNone</constant> , the focus reverts to  <constant>PointerRoot</constant> ,  <constant>FollowKeyboard</constant> , or  <constant>None</constant> , respectively. </para>
+                        If revert_to is  <constant>RevertToPointerRoot</constant>,  <constant>RevertToFollowKeyboard</constant>, or  <constant>RevertToNone</constant>, the focus reverts to  <constant>PointerRoot</constant>,  <constant>FollowKeyboard</constant>, or  <constant>None</constant>, respectively.</para>
                 </listitem>
             </itemizedlist>
         </para>
@@ -2604,13 +2661,13 @@
             When the focus reverts, the X server generates
             <constant>DeviceFocusIn</constant>  and
             <constant>DeviceFocusOut</constant>  events, but the
-            last-focus-change time is not affected. </para> <para> Input
+            last-focus-change time is not affected.</para> <para> Input
             extension devices are not required to support the ability to be
             focused. Attempting to set the focus of a device that does not
             support this request will result in a
             <constant>BadMatch</constant>  error.  Whether or not given
             device can support this request can be determined by the
-            information returned by  <constant>XOpenDevice</constant> . For
+            information returned by  <constant>XOpenDevice</constant>. For
             those devices that support focus,
             <constant>XOpenDevice</constant>  will return an
             <constant>XInputClassInfo</constant>  structure with the
@@ -2625,33 +2682,33 @@
             <constant>BadWindow</constant> errors. 
         </para>
         <para>
-            The  <constant>XGetDeviceFocus</constant>  request returns the focus window and the current focus state. </para>
+            The  <constant>XGetDeviceFocus</constant>  request returns the focus window and the current focus state.</para>
         <para>
-            Not all input extension devices can be focused.  Attempting to query the focus state of a device that can't be focused results in a  <constant>BadMatch</constant>  error.  A device that can be focused returns information for input Class Focus when an  <constant>XOpenDevice</constant>  request is made. </para>
+            Not all input extension devices can be focused.  Attempting to query the focus state of a device that can't be focused results in a  <constant>BadMatch</constant>  error.  A device that can be focused returns information for input Class Focus when an  <constant>XOpenDevice</constant>  request is made.</para>
         <para>
-            <constant>XGetDeviceFocus</constant>  can generate  <constant>BadDevice</constant> , and  <constant>BadMatch</constant>  errors. </para>
+            <constant>XGetDeviceFocus</constant>  can generate  <constant>BadDevice</constant>, and  <constant>BadMatch</constant>  errors.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant> .  This error may also occur if the specified device is the X keyboard or X pointer device. </para>
+                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.  This error may also occur if the specified device is the X keyboard or X pointer device.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error. </para>
+                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not name a defined Window. </para>
+                    <listitem><para>A value for a Window argument does not name a defined Window.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XGetDeviceFocus</constant>  or  <constant>XSetDeviceFocus</constant>  request was made specifying a device that the server implementation does not allow to be focused. </para>
+                    <listitem><para>This error may occur if an  <constant>XGetDeviceFocus</constant>  or  <constant>XSetDeviceFocus</constant>  request was made specifying a device that the server implementation does not allow to be focused.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -2662,13 +2719,15 @@
 
 <refentry id="XSetDeviceMode.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XSetDeviceMode</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XSetDeviceMode</refname>
         <refpurpose>change the mode of a device</refpurpose>
@@ -2695,33 +2754,33 @@
                     <listitem><para>Specifies the device whose mode is to be changed.</para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>mode</parameter></term>
-                    <listitem><para>Specifies the mode.You can pass <constant>Absolute</constant> ,or <constant>Relative</constant>.</para></listitem>
+                    <listitem><para>Specifies the mode.You can pass <constant>Absolute</constant>,or <constant>Relative</constant>.</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The  <constant>XSetDeviceMode</constant>  request changes the mode of an input device that is capable of reporting either absolute positional information or relative motion information. Not all input devices are capable of reporting motion data, and not all are capable of changing modes from  <constant>Absolute</constant>  to  <constant>Relative</constant> . </para>
+        <para>The  <constant>XSetDeviceMode</constant>  request changes the mode of an input device that is capable of reporting either absolute positional information or relative motion information. Not all input devices are capable of reporting motion data, and not all are capable of changing modes from  <constant>Absolute</constant>  to  <constant>Relative</constant>.</para>
         <para>
-            <constant>XSetDeviceMode</constant>  can generate a  <constant>BadDevice</constant>  or  <constant>BadMode</constant>  error. </para>
+            <constant>XSetDeviceMode</constant>  can generate a  <constant>BadDevice</constant>  or  <constant>BadMode</constant>  error.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant> .  This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the  <constant>XChangeKeyboardDevice</constant>  or  <constant>XChangePointerDevice</constant>  requests. </para>
+                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.  This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the  <constant>XChangeKeyboardDevice</constant>  or  <constant>XChangePointerDevice</constant>  requests.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XSetDeviceMode</constant>  request is made specifying a device that has no valuators and reports no axes of motion. </para>
+                    <listitem><para>This error may occur if an  <constant>XSetDeviceMode</constant>  request is made specifying a device that has no valuators and reports no axes of motion.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMode</errorname></term>
-                    <listitem><para>An invalid mode was specified.  This error will also be returned if the specified device is not capable of supporting the  <constant>XSetDeviceMode</constant>  request. </para>
+                    <listitem><para>An invalid mode was specified.  This error will also be returned if the specified device is not capable of supporting the  <constant>XSetDeviceMode</constant>  request.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -2732,13 +2791,15 @@
 
 <refentry id="XSetDeviceValuators.man"> 
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XSetDeviceValuators</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XSetDeviceValuators</refname>
         <refpurpose>initialize the valuators on an extension input device</refpurpose>
@@ -2782,28 +2843,28 @@
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>The  <constant>XSetDeviceValuators</constant>  request sets the current values of the valuators of an input device. The valuators in the range first_valuator to (first_valuator + num_valuators) are set to the specified values.  Valuators are numbered beginning with 0. Not all input devices support initialization of valuator values.  If this request is made to a device that does not support valuators initialization, a  <constant>BadMatch</constant>  error will occur. </para>
+        <para>The  <constant>XSetDeviceValuators</constant>  request sets the current values of the valuators of an input device. The valuators in the range first_valuator to (first_valuator + num_valuators) are set to the specified values.  Valuators are numbered beginning with 0. Not all input devices support initialization of valuator values.  If this request is made to a device that does not support valuators initialization, a  <constant>BadMatch</constant>  error will occur.</para>
         <para>
-            If the request succeeds, a status of Success is returned.  If another client has the device grabbed, a status of AlreadyGrabbed is returned. </para>
+            If the request succeeds, a status of Success is returned.  If another client has the device grabbed, a status of AlreadyGrabbed is returned.</para>
         <para>
-            <constant>XSetDeviceValuators</constant>  can generate a  <constant>BadLength</constant> ,  <constant>BadDevice</constant>  ,  <constant>BadMatch</constant> , or  <constant>BadValue</constant>  error. </para>
+            <constant>XSetDeviceValuators</constant>  can generate a  <constant>BadLength</constant>,  <constant>BadDevice</constant> ,  <constant>BadMatch</constant>, or  <constant>BadValue</constant>  error.</para>
     </refsect1>
 
     <refsect1><title>Diagnostics</title><para>
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant> . </para>
+                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XSetDeviceValuators</constant>  request is made specifying a device that has no valuators and reports no axes of motion, or if such a request is made specifying a device that does not support valuator initialization. </para>
+                    <listitem><para>This error may occur if an  <constant>XSetDeviceValuators</constant>  request is made specifying a device that has no valuators and reports no axes of motion, or if such a request is made specifying a device that does not support valuator initialization.</para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>An invalid first_valuator or num_valuators values was specified. </para>
+                    <listitem><para>An invalid first_valuator or num_valuators values was specified.</para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -2815,71 +2876,73 @@
 <!--- MPX -->
 <refentry id="XSetClientPointer.man">
   <refentryinfo>
-    <productname>_vendorversion_</productname>
+    <productname>__vendorversion__</productname>
     <pubdate>February 14, 2008</pubdate>
     <authorgroup>
       <author>
         <firstname>Peter</firstname><surname>Hutterer</surname>
         <contrib>Specification and implementation.</contrib>
-        <email>peter@cs.unisa.edu.au</email>
       </author>
     </authorgroup>
   </refentryinfo>
 
   <refmeta>
     <refentrytitle>XSetClientPointer, XGetClientPointer</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XSetClientPointer, XGetClientPointer</refname>
-        <refpurpose>set or get the ClientPointer setting.</refpurpose>
+        <refname>XSetClientPointer</refname>
+	<refname>XGetClientPointer</refname>
+	<refpurpose>set or get the ClientPointer setting.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-        <title>Syntax</title>
-        <funcsynopsis>
-            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
-            <funcprototype>
-                <funcdef><function>XSetClientPointer</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>Window <parameter>win</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-            </funcprototype>
-            <funcprototype>
-                <funcdef>Bool <function>XGetClientPointer</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>Window <parameter>win</parameter></paramdef>
-                <paramdef>XID *<parameter>device</parameter></paramdef>
-            </funcprototype>
-        </funcsynopsis>
+	<title>Syntax</title>
+	<funcsynopsis>
+	    <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
+	    <funcprototype>
+		<funcdef><function>XSetClientPointer</function></funcdef>
+		<paramdef>Display *<parameter>display</parameter></paramdef>
+		<paramdef>Window <parameter>win</parameter></paramdef>
+		<paramdef>XDevice *<parameter>device</parameter></paramdef>
+	    </funcprototype>
+	    <funcprototype>
+		<funcdef>Bool <function>XGetClientPointer</function></funcdef>
+		<paramdef>Display *<parameter>display</parameter></paramdef>
+		<paramdef>Window <parameter>win</parameter></paramdef>
+		<paramdef>XID *<parameter>device</parameter></paramdef>
+	    </funcprototype>
+	</funcsynopsis>
     </refsynopsisdiv>
 
     <refsect1><title>Arguments</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>display</parameter></term>
-                    <listitem><para>Specifies the connection to the X server.</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>win</parameter></term>
-                    <listitem><para>Specifies a window belonging to the
-                            client. May be <constant>None</constant>.</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device to set as
-                            ClientPointer.</para></listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
+	<para>
+	    <variablelist>
+		<varlistentry>
+		    <term><parameter>display</parameter></term>
+		    <listitem><para>Specifies the connection to the X server.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+		    <term><parameter>win</parameter></term>
+		    <listitem><para>Specifies a window belonging to the
+			    client. May be <constant>None</constant>.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+		    <term><parameter>device</parameter></term>
+		    <listitem><para>Specifies the device to set as
+			    ClientPointer.</para></listitem>
+		</varlistentry>
+	    </variablelist>
+	</para>
     </refsect1>
 
     <refsect1><title>Description</title>
-        <para>
-            The ClientPointer is the device that is percieved to be the core
-            pointer for non-XI protocol requests and replies.  Each  time  a
-            protocol message needs device-dependent data and the  device  is
-            not explicitly  given,  the ClientPointer device is used to obtain
+	<para>
+	    The ClientPointer is the device that is percieved to be the core
+	    pointer for non-XI protocol requests and replies.  Each  time  a
+	    protocol message needs device-dependent data and the  device  is
+	    not explicitly  given,  the ClientPointer device is used to obtain
             the data. For example, a <function>XQueryPointer</function>
             request will return the coordinates of the ClientPointer. 
         </para>
@@ -2936,21 +2999,22 @@
 
 <refentry id="XQueryDevicePointer.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XQueryDevicePointer</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XQueryDevicePointer</refname>
         <refpurpose> get device pointer coordinates.</refpurpose>
@@ -3113,23 +3177,25 @@
 
 <refentry id="XDefineDeviceCursor.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XDefineDeviceCursor, XUndefineDeviceCursor</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XDefineDeviceCursor, XUndefineDeviceCursor</refname>
+        <refname>XDefineDeviceCursor</refname>
+	<refname>XUndefineDeviceCursor</refname>
         <refpurpose>define device cursors.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -3238,21 +3304,22 @@
 
 <refentry id="XWarpDevicePointer.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XWarpDevicePointer</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XWarpDevicePointer</refname>
         <refpurpose>move device pointer.</refpurpose>
@@ -3395,21 +3462,22 @@
 
 <refentry id="XChangeDeviceHierarchy.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XChangeDeviceHierarchy</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XChangeDeviceHierarchy</refname>
         <refpurpose>change the device hierarchy.</refpurpose>
@@ -3595,24 +3663,26 @@ typedef struct {
 
 <refentry id="XPermitDevices.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XPermitDevices, XDenyDevices, XChangeAccessRule</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
-        <refname>XPermitDevices, XDenyDevices, XChangeAccessRule
-        </refname>
+        <refname>XPermitDevices</refname>
+	<refname>XDenyDevices</refname>
+	<refname>XChangeAccessRule</refname>
         <refpurpose>change access rules to the window.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
@@ -3771,21 +3841,22 @@ typedef struct {
 
 <refentry id="XWindowClearAccess.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XWindowClearAccess</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XWindowClearAccess</refname>
         <refpurpose>remove access rules for the window.</refpurpose>
@@ -3858,7 +3929,7 @@ typedef struct {
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>A value is outside of the permitted range. </para></listitem>
+                    <listitem><para>A value is outside of the permitted range.</para></listitem>
     
                 </varlistentry>
                 <varlistentry>
@@ -3881,21 +3952,22 @@ typedef struct {
 
 <refentry id="XQueryWindowAccess.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XQueryWindowAccess</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XQueryWindowAccess</refname>
         <refpurpose>query access rules of the window.</refpurpose>
@@ -4015,21 +4087,22 @@ typedef struct {
 
 <refentry id="XiSelectEvent.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XiSelectEvent</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XiSelectEvent</refname>
         <refpurpose>select for generic events on the window.</refpurpose>
@@ -4119,7 +4192,7 @@ typedef struct {
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>A value is outside of the permitted range. </para></listitem>
+                    <listitem><para>A value is outside of the permitted range.</para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
@@ -4143,21 +4216,22 @@ typedef struct {
 
 <refentry id="XExtendedGrabDevice.man">
     <refentryinfo>
-        <productname>_vendorversion_</productname>
+        <productname>__vendorversion__</productname>
         <pubdate>February 14, 2008</pubdate>
         <authorgroup>
             <author>
                 <firstname>Peter</firstname><surname>Hutterer</surname>
                 <contrib>Specification and implementation.</contrib>
-                <email>peter@cs.unisa.edu.au</email>
             </author>
         </authorgroup>
     </refentryinfo>
 
     <refmeta>
         <refentrytitle>XExtendedGrabDevice</refentrytitle>
-        <manvolnum>3</manvolnum>
-    </refmeta>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
     <refnamediv>
         <refname>XExtendedGrabDevice</refname>
         <refpurpose>actively grab the device.</refpurpose>
@@ -4258,7 +4332,7 @@ typedef struct {
             <function>DeviceLeaveNotify</function> if the device is a pointer.  Further
             device events are reported only to the grabbing client.
             <function>XExtendedGrabDevice</function> overrides any active device grab by
-            this client. <parameter>event_list</parameter> is a pointer to a  list  of event
+            this client.<parameter>event_list</parameter> is a pointer to a  list  of event
             classes.  This list indicates which events the client wishes to receive
             while the grab is active.  <parameter>generic_event_list</parameter> is
             a pointer to a list of generic event masks. These masks indicates which generic
@@ -4346,7 +4420,7 @@ typedef struct {
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>A value is outside of the permitted range. </para></listitem>
+                    <listitem><para>A value is outside of the permitted range.</para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
