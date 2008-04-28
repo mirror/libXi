@@ -74,19 +74,27 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device from which events are to be allowed.
-</para></listitem>
+                    <listitem><para>Specifies the device from which events are
+                            to be allowed.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_mode</parameter></term>
-                    <listitem><para>Specifies the event mode.You can pass <constant>AsyncThisDevice</constant>, <constant>SyncThisDevice</constant>, <constant>ReplayThisDevice</constant>, <constant>AsyncOtherDevices</constant>, <constant>SyncAll</constant>,or <constant>AsyncAll</constant>.
-</para></listitem>
+                    <listitem><para>Specifies the event mode.You can pass
+                            <constant>AsyncThisDevice</constant>,
+                            <constant>SyncThisDevice</constant>,
+                            <constant>ReplayThisDevice</constant>,
+                            <constant>AsyncOtherDevices</constant>,
+                            <constant>SyncAll</constant>,or
+                            <constant>AsyncAll</constant>.  
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>time</parameter></term>
-                    <listitem><para>Specifies the time.You can pass either a timestamp or <constant>CurrentTime</constant>.
-</para></listitem>
+                    <listitem><para>Specifies the time.You can pass either a
+                            timestamp or <constant>CurrentTime</constant>.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -96,9 +104,9 @@
         <para>
             The <constant>XAllowDeviceEvents</constant> function releases some
             queued events if the client has caused a device to freeze. It has no
-            effect if the specified time is earlier than the last-grab time of the
-            most recent active grab for the client and device, or if the specified
-            time is later than the current X server time.
+            effect if the specified time is earlier than the last-grab time of
+            the most recent active grab for the client and device, or if the
+            specified time is later than the current X server time.
         </para>
         <para>
             The following describes the processing that occurs depending on what
@@ -127,15 +135,15 @@
         </para>
         <para>
             <constant>ReplayThisDevice</constant> If the specified device is
-            actively grabbed by the client and is frozen as the result of an event
-            having been sent to the client (either from the activation of a
-            GrabDeviceButton or from a previous AllowDeviceEvents with mode
-            SyncThisDevice, but not from a GrabDevice), the grab is released and
-            that event is completely reprocessed. This time, however, the request
-            ignores any passive grabs at or above (toward the root) that the
-            grab-window of the grab just released. The request has no effect if the
-            specified device is not grabbed by the client or if it is not frozen as
-            the result of an event.
+            actively grabbed by the client and is frozen as the result of an
+            event having been sent to the client (either from the activation
+            of a GrabDeviceButton or from a previous AllowDeviceEvents with
+            mode SyncThisDevice, but not from a GrabDevice), the grab is
+            released and that event is completely reprocessed. This time,
+            however, the request ignores any passive grabs at or above (toward
+            the root) that the grab-window of the grab just released. The
+            request has no effect if the specified device is not grabbed by
+            the client or if it is not frozen as the result of an event.
         </para>
         <para>
             <constant>AsyncOtherDevices</constant> If the remaining devices
@@ -266,23 +274,28 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>window</parameter></term>
-                    <listitem><para>Specifies the window whose dont-propagate-list is to be queried or modified.
-</para></listitem>
+                    <listitem><para>Specifies the window whose
+                            dont-propagate-list is to be queried or modified.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_list</parameter></term>
-                    <listitem><para>Specifies a pointer to a list of event classes.
-</para></listitem>
+                    <listitem><para>Specifies a pointer to a list of event
+                            classes.  
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>mode</parameter></term>
-                    <listitem><para>Specifies the mode.You can pass <constant>AddToList</constant>, or <constant>DeleteFromList</constant>.
-</para></listitem>
+                    <listitem><para>Specifies the mode.You can pass
+                            <constant>AddToList</constant>, or
+                            <constant>DeleteFromList</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>count</parameter></term>
-                    <listitem><para>Specifies the number of event classes in the list.
-</para></listitem>
+                    <listitem><para>Specifies the number of event classes in
+                            the list.  
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -333,27 +346,39 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if some other client has caused the
+                            specified device to become the X keyboard or X
+                            pointer device via the
+                            <constant>XChangeKeyboardDevice</constant> or
+                            <constant>XChangePointerDevice</constant>
+                            requests.  
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted. Any argument defined as a set of
+                            alternatives can generate this error.  
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
                     <listitem><para>An invalid window id was specified.
-</para>
-                    </listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadClass</errorname></term>
                     <listitem><para>An invalid event class was specified.
-</para>
-                    </listitem>
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -391,11 +416,12 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device to be used as the X keyboard.
-</para></listitem>
+                    <listitem><para>Specifies the device to be used as the X
+                            keyboard.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -439,14 +465,22 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist, has not been opened by this client via <constant>XOpenInputDevice</constant>, or is already one of the core X device (pointer or keyboard). This error may also occur if the server implementation does not support using the specified device as the X keyboard.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist, has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>, or is
+                            already one of the core X device (pointer or
+                            keyboard). This error may also occur if the server
+                            implementation does not support using the
+                            specified device as the X keyboard.  </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XChangeKeyboardDevice</constant> request was made specifying a device that has no keys.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XChangeKeyboardDevice</constant> request
+                            was made specifying a device that has no keys.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -491,19 +525,22 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device to be used as the X pointer.
-</para></listitem>
+                    <listitem><para>Specifies the device to be used as the X
+                            pointer.  
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>xaxis</parameter></term>
-                    <listitem><para>Specifies the axis of the device to be used as the X pointer x-axis.
-</para></listitem>
+                    <listitem><para>Specifies the axis of the device to be
+                            used as the X pointer x-axis.  
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>yaxis</parameter></term>
-                    <listitem><para>Specifies the axis of the device to be used as the X pointer y-axis.
-</para></listitem>
+                    <listitem><para>Specifies the axis of the device to be
+                            used as the X pointer y-axis.  
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -547,14 +584,25 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist, has not been opened by this client via <constant>XOpenInputDevice</constant>, or is already one of the core X input devices (pointer or keyboard). This error may also occur if the server implementation does not support using the specified device as the X pointer.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist, has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>, or is
+                            already one of the core X input devices (pointer
+                            or keyboard). This error may also occur if the
+                            server implementation does not support using the
+                            specified device as the X pointer.  
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XChangePointerDevice</constant> request was made specifying a device that has less than two valuators, or specifying a valuator index beyond the range supported by the device.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XChangePointerDevice</constant> request
+                            was made specifying a device that has less than
+                            two valuators, or specifying a valuator index
+                            beyond the range supported by the device.  
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -601,23 +649,27 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device with which the bell is associated.
-</para></listitem>
+                    <listitem><para>Specifies the device with which the bell
+                            is associated.  
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>feedbackclass</parameter></term>
-                    <listitem><para>Specifies the class of the feedback with which the bell is associated.
-</para></listitem>
+                    <listitem><para>Specifies the class of the feedback with
+                            which the bell is associated.  
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>feedbackid</parameter></term>
-                    <listitem><para>Specifies the id of the feedback with which the bell is associated.
-</para></listitem>
+                    <listitem><para>Specifies the id of the feedback with
+                            which the bell is associated.  
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>percent</parameter></term>
-                    <listitem><para>Specifies the volume in the range -100 to 100 at which the bell should be rung.
-</para></listitem>
+                    <listitem><para>Specifies the volume in the range -100 to
+                            100 at which the bell should be rung.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -661,15 +713,18 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist, or has not been opened by this client via <constant>XOpenInputDevice</constant>.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist, or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>.  
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>An invalid feedbackclass, feedbackid, or percent value was specified.
-</para>
-                    </listitem>
+                    <listitem><para>An invalid feedbackclass, feedbackid, or
+                            percent value was specified.  
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -721,19 +776,23 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose control is to be interrogated or modified.
-</para></listitem>
+                    <listitem><para>Specifies the device whose control is to
+                            be interrogated or modified.  
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>controlType</parameter></term>
-                    <listitem><para>Specifies the type of control to be interrogated or changed.
-</para></listitem>
+                    <listitem><para>Specifies the type of control to be
+                            interrogated or changed.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>control</parameter></term>
-                    <listitem><para>Specifies the address of an <constant>XDeviceControl</constant> structure that containsthe new values for the Device.
-</para></listitem>
+                    <listitem><para>Specifies the address of an
+                            <constant>XDeviceControl</constant> structure that
+                            contains the new values for the Device.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -829,20 +888,46 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if some other client has caused the
+                            specified device to become the X keyboard or X
+                            pointer device via the
+                            <constant>XChangeKeyboardDevice</constant> or
+                            <constant>XChangePointerDevice</constant>
+                            requests.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceControl</constant> request was made specifying a device that has no controls or an <constant>XChangeDeviceControl</constant> request was made with an <constant>XDeviceControl</constant> structure that contains an invalid Device type. It may also occur if an invalid combination of mask bits is specified ( <constant>DvKey</constant> but no <constant>DvAutoRepeatMode</constant> for keyboard Devices), or if an invalid KeySym is specified for a string Device.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGetDeviceControl</constant> request was
+                            made specifying a device that has no controls or
+                            an <constant>XChangeDeviceControl</constant>
+                            request was made with an
+                            <constant>XDeviceControl</constant> structure that
+                            contains an invalid Device type. It may also occur
+                            if an invalid combination of mask bits is
+                            specified ( <constant>DvKey</constant> but no
+                            <constant>DvAutoRepeatMode</constant> for keyboard
+                            Devices), or if an invalid KeySym is specified for
+                            a string Device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the <constant>XChangeDeviceControl</constant> request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the
+                            <constant>XChangeDeviceControl</constant> request.
+                            Unless a specific range is specified for an
+                            argument, the full range defined by the argument's
+                            type is accepted. Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -890,31 +975,38 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose key mapping is to be queried or modified.
-</para></listitem>
+                    <listitem><para>Specifies the device whose key mapping is
+                            to be queried or modified.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>first_keycode</parameter></term>
-                    <listitem><para>Specifies the first KeyCode to be returned.
-</para></listitem>
+                    <listitem><para>Specifies the first KeyCode to be
+                            returned.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>keycode_count</parameter></term>
-                    <listitem><para>Specifies the number of KeyCodes to be returned or modified.
-</para></listitem>
+                    <listitem><para>Specifies the number of KeyCodes to be
+                            returned or modified.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>keysyms_per_keycode</parameter></term>
-                    <listitem><para>Specifies the number of KeySyms per KeyCode.
-</para></listitem>
+                    <listitem><para>Specifies the number of KeySyms per
+                            KeyCode.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>keysyms_per_keycode_return</parameter></term>
-                    <listitem><para>Specifies the address of a variable into which the number of KeySyms per KeyCodewill be returned.
-</para></listitem>
+                    <listitem><para>Specifies the address of a variable into
+                            which the number of KeySyms per KeyCodewill be
+                            returned.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>keysyms</parameter></term>
-                    <listitem><para>Specifies the address of an array of KeySyms.
-</para></listitem>
+                    <listitem><para>Specifies the address of an array of
+                            KeySyms.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -959,8 +1051,10 @@
             <constant>BadMatch</constant> error will result.
         </para>
         <para>
-            <constant>XGetDeviceKeyMapping</constant> can generate a <constant>BadDevice</constant>, <constant>BadMatch</constant>, or <constant>BadValue</constant> error.
-</para>
+            <constant>XGetDeviceKeyMapping</constant> can generate a
+            <constant>BadDevice</constant>, <constant>BadMatch</constant>, or
+            <constant>BadValue</constant> error.
+        </para>
         <para>
             For the specified device, the
             <constant>XChangeDeviceKeyMapping</constant> request defines the
@@ -1021,26 +1115,41 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if the specified device is the X
+                            keyboard or X pointer device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceKeyMapping</constant> or <constant>XChangeDeviceKeyMapping</constant> request was made specifying a device that has no keys.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGetDeviceKeyMapping</constant> or
+                            <constant>XChangeDeviceKeyMapping</constant>
+                            request was made specifying a device that has no
+                            keys.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted. Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadAlloc</errorname></term>
-                    <listitem><para>The server failed to allocate the requested resource or server memory.
-</para>
+                    <listitem><para>The server failed to allocate the
+                            requested resource or server memory.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1091,15 +1200,17 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose modifier mapping is to be queried or modified.
-</para></listitem>
+                    <listitem><para>Specifies the device whose modifier
+                            mapping is to be queried or modified.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>modmap</parameter></term>
-                    <listitem><para>Specifies a pointer to the <constant>XModifierKeymap</constant> structure.
-</para></listitem>
+                    <listitem><para>Specifies a pointer to the
+                            <constant>XModifierKeymap</constant> structure.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -1184,32 +1295,48 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadLength</errorname></term>
-                    <listitem><para>More than eight keys were specified in the <constant>XModifierKeymap</constant> structure.
-</para>
+                    <listitem><para>More than eight keys were specified in the
+                            <constant>XModifierKeymap</constant> structure.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadAlloc</errorname></term>
-                    <listitem><para>The server failed to allocate the requested resource or server memory.
-</para>
+                    <listitem><para>The server failed to allocate the
+                            requested resource or server memory.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if the specified device is the X
+                            keyboard or X pointer device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceModifierMapping</constant> or <constant>XChangeDeviceModifierMapping</constant> request was made specifying a device that has no keys.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGetDeviceModifierMapping</constant> or
+                            <constant>XChangeDeviceModifierMapping</constant>
+                            request was made specifying a device that has no
+                            keys.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted. Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1259,29 +1386,35 @@
           <variablelist>
             <varlistentry><term><parameter>display</parameter></term>
               <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+              </para></listitem>
             </varlistentry>
             <varlistentry><term><parameter>device</parameter></term>
-              <listitem><para>Specifies the device whose motion history is to be queried.
-</para></listitem>
+              <listitem><para>Specifies the device whose motion history is to
+                      be queried.
+              </para></listitem>
             </varlistentry>
             <varlistentry>
                 <term><parameter>start</parameter></term>
                 <term><parameter>stop</parameter></term>
-                <listitem><para>Specify the time interval in which the events are returned from the motionhistory buffer.You can pass a timestamp or <constant>CurrentTime</constant>.
-</para></listitem>
+                <listitem><para>Specify the time interval in which the events
+                        are returned from the motionhistory buffer.You can
+                        pass a timestamp or <constant>CurrentTime</constant>.
+                </para></listitem>
             </varlistentry>
             <varlistentry><term><parameter>nevents_return</parameter></term>
-              <listitem><para>Returns the number of events from the motion history buffer.
-</para></listitem>
+              <listitem><para>Returns the number of events from the motion
+                      history buffer.
+              </para></listitem>
             </varlistentry>
             <varlistentry><term><parameter>mode_return</parameter></term>
-              <listitem><para>Returns the mode of the device (<constant>Absolute</constant> or <constant>Relative</constant>).
-</para></listitem>
+              <listitem><para>Returns the mode of the device
+                      (<constant>Absolute</constant> or
+                      <constant>Relative</constant>).
+              </para></listitem>
             </varlistentry>
             <varlistentry><term><parameter>axis_count_return</parameter></term>
               <listitem><para>Returns the count of axes being reported.
-</para></listitem>
+              </para></listitem>
             </varlistentry>
           </variablelist>
         </para>
@@ -1296,23 +1429,23 @@
               history available.
           </para>
         <para>
-          The <constant>XGetDeviceMotionEvents</constant> request returns all
-          events in the motion history buffer that fall between the specified
-          start and stop times, inclusive. If the start time is later than the
-          stop time or if the start time is in the future, no events are
-          returned. If the stop time is in the future, it is equivalent to
-          specifying <constant>CurrentTime</constant>.
-      </para>
+            The <constant>XGetDeviceMotionEvents</constant> request returns
+            all events in the motion history buffer that fall between the
+            specified start and stop times, inclusive. If the start time is
+            later than the stop time or if the start time is in the future, no
+            events are returned. If the stop time is in the future, it is
+            equivalent to specifying <constant>CurrentTime</constant>.
+        </para>
         <para>
-          The <constant>mode</constant> indicates whether the device is
-          reporting absolute positional data (mode=
-          <constant>Absolute</constant> ) or relative motion data (mode=
-          <constant>Relative</constant> ). Some devices allow their mode to be
-          changed via the <constant>XSetDeviceMode</constant> request. These
-          constants are defined in the file XI.h. The
-          <constant>axis_count</constant> returns the number of axes or
-          valuators being reported by the device.
-      </para>
+            The <constant>mode</constant> indicates whether the device is
+            reporting absolute positional data (mode = 
+            <constant>Absolute</constant> ) or relative motion data (mode =
+             <constant>Relative</constant> ). Some devices allow their mode to
+            be changed via the <constant>XSetDeviceMode</constant> request.
+            These constants are defined in the file XI.h. The
+            <constant>axis_count</constant> returns the number of axes or
+            valuators being reported by the device.
+        </para>
         <para>
             <constant>XGetDeviceMotionEvents</constant> can generate a
             <constant>BadDevice</constant>, or <constant>BadMatch</constant>
@@ -1362,14 +1495,22 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if the specified device is the X
+                            keyboard or X pointer device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceMotionEvents</constant> request is made specifying a device that has no valuators and reports no axes of motion.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGetDeviceMotionEvents</constant>
+                            request is made specifying a device that has no
+                            valuators and reports no axes of motion.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1416,19 +1557,23 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>name</parameter></term>
-                    <listitem><para>Specifies the extension to be queried.  The input extension name is definedin the header file  <constant>XI.h</constant>.
-</para></listitem>
+                    <listitem><para>Specifies the extension to be queried.
+                            The input extension name is definedin the header
+                            file  <constant>XI.h</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>major</parameter></term>
-                    <listitem><para>Specifies the major version as supported by the client.
-</para></listitem>
+                    <listitem><para>Specifies the major version as supported
+                            by the client.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>minor</parameter></term>
-                    <listitem><para>Specifies the minor version as supported by the client.
-</para></listitem>
+                    <listitem><para>Specifies the minor version as supported
+                            by the client.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -1524,20 +1669,27 @@
 </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose feedbacks are to be queried or modified.
-</para></listitem>
+                    <listitem><para>Specifies the device whose feedbacks are
+                            to be queried or modified.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>num_feedbacks</parameter></term>
-                    <listitem><para>Specifies an address into which the number of feedbacks supported by thedevice is to be returned.
-</para></listitem>
+                    <listitem><para>Specifies an address into which the number
+                            of feedbacks supported by thedevice is to be
+                            returned.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>mask</parameter></term>
-                    <listitem><para>Specifies a mask specific to each type of feedback that describes howthe feedback is to be modified.
-</para></listitem>
+                    <listitem><para>Specifies a mask specific to each type of
+                            feedback that describes howthe feedback is to be
+                            modified.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>control</parameter></term>
-                    <listitem><para>Specifies the address of an  <constant>XFeedbackControl</constant> structure that containsthe new values for the feedback.
-</para></listitem>
+                    <listitem><para>Specifies the address of an
+                            <constant>XFeedbackControl</constant> structure
+                            that containsthe new values for the feedback.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -1620,7 +1772,7 @@
             </synopsis>
         </para>
         <para>
-            The  <constant>XKbdFeedbackState</constant>  structure defines the
+            The <constant>XKbdFeedbackState</constant> structure defines the
             attributes that are returned for feedbacks equivalent to those on
             the X keyboard.
         </para>
@@ -1823,20 +1975,47 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.  This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the  <constant>XChangeKeyboardDevice</constant>  or  <constant>XChangePointerDevice</constant>  requests.
-</para>
+                    <listitem><para>An invalid device was specified.  The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>.  This error
+                            may also occur if some other client has caused the
+                            specified device to become the X keyboard or X
+                            pointer device via the
+                            <constant>XChangeKeyboardDevice</constant>  or
+                            <constant>XChangePointerDevice</constant>
+                            requests.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XGetFeedbackControl</constant>  request was made specifying a device that has no feedbacks, or an  <constant>XChangeFeedbackControl</constant>  request was made with an  <constant>XFeedbackControl</constant>  structure that contains an invalid feedback type.  It may also occur if an invalid combination of mask bits is specified ( <constant>DvKey</constant>  but no  <constant>DvAutoRepeatMode</constant>  for keyboard feedbacks), or if an invalid KeySym is specified for a string feedback.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGetFeedbackControl</constant>  request
+                            was made specifying a device that has no
+                            feedbacks, or an
+                            <constant>XChangeFeedbackControl</constant>
+                            request was made with an
+                            <constant>XFeedbackControl</constant>  structure
+                            that contains an invalid feedback type.  It may
+                            also occur if an invalid combination of mask bits
+                            is specified ( <constant>DvKey</constant>  but no
+                            <constant>DvAutoRepeatMode</constant>  for
+                            keyboard feedbacks), or if an invalid KeySym is
+                            specified for a string feedback.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the  <constant>XChangeFeedbackControl</constant>  request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the
+                            <constant>XChangeFeedbackControl</constant>
+                            request. Unless a specific range is specified for
+                            an argument, the full range defined by the
+                            argument's type is accepted.  Any argument defined
+                            as a set of alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -1905,7 +2084,7 @@
                 <varlistentry><term><parameter>button</parameter></term>
                     <listitem><para>Specifies the device button that is to
                             be grabbed or released or <constant>AnyButton</constant>.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>modifiers</parameter></term>
                     <listitem><para>Specifies the set of keymasks or
@@ -1919,35 +2098,49 @@
                             <constant>Mod2Mask,Mod3Mask</constant>,
                             <constant>Mod4Mask</constant>,
                             <constant>Mod5Mask</constant>.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>modifier_device</parameter></term>
-                    <listitem><para>specifies the device whose modifiers are to be used.  If the modifier_devicespecified is NULL, the X keyboard will be used as the modifier_device.
-</para></listitem>
+                    <listitem><para>specifies the device whose modifiers are
+                            to be used.  If the modifier_devicespecified is
+                            NULL, the X keyboard will be used as the
+                            modifier_device.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>grab_window</parameter></term>
                     <listitem><para>Specifies the grab window.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>owner_events</parameter></term>
-                    <listitem><para>Specifies a Boolean value that indicates whether the deviceevents are to be reported as usual or reported with respect to the grab windowif selected by the event list.
-</para></listitem>
+                    <listitem><para>Specifies a Boolean value that indicates
+                            whether the deviceevents are to be reported as
+                            usual or reported with respect to the grab
+                            windowif selected by the event list.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_count</parameter></term>
-                    <listitem><para>Specifies the number of event classes in the event list.
-</para></listitem>
+                    <listitem><para>Specifies the number of event classes in
+                            the event list.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_list</parameter></term>
-                    <listitem><para>Specifies which events are reported to the client.
-</para></listitem>
+                    <listitem><para>Specifies which events are reported to the
+                            client.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>this_device_mode</parameter></term>
-                    <listitem><para>Specifies further processing of events from this device.You can pass  <constant>GrabModeSync</constant> or  <constant>GrabModeAsync</constant>.
-</para></listitem>
+                    <listitem><para>Specifies further processing of events
+                            from this device.You can pass
+                            <constant>GrabModeSync</constant> or
+                            <constant>GrabModeAsync</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>other_devices_mode</parameter></term>
-                    <listitem><para>Specifies further processing of events from all other devices.You can pass  <constant>GrabModeSync</constant> or  <constant>GrabModeAsync</constant>.
-</para></listitem>
+                    <listitem><para>Specifies further processing of events
+                            from all other devices.You can pass
+                            <constant>GrabModeSync</constant> or
+                            <constant>GrabModeAsync</constant>.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -2057,26 +2250,39 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.  This error may also occur if the specified device is the X keyboard or X pointer device.
-</para>
+                    <listitem><para>An invalid device was specified.  The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>.  This error
+                            may also occur if the specified device is the X
+                            keyboard or X pointer device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XGrabDeviceButton</constant>  request was made specifying a device that has no buttons, or specifying a modifier device that has no keys.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGrabDeviceButton</constant>  request
+                            was made specifying a device that has no buttons,
+                            or specifying a modifier device that has no keys.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted.  Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
                     <listitem><para>A value for a Window argument does not name a defined Window.
-</para>
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -2134,54 +2340,72 @@
         </funcsynopsis>
     </refsynopsisdiv>
     <refsect1><title>Arguments</title>
-
         <para>
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
                     <listitem><para>Specifies the device that is to be
                             grabbed or released.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>Key</parameter></term>
                     <listitem><para>Specifies the device Key that is to be
                             grabbed released or <constant>AnyKey</constant>.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>modifiers</parameter></term>
-                    <listitem><para>Specifies the set of keymasks or <constant>AnyModifier</constant>.The mask is the bitwise inclusive OR of the valid keymask bits.Valid bits are: ShiftMask, LockMask, ControlMask, Mod1Mask, Mod2Mask,Mod3Mask, Mod4Mask, Mod5Mask.
-</para></listitem>
+                    <listitem><para>Specifies the set of keymasks or
+                            <constant>AnyModifier</constant>.The mask is the
+                            bitwise inclusive OR of the valid keymask
+                            bits.Valid bits are: ShiftMask, LockMask,
+                            ControlMask, Mod1Mask, Mod2Mask,Mod3Mask,
+                            Mod4Mask, Mod5Mask.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>modifier_device</parameter></term>
-                    <listitem><para>Specifies the device whose modifiers are to be used. If a modifier_device ofNULL is specified, the X keyboard will be used as the modifier_device.
-</para></listitem>
+                    <listitem><para>Specifies the device whose modifiers are
+                            to be used. If a modifier_device ofNULL is
+                            specified, the X keyboard will be used as the
+                            modifier_device.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>grab_window</parameter></term>
                     <listitem><para>Specifies the grab window.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>owner_events</parameter></term>
-                    <listitem><para>Specifies a Boolean value that indicates whether the deviceevents are to be reported as usual or reported with respect to the grab windowif selected by the event list.
-</para></listitem>
+                    <listitem><para>Specifies a Boolean value that indicates
+                            whether the deviceevents are to be reported as
+                            usual or reported with respect to the grab
+                            windowif selected by the event list.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_count</parameter></term>
-                    <listitem><para>Specifies the number of event classes in the event list.
-</para></listitem>
+                    <listitem><para>Specifies the number of event classes in
+                            the event list.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_list</parameter></term>
-                    <listitem><para>Specifies which device events are reported to the client.
-</para></listitem>
+                    <listitem><para>Specifies which device events are reported
+                            to the client.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>this_device_mode</parameter></term>
-                    <listitem><para>Specifies further processing of events from this device.You can pass <constant>GrabModeSync</constant> or <constant>GrabModeAsync</constant>.
-</para></listitem>
+                    <listitem><para>Specifies further processing of events
+                            from this device.You can pass
+                            <constant>GrabModeSync</constant> or
+                            <constant>GrabModeAsync</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>other_devices_mode</parameter></term>
-                    <listitem><para>Specifies further processing of events from other devices.You can pass <constant>GrabModeSync</constant>or <constant>GrabModeAsync</constant>.
-</para></listitem>
+                    <listitem><para>Specifies further processing of events
+                            from other devices.You can pass
+                            <constant>GrabModeSync</constant>or
+                            <constant>GrabModeAsync</constant>.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -2301,26 +2525,40 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if the specified device is the X
+                            keyboard or X pointer device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGrabDeviceKey</constant> request was made specifying a device that has no keys, or a modifier device that has no keys.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGrabDeviceKey</constant> request was
+                            made specifying a device that has no keys, or a
+                            modifier device that has no keys.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted. Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not name a defined Window.
-</para>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined Window.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -2378,39 +2616,55 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device to be grabbed or released.
-</para></listitem>
+                    <listitem><para>Specifies the device to be grabbed or
+                            released.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>grab_window</parameter></term>
-                    <listitem><para>Specifies the id of a window to be associated with the device.
-</para></listitem>
+                    <listitem><para>Specifies the id of a window to be
+                            associated with the device.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>owner_events</parameter></term>
-                    <listitem><para>Specifies a Boolean value that indicates whether theevents from the deviceare to be reported as usual or reported with respect to the grab windowif selected by the event list.
-</para></listitem>
+                    <listitem><para>Specifies a Boolean value that indicates
+                            whether theevents from the deviceare to be
+                            reported as usual or reported with respect to the
+                            grab windowif selected by the event list.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_count</parameter></term>
-                    <listitem><para>Specifies the number of elements in the event_list array.
-</para></listitem>
+                    <listitem><para>Specifies the number of elements in the
+                            event_list array.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_list</parameter></term>
-                    <listitem><para>Specifies a pointer to a list of event classes that indicates which eventsthe client wishes to receive. These event classes must have beenobtained specifying the device being grabbed.
-</para></listitem>
+                    <listitem><para>Specifies a pointer to a list of event
+                            classes that indicates which eventsthe client
+                            wishes to receive. These event classes must have
+                            beenobtained specifying the device being grabbed.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>this_device_mode</parameter></term>
-                    <listitem><para>Specifies further processing of events from this device.You can pass <constant>GrabModeSync</constant>or <constant>GrabModeAsync</constant>.
-</para></listitem>
+                    <listitem><para>Specifies further processing of events
+                            from this device.You can pass
+                            <constant>GrabModeSync</constant>or
+                            <constant>GrabModeAsync</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>other_devices_mode</parameter></term>
-                    <listitem><para>Specifies further processing of events from other devices.You can pass <constant>GrabModeSync</constant>or <constant>GrabModeAsync</constant>.
-</para></listitem>
+                    <listitem><para>Specifies further processing of events
+                            from other devices.You can pass
+                            <constant>GrabModeSync</constant>or
+                            <constant>GrabModeAsync</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>time</parameter></term>
-                    <listitem><para>Specifies the time.You can pass either a timestamp or <constant>CurrentTime</constant>.
-</para></listitem>
+                    <listitem><para>Specifies the time.You can pass either a
+                            timestamp or <constant>CurrentTime</constant>.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -2510,20 +2764,31 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if the specified device is the X
+                            keyboard or X pointer device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted. Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not name a defined Window.
-</para>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined Window.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -2572,15 +2837,18 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>ndevices_return</parameter></term>
-                    <listitem><para>Specifies a pointer to a variable where the number of available devices canbe returned.
-</para></listitem>
+                    <listitem><para>Specifies a pointer to a variable where
+                            the number of available devices canbe returned.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>list</parameter></term>
-                    <listitem><para>Specifies the list of devices to free. The <constant>XFreeDeviceList</constant> functionfrees the list of available extension input devices.
-</para></listitem>
+                    <listitem><para>Specifies the list of devices to free. The
+                            <constant>XFreeDeviceList</constant> functionfrees
+                            the list of available extension input devices.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -2882,13 +3150,15 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device_id</parameter></term>
-                    <listitem><para>Specifies the id of the device to be opened</para></listitem>
+                    <listitem><para>Specifies the id of the device to be
+                            opened</para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device to be closed</para></listitem>
+                    <listitem><para>Specifies the device to be
+                            closed</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -2897,17 +3167,28 @@
     <refsect1><title>Description</title>
         <para>The <constant>XOpenDevice</constant> request makes an input
             device accessible to a client through input extension protocol
-            requests. If successful, it returns a pointer to an <constant>XDevice</constant> structure.
-</para>
+            requests. If successful, it returns a pointer to an
+            <constant>XDevice</constant> structure.
+        </para>
         <para>
-            The <constant>XCloseDevice</constant> request makes an input device inaccessible to a client through input extension protocol requests. Before terminating, and client that has opened input devices through the input extension should close them via <constant>CloseDevice</constant>.
-</para>
+            The <constant>XCloseDevice</constant> request makes an input
+            device inaccessible to a client through input extension protocol
+            requests. Before terminating, and client that has opened input
+            devices through the input extension should close them via
+            <constant>CloseDevice</constant>.
+        </para>
         <para>
-            When a client makes an <constant>XCloseDevice</constant> request, any active grabs that the client has on the device are released. Any event selections that the client has are deleted, as well as any passive grabs. If the requesting client is the last client accessing the device, the server may disable all access by X to the device.
-</para>
+            When a client makes an <constant>XCloseDevice</constant> request,
+            any active grabs that the client has on the device are released.
+            Any event selections that the client has are deleted, as well as
+            any passive grabs. If the requesting client is the last client
+            accessing the device, the server may disable all access by X to
+            the device.
+        </para>
         <para>
-            <constant>XOpenDevice</constant> and <constant>XCloseDevice</constant> can generate a <constant>BadDevice</constant> error.
-
+            <constant>XOpenDevice</constant> and
+            <constant>XCloseDevice</constant> can generate a
+            <constant>BadDevice</constant> error.
         </para>
     </refsect1>
     <refsect1><title>Structures</title>
@@ -2936,8 +3217,8 @@
         <para>
             <synopsis>
                 typedef struct {
-                unsigned char <structfield>input_class</structfield>;
-                unsigned char <structfield>event_type_base</structfield>;
+                    unsigned char <structfield>input_class</structfield>;
+                    unsigned char <structfield>event_type_base</structfield>;
                 } <structname>XInputClassInfo</structname>;
             </synopsis>
         </para>
@@ -3007,8 +3288,16 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist, or is the X keyboard or X pointer. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist, or is the X
+                            keyboard or X pointer. This error may also occur
+                            if some other client has caused the specified
+                            device to become the X keyboard or X pointer
+                            device via the
+                            <constant>XChangeKeyboardDevice</constant> or
+                            <constant>XChangePointerDevice</constant>
+                            requests.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -3048,11 +3337,12 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose state is to be queried.
-</para></listitem>
+                    <listitem><para>Specifies the device whose state is to be
+                            queried.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -3079,9 +3369,9 @@
         <para>
             <synopsis>
                 typedef struct {
-                XID <structfield>device_id</structfield>;
-                int <structfield>num_classes</structfield>;
-                XInputClass *<structfield>data</structfield>;
+                    XID <structfield>device_id</structfield>;
+                    int <structfield>num_classes</structfield>;
+                    XInputClass *<structfield>data</structfield>;
                 } <structname>XDeviceState</structname>;
             </synopsis>
         </para>
@@ -3090,11 +3380,11 @@
         <para>
             <synopsis>
                 typedef struct {
-                unsigned char <structfield>class</structfield>;
-                unsigned char <structfield>length</structfield>;
-                unsigned char <structfield>num_valuators</structfield>;
-                unsigned char <structfield>mode</structfield>;
-                int *<structfield>valuators</structfield>;
+                    unsigned char <structfield>class</structfield>;
+                    unsigned char <structfield>length</structfield>;
+                    unsigned char <structfield>num_valuators</structfield>;
+                    unsigned char <structfield>mode</structfield>;
+                    int *<structfield>valuators</structfield>;
                 } <structname>XValuatorState</structname>;
             </synopsis>
         </para>
@@ -3103,10 +3393,10 @@
         <para>
             <synopsis>
                 typedef struct {
-                unsigned char <structfield>class</structfield>;
-                unsigned char <structfield>length</structfield>;
-                short     <structfield>num_keys</structfield>;
-                char <structfield>keys</structfield>[32];
+                    unsigned char <structfield>class</structfield>;
+                    unsigned char <structfield>length</structfield>;
+                    short     <structfield>num_keys</structfield>;
+                    char <structfield>keys</structfield>[32];
                 } <structname>XKeyState</structname>;
             </synopsis>
         </para>
@@ -3115,10 +3405,10 @@
         <para>
             <synopsis>
                 typedef struct {
-                unsigned char <structfield>class</structfield>;
-                unsigned char <structfield>length</structfield>;
-                short     <structfield>num_buttons</structfield>;
-                char <structfield>buttons</structfield>[32];
+                    unsigned char <structfield>class</structfield>;
+                    unsigned char <structfield>length</structfield>;
+                    short     <structfield>num_buttons</structfield>;
+                    char <structfield>buttons</structfield>[32];
                 } <structname>XButtonState</structname>;
             </synopsis>
         </para>
@@ -3128,8 +3418,17 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the <constant>XChangeKeyboardDevice</constant> or <constant>XChangePointerDevice</constant> requests.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if some other client has caused the
+                            specified device to become the X keyboard or X
+                            pointer device via the
+                            <constant>XChangeKeyboardDevice</constant> or
+                            <constant>XChangePointerDevice</constant>
+                            requests.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -3152,7 +3451,8 @@
     <refnamediv>
         <refname>XSelectExtensionEvent</refname>
 	<refname>XGetSelectedExtensionEvents</refname>
-        <refpurpose>select extension events, get the list of currently selected extension events</refpurpose>
+        <refpurpose>select extension events, get the list of currently
+            selected extension events</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Syntax</title>
@@ -3181,43 +3481,44 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>w</parameter></term>
                     <listitem><para>Specifies the window whose events you
                             are interested in.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_list</parameter></term>
                     <listitem><para>Specifies the list of event classes
                             that describe the events you are interested
                             in.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>event_count</parameter></term>
                     <listitem><para>Specifies the count of event classes
                             in the event list.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>this_client_event_count_return</parameter></term>
                     <listitem><para>Returns the count of event classes
                             selected by this client.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>this_client_event_list_return</parameter></term>
-                    <listitem><para>Returns a pointer to the list of event classes
+                    <listitem><para>Returns a pointer to the list of event
+                            classes
                             selected by this client.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>all_clients_event_count_return</parameter></term>
                     <listitem><para>Returns the count of event classes
                             selected by all clients.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>all_clients_event_list_return</parameter></term>
-                    <listitem><para>Returns a pointer to the list of event classes
-                            selected by all clients.
-</para></listitem>
+                    <listitem><para>Returns a pointer to the list of event
+                            classes selected by all clients.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -3261,9 +3562,9 @@
             The server reports the event to all interested clients.
             </para><para>
 
-            Information contained in the <constant>XDevice</constant> structure returned by
-            <constant>XOpenDevice</constant> is used by macros to obtain the
-            event classes that clients use in making
+            Information contained in the <constant>XDevice</constant>
+            structure returned by <constant>XOpenDevice</constant> is used by
+            macros to obtain the event classes that clients use in making
             <constant>XSelectExtensionEvent</constant> requests.  Currently
             defined macros include <constant>DeviceKeyPress</constant>,
             <constant>DeviceKeyRelease</constant>,
@@ -3289,14 +3590,14 @@
             <constant>NoExtensionEvent</constant>.  </para><para>
 
             To obtain the proper event class for a particular device, one of the above
-            macros is invoked using the <constant>XDevice</constant> structure for that device.  For
-            example,
+            macros is invoked using the <constant>XDevice</constant> structure
+            for that device. For example,
             <synopsis>
                 DeviceKeyPress (*device, type, eventclass);
             </synopsis>
             returns the <constant>DeviceKeyPress</constant> event type and the
-            eventclass for selecting
-            <constant>DeviceKeyPress</constant> events from this device.
+            eventclass for selecting <constant>DeviceKeyPress</constant>
+            events from this device.
         </para>
         <para>
             <constant>XSelectExtensionEvent</constant> can generate a
@@ -3377,32 +3678,41 @@
             <para>
                 <variablelist>
                     <varlistentry><term><parameter>display</parameter></term>
-                        <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                        <listitem><para>Specifies the connection to the X
+                                server.
+                        </para></listitem>
                     </varlistentry>
                     <varlistentry><term><parameter>device</parameter></term>
-                        <listitem><para>Specifies the device from which the events are to be sent.
-</para></listitem>
+                        <listitem><para>Specifies the device from which the
+                                events are to be sent.
+                        </para></listitem>
                     </varlistentry>
                     <varlistentry><term><parameter>destination</parameter></term>
-                        <listitem><para>Specifies the window the event is to be sent to.  You can pass window id, <constant>PointerWindow</constant>,or <constant>InputFocus</constant>.
-</para></listitem>
+                        <listitem><para>Specifies the window the event is to
+                                be sent to.  You can pass window id,
+                                <constant>PointerWindow</constant>,or
+                                <constant>InputFocus</constant>.
+                        </para></listitem>
                     </varlistentry>
                     <varlistentry><term><parameter>propagate</parameter></term>
-                        <listitem><para>Specifies a Boolean value that is either True or False.
-</para></listitem>
+                        <listitem><para>Specifies a Boolean value that is
+                                either True or False.
+                        </para></listitem>
                     </varlistentry>
                     <varlistentry><term><parameter>event_count</parameter></term>
-                        <listitem><para>Specifies the count of XEventClasses in event_list.
-</para></listitem>
+                        <listitem><para>Specifies the count of XEventClasses
+                                in event_list.
+                        </para></listitem>
                     </varlistentry>
                     <varlistentry><term><parameter>event_list</parameter></term>
-                        <listitem><para>Specifies the list of event selections to be used.
-</para></listitem>
+                        <listitem><para>Specifies the list of event selections
+                                to be used.
+                        </para></listitem>
                     </varlistentry>
                     <varlistentry><term><parameter>event_send</parameter></term>
-                        <listitem><para>Specifies a pointer to the event that is to be sent.
-</para></listitem>
+                        <listitem><para>Specifies a pointer to the event that
+                                is to be sent.
+                        </para></listitem>
                     </varlistentry>
                 </variablelist>
             </para>
@@ -3569,23 +3879,25 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose button mapping is to be queried or changed.
-</para></listitem>
+                    <listitem><para>Specifies the device whose button mapping
+                            is to be queried or changed.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>map</parameter></term>
                     <listitem><para>Specifies the mapping list.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>map_return</parameter></term>
                     <listitem><para>Returns the mapping list.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>nmap</parameter></term>
-                    <listitem><para>Specifies the number of items in the mapping list.
-</para></listitem>
+                    <listitem><para>Specifies the number of items in the
+                            mapping list.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -3634,20 +3946,34 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The specified device does not exist or has not been opened by this client via <constant>XOpenInputDevice</constant>. This error may also occur if the specified device is the X keyboard or X pointer device.
-</para>
+                    <listitem><para>An invalid device was specified. The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>. This error
+                            may also occur if the specified device is the X
+                            keyboard or X pointer device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an <constant>XGetDeviceButtonMapping</constant> or <constant>XSetDeviceButtonMapping</constant> request was made specifying a device that has no buttons.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGetDeviceButtonMapping</constant> or
+                            <constant>XSetDeviceButtonMapping</constant>
+                            request was made specifying a device that has no
+                            buttons.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted. Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted. Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -3655,7 +3981,8 @@
     </refsect1>
 
     <refsect1><title>See also</title>
-        <para>XChangeDeviceKeyboardControl(3), XChangeDeviceKeyMapping(3), XChangeDeviceModifierMapping(3)</para>
+        <para>XChangeDeviceKeyboardControl(3), XChangeDeviceKeyMapping(3),
+            XChangeDeviceModifierMapping(3)</para>
     </refsect1>
 </refentry>
 
@@ -3704,35 +4031,53 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose focus is to be queried or changed.
-</para></listitem>
+                    <listitem><para>Specifies the device whose focus is to be
+                            queried or changed.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>focus</parameter></term>
-                    <listitem><para>Specifies the window, <constant>PointerRoot</constant>, <constant>FollowKeyboard</constant>,or <constant>None</constant>.
-</para></listitem>
+                    <listitem><para>Specifies the window,
+                            <constant>PointerRoot</constant>,
+                            <constant>FollowKeyboard</constant>,or
+                            <constant>None</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>focus_return</parameter></term>
-                    <listitem><para>Returns the focus window, <constant>PointerRoot</constant>, <constant>FollowKeyboard</constant>,or <constant>None</constant>.
-</para></listitem>
+                    <listitem><para>Returns the focus window,
+                            <constant>PointerRoot</constant>,
+                            <constant>FollowKeyboard</constant>,or
+                            <constant>None</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>revert_to</parameter></term>
-                    <listitem><para>Specifies where the input focus reverts to if the window becomes notviewable.You can pass <constant>RevertToParent</constant>, <constant>RevertToPointerRoot</constant>, <constant>RevertToFollowKeyboard</constant>,or <constant>RevertToNone</constant>.
-</para></listitem>
+                    <listitem><para>Specifies where the input focus reverts to
+                            if the window becomes notviewable.You can pass
+                            <constant>RevertToParent</constant>,
+                            <constant>RevertToPointerRoot</constant>,
+                            <constant>RevertToFollowKeyboard</constant>,or
+                            <constant>RevertToNone</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>revert_to_return</parameter></term>
-                    <listitem><para>Returns the current focus state <constant>RevertToParent</constant>, <constant>RevertToPointerRoot</constant>, <constant>RevertToFollowKeyboard</constant>,or <constant>RevertToNone</constant>.
-</para></listitem>
+                    <listitem><para>Returns the current focus state
+                            <constant>RevertToParent</constant>,
+                            <constant>RevertToPointerRoot</constant>,
+                            <constant>RevertToFollowKeyboard</constant>,or
+                            <constant>RevertToNone</constant>.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>time_return</parameter></term>
-                    <listitem><para>Returns the last_focus_time for the device.
-</para></listitem>
+                    <listitem><para>Returns the last_focus_time for the
+                            device.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>time</parameter></term>
-                    <listitem><para>Specifies the time.You can pass either a timestamp or <constant>CurrentTime</constant>.
-</para></listitem>
+                    <listitem><para>Specifies the time.You can pass either a
+                            timestamp or <constant>CurrentTime</constant>.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -3851,26 +4196,41 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.  This error may also occur if the specified device is the X keyboard or X pointer device.
-</para>
+                    <listitem><para>An invalid device was specified.  The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>.  This error
+                            may also occur if the specified device is the X
+                            keyboard or X pointer device.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>Some numeric value falls outside the range of values accepted by the request. Unless a specific range is specified for an argument, the full range defined by the argument's type is accepted.  Any argument defined as a set of alternatives can generate this error.
-</para>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted.  Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not name a defined Window.
-</para>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined Window.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XGetDeviceFocus</constant>  or  <constant>XSetDeviceFocus</constant>  request was made specifying a device that the server implementation does not allow to be focused.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XGetDeviceFocus</constant>  or
+                            <constant>XSetDeviceFocus</constant>  request was
+                            made specifying a device that the server
+                            implementation does not allow to be focused.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -3911,15 +4271,18 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose mode is to be changed.
-</para></listitem>
+                    <listitem><para>Specifies the device whose mode is to be
+                            changed.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>mode</parameter></term>
-                    <listitem><para>Specifies the mode.You can pass <constant>Absolute</constant>,or <constant>Relative</constant>.
-</para></listitem>
+                    <listitem><para>Specifies the mode.You can pass
+                            <constant>Absolute</constant>,or
+                            <constant>Relative</constant>.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -3944,20 +4307,35 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.  This error may also occur if some other client has caused the specified device to become the X keyboard or X pointer device via the  <constant>XChangeKeyboardDevice</constant>  or  <constant>XChangePointerDevice</constant>  requests.
-</para>
+                    <listitem><para>An invalid device was specified.  The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>.  This error
+                            may also occur if some other client has caused the
+                            specified device to become the X keyboard or X
+                            pointer device via the
+                            <constant>XChangeKeyboardDevice</constant>  or
+                            <constant>XChangePointerDevice</constant>
+                            requests.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XSetDeviceMode</constant>  request is made specifying a device that has no valuators and reports no axes of motion.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XSetDeviceMode</constant>  request is
+                            made specifying a device that has no valuators and
+                            reports no axes of motion.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMode</errorname></term>
-                    <listitem><para>An invalid mode was specified.  This error will also be returned if the specified device is not capable of supporting the  <constant>XSetDeviceMode</constant>  request.
-</para>
+                    <listitem><para>An invalid mode was specified.  This error
+                            will also be returned if the specified device is
+                            not capable of supporting the
+                            <constant>XSetDeviceMode</constant>  request.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -4001,23 +4379,28 @@
             <variablelist>
                 <varlistentry><term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose valuators are to be initialized.
-</para></listitem>
+                    <listitem><para>Specifies the device whose valuators are
+                            to be initialized.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>valuators</parameter></term>
-                    <listitem><para>Specifies a pointer to an array of integer values to be used to initialize thedevice valuators.
-</para></listitem>
+                    <listitem><para>Specifies a pointer to an array of integer
+                            values to be used to initialize thedevice
+                            valuators.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>first_valuator</parameter></term>
-                    <listitem><para>Specifies the first valuator to be set.  Valuators are numbered beginning withzero.
-</para></listitem>
+                    <listitem><para>Specifies the first valuator to be set.
+                            Valuators are numbered beginning withzero.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry><term><parameter>num_valuators</parameter></term>
-                    <listitem><para>Specifies the number of valuators to be set.
-</para></listitem>
+                    <listitem><para>Specifies the number of valuators to be
+                            set.
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -4050,20 +4433,29 @@
             <variablelist>
                 <varlistentry>
                     <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified.  The specified device does not exist or has not been opened by this client via  <constant>XOpenInputDevice</constant>.
-</para>
+                    <listitem><para>An invalid device was specified.  The
+                            specified device does not exist or has not been
+                            opened by this client via
+                            <constant>XOpenInputDevice</constant>.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadMatch</errorname></term>
-                    <listitem><para>This error may occur if an  <constant>XSetDeviceValuators</constant>  request is made specifying a device that has no valuators and reports no axes of motion, or if such a request is made specifying a device that does not support valuator initialization.
-</para>
+                    <listitem><para>This error may occur if an
+                            <constant>XSetDeviceValuators</constant>  request
+                            is made specifying a device that has no valuators
+                            and reports no axes of motion, or if such a
+                            request is made specifying a device that does not
+                            support valuator initialization.
+                        </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
-                    <listitem><para>An invalid first_valuator or num_valuators values was specified.
-</para>
+                    <listitem><para>An invalid first_valuator or num_valuators
+                            values was specified.
+                        </para>
                     </listitem>
                 </varlistentry>
             </variablelist>
@@ -4121,19 +4513,19 @@
 		<varlistentry>
 		    <term><parameter>display</parameter></term>
 		    <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
 		</varlistentry>
 		<varlistentry>
 		    <term><parameter>win</parameter></term>
 		    <listitem><para>Specifies a window belonging to the
 			    client. May be <constant>None</constant>.
-</para></listitem>
+                    </para></listitem>
 		</varlistentry>
 		<varlistentry>
 		    <term><parameter>device</parameter></term>
 		    <listitem><para>Specifies the device to set as
 			    ClientPointer.
-</para></listitem>
+                    </para></listitem>
 		</varlistentry>
 	    </variablelist>
 	</para>
@@ -4186,14 +4578,14 @@
                         <para>
                             An invalid device was specified. The device does
                             not exist or is not a master pointer device.
-                    </para>
-                </listitem>
+                        </para>
+                    </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
                     <listitem><para>A value for a Window argument does not
                             name a defined window.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -4249,25 +4641,27 @@
                     <term><parameter>child_return</parameter></term>
                     <listitem>
                         <para>
-                            Returns the child window that the pointer is located in, if any.
+                            Returns the child window that the pointer is
+                            located in, if any.
                         </para>
                     </listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>device</parameter></term>
                     <listitem><para>Specifies the device to query.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>mask_return</parameter></term>
                     <listitem>
                         <para>
-                          Returns the current state of the modifier keys and pointer buttons.
+                            Returns the current state of the modifier keys and
+                            pointer buttons.
                         </para>
                     </listitem>
                 </varlistentry>
@@ -4439,17 +4833,17 @@
                     <term><parameter>device</parameter></term>
                     <listitem><para>Specifies the device whose cursor is to
                             change.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>win</parameter></term>
                     <listitem><para>Specifies the window.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -4496,20 +4890,23 @@
                     <listitem><para>An invalid device was specified. The
                             device does not exist or is not a pointer
                             device.
-</para></listitem>
+                    </para></listitem>
 
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
                     <listitem><para>A value for a Window argument does not
                             name a defined window.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
     </refsect1>
     <refsect1> <title>See also</title>
-        <para><function>XDefineCursor</function>, <function>XUndefineCursor</function></para>
+        <para>
+            <function>XDefineCursor</function>,
+            <function>XUndefineCursor</function>
+        </para>
     </refsect1>
 </refentry>
 
@@ -4562,7 +4959,8 @@
                     <term><parameter>dest_w</parameter></term>
                     <listitem>
                         <para>
-                            Specifies the destination window or <constant>None</constant>.
+                            Specifies the destination window or
+                            <constant>None</constant>.
                         </para>
                     </listitem>
                 </varlistentry>
@@ -4579,12 +4977,12 @@
                 <varlistentry>
                     <term><parameter>device</parameter></term>
                     <listitem><para>Specifies the device to move.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>src_x</parameter></term>
@@ -4612,9 +5010,14 @@
 
     <refsect1><title>Description</title>
         <para>
-             If <parameter>dest_w</parameter> is <constant>None</constant>, <function>XWarpDevicePointer</function> moves the pointer by the offsets
-             (<parameter>dest_x</parameter>, <parameter>dest_y</parameter>) relative to the current position of the pointer.  If
-             <parameter>dest_w</parameter> is a window, <function>XWarpDevicePointer</function> moves the pointer to the offsets
+             If <parameter>dest_w</parameter> is <constant>None</constant>,
+             <function>XWarpDevicePointer</function> moves the pointer by the
+             offsets (<parameter>dest_x</parameter>,
+             <parameter>dest_y</parameter>) relative to the current position
+             of the pointer.  If
+             <parameter>dest_w</parameter> is a window,
+             <function>XWarpDevicePointer</function> moves the pointer to the
+             offsets
              (<parameter>dest_x</parameter>, <parameter>dest_y</parameter>)
              relative to the origin of <parameter>dest_w</parameter>.
              However, if <parameter>src_w</parameter> is a window, the move
@@ -4623,20 +5026,24 @@
              <parameter>src_w</parameter> contains the pointer.
         </para>
         <para>
-            The <parameter>src_x</parameter> and <parameter>src_y</parameter> coordinates are relative to the origin of <parameter>src_w</parameter>.
-            If <parameter>src_height</parameter> is zero, it is replaced with the current height of <parameter>src_w</parameter>
-            minus <parameter>src_y</parameter>.  If <parameter>src_w</parameter>idth is zero, it is replaced with the current
-            width of <parameter>src_w</parameter> minus <parameter>src_x</parameter>.
+            The <parameter>src_x</parameter> and <parameter>src_y</parameter>
+            coordinates are relative to the origin of
+            <parameter>src_w</parameter>.  If
+            <parameter>src_height</parameter> is zero, it is replaced with the
+            current height of <parameter>src_w</parameter> minus
+            <parameter>src_y</parameter>.  If <parameter>src_w</parameter>idth
+            is zero, it is replaced with the current width of
+            <parameter>src_w</parameter> minus <parameter>src_x</parameter>.
         </para>
         <para>
             There is seldom any reason for calling this function.  The pointer
             should normally be left to the user.  If you do use this function,
             however, it generates events just as if the user had
             instantaneously moved the pointer from one position to another.
-            Note that you cannot use <function>XWarpDevicePointer</function> to move the pointer outside
-            the confine_to window of an active pointer grab.  An attempt to do
-            so will only move the pointer as far as the closest edge of the
-            confine_to window.
+            Note that you cannot use <function>XWarpDevicePointer</function>
+            to move the pointer outside the confine_to window of an active
+            pointer grab.  An attempt to do so will only move the pointer as
+            far as the closest edge of the confine_to window.
         </para>
         <para>
             <function>XWarpDevicePointer</function> is identical to
@@ -4658,14 +5065,13 @@
                     <listitem><para>An invalid device was specified. The
                             device does not exist or is not a pointer
                             device.
-</para></listitem>
-
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadWindow</errorname></term>
                     <listitem><para>A value for a Window argument does not
                             name a defined window.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -4716,7 +5122,7 @@
                 <varlistentry>
                     <term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>num_changes</parameter></term>
@@ -4762,53 +5168,54 @@
         </para>
         <para>
             <synopsis>
-typedef union {
-    int <structfield>type</structfield>;
-    <structfield>XCreateMasterInfo</structfield> create;
-    <structfield>XRemoveMasterInfo</structfield> remove;
-    <structfield>XChangeAttachmentInfo</structfield> change;
-} <structname>XAnyHierarchyChangeInfo</structname>;
+                typedef union {
+                    int <structfield>type</structfield>;
+                    <structfield>XCreateMasterInfo</structfield> create;
+                    <structfield>XRemoveMasterInfo</structfield> remove;
+                    <structfield>XChangeAttachmentInfo</structfield> change;
+                } <structname>XAnyHierarchyChangeInfo</structname>;
             </synopsis>
         </para>
         <para>
             <synopsis>
-typedef struct {
-    int <structfield>type</structfield>; /* <constant>CH_CreateMasterDevice</constant> */
-    char* <structfield>name</structfield>;
-    Bool <structfield>sendCore</structfield>;
-    Bool <structfield>enable</structfield>;
-} <structname>XCreateMasterInfo</structname>;
+                typedef struct {
+                    int <structfield>type</structfield>; /* <constant>CH_CreateMasterDevice</constant> */
+                    char* <structfield>name</structfield>;
+                    Bool <structfield>sendCore</structfield>;
+                    Bool <structfield>enable</structfield>;
+                } <structname>XCreateMasterInfo</structname>;
             </synopsis>
         </para>
         <para>
             <synopsis>
-typedef struct {
-    int <structfield>type</structfield>; /* <constant>CH_RemoveMasterDevice</constant> */
-    XDevice* <structfield>device</structfield>;
-    int <structfield>returnMode</structfield>;
-    XDevice* <structfield>returnPointer</structfield>;
-    XDevice* <structfield>returnKeyboard</structfield>;
-} <structname>XRemoveMasterInfo</structname>;
+                typedef struct {
+                    int <structfield>type</structfield>; /* <constant>CH_RemoveMasterDevice</constant> */
+                    XDevice* <structfield>device</structfield>;
+                    int <structfield>returnMode</structfield>;
+                    XDevice* <structfield>returnPointer</structfield>;
+                    XDevice* <structfield>returnKeyboard</structfield>;
+                } <structname>XRemoveMasterInfo</structname>;
             </synopsis>
         </para>
         <para>
             <synopsis>
-typedef struct {
-    int <structfield>type</structfield>; /* <constant>CH_ChangeAttachment</constant> */
-    XDevice* <structfield>device</structfield>;
-    int <structfield>changeMode</structfield>;
-    XDevice* <structfield>newMaster</structfield>;
-} <structname>XChangeAttachmentInfo</structname>;
+                typedef struct {
+                    int <structfield>type</structfield>; /* <constant>CH_ChangeAttachment</constant> */
+                    XDevice* <structfield>device</structfield>;
+                    int <structfield>changeMode</structfield>;
+                    XDevice* <structfield>newMaster</structfield>;
+                } <structname>XChangeAttachmentInfo</structname>;
             </synopsis>
         </para>
         <para>
             <structname>XCreateMasterInfo</structname> creates a new master
             pointer and a new master keyboard labelled
             &quot;<structfield>name</structfield> pointer&quot; and
-            &quot;<structfield>name</structfield> keyboard&quot; respectively. If
-            <structfield>sendCore</structfield> is <constant>True</constant>, the
-            devices will send core events. If <structfield>enable</structfield> is
-            <constant>True</constant>, the device is enabled immediately.
+            &quot;<structfield>name</structfield> keyboard&quot; respectively.
+            If <structfield>sendCore</structfield> is
+            <constant>True</constant>, the devices will send core events. If
+            <structfield>enable</structfield> is <constant>True</constant>,
+            the device is enabled immediately.
         </para>
         <para>
             <structname>XCreateMasterInfo</structname> can generate a
@@ -4820,10 +5227,10 @@ typedef struct {
             <structfield>returnMode</structfield> is
             <constant>AttachToMaster</constant>, all pointers attached to
             <structfield>device</structfield> or its paired master device are
-            attached to <structfield>returnPointer</structfield>. Likewise, all
-            keyboards are attached to
-            <structfield>returnKeyboard</structfield>.
-            If <structfield>returnMode</structfield> is
+            attached to <structfield>returnPointer</structfield>. Likewise,
+            all keyboards are attached to
+            <structfield>returnKeyboard</structfield>. If
+            <structfield>returnMode</structfield> is
             <constant>Floating</constant>, all attached devices are set to
             floating.
         </para>
@@ -4862,7 +5269,6 @@ typedef struct {
                             change.
                         </para>
                     </listitem>
-
                 </varlistentry>
                 <varlistentry>
                     <term><errorname>BadValue</errorname></term>
@@ -4933,26 +5339,27 @@ typedef struct {
             <variablelist>
                 <varlistentry>
                     <term><parameter>deviceids</parameter></term>
-                    <listitem><para>Specifies a list of device IDs to deny/restrict
-                            access.
-</para></listitem>
+                    <listitem><para>Specifies a list of device IDs to
+                            deny/restrict access.
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>display</parameter></term>
                     <listitem><para>Specifies the connection to the X server.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>num_devices</parameter></term>
                     <listitem><para>Specifies the number of elements in
                             <parameter>deviceids</parameter>.
-</para></listitem>
+                    </para></listitem>
                 </varlistentry>
                 <varlistentry>
                     <term><parameter>rule</parameter></term>
                     <listitem>
-                        <para>Specifies the default access rule for <parameter>win</parameter>.
-</para>
+                        <para>Specifies the default access rule for
+                            <parameter>win</parameter>.
+                        </para>
                     </listitem>
                 </varlistentry>
 
