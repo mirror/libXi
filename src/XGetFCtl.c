@@ -62,10 +62,10 @@ SOFTWARE.
 #include "XIint.h"
 
 XFeedbackState *
-XGetFeedbackControl(dpy, dev, num_feedbacks)
-    register Display *dpy;
-    XDevice *dev;
-    int *num_feedbacks;
+XGetFeedbackControl(
+    register Display	*dpy,
+    XDevice		*dev,
+    int			*num_feedbacks)
 {
     int size = 0;
     int nbytes, i;
@@ -265,8 +265,7 @@ XGetFeedbackControl(dpy, dev, num_feedbacks)
 }
 
 void
-XFreeFeedbackList(list)
-    XFeedbackState *list;
+XFreeFeedbackList(XFeedbackState *list)
 {
     XFree((char *)list);
 }

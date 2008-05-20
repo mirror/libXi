@@ -61,9 +61,9 @@ SOFTWARE.
 #include "XIint.h"
 
 XDeviceState *
-XQueryDeviceState(dpy, dev)
-    register Display *dpy;
-    XDevice *dev;
+XQueryDeviceState(
+    register Display	*dpy,
+    XDevice		*dev)
 {
     int i, j;
     int rlen;
@@ -186,8 +186,7 @@ XQueryDeviceState(dpy, dev)
 }
 
 void
-XFreeDeviceState(list)
-    XDeviceState *list;
+XFreeDeviceState(XDeviceState *list)
 {
     XFree((char *)list);
 }

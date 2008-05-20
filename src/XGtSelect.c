@@ -61,14 +61,13 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XGetSelectedExtensionEvents(dpy, w, this_client_count, this_client_list,
-			    all_clients_count, all_clients_list)
-    register Display *dpy;
-    Window w;
-    int *this_client_count;
-    XEventClass **this_client_list;
-    int *all_clients_count;
-    XEventClass **all_clients_list;
+XGetSelectedExtensionEvents(
+    register Display	 *dpy,
+    Window		  w,
+    int			 *this_client_count,
+    XEventClass		**this_client_list,
+    int			 *all_clients_count,
+    XEventClass		**all_clients_list)
 {
     int tlen, alen;
     register xGetSelectedExtensionEventsReq *req;

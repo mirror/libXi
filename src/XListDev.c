@@ -155,9 +155,9 @@ ParseClassInfo(xAnyClassPtr *any, XAnyClassPtr *Any, int num_classes)
 }
 
 XDeviceInfo *
-XListInputDevices(dpy, ndevices)
-    register Display *dpy;
-    int *ndevices;
+XListInputDevices(
+    register Display	*dpy,
+    int			*ndevices)
 {
     int size;
     xListInputDevicesReq *req;
@@ -270,8 +270,7 @@ XListInputDevices(dpy, ndevices)
  */
 
 void
-XFreeDeviceList(list)
-    XDeviceInfo *list;
+XFreeDeviceList(XDeviceInfo *list)
 {
     if (list != NULL) {
 	XFree((char *)list);

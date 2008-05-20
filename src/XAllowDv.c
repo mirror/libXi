@@ -61,11 +61,11 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XAllowDeviceEvents(dpy, dev, event_mode, time)
-    register Display *dpy;
-    XDevice *dev;
-    int event_mode;
-    Time time;
+XAllowDeviceEvents(
+    register Display	*dpy,
+    XDevice		 *dev,
+    int			 event_mode,
+    Time		 time)
 {
     xAllowDeviceEventsReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);

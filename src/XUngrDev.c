@@ -61,10 +61,10 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XUngrabDevice(dpy, dev, time)
-    register Display *dpy;
-    XDevice *dev;
-    Time time;
+XUngrabDevice(
+    register Display	*dpy,
+    XDevice		*dev,
+    Time		 time)
 {
     register xUngrabDeviceReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);

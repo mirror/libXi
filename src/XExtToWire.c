@@ -64,11 +64,11 @@ SOFTWARE.
 #include "XIint.h"
 
 Status
-_XiEventToWire(dpy, re, event, count)
-    register Display *dpy;	/* pointer to display structure */
-    register XEvent *re;	/* pointer to client event */
-    register xEvent **event;	/* wire protocol event */
-    register int *count;
+_XiEventToWire(
+    register Display	 *dpy,		/* pointer to display structure */
+    register XEvent	 *re,		/* pointer to client event */
+    register xEvent	**event,	/* wire protocol event */
+    register int	 *count)
 {
     XExtDisplayInfo *info = XInput_find_display(dpy);
     int i;

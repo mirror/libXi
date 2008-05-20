@@ -61,13 +61,13 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XChangeDeviceKeyMapping(dpy, dev, first, syms_per_code, keysyms, count)
-    register Display *dpy;
-    XDevice *dev;
-    int first;
-    int syms_per_code;
-    KeySym *keysyms;
-    int count;
+XChangeDeviceKeyMapping(
+    register Display	*dpy,
+    XDevice		*dev,
+    int			 first,
+    int			 syms_per_code,
+    KeySym		*keysyms,
+    int			 count)
 {
     register long nbytes;
     xChangeDeviceKeyMappingReq *req;

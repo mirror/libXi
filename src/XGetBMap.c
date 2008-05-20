@@ -66,11 +66,11 @@ SOFTWARE.
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 int
-XGetDeviceButtonMapping(dpy, device, map, nmap)
-    register Display *dpy;
-    XDevice *device;
-    unsigned char map[];
-    unsigned int nmap;
+XGetDeviceButtonMapping(
+    register Display	*dpy,
+    XDevice		*device,
+    unsigned char	 map[],
+    unsigned int	 nmap)
 {
     int status = 0;
     unsigned char mapping[256];	/* known fixed size */

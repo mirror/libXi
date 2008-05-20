@@ -62,11 +62,11 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XChangeDeviceControl(dpy, dev, control, d)
-    register Display *dpy;
-    XDevice *dev;
-    int control;
-    XDeviceControl *d;
+XChangeDeviceControl(
+    register Display	*dpy,
+    XDevice		*dev,
+    int			 control,
+    XDeviceControl	*d)
 {
     int length;
     xChangeDeviceControlReq *req;

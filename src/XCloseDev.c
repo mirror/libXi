@@ -61,9 +61,9 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XCloseDevice(dpy, dev)
-    register Display *dpy;
-    register XDevice *dev;
+XCloseDevice(
+    register Display	*dpy,
+    register XDevice	*dev)
 {
     xCloseDeviceReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);

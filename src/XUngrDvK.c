@@ -61,13 +61,13 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XUngrabDeviceKey(dpy, dev, key, modifiers, modifier_dev, grab_window)
-    register Display *dpy;
-    XDevice *dev;
-    unsigned int key;	/* CARD8 */
-    unsigned int modifiers;	/* CARD16 */
-    XDevice *modifier_dev;
-    Window grab_window;
+XUngrabDeviceKey(
+    register Display	*dpy,
+    XDevice		*dev,
+    unsigned int	 key,		/* CARD8 */
+    unsigned int	 modifiers,	/* CARD16 */
+    XDevice		*modifier_dev,
+    Window		 grab_window)
 {
     register xUngrabDeviceKeyReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);

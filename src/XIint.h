@@ -14,4 +14,11 @@ extern int _XiCheckExtInit(Display *, int, XExtDisplayInfo *);
 
 extern XExtensionVersion *_XiGetExtensionVersion(Display *, _Xconst char *, int, int, XExtDisplayInfo *);
 
+extern Status _XiEventToWire(
+    register Display *		/* dpy */,
+    register XEvent *		/* re */,
+    register xEvent **		/* event */,
+    register int *		/* count */
+);
+
 #endif
