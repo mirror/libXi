@@ -60,23 +60,21 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-extern Status _XiEventToWire();
-
 Status
-XSendExtensionEvent(dpy, dev, dest, prop, count, list, event)
-    register Display *dpy;
-    XDevice *dev;
-    Window dest;
-    Bool prop;
-    int count;
-    XEventClass *list;
-    XEvent *event;
+XSendExtensionEvent(
+    register Display	*dpy,
+    XDevice		*dev,
+    Window		 dest,
+    Bool		 prop,
+    int			 count,
+    XEventClass		*list,
+    XEvent		*event)
 {
     int num_events;
     int ev_size;
     xSendExtensionEventReq *req;
     xEvent *ev;
-    register Status(**fp) ();
+    register Status(**fp) (Display *, XEvent*, xEvent **, int *);
     Status status;
     XExtDisplayInfo *info = XInput_find_display(dpy);
 

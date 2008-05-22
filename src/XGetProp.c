@@ -62,11 +62,10 @@ SOFTWARE.
 #include "XIint.h"
 
 XEventClass *
-XGetDeviceDontPropagateList(dpy, window, count)
-    register Display *dpy;
-
-Window window;
-    int *count;
+XGetDeviceDontPropagateList(
+    register Display	*dpy,
+    Window		 window,
+    int			*count)
 {
     XEventClass *list = NULL;
     int rlen;

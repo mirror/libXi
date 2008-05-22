@@ -61,11 +61,11 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XChangePointerDevice(dpy, dev, xaxis, yaxis)
-    register Display *dpy;
-    XDevice *dev;
-    int xaxis;
-    int yaxis;
+XChangePointerDevice(
+    register Display	*dpy,
+    XDevice		*dev,
+    int			 xaxis,
+    int			 yaxis)
 {
     xChangePointerDeviceReq *req;
     xChangePointerDeviceReply rep;

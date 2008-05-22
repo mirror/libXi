@@ -62,11 +62,11 @@ SOFTWARE.
 #include "XIint.h"
 
 int
-XChangeFeedbackControl(dpy, dev, mask, f)
-    register Display *dpy;
-    XDevice *dev;
-    unsigned long mask;
-    XFeedbackControl *f;
+XChangeFeedbackControl(
+    register Display	*dpy,
+    XDevice		*dev,
+    unsigned long	 mask,
+    XFeedbackControl	*f)
 {
     int length;
     xChangeFeedbackControlReq *req;
