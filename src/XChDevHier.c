@@ -38,10 +38,9 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 int
-XChangeDeviceHierarchy(dpy, changes, num_changes)
-        Display* dpy;
-        XAnyHierarchyChangeInfo* changes;
-        int num_changes;
+XChangeDeviceHierarchy(Display* dpy,
+                       XAnyHierarchyChangeInfo* changes,
+                       int num_changes)
 {
     XAnyHierarchyChangeInfo* any;
     xChangeDeviceHierarchyReq *req;

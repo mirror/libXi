@@ -38,14 +38,16 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 int
-XWarpDevicePointer(dpy, dev, src_win, dst_win, src_x, src_y, src_width,
-        src_height, dst_x, dst_y) 
-    register Display *dpy;
-    XDevice* dev;
-    Window src_win, dst_win;
-    int src_x, src_y;
-    unsigned int src_width, src_height;
-    int dst_x, dst_y;
+XWarpDevicePointer(Display      *dpy,
+                   XDevice      *dev,
+                   Window       src_win,
+                   Window       dst_win,
+                   int          src_x,
+                   int          src_y,
+                   unsigned int src_width,
+                   unsigned int src_height,
+                   int          dst_x,
+                   int          dst_y)
 {
     register xWarpDevicePointerReq *req;
 

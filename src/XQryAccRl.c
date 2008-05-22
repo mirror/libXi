@@ -38,13 +38,13 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 Status
-XQueryWindowAccess(Display* dpy, 
-             Window win, 
-             int* rule,
-             XID** permdevs, 
-             int* nperm, 
-             XID** denydevs,
-             int* ndeny)
+XQueryWindowAccess(Display*     dpy,
+                   Window       win,
+                   int*         rule,
+                   XID**        permdevs,
+                   int*         nperm,
+                   XID**        denydevs,
+                   int*         ndeny)
 {
     xQueryWindowAccessReq* req;
     xQueryWindowAccessReply rep;

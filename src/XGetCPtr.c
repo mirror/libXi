@@ -38,10 +38,7 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 Bool
-XGetClientPointer(dpy, win, deviceid)
-    Display* dpy;
-    Window win;
-    XID* deviceid;
+XGetClientPointer(Display* dpy, Window win, XID* deviceid)
 {
     xGetClientPointerReq *req;
     xGetClientPointerReply rep;
