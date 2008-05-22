@@ -37,11 +37,7 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 
-int XDefineDeviceCursor(dpy, dev, w, cursor)
-    register Display *dpy;
-    XDevice* dev;
-    Window w;
-    Cursor cursor;
+int XDefineDeviceCursor(Display *dpy, XDevice* dev, Window w, Cursor cursor)
 {
     register xChangeDeviceCursorReq *req;
 
