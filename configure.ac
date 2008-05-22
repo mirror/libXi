@@ -8,6 +8,8 @@ AC_INIT(libXi, 1.1.3, [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
 
+AC_MSG_ERROR([This branch has been merged into master. Please continue with master.])
+
 AM_CONFIG_HEADER(src/config.h)
 
 # Check for progs
