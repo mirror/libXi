@@ -116,7 +116,11 @@ SUFFIXES = .$(LIB_MAN_SUFFIX) .man
 dist-hook: $(libman_PRE)
 
 if HAVE_XMLTO
-$(libman_PRE): $(libman_xml)
+.PHONY: do_xmlto_stage
+
+$(libman_PRE): do_xmlto_stage
+
+do_xmlto_stage: $(libman_xml)
 	$(XMLTO) man $(libman_xml)
 	for m in $(XI_manpages); do \
 	  mv -f $$m.__libmansuffix__ $$m.man ; \
