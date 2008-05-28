@@ -15,7 +15,7 @@ AC_PROG_CC
 AC_PROG_LIBTOOL
 
 # Checks for pkg-config packages
-PKG_CHECK_MODULES(XI, xproto x11 xextproto xext inputproto >= 1.4)
+PKG_CHECK_MODULES(XI, xproto x11 xextproto xext inputproto >= 1.9.99)
 AC_SUBST(XI_CFLAGS)
 AC_SUBST(XI_LIBS)
 
