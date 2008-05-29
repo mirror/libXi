@@ -24,6 +24,9 @@ AC_SUBST(XI_LIBS)
 AC_ARG_VAR([XMLTO], [Path to xmlto command])
 AC_PATH_PROG([XMLTO], [xmlto])
 AM_CONDITIONAL([HAVE_XMLTO], [test "x$XMLTO" != "x"])
+if test "x$XMLTO" = "x"; then
+	AC_MSG_WARN([xmlto not found - cannot create man pages without it])
+fi
 
 XORG_CHECK_MALLOC_ZERO
 XORG_MANPAGE_SECTIONS

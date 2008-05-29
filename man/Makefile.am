@@ -30,6 +30,7 @@ LIB_MAN_DIR_SUFFIX = $(LIB_MAN_DIR:@mandir@/man%=%)
 
 libman_xml = XI.xml
 
+if HAVE_XMLTO
 XI_manpages = \
 	      XAllowDeviceEvents \
 	      XChangeKeyboardDevice \
@@ -83,6 +84,7 @@ XI_manpages = \
 	      XGetDeviceFocus \
 	      XWarpDevicePointer \
 	      XWindowClearAccess 
+endif # HAVE_XMLTO
 
 libman_PRE = $(XI_manpages:%=%.man)
 
@@ -115,7 +117,6 @@ SUFFIXES = .$(LIB_MAN_SUFFIX) .man
 
 dist-hook: $(libman_PRE)
 
-if HAVE_XMLTO
 .PHONY: do_xmlto_stage
 
 $(libman_PRE): do_xmlto_stage
@@ -125,4 +126,3 @@ do_xmlto_stage: $(libman_xml)
 	for m in $(XI_manpages); do \
 	  mv -f $$m.__libmansuffix__ $$m.man ; \
 	done
-endif # HAVE_XMLTO
