@@ -6104,4 +6104,471 @@
         </para>
     </refsect1>
 </refentry>
+
+<refentry id="XListDeviceProperty.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>July 9, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XListDeviceProperties</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+    </refmeta>
+    <refnamediv>
+        <refname>XListDeviceProperties</refname>
+        <refname>XQueryDeviceProperty</refname>
+        <refname>XConfigureDeviceProperty</refname>
+        <refpurpose>List, query and configure a device's properties.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>Atom* <function>XListDeviceProperties</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>int *<parameter>nprops_return</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>XIPropertyInfo* <function>XQueryDeviceProperty</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>Atom <parameter>property</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>void<function>XConfigureDeviceProperty</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>Atom <parameter>property</parameter></paramdef>
+                <paramdef>Bool <parameter>pending</parameter></paramdef>
+                <paramdef>Bool <parameter>range</parameter></paramdef>
+                <paramdef>int <parameter>num_values</parameter></paramdef>
+                <paramdef>long *<parameter>values</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>device</parameter></term>
+                    <listitem><para>The device to grab.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>nprops_return</parameter></term>
+		    <listitem><para>Specifies the number of Atoms returned.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>num_values</parameter></term>
+		    <listitem><para>Specifies the number of elements in the
+                            values list.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>pending</parameter></term>
+		    <listitem><para>Sets the pending state of the.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>property</parameter></term>
+		    <listitem><para>Specifies the property to modify or query.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>range</parameter></term>
+		    <listitem><para>Specifies whether the property describes a
+                            range.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>values</parameter></term>
+		    <listitem><para>Specifies the number of valid values for
+                            the property.</para></listitem>
+		</varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            The <function>XListDeviceProperties</function> function returns a
+            list of the properties associated with the input device specified
+            in <parameter>device</parameter>.
+            Each device may have an arbitrary number of properties attached,
+            some of which were created by the driver and/or server, others
+            created by clients at runtime.
+        </para>
+        <para>The client is expected to free the list of properties using
+            <function>XFree</function>.</para>
+	<para>
+            The <function>XQueryDeviceProperty</function> function returns 
+            the meta-data associated with the specified property in the form
+            of a <structname>XIPropertyInfo</structname> struct.
+	</para>
+        <para>
+            <synopsis>
+                typedef struct {
+                    Bool <structfield>pending</structfield>;
+                    Bool <structfield>range</structfield>;
+                    Bool <structfield>immutable</structfield>;
+                    Bool <structfield>fromClient</structfield>;
+                    int <structfield>num_values</structfield>;
+                    long* <structfield>values</structfield>;
+                } <structname>XIPropertyInfo</structname>;
+            </synopsis>
+        </para>
+        <para>
+            If <structfield>pending</structfield> is
+            <constant>True</constant>, the client can only modify the pending
+            value of the property. This value is committed to the driver and
+            it is the driver's responsibilty to update the actual value of the
+            property. If <structfield>pending</structfield> is
+            <constant>False</constant>, the client can modify the actual
+            property. In both cases, the driver is notified about a property
+            value change.
+        </para>
+        <para>
+            If <structfield>range</structfield> is <constant>True</constant>,
+            the property specifies one or more ranges and the number of data
+            items must be a multiple of 2.
+        </para>
+        <para>
+            If <structfield>immutable</structfield> is
+            <constant>True</constant>, the property cannot be modified by the
+            client.
+        </para>
+        <para>
+            If <structfield>fromClient</structfield> is
+            <constant>True</constant>, this property was created by a client.
+            If <structfield>fromClient</structfield> is
+            <constant>False</constant>, the property was created by the driver
+            or server. Properties created by a client may not be known to the
+            driver and a property created by driver or the server cannot be
+            deleted by a client.
+        </para>
+        <para>
+            <structfield>num_values</structfield> specifies the number of
+            elements in the <structfield>values</structfield> array.
+            The latter specifies the number of allowed integer values for the
+            property.
+        </para>
+        <para>
+            The client is expected to free the returned struct using
+            <function>XFree</function>.
+        </para>
+        <para>
+            The <function>XConfigureDeviceProperty</function> function
+            configures the meta-information about the property.
+        </para>
+        <para>
+            <function>XListDeviceProperties</function> can generate a
+            <errorname>BadDevice</errorname> error.
+        </para>
+        <para>
+            <function>XConfigureDeviceProperty</function> can generate a
+            <errorname>BadDevice</errorname>, a
+            <errorname>BadAtom</errorname>, and a
+            <errorname>BadValue</errorname> error.
+        </para>
+        <para>
+            <function>XQueryDeviceProperty</function> can generate a
+            <errorname>BadDevice</errorname>, and a
+            <errorname>BadAtom</errorname> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadAtom</errorname></term>
+                    <listitem><para>A value does not describe a valid named
+                            identifier.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined window.
+</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem><para>An invalid device was specified. The
+                            device does not exist.
+</para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>See also</title>
+        <para>
+            <function>XChangeDeviceProperty</function>,
+            <function>XGetDeviceProperty</function>,
+            <function>XDeleteDeviceProperty</function>.
+        </para>
+    </refsect1>
+</refentry>
+
+<refentry id="XGetDeviceProperties.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>July 9, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XGetDeviceProperty</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+    </refmeta>
+    <refnamediv>
+        <refname>XGetDeviceProperty</refname>
+        <refname>XChangeDeviceProperty</refname>
+        <refname>XDeleteDeviceProperty</refname>
+        <refpurpose>Get, change or delete a device's property.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>int <function>XGetDeviceProperty</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>Atom <parameter>property</parameter></paramdef>
+                <paramdef>long <parameter>offset</parameter></paramdef>
+                <paramdef>long <parameter>length</parameter></paramdef>
+                <paramdef>Bool <parameter>delete</parameter></paramdef>
+                <paramdef>Bool <parameter>pending</parameter></paramdef>
+                <paramdef>Atom <parameter>req_type</parameter></paramdef>
+                <paramdef>Atom *<parameter>actual_type_return</parameter></paramdef>
+                <paramdef>int *<parameter>actual_format_return</parameter></paramdef>
+                <paramdef>unsigned long *<parameter>nitems_return</parameter></paramdef>
+                <paramdef>unsigned long *<parameter>bytes_after_return</parameter></paramdef>
+                <paramdef>unsigned char **<parameter>prop_return</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>void <function>XChangeDeviceProperty</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>Atom <parameter>property</parameter></paramdef>
+                <paramdef>Atom <parameter>type</parameter></paramdef>
+                <paramdef>int <parameter>format</parameter></paramdef>
+                <paramdef>int <parameter>mode</parameter></paramdef>
+                <paramdef>const char *<parameter>data</parameter></paramdef>
+                <paramdef>int <parameter>nelements</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>void <function>XDeleteDeviceProperty</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>XDevice *<parameter>device</parameter></paramdef>
+                <paramdef>Atom <parameter>property</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>actual_type_return</parameter></term>
+		    <listitem><para>Returns an atom identifier that defines
+                            the actual type of the property.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>actual_format_return</parameter></term>
+                    <listitem><para>Returns the actual format of the property.
+                    </para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>bytes_after_return</parameter></term>
+                    <listitem><para>Returns the number of bytes remaining to
+                            be read in the property if a partial read was
+                            performed.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>data</parameter></term>
+                    <listitem><para>Specifies the property data.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>delete</parameter></term>
+                    <listitem><para>Specifies a Boolean value that determines
+                            wether the property is deleted.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>device</parameter></term>
+                    <listitem><para>The device to grab.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>format</parameter></term>
+                    <listitem><para>Specifies whether the data should be
+                            viewed as a list of 8-bit, 16-bit, or 32-bit
+                            quantities. Possible values are 8, 16, and 32.
+                            This information allows the X server to correctly
+                            perform byte-swap operations as necessary. If the
+                            format is 16-bit or 32-bit, you must explicitly
+                            cast the data pointer to an (unsigned char*) in
+                            the call to
+                            <function>XChangeDeviceProperty</function>.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>length</parameter></term>
+		    <listitem><para>Specifies the length in 32-bit multiplies
+                            of the data to be retrieved.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>mode</parameter></term>
+		    <listitem><para>Specifies the mode of operation. You can
+                            pass <constant>PropModeReplace</constant>,
+                            <constant>PropModePrepend</constant>, or
+                            <constant>PropModeAppend</constant>.
+                     </para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>nelements</parameter></term>
+		    <listitem><para>Specifies the number of elements in data.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>nitems_return</parameter></term>
+		    <listitem><para>Returns the actual number of 8-bit,
+                            16-bit, or 32-bit items stored in the prop_return
+                            array.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>num_values</parameter></term>
+		    <listitem><para>Specifies the number of elements in the
+                            values list.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>offset</parameter></term>
+		    <listitem><para>Specifies the offset in the specified
+                            property (in 32-bit quantities) where the data is
+                            to be retrieved.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>pending</parameter></term>
+		    <listitem><para>Specifies whether to retrieve the pending
+                            state of the property or the current state.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>property</parameter></term>
+		    <listitem><para>Specifies the property to modify or query.</para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>prop_return</parameter></term>
+                    <listitem><para>Returns the data in the specified format.
+                            If the returned format is 8, the returned data is
+                            represented as a char array. If the returned
+                            format is 16, the returned data is represented as
+                            an array of short int type and should be cast to
+                            that type to obtain the elements. If the returned
+                            format is 32, the property data will be stored as
+                            an array of longs (which in a 64-bit application
+                            will be 64-bit values that are padded in the upper
+                            4 bytes).
+                    </para></listitem>
+		</varlistentry>
+                <varlistentry>
+                    <term><parameter>req_type</parameter></term>
+		    <listitem><para>Specifies the atom identifier associated
+                            with the property type or
+                            <constant>AnyPropertyType</constant>.</para></listitem>
+		</varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            The <function>XGetDeviceProperty</function> function returns 
+            the actual type of the property; the actual format of the property;
+            the number of 8-bit, 16-bit, or 32-bit items transferred; the number of bytes
+            remaining to be read in the property; and a pointer to the data actually
+            returned.
+            For a detailed description of this function, see the man page
+            to <function>XGetWindowProperty</function>.
+        </para>
+	<para>
+            The <function>XChangeDeviceProperty</function> function alters the
+            property for the specified device and causes the server to
+            generate a <function>XPropertyNotifyEvent</function> event on that
+            device.
+            For a detailed description of this function, see the man page to
+            <function>XChangeProperty</function>.
+	</para>
+        <para>
+            The <function>XDeleteDeviceProperty</function> function
+            deletes the specified device property. Note that a client cannot
+            delete a property created by a driver or the server. Attempting to
+            do so will result in a <errorname>BadAtom</errorname> error.
+        </para>
+        <para>
+            <function>XGetDeviceProperty</function> can generate a
+            <errorname>BadAtom</errorname>,
+            <errorname>BadDevice</errorname> error.
+        </para>
+        <para>
+            <function>XChangeDeviceProperty</function> can generate a
+            <errorname>BadDevice</errorname>, a
+            <errorname>BadMatch</errorname>, a
+            <errorname>BadAtom</errorname>, and a
+            <errorname>BadValue</errorname> error.
+        </para>
+        <para>
+            <function>XDeleteDeviceProperty</function> can generate a
+            <errorname>BadDevice</errorname>, and a
+            <errorname>BadAtom</errorname> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadAtom</errorname></term>
+                    <listitem><para>A value does not describe a valid named
+                            identifier or the client attempted to remove
+                            a driver-allocated property.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem><para>An invalid device was specified. The
+                            device does not exist.
+</para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>See also</title>
+        <para>
+            <function>XListDeviceProperties</function>,
+            <function>XQueryDeviceProperty</function>,
+            <function>XConfigureDeviceProperty</function>.
+        </para>
+    </refsect1>
+</refentry>
 </reference>

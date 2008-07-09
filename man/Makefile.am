@@ -83,7 +83,13 @@ XI_manpages = \
 	      XSetDeviceFocus \
 	      XGetDeviceFocus \
 	      XWarpDevicePointer \
-	      XWindowClearAccess 
+	      XWindowClearAccess  \
+	      XListDeviceProperties \
+	      XQueryDeviceProperty \
+	      XConfigureDeviceProperty \
+	      XGetDeviceProperty \
+	      XChangeDeviceProperty \
+	      XDeleteDeviceProperty
 endif # HAVE_XMLTO
 
 libman_PRE = $(XI_manpages:%=%.man)
