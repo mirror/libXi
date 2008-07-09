@@ -6,6 +6,7 @@ libXi_la_SOURCES = \
 		  XAllowDv.c \
                   XChAccRl.c \
 		  XChDevHier.c \
+		  XChDProp.c \
 		  XChgDCtl.c \
 		  XChgFCtl.c \
 		  XChgKbd.c \
@@ -14,7 +15,9 @@ libXi_la_SOURCES = \
 		  XChgProp.c \
                   XClrAcc.c \
 		  XCloseDev.c \
+		  XConfDProp.c \
 		  XDefDevCur.c \
+		  XDelDProp.c \
                   XDenyDev.c \
 		  XDevBell.c \
 		  XExtGrabDev.c \
@@ -22,6 +25,7 @@ libXi_la_SOURCES = \
 		  XGetBMap.c \
 		  XGetCPtr.c \
 		  XGetDCtl.c \
+		  XGetDProp.c \
 		  XGetFCtl.c \
 		  XGetKMap.c \
 		  XGetMMap.c \
@@ -34,9 +38,11 @@ libXi_la_SOURCES = \
 		  XGtFocus.c \
 		  XGtSelect.c \
 		  XListDev.c \
+		  XListDProp.c \
 		  XOpenDev.c \
                   XPermDev.c \
 		  XQryAccRl.c \
+		  XQryDProp.c \
 		  XQueryDv.c \
                   XQueryDvPtr.c \
 		  XSelect.c \
