@@ -530,6 +530,23 @@ typedef struct {
     XAnyClassPtr  inputclassinfo; /* same as in XDeviceInfo */
 } XDeviceClassesChangedEvent;
 
+/*
+ * Notifies the client that a property on a device has changed value. The
+ * client is expected to query the server for updated value of the property.
+ */
+typedef struct {
+    int           type;         /* GenericEvent */
+    unsigned long serial;       /* # of last request processed by server */
+    Bool          send_event;   /* true if this came from a SendEvent request */
+    Display       *display;     /* Display the event was read from */
+    int           extension;    /* XI extension offset */
+    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
+    Time          time;
+    XID           deviceid;     /* id of the device that changed */
+    Atom          atom;         /* the property that changed */
+    int           state;        /* PropertyNewValue or PropertyDeleted */
+} XDevicePropertyNotifyEvent;
+
 
 /*******************************************************************
  *

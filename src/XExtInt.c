@@ -849,6 +849,23 @@ XInputWireToEvent(
                         *re = *save;
                         return ENQUEUE_EVENT;
                     }
+                case XI_DevicePropertyNotify:
+                    {
+                        XDevicePropertyNotifyEvent* dpn_event =
+                            (XDevicePropertyNotifyEvent*)save;
+                        devicePropertyNotifyEvent* dpn_wire =
+                            (devicePropertyNotifyEvent*)event;
+
+                        dpn_event->extension = dpn_wire->extension;
+                        dpn_event->evtype = dpn_wire->evtype;
+                        dpn_event->time = dpn_wire->time;
+                        dpn_event->deviceid = dpn_wire->deviceid;
+                        dpn_event->atom = dpn_wire->atom;
+                        dpn_event->state = dpn_wire->state;
+
+                        *re = *save;
+                        return ENQUEUE_EVENT;
+                    }
                 default:
                     printf("XInputWireToEvent: Unknown generic event. type %d\n", ge->evtype);
 
