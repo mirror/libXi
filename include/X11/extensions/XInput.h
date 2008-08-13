@@ -70,9 +70,12 @@ SOFTWARE.
 #define _deviceStateNotify	0
 #define _deviceMappingNotify	1
 #define _changeDeviceNotify	2
-/* Space of 4 between is necessary! */
-#define _deviceEnterNotify      6
-#define _deviceLeaveNotify      7
+/* Space of 3 between is necessary! Reserved for DeviceKeyStateNotify,
+   DeviceButtonStateNotify, DevicePresenceNotify (essentially unused). This
+   code has to be in sync with FixExtensionEvents() in xserver/Xi/extinit.c */
+#define _propertyNotify		6
+#define _deviceEnterNotify	7
+#define _deviceLeaveNotify	8
 
 #define FindTypeAndClass(d,type,_class,classid,offset) \
     { int _i; XInputClassInfo *_ip; \
@@ -119,6 +122,9 @@ SOFTWARE.
 
 #define ChangeDeviceNotify(d,type,_class) \
     FindTypeAndClass(d, type, _class, OtherClass, _changeDeviceNotify)
+
+#define DevicePropertyNotify(d, type, _class) \
+    FindTypeAndClass(d, type, _class, OtherClass, _propertyNotify)
 
 #define DevicePointerMotionHint(d,type,_class) \
     { _class =  ((XDevice *) d)->device_id << 8 | _devicePointerMotionHint;}
@@ -467,6 +473,22 @@ typedef struct {
     XID           control;
 } XDevicePresenceNotifyEvent;
 
+/*
+ * Notifies the client that a property on a device has changed value. The
+ * client is expected to query the server for updated value of the property.
+ */
+typedef struct {
+    int           type;
+    unsigned long serial;       /* # of last request processed by server */
+    Bool          send_event;   /* true if this came from a SendEvent request */
+    Display       *display;     /* Display the event was read from */
+    Window        window;       /* unused */
+    Time          time;
+    XID           deviceid;     /* id of the device that changed */
+    Atom          atom;         /* the property that changed */
+    int           state;        /* PropertyNewValue or PropertyDeleted */
+} XDevicePropertyNotifyEvent;
+
 
 typedef struct {
     int           type;
@@ -526,23 +548,6 @@ typedef struct {
     int           num_classes;
     XAnyClassPtr  inputclassinfo; /* same as in XDeviceInfo */
 } XDeviceClassesChangedEvent;
-
-/*
- * Notifies the client that a property on a device has changed value. The
- * client is expected to query the server for updated value of the property.
- */
-typedef struct {
-    int           type;         /* GenericEvent */
-    unsigned long serial;       /* # of last request processed by server */
-    Bool          send_event;   /* true if this came from a SendEvent request */
-    Display       *display;     /* Display the event was read from */
-    int           extension;    /* XI extension offset */
-    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
-    Time          time;
-    XID           deviceid;     /* id of the device that changed */
-    Atom          atom;         /* the property that changed */
-    int           state;        /* PropertyNewValue or PropertyDeleted */
-} XDevicePropertyNotifyEvent;
 
 
 /*******************************************************************

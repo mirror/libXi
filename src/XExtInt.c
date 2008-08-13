@@ -178,6 +178,8 @@ static XExtensionVersion versions[] = { {XI_Absent, 0, 0},
  XI_Add_XChangeDeviceControl_Minor},
 {XI_Present, XI_Add_DevicePresenceNotify_Major,
  XI_Add_DevicePresenceNotify_Minor},
+{XI_Present, XI_Add_DeviceProperties_Major,
+ XI_Add_DeviceProperties_Minor},
 {XI_Present, XI_2_Major, XI_2_Minor}
 };
 
@@ -759,7 +761,19 @@ XInputWireToEvent(
                     return (ENQUEUE_EVENT);
                 }
                 break;
+            case XI_DevicePropertyNotify:
+                {
+                    XDevicePropertyNotifyEvent* ev = (XDevicePropertyNotifyEvent*)re;
+                    devicePropertyNotify *ev2 = (devicePropertyNotify*)event;
 
+                    *ev = *(XDevicePropertyNotifyEvent*)save;
+                    ev->time = ev2->time;
+                    ev->deviceid = ev2->deviceid;
+                    ev->atom = ev2->atom;
+                    ev->state = ev2->state;
+                    return ENQUEUE_EVENT;
+                }
+                break;
             case XI_DeviceEnterNotify:
             case XI_DeviceLeaveNotify:
                 {
@@ -842,23 +856,6 @@ XInputWireToEvent(
                         any = (xAnyClassPtr)&dcc_wire[1];
                         Any = (XAnyClassPtr)dcc_event->inputclassinfo;
                         ParseClassInfo(&any, &Any, dcc_wire->num_classes);
-
-                        *re = *save;
-                        return ENQUEUE_EVENT;
-                    }
-                case XI_DevicePropertyNotify:
-                    {
-                        XDevicePropertyNotifyEvent* dpn_event =
-                            (XDevicePropertyNotifyEvent*)save;
-                        devicePropertyNotifyEvent* dpn_wire =
-                            (devicePropertyNotifyEvent*)event;
-
-                        dpn_event->extension = dpn_wire->extension;
-                        dpn_event->evtype = dpn_wire->evtype;
-                        dpn_event->time = dpn_wire->time;
-                        dpn_event->deviceid = dpn_wire->deviceid;
-                        dpn_event->atom = dpn_wire->atom;
-                        dpn_event->state = dpn_wire->state;
 
                         *re = *save;
                         return ENQUEUE_EVENT;
