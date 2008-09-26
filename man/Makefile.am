@@ -85,8 +85,6 @@ XI_manpages = \
 	      XWarpDevicePointer \
 	      XWindowClearAccess  \
 	      XListDeviceProperties \
-	      XQueryDeviceProperty \
-	      XConfigureDeviceProperty \
 	      XGetDeviceProperty \
 	      XChangeDeviceProperty \
 	      XDeleteDeviceProperty
