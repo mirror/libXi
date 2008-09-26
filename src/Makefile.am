@@ -15,7 +15,6 @@ libXi_la_SOURCES = \
 		  XChgProp.c \
                   XClrAcc.c \
 		  XCloseDev.c \
-		  XConfDProp.c \
 		  XDefDevCur.c \
 		  XDelDProp.c \
                   XDenyDev.c \
@@ -42,7 +41,6 @@ libXi_la_SOURCES = \
 		  XOpenDev.c \
                   XPermDev.c \
 		  XQryAccRl.c \
-		  XQryDProp.c \
 		  XQueryDv.c \
                   XQueryDvPtr.c \
 		  XSelect.c \

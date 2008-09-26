@@ -42,8 +42,7 @@ in this Software without prior written authorization from the author.
 int
 XGetDeviceProperty(Display* dpy, XDevice* dev,
 			 Atom property, long offset, long length, Bool delete,
-                         Bool pending, Atom req_type,
-                         Atom *actual_type, int *actual_format,
+                         Atom req_type, Atom *actual_type, int *actual_format,
                          unsigned long *nitems, unsigned long *bytes_after,
                          unsigned char **prop)
 {
@@ -66,7 +65,6 @@ XGetDeviceProperty(Display* dpy, XDevice* dev,
     req->longOffset = offset;
     req->longLength = length;
     req->delete     = delete;
-    req->pending    = pending;
 
     if (!_XReply (dpy, (xReply *) &rep, 0, xFalse))
     {

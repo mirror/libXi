@@ -1468,15 +1468,6 @@ extern Status   XExtendedGrabDevice(
     XGenericEventMask*  /* generic_events */
 );
 
-typedef struct {
-    Bool    pending;
-    Bool    range;
-    Bool    immutable;
-    Bool    fromClient;
-    int     num_values;
-    long    *values;
-} XIPropertyInfo;
-
 extern Atom*   XListDeviceProperties(
     Display*            /* dpy */,
     XDevice*            /* dev */,
@@ -1494,23 +1485,6 @@ extern void XChangeDeviceProperty(
     int                 /* nelements */
 );
 
-extern XIPropertyInfo* XQueryDeviceProperty(
-    Display*            /* dpy */,
-    XDevice*            /* dev */,
-    Atom                /* property */
-);
-
-extern void
-XConfigureDeviceProperty(
-    Display*            /* dpy */,
-    XDevice*            /* dev */,
-    Atom                /* property */,
-    Bool                /* pending */,
-    Bool                /* range */,
-    int                 /* num_values */,
-    long*               /* values */
-);
-
 extern void
 XDeleteDeviceProperty(
     Display*            /* dpy */,
@@ -1526,7 +1500,6 @@ XGetDeviceProperty(
      long               /* offset*/,
      long               /* length*/,
      Bool               /* delete*/,
-     Bool               /* pending*/,
      Atom               /* req_type*/,
      Atom*              /* actual_type*/,
      int*               /* actual_format*/,

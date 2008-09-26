@@ -6125,9 +6125,7 @@
     </refmeta>
     <refnamediv>
         <refname>XListDeviceProperties</refname>
-        <refname>XQueryDeviceProperty</refname>
-        <refname>XConfigureDeviceProperty</refname>
-        <refpurpose>List, query and configure a device's properties.</refpurpose>
+        <refpurpose>List a device's properties.</refpurpose>
     </refnamediv>
     <refsynopsisdiv>
         <title>Syntax</title>
@@ -6138,22 +6136,6 @@
                 <paramdef>Display *<parameter>display</parameter></paramdef>
                 <paramdef>XDevice *<parameter>device</parameter></paramdef>
                 <paramdef>int *<parameter>nprops_return</parameter></paramdef>
-            </funcprototype>
-            <funcprototype>
-                <funcdef>XIPropertyInfo* <function>XQueryDeviceProperty</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-                <paramdef>Atom <parameter>property</parameter></paramdef>
-            </funcprototype>
-            <funcprototype>
-                <funcdef>void<function>XConfigureDeviceProperty</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-                <paramdef>Atom <parameter>property</parameter></paramdef>
-                <paramdef>Bool <parameter>pending</parameter></paramdef>
-                <paramdef>Bool <parameter>range</parameter></paramdef>
-                <paramdef>int <parameter>num_values</parameter></paramdef>
-                <paramdef>long *<parameter>values</parameter></paramdef>
             </funcprototype>
         </funcsynopsis>
     </refsynopsisdiv>
@@ -6179,22 +6161,8 @@
                             values list.</para></listitem>
 		</varlistentry>
                 <varlistentry>
-                    <term><parameter>pending</parameter></term>
-		    <listitem><para>Sets the pending state of the.</para></listitem>
-		</varlistentry>
-                <varlistentry>
                     <term><parameter>property</parameter></term>
 		    <listitem><para>Specifies the property to modify or query.</para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>range</parameter></term>
-		    <listitem><para>Specifies whether the property describes a
-                            range.</para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>values</parameter></term>
-		    <listitem><para>Specifies the number of valid values for
-                            the property.</para></listitem>
 		</varlistentry>
             </variablelist>
         </para>
@@ -6211,80 +6179,9 @@
         </para>
         <para>The client is expected to free the list of properties using
             <function>XFree</function>.</para>
-	<para>
-            The <function>XQueryDeviceProperty</function> function returns 
-            the meta-data associated with the specified property in the form
-            of a <structname>XIPropertyInfo</structname> struct.
-	</para>
-        <para>
-            <synopsis>
-                typedef struct {
-                    Bool <structfield>pending</structfield>;
-                    Bool <structfield>range</structfield>;
-                    Bool <structfield>immutable</structfield>;
-                    Bool <structfield>fromClient</structfield>;
-                    int <structfield>num_values</structfield>;
-                    long* <structfield>values</structfield>;
-                } <structname>XIPropertyInfo</structname>;
-            </synopsis>
-        </para>
-        <para>
-            If <structfield>pending</structfield> is
-            <constant>True</constant>, the client can only modify the pending
-            value of the property. This value is committed to the driver and
-            it is the driver's responsibilty to update the actual value of the
-            property. If <structfield>pending</structfield> is
-            <constant>False</constant>, the client can modify the actual
-            property. In both cases, the driver is notified about a property
-            value change.
-        </para>
-        <para>
-            If <structfield>range</structfield> is <constant>True</constant>,
-            the property specifies one or more ranges and the number of data
-            items must be a multiple of 2.
-        </para>
-        <para>
-            If <structfield>immutable</structfield> is
-            <constant>True</constant>, the property cannot be modified by the
-            client.
-        </para>
-        <para>
-            If <structfield>fromClient</structfield> is
-            <constant>True</constant>, this property was created by a client.
-            If <structfield>fromClient</structfield> is
-            <constant>False</constant>, the property was created by the driver
-            or server. Properties created by a client may not be known to the
-            driver and a property created by driver or the server cannot be
-            deleted by a client.
-        </para>
-        <para>
-            <structfield>num_values</structfield> specifies the number of
-            elements in the <structfield>values</structfield> array.
-            The latter specifies the number of allowed integer values for the
-            property.
-        </para>
-        <para>
-            The client is expected to free the returned struct using
-            <function>XFree</function>.
-        </para>
-        <para>
-            The <function>XConfigureDeviceProperty</function> function
-            configures the meta-information about the property.
-        </para>
         <para>
             <function>XListDeviceProperties</function> can generate a
             <errorname>BadDevice</errorname> error.
-        </para>
-        <para>
-            <function>XConfigureDeviceProperty</function> can generate a
-            <errorname>BadDevice</errorname>, a
-            <errorname>BadAtom</errorname>, and a
-            <errorname>BadValue</errorname> error.
-        </para>
-        <para>
-            <function>XQueryDeviceProperty</function> can generate a
-            <errorname>BadDevice</errorname>, and a
-            <errorname>BadAtom</errorname> error.
         </para>
     </refsect1>
 
