@@ -2939,6 +2939,7 @@
             <constant>XI_EYETRACKER</constant>
             <constant>XI_CURSORKEYS</constant>
             <constant>XI_FOOTMOUSE</constant>
+            <constant>XI_JOYSTICK</constant>
         </para>
         <para>
             These names may be directly compared with the name field of the
