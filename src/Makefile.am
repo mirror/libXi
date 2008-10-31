@@ -3,8 +3,6 @@
 lib_LTLIBRARIES = libXi.la
 
 libXi_la_SOURCES = \
-		  XAllowDv.c \
-                  XChAccRl.c \
 		  XChDevHier.c \
 		  XChDProp.c \
 		  XChgDCtl.c \
@@ -13,11 +11,9 @@ libXi_la_SOURCES = \
 		  XChgKMap.c \
 		  XChgPnt.c \
 		  XChgProp.c \
-                  XClrAcc.c \
 		  XCloseDev.c \
 		  XDefDevCur.c \
 		  XDelDProp.c \
-                  XDenyDev.c \
 		  XDevBell.c \
 		  XExtGrabDev.c \
 		  XExtToWire.c \
@@ -39,8 +35,6 @@ libXi_la_SOURCES = \
 		  XListDev.c \
 		  XListDProp.c \
 		  XOpenDev.c \
-                  XPermDev.c \
-		  XQryAccRl.c \
 		  XQueryDv.c \
                   XQueryDvPtr.c \
 		  XSelect.c \

@@ -67,13 +67,9 @@ XI_manpages = \
 	      XFreeDeviceList \
 	      XOpenDevice \
 	      XCloseDevice \
-	      XPermitDevices \
-	      XDenyDevices \
-	      XChangeAccessRule \
 	      XQueryDevicePointer \
 	      XQueryInputVersion \
 	      XGetExtensionVersion \
-	      XQueryWindowAccess \
 	      XSelectExtensionEvent \
 	      XGetSelectedExtensionEvents \
 	      XSetClientPointer \
@@ -83,7 +79,6 @@ XI_manpages = \
 	      XSetDeviceFocus \
 	      XGetDeviceFocus \
 	      XWarpDevicePointer \
-	      XWindowClearAccess  \
 	      XListDeviceProperties \
 	      XGetDeviceProperty \
 	      XChangeDeviceProperty \
