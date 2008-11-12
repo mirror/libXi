@@ -121,7 +121,7 @@ dist-hook: $(libman_PRE)
 $(libman_PRE): do_xmlto_stage
 
 do_xmlto_stage: $(libman_xml)
-	$(XMLTO) man $(libman_xml)
+	$(XMLTO) man $?
 	for m in $(XI_manpages); do \
 	  mv -f $$m.__libmansuffix__ $$m.man ; \
 	done
