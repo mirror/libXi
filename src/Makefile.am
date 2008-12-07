@@ -3,6 +3,7 @@
 lib_LTLIBRARIES = libXi.la
 
 libXi_la_SOURCES = \
+		  XAllowDv.c \
 		  XChDevHier.c \
 		  XChDProp.c \
 		  XChgDCtl.c \
