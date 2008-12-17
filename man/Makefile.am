@@ -30,64 +30,60 @@ LIB_MAN_DIR_SUFFIX = $(LIB_MAN_DIR:@mandir@/man%=%)
 
 libman_xml = XI.xml
 
-if HAVE_XMLTO
-XI_manpages = \
-	      XAllowDeviceEvents \
-	      XChangeKeyboardDevice \
-	      XChangePointerDevice \
-	      XDeviceBell \
-	      XQueryDeviceState \
-	      XSendExtensionEvent \
-	      XSetDeviceMode \
-	      XSetDeviceValuators \
-	      XChangeDeviceDontPropagateList \
-	      XGetDeviceDontPropagateList \
-	      XChangeDeviceHierarchy \
-	      XDefineDeviceCursor \
-	      XUndefineDeviceCursor \
-	      XExtendedGrabDevice \
-	      XGetDeviceControl \
-	      XChangeDeviceControl \
-	      XGetDeviceKeyMapping \
-	      XChangeDeviceKeyMapping \
-	      XGetDeviceModifierMapping \
-	      XSetDeviceModifierMapping \
-	      XGetDeviceMotionEvents \
-	      XDeviceTimeCoord \
-	      XGetFeedbackControl \
-	      XChangeFeedbackControl \
-	      XGrabDeviceButton \
-	      XUngrabDeviceButton \
-	      XGrabDeviceKey \
-	      XUngrabDeviceKey \
-	      XGrabDevice \
-	      XUngrabDevice \
-	      XiSelectEvent \
-	      XListInputDevices \
-	      XFreeDeviceList \
-	      XOpenDevice \
-	      XCloseDevice \
-	      XQueryDevicePointer \
-	      XQueryInputVersion \
-	      XGetExtensionVersion \
-	      XSelectExtensionEvent \
-	      XGetSelectedExtensionEvents \
-	      XSetClientPointer \
-	      XGetClientPointer \
-	      XSetDeviceButtonMapping \
-	      XGetDeviceButtonMapping \
-	      XSetDeviceFocus \
-	      XGetDeviceFocus \
-	      XWarpDevicePointer \
-	      XListDeviceProperties \
-	      XGetDeviceProperty \
-	      XChangeDeviceProperty \
-	      XDeleteDeviceProperty
-endif # HAVE_XMLTO
+libman_PRE = \
+	      XAllowDeviceEvents.man \
+	      XChangeKeyboardDevice.man \
+	      XChangePointerDevice.man \
+	      XDeviceBell.man \
+	      XQueryDeviceState.man \
+	      XSendExtensionEvent.man \
+	      XSetDeviceMode.man \
+	      XSetDeviceValuators.man \
+	      XChangeDeviceDontPropagateList.man \
+	      XGetDeviceDontPropagateList.man \
+	      XChangeDeviceHierarchy.man \
+	      XDefineDeviceCursor.man \
+	      XUndefineDeviceCursor.man \
+	      XExtendedGrabDevice.man \
+	      XGetDeviceControl.man \
+	      XChangeDeviceControl.man \
+	      XGetDeviceKeyMapping.man \
+	      XChangeDeviceKeyMapping.man \
+	      XGetDeviceModifierMapping.man \
+	      XSetDeviceModifierMapping.man \
+	      XGetDeviceMotionEvents.man \
+	      XDeviceTimeCoord.man \
+	      XGetFeedbackControl.man \
+	      XChangeFeedbackControl.man \
+	      XGrabDeviceButton.man \
+	      XUngrabDeviceButton.man \
+	      XGrabDeviceKey.man \
+	      XUngrabDeviceKey.man \
+	      XGrabDevice.man \
+	      XUngrabDevice.man \
+	      XiSelectEvent.man \
+	      XListInputDevices.man \
+	      XFreeDeviceList.man \
+	      XOpenDevice.man \
+	      XCloseDevice.man \
+	      XQueryDevicePointer.man \
+	      XQueryInputVersion.man \
+	      XGetExtensionVersion.man \
+	      XSelectExtensionEvent.man \
+	      XGetSelectedExtensionEvents.man \
+	      XSetClientPointer.man \
+	      XGetClientPointer.man \
+	      XSetDeviceButtonMapping.man \
+	      XGetDeviceButtonMapping.man \
+	      XSetDeviceFocus.man \
+	      XGetDeviceFocus.man \
+	      XWarpDevicePointer.man \
+	      XListDeviceProperties.man \
+	      XGetDeviceProperty.man \
+	      XChangeDeviceProperty.man \
+	      XDeleteDeviceProperty.man
 
-libman_PRE = $(XI_manpages:%=%.man)
-
-EXTRA_DIST = $(libman_PRE) $(libman_xml)
+EXTRA_DIST = $(libman_PRE) $(libman_xml) xi.stamp
 
 CLEANFILES = $(libman_DATA) $(BUILT_SOURCES)
 
@@ -114,14 +110,25 @@ SUFFIXES = .$(LIB_MAN_SUFFIX) .man
 .man.$(LIB_MAN_SUFFIX):
 	sed $(MAN_SUBSTS) < $< > $@
 
-dist-hook: $(libman_PRE)
-
-.PHONY: do_xmlto_stage
-
-$(libman_PRE): do_xmlto_stage
-
-do_xmlto_stage: $(libman_xml)
-	$(XMLTO) man $?
-	for m in $(XI_manpages); do \
-	  mv -f $$m.__libmansuffix__ $$m.man ; \
+# This is ugly, but handling of tools with multiple outputs in make is a
+# huge PITA. The commands below are taken from the automake manual:
+# http://www.gnu.org/software/automake/manual/automake.html#Multiple-Outputs
+if HAVE_XMLTO
+xi.stamp: $(libman_xml)
+	@rm -f xi.tmp
+	@touch xi.tmp
+	$(XMLTO) man $^
+	@for man in $(libman_PRE); do \
+	  out=`echo $$man | sed 's/\.man/.__libmansuffix__/'`; \
+	  echo mv -f $$out $$man; \
+	  mv -f $$out $$man || exit 1; \
 	done
+	@mv -f xi.tmp $@
+$(libman_PRE): xi.stamp
+	@if test -f $@; then :; else \
+	  rm -f $<; \
+	  $(MAKE) $(AM_MAKEFLAGS) $<; \
+	fi
+CLEANFILES += xi.tmp
+MAINTAINERCLEANFILES += xi.stamp
+endif # HAVE_XMLTO
