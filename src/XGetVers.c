@@ -94,7 +94,7 @@ XQueryInputVersion(Display *dpy, int major, int minor)
     return (ext);
 }
 
-XExtensionVersion *
+_X_HIDDEN XExtensionVersion *
 _XiGetExtensionVersion(register Display * dpy, _Xconst char *name,
                        int major, int minor, XExtDisplayInfo *info)
 {

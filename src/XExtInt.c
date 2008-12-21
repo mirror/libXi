@@ -117,13 +117,6 @@ static Bool XInputWireToEvent(
     xEvent *		/* event */
 );
 
-Status _XiEventToWire(
-    register Display *	/* dpy */,
-    register XEvent *	/* re */,
-    register xEvent **	/* event */,
-    register int *	/* count */
-);
-
 static /* const */ XEvent emptyevent;
 
 /* ge events handling */
@@ -158,6 +151,7 @@ static char *XInputErrorList[] = {
     "BadClass, invalid event class",	/* BadClass */
 };
 
+_X_HIDDEN
 XEXT_GENERATE_FIND_DISPLAY(XInput_find_display, xinput_info,
 			   xinput_extension_name, &xinput_extension_hooks,
 			   IEVENTS, NULL)
@@ -252,7 +246,7 @@ static int XInputCheckExtension(Display *dpy, XExtDisplayInfo *info)
  *
  */
 
-int
+_X_HIDDEN int
 _XiCheckExtInit(
     register Display	*dpy,
     register int	 version_index,

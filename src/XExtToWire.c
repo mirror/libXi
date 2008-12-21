@@ -60,7 +60,7 @@ SOFTWARE.
 #include <X11/extensions/geproto.h>
 #include "XIint.h"
 
-Status
+_X_HIDDEN Status
 _XiEventToWire(
     register Display	 *dpy,		/* pointer to display structure */
     register XEvent	 *re,		/* pointer to client event */
