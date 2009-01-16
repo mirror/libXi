@@ -68,6 +68,13 @@ typedef union {
     XIDetachSlaveInfo     detach;
 } XIAnyHierarchyChangeInfo;
 
+typedef struct
+{
+    int                 deviceid;
+    int                 mask_len;
+    unsigned char*      mask;
+} XIDeviceEventMask;
+
 _XFUNCPROTOBEGIN
 
 extern Bool     XIQueryDevicePointer(
@@ -127,21 +134,11 @@ extern Bool     XIGetClientPointer(
     int*                /* deviceid */
 );
 
-typedef CARD16 XIEventType;
-
-typedef struct
-{
-    int         deviceid;
-    int         num_types;
-    XIEventType *types;
-} XIDeviceEventMask;
-
-extern int
-XISelectEvent(
+extern int      XISelectEvent(
      Display*           /* dpy */,
      Window             /* win */,
-     XIDeviceEventMask** /* masks*/,
-     int                 /* nmasks */
+     XIDeviceEventMask* /* masks*/,
+     int                /* nmasks */
 );
 
 _XFUNCPROTOEND

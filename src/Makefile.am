@@ -51,7 +51,7 @@ libXi_la_SOURCES = \
 		  XUngrDvK.c \
                   XWarpDvPtr.c \
 		  XExtInt.c  \
-                  XiSelEv.c \
+                  XISelEv.c \
 		  XIint.h
 
 libXi_la_LIBADD = $(XI_LIBS)

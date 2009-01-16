@@ -1,6 +1,6 @@
 /************************************************************
 
-Copyright 2007 Peter Hutterer <peter@cs.unisa.edu.au>
+Copyright 2009 Red Hat, Inc.
 
 Permission to use, copy, modify, distribute, and sell this software and its
 documentation for any purpose is hereby granted without fee, provided that
@@ -26,42 +26,62 @@ in this Software without prior written authorization from the author.
 
 /***********************************************************************
  *
- * XiSelectEvent - Select an event using the GE extension.
+ * XISelectEvent - Select for XI2 events.
  *
  */
 
 
+#include <stdint.h>
 #include <X11/Xlibint.h>
 #include <X11/extensions/XI.h>
-#include <X11/extensions/XIproto.h>
-#include <X11/extensions/XInput.h>
+#include <X11/extensions/XI2proto.h>
+#include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>
 #include <X11/extensions/ge.h>
 #include <X11/extensions/geproto.h>
 #include "XIint.h"
 
 int
-XiSelectEvent(Display* dpy, Window win, XDevice* dev, Mask mask)
+XISelectEvent(Display* dpy, Window win, XIDeviceEventMask* masks, int num_masks)
 {
-    xXiSelectEventReq* req;
+    XIDeviceEventMask  *current;
+    xXISelectEventsReq  *req;
+    xXIDeviceEventMask mask;
+    int i;
+    int len = 0;
 
     XExtDisplayInfo *info = XInput_find_display(dpy);
-
     LockDisplay(dpy);
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return (NoSuchExtension);
+    GetReq(XISelectEvents, req);
 
-    GetReq(XiSelectEvent, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_XiSelectEvent;
-    if (dev)
-        req->deviceid = dev->device_id;
-    else
-        req->deviceid = (1 << 7); /* all devices */
+    req->ReqType = X_XISelectEvents;
     req->window = win;
-    req->mask = mask;
+    req->num_masks = num_masks;
+
+    /* get the right length */
+    for (i = 0; i < num_masks; i++)
+    {
+        len++;
+        current = &masks[i];
+        len += (current->mask_len + 3)/4;
+    }
+
+    SetReqLen(req, len, len);
+
+    for (i = 0; i < num_masks; i++)
+    {
+        current = &masks[i];
+        mask.deviceid = current->deviceid;
+        mask.mask_len = (current->mask_len + 3)/4;
+        Data32(dpy, &mask, sizeof(xXIDeviceEventMask));
+        Data(dpy, (char*)current->mask, current->mask_len);
+    }
 
     UnlockDisplay(dpy);
     SyncHandle();
     return Success;
+
 }
