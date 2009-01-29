@@ -119,10 +119,6 @@ static Bool XInputWireToEvent(
 
 static /* const */ XEvent emptyevent;
 
-/* ge events handling */
-static Bool XInputWireToGEEvent(Display*, XEvent*, xEvent*);
-static Status XIGEEventToWire(Display*, XEvent*, xEvent*);
-
 typedef struct _XInputData
 {
     XEvent data;

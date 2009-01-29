@@ -21,4 +21,21 @@ extern Status _XiEventToWire(
     register int *		/* count */
 );
 
+extern int SizeClassInfo(
+    xAnyClassPtr *		/* any */,
+    int				/* num_classes */
+);
+
+extern void ParseClassInfo(
+    xAnyClassPtr *		/* any */,
+    XAnyClassPtr *		/* Any */,
+    int				/* num_classes */
+);
+
+extern int XUndefDeviceCursor(
+    Display *			/* dpy */,
+    XDevice *			/* dev */,
+    Window			/* w */
+);
+
 #endif
