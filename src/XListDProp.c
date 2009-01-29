@@ -49,32 +49,30 @@ XListDeviceProperties(Display* dpy, XDevice* dev, int *nprops_return)
     Atom                        *props = NULL;
 
     LockDisplay(dpy);
+    *nprops_return = 0;
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
-	return (NoSuchExtension);
+	goto cleanup;
 
     GetReq(ListDeviceProperties, req);
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_ListDeviceProperties;
     req->deviceid = dev->device_id;
 
-    if (!_XReply(dpy, (xReply*)&rep, 0, xFalse)) {
-        *nprops_return = 0;
+    if (!_XReply(dpy, (xReply*)&rep, 0, xFalse))
         goto cleanup;
-    }
-
-    *nprops_return = rep.nAtoms;
 
     if (rep.nAtoms) {
         props = (Atom*)Xmalloc(rep.nAtoms * sizeof(Atom));
         if (!props)
         {
             _XEatData(dpy, rep.nAtoms << 2);
-            *nprops_return = 0;
             goto cleanup;
         }
 
         _XRead32(dpy, props, rep.nAtoms << 2);
     }
+
+    *nprops_return = rep.nAtoms;
 
 cleanup:
     UnlockDisplay(dpy);
