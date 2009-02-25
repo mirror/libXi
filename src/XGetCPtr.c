@@ -26,31 +26,32 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XGetClientPointer - Get the clientPointer setting for a client.
+ * XIGetClientPointer - Get the clientPointer setting for a client.
  *
  */
 
+#include <stdint.h>
 #include <X11/extensions/XI.h>
-#include <X11/extensions/XIproto.h>
+#include <X11/extensions/XI2proto.h>
 #include <X11/Xlibint.h>
-#include <X11/extensions/XInput.h>
+#include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
 Bool
-XGetClientPointer(Display* dpy, Window win, XID* deviceid)
+XIGetClientPointer(Display* dpy, Window win, XID* deviceid)
 {
-    xGetClientPointerReq *req;
-    xGetClientPointerReply rep;
+    xXIGetClientPointerReq *req;
+    xXIGetClientPointerReply rep;
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return (NoSuchExtension);
 
-    GetReq(GetClientPointer, req);
+    GetReq(XIGetClientPointer, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_GetClientPointer;
+    req->ReqType = X_XIGetClientPointer;
     req->win = win;
 
     if (!_XReply(dpy, (xReply*) &rep, 0, xFalse)) {

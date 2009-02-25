@@ -26,19 +26,19 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XDefineDeviceCursor - Change the cursor of an extension input device.
+ * XIUndefineDeviceCursor - Change the cursor of an extension input device to
+ * None..
  *
  */
 #include <X11/extensions/XI.h>
-#include <X11/extensions/XIproto.h>
 #include <X11/Xlibint.h>
-#include <X11/extensions/XInput.h>
+#include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
 
-int XUndefDeviceCursor(Display *dpy, XDevice* dev, Window w)
+int XIUndefineDeviceCursor(Display *dpy, XDevice* dev, Window w)
 {
-    return XDefineDeviceCursor(dpy, dev, w, None);
+    return XIDefineDeviceCursor(dpy, dev, w, None);
 }
 

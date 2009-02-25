@@ -26,20 +26,21 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XDefineDeviceCursor - Change the cursor of an extension input device.
+ * XIDefineDeviceCursor - Change the cursor of an extension input device.
  *
  */
+#include <stdint.h>
 #include <X11/extensions/XI.h>
-#include <X11/extensions/XIproto.h>
+#include <X11/extensions/XI2proto.h>
 #include <X11/Xlibint.h>
-#include <X11/extensions/XInput.h>
+#include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
 
-int XDefineDeviceCursor(Display *dpy, XDevice* dev, Window w, Cursor cursor)
+int XIDefineDeviceCursor(Display *dpy, XDevice* dev, Window w, Cursor cursor)
 {
-    register xChangeDeviceCursorReq *req;
+    xXIChangeDeviceCursorReq *req;
 
     XExtDisplayInfo *info = XInput_find_display(dpy);
     LockDisplay(dpy);
@@ -47,9 +48,9 @@ int XDefineDeviceCursor(Display *dpy, XDevice* dev, Window w, Cursor cursor)
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return (NoSuchExtension);
 
-    GetReq(ChangeDeviceCursor, req);
+    GetReq(XIChangeDeviceCursor, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_ChangeDeviceCursor;
+    req->ReqType = X_XIChangeDeviceCursor;
     req->deviceid = dev->device_id;
     req->win = w;
     req->cursor = cursor;

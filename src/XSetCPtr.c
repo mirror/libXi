@@ -26,33 +26,34 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XSetClientPointer - Sets the default pointer for a client. This call is
+ * XISetClientPointer - Sets the default pointer for a client. This call is
  * important for legacy applications that may send ambiguous requests to the
  * server where the server has to randomly pick a device.
  * Ideally, the window manager will always send a SetClientPointer request
  * before the client interacts with an application.
  */
 
+#include <stdint.h>
 #include <X11/extensions/XI.h>
-#include <X11/extensions/XIproto.h>
+#include <X11/extensions/XI2proto.h>
 #include <X11/Xlibint.h>
-#include <X11/extensions/XInput.h>
+#include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
 Status 
-XSetClientPointer(Display* dpy, Window win, XDevice* device)
+XISetClientPointer(Display* dpy, Window win, XDevice* device)
 {
-    xSetClientPointerReq* req;
+    xXISetClientPointerReq* req;
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return (NoSuchExtension);
 
-    GetReq(SetClientPointer, req);
+    GetReq(XISetClientPointer, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_SetClientPointer;
+    req->ReqType = X_XISetClientPointer;
     req->win = win;
     req->deviceid = device->device_id;
 

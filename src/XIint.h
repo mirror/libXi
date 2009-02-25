@@ -33,10 +33,4 @@ extern void ParseClassInfo(
     int				/* num_classes */
 );
 
-extern int XUndefDeviceCursor(
-    Display *			/* dpy */,
-    XDevice *			/* dev */,
-    Window			/* w */
-);
-
 #endif

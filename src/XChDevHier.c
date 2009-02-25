@@ -26,7 +26,7 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XChangeDeviceHierarch - change the device hierarchy, i.e. which slave
+ * XIChangeDeviceHierarchy - change the device hierarchy, i.e. which slave
  * device is attached to which master, etc.
  */
 
@@ -39,12 +39,12 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 int
-XChangeDeviceHierarchy(Display* dpy,
-                       XAnyHierarchyChangeInfo* changes,
-                       int num_changes)
+XIChangeDeviceHierarchy(Display* dpy,
+                        XIAnyHierarchyChangeInfo* changes,
+                        int num_changes)
 {
-    XAnyHierarchyChangeInfo* any;
-    xChangeDeviceHierarchyReq *req;
+    XIAnyHierarchyChangeInfo* any;
+    xXIChangeDeviceHierarchyReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);
     char *data = NULL, *dptr;
     int dlen = 0, i;
@@ -53,9 +53,9 @@ XChangeDeviceHierarchy(Display* dpy,
     if (_XiCheckExtInit(dpy, XInput_2, info) == -1)
 	return (NoSuchExtension);
 
-    GetReq(ChangeDeviceHierarchy, req);
+    GetReq(XIChangeDeviceHierarchy, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_ChangeDeviceHierarchy;
+    req->ReqType = X_XIChangeDeviceHierarchy;
     req->num_changes = num_changes;
 
     /* alloc required memory */
@@ -66,15 +66,18 @@ XChangeDeviceHierarchy(Display* dpy,
             case CH_CreateMasterDevice:
                 {
                     int slen = (strlen(any->create.name));
-                    dlen += sizeof(xCreateMasterInfo) + 
+                    dlen += sizeof(xXICreateMasterInfo) +
                         slen + (4 - (slen % 4));
                 }
                 break;
             case CH_RemoveMasterDevice:
-                dlen += sizeof(xRemoveMasterInfo);
+                dlen += sizeof(xXIRemoveMasterInfo);
                 break;
-            case CH_ChangeAttachment:
-                dlen += sizeof(xChangeAttachmentInfo);
+            case CH_AttachSlave:
+                dlen += sizeof(xXIAttachSlaveInfo);
+                break;
+            case CH_DetachSlave:
+                dlen += sizeof(xXIDetachSlaveInfo);
                 break;
             default:
                 return BadValue;
@@ -93,49 +96,56 @@ XChangeDeviceHierarchy(Display* dpy,
         {
                 case CH_CreateMasterDevice:
                 {
-                    XCreateMasterInfo* C = &any->create;
-                    xCreateMasterInfo* c = (xCreateMasterInfo*)dptr;
+                    XICreateMasterInfo* C = &any->create;
+                    xXICreateMasterInfo* c = (xXICreateMasterInfo*)dptr;
                     c->type = C->type;
-                    c->sendCore = C->sendCore;
+                    c->send_core = C->sendCore;
                     c->enable = C->enable;
-                    c->namelen = strlen(C->name);
-                    c->length = sizeof(xCreateMasterInfo) + c->namelen + 
-                        (4 - (c->namelen % 4));
-                    strncpy((char*)&c[1], C->name, c->namelen);
+                    c->name_len = strlen(C->name);
+                    c->length = (sizeof(xXICreateMasterInfo) + c->name_len + 3)/4;
+                    strncpy((char*)&c[1], C->name, c->name_len);
                     dptr += c->length;
                 }
                 break;
             case CH_RemoveMasterDevice:
                 {
-                    XRemoveMasterInfo* R = &any->remove;
-                    xRemoveMasterInfo* r = (xRemoveMasterInfo*)dptr;
+                    XIRemoveMasterInfo* R = &any->remove;
+                    xXIRemoveMasterInfo* r = (xXIRemoveMasterInfo*)dptr;
                     r->type = R->type;
-                    r->returnMode = R->returnMode;
+                    r->return_mode = R->returnMode;
                     r->deviceid = R->device->device_id;
-                    r->length = sizeof(xRemoveMasterInfo);
-                    if (r->returnMode == AttachToMaster)
+                    r->length = sizeof(xXIRemoveMasterInfo)/4;
+                    if (r->return_mode == AttachToMaster)
                     {
-                        r->returnPointer = R->returnPointer->device_id;
-                        r->returnKeyboard = R->returnKeyboard->device_id;
+                        r->return_pointer = R->returnPointer->device_id;
+                        r->return_keyboard = R->returnKeyboard->device_id;
                     }
-                    dptr += sizeof(xRemoveMasterInfo);
+                    dptr += sizeof(xXIRemoveMasterInfo);
                 }
                 break;
-            case CH_ChangeAttachment:
+            case CH_AttachSlave:
                 {
-                    XChangeAttachmentInfo* C = &any->change;
-                    xChangeAttachmentInfo* c = (xChangeAttachmentInfo*)dptr;
+                    XIAttachSlaveInfo* C = &any->attach;
+                    xXIAttachSlaveInfo* c = (xXIAttachSlaveInfo*)dptr;
 
                     c->type = C->type;
                     c->deviceid = C->device->device_id;
-                    c->changeMode = C->changeMode;
-                    c->length = sizeof(xChangeAttachmentInfo);
-                    if (c->changeMode == AttachToMaster)
-                        c->newMaster = C->newMaster->device_id;
+                    c->length = sizeof(xXIAttachSlaveInfo)/4;
+                    c->new_master = C->newMaster->device_id;
 
-                    dptr += sizeof(xChangeAttachmentInfo);
+                    dptr += sizeof(xXIAttachSlaveInfo);
                 }
                 break;
+            case CH_DetachSlave:
+                {
+                    XIDetachSlaveInfo *D = &any->detach;
+                    xXIDetachSlaveInfo *d = (xXIDetachSlaveInfo*)dptr;
+
+                    d->type = D->type;
+                    d->deviceid = D->device->device_id;
+                    d->length = sizeof(xXIDetachSlaveInfo)/4;
+                    dptr += sizeof(xXIDetachSlaveInfo);
+                }
         }
     }
 

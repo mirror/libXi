@@ -462,13 +462,13 @@ _XiEventToWire(
 #if 0
         switch (((XGenericEvent*)re)->evtype)
         {
-            case XI_DeviceHierarchyChangedNotify:
+            case XI_HierarchyChangedNotify:
                 {
                     XDeviceHierarchyChangedEvent *ev =
                         (XDeviceHierarchyChangedEvent*)re;
-                    deviceHierarchyChangedEvent *dhcev;
+                    XIDeviceHierarchyEvent *dhcev;
                     *count = 1;
-                    dhcev = (deviceHierarchyChangedEvent *)Xmalloc(*count * sizeof(xEvent));
+                    dhcev = (XIDeviceHierarchyEvent *)Xmalloc(*count * sizeof(xEvent));
                     if (!dhcev)
                         return (_XUnknownNativeEvent(dpy, re, *event));
 

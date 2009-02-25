@@ -26,19 +26,20 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XQueryDevicePointer - Query the pointer of an extension input device.
+ * XIQueryDevicePointer - Query the pointer of an extension input device.
  *
  */
 
+#include <stdint.h>
 #include <X11/extensions/XI.h>
-#include <X11/extensions/XIproto.h>
+#include <X11/extensions/XI2proto.h>
 #include <X11/Xlibint.h>
-#include <X11/extensions/XInput.h>
+#include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
 Bool
-XQueryDevicePointer(Display     *dpy,
+XIQueryDevicePointer(Display     *dpy,
                     XDevice     *dev,
                     Window      w,
                     Window      *root,
@@ -49,8 +50,8 @@ XQueryDevicePointer(Display     *dpy,
                     int         *win_y,
                     unsigned int *mask)
 {
-    xQueryDevicePointerReq *req;
-    xQueryDevicePointerReply rep;
+    xXIQueryDevicePointerReq *req;
+    xXIQueryDevicePointerReply rep;
 
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -58,9 +59,9 @@ XQueryDevicePointer(Display     *dpy,
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return False;
 
-    GetReq(QueryDevicePointer, req);
+    GetReq(XIQueryDevicePointer, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_QueryDevicePointer;
+    req->ReqType = X_XIQueryDevicePointer;
     req->deviceid = dev->device_id;
     req->win = w;
 
@@ -72,12 +73,12 @@ XQueryDevicePointer(Display     *dpy,
 
     *root = rep.root;
     *child = rep.child;
-    *root_x = cvtINT16toInt(rep.rootX);
-    *root_y = cvtINT16toInt(rep.rootY);
-    *win_x = cvtINT16toInt(rep.winX);
-    *win_y = cvtINT16toInt(rep.winY);
+    *root_x = cvtINT16toInt(rep.root_x.integral);
+    *root_y = cvtINT16toInt(rep.root_y.integral);
+    *win_x = cvtINT16toInt(rep.win_x.integral);
+    *win_y = cvtINT16toInt(rep.win_y.integral);
     *mask = rep.mask;
     UnlockDisplay(dpy);
     SyncHandle();
-    return rep.sameScreen;
+    return rep.same_screen;
 }

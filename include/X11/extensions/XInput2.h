@@ -39,7 +39,7 @@ typedef struct {
     char*               name;
     Bool                sendCore;
     Bool                enable;
-} XCreateMasterInfo;
+} XICreateMasterInfo;
 
 typedef struct {
     int                 type;
@@ -47,25 +47,30 @@ typedef struct {
     int                 returnMode; /* AttachToMaster, Floating */
     XDevice*            returnPointer;
     XDevice*            returnKeyboard;
-} XRemoveMasterInfo;
+} XIRemoveMasterInfo;
 
 typedef struct {
     int                 type;
     XDevice*            device;
-    int                 changeMode; /* AttachToMaster, Floating */
     XDevice*            newMaster;
-} XChangeAttachmentInfo;
+} XIAttachSlaveInfo;
+
+typedef struct {
+    int                 type;
+    XDevice*            device;
+} XIDetachSlaveInfo;
 
 typedef union {
     int                   type; /* must be first element */
-    XCreateMasterInfo     create;
-    XRemoveMasterInfo     remove;
-    XChangeAttachmentInfo change;
-} XAnyHierarchyChangeInfo;
+    XICreateMasterInfo    create;
+    XIRemoveMasterInfo    remove;
+    XIAttachSlaveInfo     attach;
+    XIDetachSlaveInfo     detach;
+} XIAnyHierarchyChangeInfo;
 
 _XFUNCPROTOBEGIN
 
-extern Bool     XQueryDevicePointer(
+extern Bool     XIQueryDevicePointer(
     Display*            /* display */,
     XDevice*            /* device */,
     Window              /* win */,
@@ -78,7 +83,7 @@ extern Bool     XQueryDevicePointer(
     unsigned int*       /* mask */
 );
 
-extern Bool     XWarpDevicePointer(
+extern Bool     XIWarpDevicePointer(
     Display*            /* display */,
     XDevice*            /* device */,
     Window              /* src_win */,
@@ -91,32 +96,32 @@ extern Bool     XWarpDevicePointer(
     int                 /* dst_y */
 );
 
-extern Status   XDefineDeviceCursor(
+extern Status   XIDefineDeviceCursor(
     Display*            /* display */,
     XDevice*            /* device */,
     Window              /* win */,
     Cursor              /* cursor */
 );
 
-extern Status   XUndefineDeviceCursor(
+extern Status   XIUndefineDeviceCursor(
     Display*            /* display */,
     XDevice*            /* device */,
     Window              /* win */
 );
 
-extern Status   XChangeDeviceHierarchy(
+extern Status   XIChangeDeviceHierarchy(
     Display*            /* display */,
-    XAnyHierarchyChangeInfo*  /* changes*/,
+    XIAnyHierarchyChangeInfo*  /* changes*/,
     int                 /* num_changes */
 );
 
-extern Status   XSetClientPointer(
+extern Status   XISetClientPointer(
     Display*            /* dpy */,
     Window              /* win */,
     XDevice*            /* device */
 );
 
-extern Bool     XGetClientPointer(
+extern Bool     XIGetClientPointer(
     Display*            /* dpy */,
     Window              /* win */,
     XID*                /* deviceid */

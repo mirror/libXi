@@ -773,12 +773,12 @@ XInputWireToEvent(
         {
             switch(ge->evtype)
             {
-                case XI_DeviceHierarchyChangedNotify:
+                case XI_HierarchyChangedNotify:
                     {
                         XDeviceHierarchyChangedEvent* dhc_event = 
                             (XDeviceHierarchyChangedEvent*)save;
-                        deviceHierarchyChangedEvent* dhc_wire =
-                            (deviceHierarchyChangedEvent*)event;
+                        XIDeviceHierarchyEvent* dhc_wire =
+                            (XIDeviceHierarchyEvent*)event;
 
                         dhc_event->extension = dhc_wire->extension;
                         dhc_event->evtype = dhc_wire->evtype;
@@ -786,12 +786,12 @@ XInputWireToEvent(
                         *re = *save;
                         return ENQUEUE_EVENT;
                     }
-                case XI_DeviceClassesChangedNotify:
+                case XI_ClassesChangedNotify:
                     {
                         XDeviceClassesChangedEvent* dcc_event =
                             (XDeviceClassesChangedEvent*)save;
-                        deviceClassesChangedEvent* dcc_wire =
-                            (deviceClassesChangedEvent*)event;
+                        XIDeviceChangedEvent* dcc_wire =
+                            (XIDeviceChangedEvent*)event;
                         int size;
                         XAnyClassPtr Any;
                         xAnyClassPtr any;
