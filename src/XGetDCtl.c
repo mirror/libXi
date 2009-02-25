@@ -122,17 +122,17 @@ XGetDeviceControl(dpy, dev, control)
 	}
         case DEVICE_ABS_CALIB:
         {
-            size += sizeof(xDeviceAbsCalibState);
+            size += sizeof(XDeviceAbsCalibState);
             break;
         }
         case DEVICE_ABS_AREA:
         {
-            size += sizeof(xDeviceAbsAreaState);
+            size += sizeof(XDeviceAbsAreaState);
             break;
         }
         case DEVICE_CORE:
         {
-            size += sizeof(xDeviceCoreState);
+            size += sizeof(XDeviceCoreState);
             break;
         }
 	default:
