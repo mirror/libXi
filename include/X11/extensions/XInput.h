@@ -51,7 +51,6 @@ SOFTWARE.
 
 #include <X11/Xlib.h>
 #include <X11/extensions/XI.h>
-#include <X11/extensions/Xge.h>
 
 #define _deviceKeyPress		0
 #define _deviceKeyRelease	1
@@ -480,39 +479,6 @@ typedef struct {
     Atom          atom;         /* the property that changed */
     int           state;        /* PropertyNewValue or PropertyDeleted */
 } XDevicePropertyNotifyEvent;
-
-/*
- * Notifies the client that the device hierarchy has been changed. The client
- * is expected to re-query the server for the device hierarchy.
- */
-typedef struct {
-    int           type;         /* GenericEvent */
-    unsigned long serial;       /* # of last request processed by server */
-    Bool          send_event;   /* true if this came from a SendEvent request */
-    Display       *display;     /* Display the event was read from */
-    int           extension;    /* XI extension offset */
-    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
-    Time          time;
-} XDeviceHierarchyChangedEvent;
-
-/*
- * Notifies the client that the classes have been changed. This happens when
- * the slave device that sends through the master changes.
- */
-typedef struct {
-    int           type;         /* GenericEvent */
-    unsigned long serial;       /* # of last request processed by server */
-    Bool          send_event;   /* true if this came from a SendEvent request */
-    Display       *display;     /* Display the event was read from */
-    int           extension;    /* XI extension offset */
-    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
-    Time          time;
-    XID           deviceid;     /* id of the device that changed */
-    XID           slaveid;      /* id of the slave device that caused the
-                                   change */
-    int           num_classes;
-    XAnyClassPtr  inputclassinfo; /* same as in XDeviceInfo */
-} XDeviceClassesChangedEvent;
 
 
 /*******************************************************************
@@ -964,38 +930,6 @@ typedef struct {
 } XButtonState;
 
 
-/*******************************************************************
- *
- */
-typedef struct {
-    int                 type;
-    char*               name;
-    Bool                sendCore;
-    Bool                enable;
-} XCreateMasterInfo;
-
-typedef struct {
-    int                 type;
-    XDevice*            device;
-    int                 returnMode; /* AttachToMaster, Floating */
-    XDevice*            returnPointer;
-    XDevice*            returnKeyboard;
-} XRemoveMasterInfo;
-
-typedef struct {
-    int                 type;
-    XDevice*            device;
-    int                 changeMode; /* AttachToMaster, Floating */
-    XDevice*            newMaster;
-} XChangeAttachmentInfo;
-
-typedef union {
-    int                   type; /* must be first element */
-    XCreateMasterInfo     create;
-    XRemoveMasterInfo     remove;
-    XChangeAttachmentInfo change;
-} XAnyHierarchyChangeInfo;
-
 
 /*******************************************************************
  *
@@ -1291,70 +1225,6 @@ extern void	XFreeDeviceMotionEvents(
 
 extern void	XFreeDeviceControl(
     XDeviceControl*	/* control */
-);
-
-extern Bool     XQueryDevicePointer(
-    Display*            /* display */,
-    XDevice*            /* device */,
-    Window              /* win */,
-    Window*             /* root */,
-    Window*             /* child */,
-    int*                /* root_x */,
-    int*                /* root_y */,
-    int*                /* win_x */,
-    int*                /* win_y */,
-    unsigned int*       /* mask */
-);
-
-extern Bool     XWarpDevicePointer(
-    Display*            /* display */,
-    XDevice*            /* device */,
-    Window              /* src_win */,
-    Window              /* dst_win */,
-    int                 /* src_x */,
-    int                 /* src_y */,
-    unsigned int        /* src_width */,
-    unsigned int        /* src_height */,
-    int                 /* dst_x */,
-    int                 /* dst_y */
-);
-
-extern Status   XDefineDeviceCursor(
-    Display*            /* display */,
-    XDevice*            /* device */,
-    Window              /* win */,
-    Cursor              /* cursor */
-);
-
-extern Status   XUndefineDeviceCursor(
-    Display*            /* display */,
-    XDevice*            /* device */,
-    Window              /* win */
-);
-
-extern Status   XChangeDeviceHierarchy(
-    Display*            /* display */,
-    XAnyHierarchyChangeInfo*  /* changes*/,
-    int                 /* num_changes */
-);
-
-extern Status   XSetClientPointer(
-    Display*            /* dpy */,
-    Window              /* win */,
-    XDevice*            /* device */
-);
-
-extern Bool     XGetClientPointer(
-    Display*            /* dpy */,
-    Window              /* win */,
-    XID*                /* deviceid */
-);
-
-extern Status   XiSelectEvent(
-    Display*            /* dpy */,
-    Window              /* win */,
-    XDevice*            /* dev */,
-    Mask                /* mask */
 );
 
 extern Atom*   XListDeviceProperties(

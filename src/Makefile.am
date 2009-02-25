@@ -66,6 +66,7 @@ AM_CFLAGS = -I$(top_srcdir)/include \
 libXi_la_LDFLAGS = -version-number 6:0:0 -no-undefined
 
 libXiincludedir = $(includedir)/X11/extensions
-libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/XInput.h
+libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/XInput.h \
+		       $(top_srcdir)/include/X11/extensions/XInput2.h
 
 EXTRA_DIST = XFreeLst.c
