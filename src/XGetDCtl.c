@@ -130,6 +130,7 @@ XGetDeviceControl(
         case DEVICE_CORE:
         {
             size += sizeof(xDeviceCoreState);
+            break;
         }
 	default:
 	    size += d->length;
