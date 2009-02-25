@@ -764,34 +764,6 @@ XInputWireToEvent(
                     return ENQUEUE_EVENT;
                 }
                 break;
-            case XI_DeviceEnterNotify:
-            case XI_DeviceLeaveNotify:
-                {
-                    XDeviceCrossingEvent *ev = (XDeviceCrossingEvent*)re;
-                    deviceEnterNotify *ev2 = (deviceEnterNotify*) event;
-                    *ev = *(XDeviceCrossingEvent*)save;
-                    ev->root = ev2->root;
-                    ev->window = ev2->event;
-                    ev->subwindow = ev2->child;
-                    ev->time = ev2->time;
-                    ev->x_root = ev2->rootX;
-                    ev->y_root = ev2->rootY;
-                    ev->x = ev2->eventX;
-                    ev->y = ev2->eventY;
-                    ev->state = ev2->state;
-                    /* mode has same_screen and focus stuffed in the upper 4 bits */
-                    ev->mode = ev2->mode & 0xF;
-                    ev->deviceid = ev2->deviceid & DEVICE_BITS;
-                    ev->detail = ev2->detail;
-                    if ((ev2->mode >> 4) & ELFlagSameScreen) {
-                        ev->same_screen = True;
-                    }
-                    if ((ev2->mode >> 4) & ELFlagFocus) {
-                        ev->focus = True;
-                    }
-                    return (ENQUEUE_EVENT);
-                }
-                break;
             default:
                 printf("XInputWireToEvent: UNKNOWN WIRE EVENT! type=%d\n", type);
                 break;

@@ -454,39 +454,6 @@ _XiEventToWire(
                     cev->deviceid = ev->deviceid;
                     break;
                 }
-            case XI_DeviceEnterNotify:
-            case XI_DeviceLeaveNotify:
-                {
-                    register XDeviceCrossingEvent *ev = (XDeviceCrossingEvent*)re;
-                    register deviceEnterNotify *elev;
-
-                    *count =1;
-                    elev = (deviceEnterNotify *) Xmalloc(*count * sizeof(xEvent));
-                    if (!elev)
-                        return (_XUnknownNativeEvent(dpy, re, *event));
-                    *event = (xEvent *) elev;
-
-                    elev->type = ev->type;
-                    elev->deviceid = ev->deviceid;
-                    elev->root = ev->root;
-                    elev->event = ev->window;
-                    elev->child = ev->subwindow;
-                    elev->time = ev->time;
-                    elev->eventX = ev->x;
-                    elev->eventY = ev->y;
-                    elev->rootX = ev->x_root;
-                    elev->rootY = ev->y_root;
-                    elev->state = ev->state;
-                    elev->mode  = ev->mode;
-                    elev->detail = ev->detail;
-                    if (ev->same_screen) {
-                        elev->mode |= ELFlagSameScreen << 4;
-                    }
-                    if (ev->focus) {
-                        elev->mode |= ELFlagFocus << 4;
-                    }
-                    break;
-                }
             default:
                 return (_XUnknownNativeEvent(dpy, re, *event));
         } /* switch */
