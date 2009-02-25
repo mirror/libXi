@@ -1398,42 +1398,6 @@ extern Status   XChangeDeviceHierarchy(
     int                 /* num_changes */
 );
 
-extern Bool     XWindowClearAccess(
-    Display*            /* display*/,
-    Window              /* win */,
-    int                 /* what */
-);
-
-extern Bool     XChangeAccessRule(
-    Display*            /* display */,
-    Window              /* win */,
-    int                 /* rule */
-);
-
-extern Status   XPermitDevices(
-    Display*            /* display */,
-    Window              /* win */,
-    XID*                /* deviceids */,
-    int                 /* ndevices */
-);
-
-extern Status   XDenyDevices(
-    Display*            /* display */,
-    Window              /* win */,
-    XID*                /* deviceids */,
-    int                 /* ndevices */
-);
-
-extern Status   XQueryWindowAccess(
-    Display*            /* dpy */,
-    Window              /* win */,
-    int*                /* rule */,
-    XID**               /* permdevices */,
-    int*                /* nperm */,
-    XID**               /* denydevices */,
-    int*                /* ndeny */
-);
-
 extern Status   XSetClientPointer(
     Display*            /* dpy */,
     Window              /* win */,
