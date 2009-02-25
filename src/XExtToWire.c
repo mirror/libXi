@@ -459,6 +459,7 @@ _XiEventToWire(
         } /* switch */
     } else /* if type != GenericEvent */
     {
+#if 0
         switch (((XGenericEvent*)re)->evtype)
         {
             case XI_DeviceHierarchyChangedNotify:
@@ -479,7 +480,7 @@ _XiEventToWire(
             default:
                 return (_XUnknownNativeEvent(dpy, re, *event));
         }
-
+#endif
     }
     return (1);
 }

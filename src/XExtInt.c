@@ -767,6 +767,7 @@ XInputWireToEvent(
         }
     } else /* if type == GenericEvent */
     {
+#if 0
         xGenericEvent* ge = (xGenericEvent*)event;
         if (ge->extension == info->codes->major_opcode)
         {
@@ -824,7 +825,7 @@ XInputWireToEvent(
 
             }
         }
-
+#endif
     }
     return (DONT_ENQUEUE);
 }
