@@ -891,24 +891,6 @@ typedef struct	_XValuatorInfo
     XAxisInfoPtr        axes;
     } XValuatorInfo;
 
-/**
- * Fake class, added to each device when parsing XListInputDevices internally.
- * Indicates the master device this device is attached to. If the device is a
- * master device, the value of attached is to be ignored.
- */
-typedef struct _XAttachInfo
-    {
-#if defined(__cplusplus) || defined(c_plusplus)
-    XID			c_class;
-#else
-    XID			class;
-#endif
-    int			length;
-    unsigned char       attached;
-    } XAttachInfo;
-
-typedef struct _XAttachInfo *XAttachInfoPtr;
-
 /*******************************************************************
  *
  * An XDevice structure is returned by the XOpenDevice function.  

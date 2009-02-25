@@ -200,11 +200,6 @@ XListInputDevices(
 	sav_any = any;
 	for (i = 0; i < *ndevices; i++, list++) {
             size += SizeClassInfo(&any, (int)list->num_classes);
-            /* Thanks to Xlibs braindead abstraction of XListInputDevices we
-             * have to fake up a new class to indicate attachment, otherwise
-             * we need to break the ABI. Each device has such a class.
-             */ 
-            size += sizeof(XAttachInfo);
 	}
 
 	for (i = 0, nptr = (char *)any; i < *ndevices; i++) {
@@ -228,18 +223,10 @@ XListInputDevices(
 	    clist->type = list->type;
 	    clist->id = list->id;
 	    clist->use = list->use;
-	    clist->num_classes = list->num_classes + 1; /*fake attach class */
+	    clist->num_classes = list->num_classes;
 	    clist->inputclassinfo = Any;
 
             ParseClassInfo(&any, &Any, (int)list->num_classes);
-
-            /* Insert fake AttachInfo class */
-            {
-                ((XAttachInfoPtr)Any)->length = sizeof(XAttachInfo);
-                ((XAttachInfoPtr)Any)->class = AttachClass;
-                ((XAttachInfoPtr)Any)->attached = list->attached;
-                Any = (XAnyClassPtr) ((char *)Any + Any->length);
-            }
 	}
 
 	clist = sclist;
