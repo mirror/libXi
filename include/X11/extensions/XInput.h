@@ -1364,21 +1364,6 @@ extern Status   XiSelectEvent(
     Mask                /* mask */
 );
 
-
-extern Status   XExtendedGrabDevice(
-    Display*            /* dpy */,
-    XDevice*            /* dev */,
-    Window              /* grab_win */,
-    int                 /* device_mode */,
-    Bool                /* ownerEvents */,
-    Window              /* confineTo */,
-    Cursor              /* cursor */,
-    int                 /* event_count */,
-    XEventClass*        /* event_list */,
-    int                 /* generic_event_count */,
-    XGenericEventMask*  /* generic_events */
-);
-
 extern Atom*   XListDeviceProperties(
     Display*            /* dpy */,
     XDevice*            /* dev */,
