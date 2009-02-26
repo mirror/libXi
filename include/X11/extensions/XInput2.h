@@ -141,6 +141,12 @@ extern int      XISelectEvent(
      int                /* nmasks */
 );
 
+extern Status XIQueryVersion(
+     Display*           /* dpy */,
+     int*               /* major_version_return */,
+     int*               /* minor_version_return*/
+);
+
 _XFUNCPROTOEND
 
 /*
