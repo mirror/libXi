@@ -1184,16 +1184,9 @@ extern void	XFreeDeviceState(
     XDeviceState*	/* list */
 );
 
-/* Replaced by XQueryInputVersion */
-extern _X_DEPRECATED XExtensionVersion	*XGetExtensionVersion(
+extern XExtensionVersion	*XGetExtensionVersion(
     Display*		/* display */,
     _Xconst char*	/* name */
-);
-
-extern XExtensionVersion *XQueryInputVersion(
-    Display*		/* display */,
-    int                 /* major */,
-    int                 /* minor */
 );
 
 extern XDeviceInfo	*XListInputDevices(

@@ -57,36 +57,14 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-/* DEPRECATED
- *
- * Pre-MPX versions will use this call. Major/minor is undefined in the
- * request.
- */
-_X_DEPRECATED XExtensionVersion *
+XExtensionVersion *
 XGetExtensionVersion(register Display * dpy, _Xconst char *name)
 {
     XExtensionVersion *ext;
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
-    ext = _XiGetExtensionVersion(dpy, name, 0, 0, info);
-    if (ext != (XExtensionVersion *) NoSuchExtension) {
-	UnlockDisplay(dpy);
-	SyncHandle();
-    }
-    return (ext);
-}
-
-/* Query X Input extension version. To be used post-MPX.
- */
-XExtensionVersion *
-XQueryInputVersion(Display *dpy, int major, int minor)
-{
-    XExtensionVersion *ext;
-    XExtDisplayInfo *info = XInput_find_display(dpy);
-
-    LockDisplay(dpy);
-    ext = _XiGetExtensionVersion(dpy, NULL, major, minor, info);
+    ext = _XiGetExtensionVersion(dpy, name, info);
     if (ext != (XExtensionVersion *) NoSuchExtension) {
 	UnlockDisplay(dpy);
 	SyncHandle();
@@ -96,7 +74,7 @@ XQueryInputVersion(Display *dpy, int major, int minor)
 
 _X_HIDDEN XExtensionVersion *
 _XiGetExtensionVersion(register Display * dpy, _Xconst char *name,
-                       int major, int minor, XExtDisplayInfo *info)
+                       XExtDisplayInfo *info)
 {
     xGetExtensionVersionReq *req;
     xGetExtensionVersionReply rep;
@@ -108,10 +86,8 @@ _XiGetExtensionVersion(register Display * dpy, _Xconst char *name,
     GetReq(GetExtensionVersion, req);
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_GetExtensionVersion;
-    req->nbytes = name ? strlen(name) : 0;
+    req->nbytes = strlen(name);
     req->length += (unsigned)(req->nbytes + 3) >> 2;
-    req->majorVersion = major;
-    req->minorVersion = minor;
     _XSend(dpy, name, (long)req->nbytes);
 
     if (!_XReply(dpy, (xReply *) & rep, 0, xTrue)) {
