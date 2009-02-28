@@ -53,7 +53,8 @@ libXi_la_SOURCES = \
 		  XExtInt.c  \
                   XISelEv.c \
 		  XIint.h \
-		  XIQueryVersion.c
+		  XIQueryVersion.c \
+		  XIQueryDevice.c
 
 libXi_la_LIBADD = $(XI_LIBS)
 

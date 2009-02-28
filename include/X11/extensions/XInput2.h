@@ -75,6 +75,48 @@ typedef struct
     unsigned char*      mask;
 } XIDeviceEventMask;
 
+typedef struct
+{
+    int         type;
+} XIAnyClassInfo;
+
+typedef struct
+{
+    int         type;
+    int         num_buttons;
+    Atom        *buttons;
+} XIButtonClassInfo;
+
+typedef struct
+{
+    int         type;
+    int         num_keycodes;
+    int         *keycodes;
+} XIKeyClassInfo;
+
+typedef struct
+{
+    int         type;
+    int         number;
+    Atom        name;
+    double      min;
+    double      max;
+    int         resolution;
+    int         mode;
+} XIValuatorClassInfo;
+
+typedef struct
+{
+    int                 deviceid;
+    char*               name;
+    int                 use;
+    int                 attachment;
+    Bool                enabled;
+    int                 num_classes;
+    XIAnyClassInfo      **classes;
+} XIDeviceInfo;
+
+
 _XFUNCPROTOBEGIN
 
 extern Bool     XIQueryDevicePointer(
@@ -146,6 +188,14 @@ extern Status XIQueryVersion(
      int*               /* major_version_return */,
      int*               /* minor_version_return*/
 );
+
+extern XIDeviceInfo* XIQueryDevice(
+     Display*           /* dpy */,
+     int                /* deviceid */,
+     int*               /* ndevices_return */
+);
+
+extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
 
 _XFUNCPROTOEND
 
