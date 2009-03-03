@@ -43,21 +43,21 @@ typedef struct {
 
 typedef struct {
     int                 type;
-    XDevice*            device;
+    int                 device;
     int                 returnMode; /* AttachToMaster, Floating */
-    XDevice*            returnPointer;
-    XDevice*            returnKeyboard;
+    int                 returnPointer;
+    int                 returnKeyboard;
 } XIRemoveMasterInfo;
 
 typedef struct {
     int                 type;
-    XDevice*            device;
-    XDevice*            newMaster;
+    int                 device;
+    int                 newMaster;
 } XIAttachSlaveInfo;
 
 typedef struct {
     int                 type;
-    XDevice*            device;
+    int                 device;
 } XIDetachSlaveInfo;
 
 typedef union {
@@ -72,7 +72,7 @@ _XFUNCPROTOBEGIN
 
 extern Bool     XIQueryDevicePointer(
     Display*            /* display */,
-    XDevice*            /* device */,
+    int                 /* deviceid */,
     Window              /* win */,
     Window*             /* root */,
     Window*             /* child */,
@@ -85,7 +85,7 @@ extern Bool     XIQueryDevicePointer(
 
 extern Bool     XIWarpDevicePointer(
     Display*            /* display */,
-    XDevice*            /* device */,
+    int                 /* deviceid */,
     Window              /* src_win */,
     Window              /* dst_win */,
     int                 /* src_x */,
@@ -98,14 +98,14 @@ extern Bool     XIWarpDevicePointer(
 
 extern Status   XIDefineDeviceCursor(
     Display*            /* display */,
-    XDevice*            /* device */,
+    int                 /* deviceid */,
     Window              /* win */,
     Cursor              /* cursor */
 );
 
 extern Status   XIUndefineDeviceCursor(
     Display*            /* display */,
-    XDevice*            /* device */,
+    int                 /* deviceid */,
     Window              /* win */
 );
 
@@ -118,7 +118,7 @@ extern Status   XIChangeDeviceHierarchy(
 extern Status   XISetClientPointer(
     Display*            /* dpy */,
     Window              /* win */,
-    XDevice*            /* device */
+    int                 /* deviceid */
 );
 
 extern Bool     XIGetClientPointer(

@@ -38,7 +38,7 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 
-int XIDefineDeviceCursor(Display *dpy, XDevice* dev, Window w, Cursor cursor)
+int XIDefineDeviceCursor(Display *dpy, int deviceid, Window w, Cursor cursor)
 {
     xXIChangeDeviceCursorReq *req;
 
@@ -51,7 +51,7 @@ int XIDefineDeviceCursor(Display *dpy, XDevice* dev, Window w, Cursor cursor)
     GetReq(XIChangeDeviceCursor, req);
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_XIChangeDeviceCursor;
-    req->deviceid = dev->device_id;
+    req->deviceid = deviceid;
     req->win = w;
     req->cursor = cursor;
     UnlockDisplay(dpy);

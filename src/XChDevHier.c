@@ -113,12 +113,12 @@ XIChangeDeviceHierarchy(Display* dpy,
                     xXIRemoveMasterInfo* r = (xXIRemoveMasterInfo*)dptr;
                     r->type = R->type;
                     r->return_mode = R->returnMode;
-                    r->deviceid = R->device->device_id;
+                    r->deviceid = R->device;
                     r->length = sizeof(xXIRemoveMasterInfo)/4;
                     if (r->return_mode == AttachToMaster)
                     {
-                        r->return_pointer = R->returnPointer->device_id;
-                        r->return_keyboard = R->returnKeyboard->device_id;
+                        r->return_pointer = R->returnPointer;
+                        r->return_keyboard = R->returnKeyboard;
                     }
                     dptr += sizeof(xXIRemoveMasterInfo);
                 }
@@ -129,9 +129,9 @@ XIChangeDeviceHierarchy(Display* dpy,
                     xXIAttachSlaveInfo* c = (xXIAttachSlaveInfo*)dptr;
 
                     c->type = C->type;
-                    c->deviceid = C->device->device_id;
+                    c->deviceid = C->device;
                     c->length = sizeof(xXIAttachSlaveInfo)/4;
-                    c->new_master = C->newMaster->device_id;
+                    c->new_master = C->newMaster;
 
                     dptr += sizeof(xXIAttachSlaveInfo);
                 }
@@ -142,7 +142,7 @@ XIChangeDeviceHierarchy(Display* dpy,
                     xXIDetachSlaveInfo *d = (xXIDetachSlaveInfo*)dptr;
 
                     d->type = D->type;
-                    d->deviceid = D->device->device_id;
+                    d->deviceid = D->device;
                     d->length = sizeof(xXIDetachSlaveInfo)/4;
                     dptr += sizeof(xXIDetachSlaveInfo);
                 }

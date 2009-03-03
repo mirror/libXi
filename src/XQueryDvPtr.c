@@ -40,7 +40,7 @@ in this Software without prior written authorization from The Open Group.
 
 Bool
 XIQueryDevicePointer(Display     *dpy,
-                    XDevice     *dev,
+                    int         deviceid,
                     Window      w,
                     Window      *root,
                     Window      *child,
@@ -62,7 +62,7 @@ XIQueryDevicePointer(Display     *dpy,
     GetReq(XIQueryDevicePointer, req);
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_XIQueryDevicePointer;
-    req->deviceid = dev->device_id;
+    req->deviceid = deviceid;
     req->win = w;
 
     if (!_XReply(dpy, (xReply *) & rep, 0, xFalse)) {

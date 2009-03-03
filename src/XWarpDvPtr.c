@@ -40,7 +40,7 @@ in this Software without prior written authorization from The Open Group.
 
 int
 XIWarpDevicePointer(Display      *dpy,
-                   XDevice      *dev,
+                   int          deviceid,
                    Window       src_win,
                    Window       dst_win,
                    int          src_x,
@@ -61,7 +61,7 @@ XIWarpDevicePointer(Display      *dpy,
     GetReq(XIWarpDevicePointer, req);
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_XIWarpDevicePointer;
-    req->deviceid = dev->device_id;
+    req->deviceid = deviceid;
     req->src_win = src_win;
     req->dst_win = dst_win;
     req->src_x = src_x;

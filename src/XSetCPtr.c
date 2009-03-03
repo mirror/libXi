@@ -42,7 +42,7 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 Status 
-XISetClientPointer(Display* dpy, Window win, XDevice* device)
+XISetClientPointer(Display* dpy, Window win, int deviceid)
 {
     xXISetClientPointerReq* req;
     XExtDisplayInfo *info = XInput_find_display(dpy);
@@ -55,7 +55,7 @@ XISetClientPointer(Display* dpy, Window win, XDevice* device)
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_XISetClientPointer;
     req->win = win;
-    req->deviceid = device->device_id;
+    req->deviceid = deviceid;
 
     UnlockDisplay(dpy);
     SyncHandle();
