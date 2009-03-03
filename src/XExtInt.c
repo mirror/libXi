@@ -54,6 +54,7 @@ SOFTWARE.
 #define NEED_REPLIES
 #include <stdio.h>
 #include <X11/extensions/XI.h>
+#include <X11/extensions/XI2.h>
 #include <X11/extensions/XIproto.h>
 #include <X11/Xlibint.h>
 #include <X11/extensions/XInput.h>
