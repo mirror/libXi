@@ -124,7 +124,7 @@ extern Status   XISetClientPointer(
 extern Bool     XIGetClientPointer(
     Display*            /* dpy */,
     Window              /* win */,
-    XID*                /* deviceid */
+    int*                /* deviceid */
 );
 
 typedef CARD16 XIEventType;
