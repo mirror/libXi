@@ -152,79 +152,79 @@ typedef struct {
 _XFUNCPROTOBEGIN
 
 extern Bool     XIQueryDevicePointer(
-    Display*            /* display */,
-    int                 /* deviceid */,
-    Window              /* win */,
-    Window*             /* root */,
-    Window*             /* child */,
-    int*                /* root_x */,
-    int*                /* root_y */,
-    int*                /* win_x */,
-    int*                /* win_y */,
-    unsigned int*       /* mask */
+    Display*            display,
+    int                 deviceid,
+    Window              win,
+    Window*             root,
+    Window*             child,
+    int*                root_x,
+    int*                root_y,
+    int*                win_x,
+    int*                win_y,
+    unsigned int*       mask
 );
 
 extern Bool     XIWarpDevicePointer(
-    Display*            /* display */,
-    int                 /* deviceid */,
-    Window              /* src_win */,
-    Window              /* dst_win */,
-    int                 /* src_x */,
-    int                 /* src_y */,
-    unsigned int        /* src_width */,
-    unsigned int        /* src_height */,
-    int                 /* dst_x */,
-    int                 /* dst_y */
+    Display*            display,
+    int                 deviceid,
+    Window              src_win,
+    Window              dst_win,
+    int                 src_x,
+    int                 src_y,
+    unsigned int        src_width,
+    unsigned int        src_height,
+    int                 dst_x,
+    int                 dst_y
 );
 
 extern Status   XIDefineDeviceCursor(
-    Display*            /* display */,
-    int                 /* deviceid */,
-    Window              /* win */,
-    Cursor              /* cursor */
+    Display*            display,
+    int                 deviceid,
+    Window              win,
+    Cursor              cursor
 );
 
 extern Status   XIUndefineDeviceCursor(
-    Display*            /* display */,
-    int                 /* deviceid */,
-    Window              /* win */
+    Display*            display,
+    int                 deviceid,
+    Window              win
 );
 
 extern Status   XIChangeDeviceHierarchy(
-    Display*            /* display */,
-    XIAnyHierarchyChangeInfo*  /* changes*/,
-    int                 /* num_changes */
+    Display*            display,
+    XIAnyHierarchyChangeInfo*  changes,
+    int                 num_changes
 );
 
 extern Status   XISetClientPointer(
-    Display*            /* dpy */,
-    Window              /* win */,
-    int                 /* deviceid */
+    Display*            dpy,
+    Window              win,
+    int                 deviceid
 );
 
 extern Bool     XIGetClientPointer(
-    Display*            /* dpy */,
-    Window              /* win */,
-    int*                /* deviceid */
+    Display*            dpy,
+    Window              win,
+    int*                deviceid
 );
 
 extern int      XISelectEvent(
-     Display*           /* dpy */,
-     Window             /* win */,
-     XIDeviceEventMask* /* masks*/,
-     int                /* nmasks */
+     Display*            dpy,
+     Window              win,
+     XIDeviceEventMask*  masks,
+     int                 nmasks
 );
 
 extern Status XIQueryVersion(
-     Display*           /* dpy */,
-     int*               /* major_version_return */,
-     int*               /* minor_version_return*/
+     Display*           dpy,
+     int*               major_version_return,
+     int*               minor_version_return
 );
 
 extern XIDeviceInfo* XIQueryDevice(
-     Display*           /* dpy */,
-     int                /* deviceid */,
-     int*               /* ndevices_return */
+     Display*           dpy,
+     int                deviceid,
+     int*               ndevices_return
 );
 
 extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
