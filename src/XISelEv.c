@@ -73,11 +73,17 @@ XISelectEvent(Display* dpy, Window win, XIDeviceEventMask* masks, int num_masks)
 
     for (i = 0; i < num_masks; i++)
     {
+        char *buff;
         current = &masks[i];
         mask.deviceid = current->deviceid;
         mask.mask_len = (current->mask_len + 3)/4;
+        /* masks.mask_len is in bytes, but we need 4-byte units on the wire,
+         * and they need to be padded with 0 */
+        buff = calloc(1, mask.mask_len * 4);
+        memcpy(buff, current->mask, current->mask_len);
         Data32(dpy, &mask, sizeof(xXIDeviceEventMask));
-        Data(dpy, (char*)current->mask, current->mask_len);
+        Data(dpy, buff, mask.mask_len * 4);
+        free(buff);
     }
 
     UnlockDisplay(dpy);
