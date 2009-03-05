@@ -53,11 +53,14 @@ SOFTWARE.
 #define NEED_EVENTS
 #define NEED_REPLIES
 #include <stdio.h>
+#include <stdint.h>
 #include <X11/extensions/XI.h>
 #include <X11/extensions/XI2.h>
 #include <X11/extensions/XIproto.h>
+#include <X11/extensions/XI2proto.h>
 #include <X11/Xlibint.h>
 #include <X11/extensions/XInput.h>
+#include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>
 #include <X11/extensions/geproto.h>
 #include <X11/extensions/ge.h>
@@ -117,6 +120,9 @@ static Bool XInputWireToEvent(
     XEvent *		/* re */,
     xEvent *		/* event */
 );
+
+static int
+wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out);
 
 static /* const */ XEvent emptyevent;
 
@@ -768,12 +774,26 @@ XInputWireToEvent(
         }
     } else /* if type == GenericEvent */
     {
-#if 0
         xGenericEvent* ge = (xGenericEvent*)event;
         if (ge->extension == info->codes->major_opcode)
         {
             switch(ge->evtype)
             {
+                case XI_Motion:
+                case XI_ButtonPress:
+                case XI_ButtonRelease:
+                case XI_KeyPress:
+                case XI_KeyRelease:
+                    *re = *save;
+                    if (!wireToDeviceEvent(event, re))
+                    {
+                        printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
+                                ge->evtype);
+                        break;
+                    }
+                    return ENQUEUE_EVENT;
+
+#if 0
                 case XI_HierarchyChangedNotify:
                     {
                         XDeviceHierarchyChangedEvent* dhc_event = 
@@ -821,12 +841,90 @@ XInputWireToEvent(
                         *re = *save;
                         return ENQUEUE_EVENT;
                     }
+#endif
                 default:
                     printf("XInputWireToEvent: Unknown generic event. type %d\n", ge->evtype);
 
             }
         }
-#endif
     }
     return (DONT_ENQUEUE);
+}
+
+static int count_bits(unsigned char* ptr, int len)
+{
+    int bits = 0;
+    unsigned int i;
+    unsigned char x;
+
+    for (i = 0; i < len; i++)
+    {
+        x = ptr[i];
+        while(x > 0)
+        {
+            bits += (x & 0x1);
+            x >>= 1;
+        }
+    }
+    return bits;
+}
+
+static int
+wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out)
+{
+    int len, i;
+    char *ptr;
+    FP3232 *values;
+
+    out->type = in->type;
+    out->extension = in->extension;
+    out->evtype = in->evtype;
+    out->time = in->time;
+    out->deviceid = in->deviceid;
+    out->sourceid = in->sourceid;
+    out->detail = in->detail;
+    out->root = in->root;
+    out->event = in->event;
+    out->child = in->child;
+    out->root_x = in->root_x.integral;
+    out->root_y = in->root_y.integral;
+    out->event_x = in->event_x.integral;
+    out->event_y = in->event_y.integral;
+
+    ptr = (char*)&in[1];
+
+    /* buttons */
+    len = in->buttons_len * 4;
+    out->buttons = malloc(sizeof(XIButtonState) + len);
+    out->buttons->mask = (unsigned char*)&out->buttons[1];
+    out->buttons->mask_len = in->buttons_len * 4;
+    memcpy(out->buttons->mask, ptr, out->buttons->mask_len);
+    ptr += in->buttons_len * 4;
+
+    /* valuators */
+    len = in->valuators_len * 4;
+    len += count_bits(ptr, in->buttons_len * 4) * sizeof(double);
+    out->valuators = malloc(sizeof(XIValuatorState) + len);
+    out->valuators->mask_len = in->valuators_len * 4;
+    out->valuators->mask = (unsigned char*)&out->valuators[1];
+    out->valuators->values = (double*)((unsigned char*)&out->valuators[1] + in->valuators_len * 4);
+    memcpy(out->valuators->mask, ptr, out->valuators->mask_len);
+    ptr += out->valuators->mask_len;
+
+    len = count_bits(out->valuators->mask, out->valuators->mask_len);
+    values = (FP3232*)ptr;
+    for (i = 0; i < len; i++, values++)
+        out->valuators->values[i] = values->integral; /*XXX: frac part */
+
+    out->mods = malloc(sizeof(XIModifierState));
+    out->group = malloc(sizeof(XIGroupState));
+
+    out->mods->base = in->mods.base_mods;
+    out->mods->locked = in->mods.locked_mods;
+    out->mods->latched = in->mods.latched_mods;
+    out->group->base = in->group.base_group;
+    out->group->locked = in->group.locked_group;
+    out->group->latched = in->group.latched_group;
+
+    return 1;
 }

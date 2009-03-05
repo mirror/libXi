@@ -164,6 +164,50 @@ typedef struct {
     XIAnyClassInfo *inputclassinfo; /* same as in XDeviceInfo */
 } XDeviceClassesChangedEvent;
 
+typedef struct
+{
+    int    base;
+    int    latched;
+    int    locked;
+} XIModifierState;
+
+typedef XIModifierState XIGroupState;
+
+typedef struct {
+    int           mask_len;
+    unsigned char *mask;
+} XIButtonState;
+
+typedef struct {
+    int           mask_len;
+    unsigned char *mask;
+    double        *values;
+} XIValuatorState;
+
+typedef struct {
+    int           type;         /* GenericEvent */
+    unsigned long serial;       /* # of last request processed by server */
+    Bool          send_event;   /* true if this came from a SendEvent request */
+    Display       *display;     /* Display the event was read from */
+    int           extension;    /* XI extension offset */
+    int           evtype;
+    Time          time;
+    int           detail;
+    Window        root;
+    Window        event;
+    Window        child;
+    int           deviceid;
+    int           sourceid;
+    float         root_x;
+    float         root_y;
+    float         event_x;
+    float         event_y;
+    XIButtonState       *buttons;
+    XIValuatorState     *valuators;
+    XIModifierState      *mods;
+    XIGroupState         *group;
+} XIDeviceEvent;
+
 _XFUNCPROTOBEGIN
 
 extern Bool     XIQueryDevicePointer(
