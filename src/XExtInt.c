@@ -869,6 +869,7 @@ static int count_bits(unsigned char* ptr, int len)
     return bits;
 }
 
+/* Keep this in sync with XIFreeEventData() */
 static int
 wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out)
 {
