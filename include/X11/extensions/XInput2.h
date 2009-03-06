@@ -116,6 +116,21 @@ typedef struct
     XIAnyClassInfo      **classes;
 } XIDeviceInfo;
 
+/**
+ * Generic XI2 event. All XI2 events have the same header.
+ * Note: this event is padded to be the same size as libX11's XEvent.
+ */
+typedef struct {
+    int           type;         /* GenericEvent */
+    unsigned long serial;       /* # of last request processed by server */
+    Bool          send_event;   /* true if this came from a SendEvent request */
+    Display       *display;     /* Display the event was read from */
+    int           extension;    /* XI extension offset */
+    int           evtype;
+    Time          time;
+    char          pad[68];      /* force same size as XEvent */
+} XIEvent;
+
 /*
  * Notifies the client that the device hierarchy has been changed. The client
  * is expected to re-query the server for the device hierarchy.
