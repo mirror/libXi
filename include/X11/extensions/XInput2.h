@@ -116,6 +116,38 @@ typedef struct
     XIAnyClassInfo      **classes;
 } XIDeviceInfo;
 
+/*
+ * Notifies the client that the device hierarchy has been changed. The client
+ * is expected to re-query the server for the device hierarchy.
+ */
+typedef struct {
+    int           type;         /* GenericEvent */
+    unsigned long serial;       /* # of last request processed by server */
+    Bool          send_event;   /* true if this came from a SendEvent request */
+    Display       *display;     /* Display the event was read from */
+    int           extension;    /* XI extension offset */
+    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
+    Time          time;
+} XDeviceHierarchyChangedEvent;
+
+/*
+ * Notifies the client that the classes have been changed. This happens when
+ * the slave device that sends through the master changes.
+ */
+typedef struct {
+    int           type;         /* GenericEvent */
+    unsigned long serial;       /* # of last request processed by server */
+    Bool          send_event;   /* true if this came from a SendEvent request */
+    Display       *display;     /* Display the event was read from */
+    int           extension;    /* XI extension offset */
+    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
+    Time          time;
+    XID           deviceid;     /* id of the device that changed */
+    XID           slaveid;      /* id of the slave device that caused the
+                                   change */
+    int           num_classes;
+    XIAnyClassInfo *inputclassinfo; /* same as in XDeviceInfo */
+} XDeviceClassesChangedEvent;
 
 _XFUNCPROTOBEGIN
 
@@ -198,38 +230,5 @@ extern XIDeviceInfo* XIQueryDevice(
 extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
 
 _XFUNCPROTOEND
-
-/*
- * Notifies the client that the device hierarchy has been changed. The client
- * is expected to re-query the server for the device hierarchy.
- */
-typedef struct {
-    int           type;         /* GenericEvent */
-    unsigned long serial;       /* # of last request processed by server */
-    Bool          send_event;   /* true if this came from a SendEvent request */
-    Display       *display;     /* Display the event was read from */
-    int           extension;    /* XI extension offset */
-    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
-    Time          time;
-} XDeviceHierarchyChangedEvent;
-
-/*
- * Notifies the client that the classes have been changed. This happens when
- * the slave device that sends through the master changes.
- */
-typedef struct {
-    int           type;         /* GenericEvent */
-    unsigned long serial;       /* # of last request processed by server */
-    Bool          send_event;   /* true if this came from a SendEvent request */
-    Display       *display;     /* Display the event was read from */
-    int           extension;    /* XI extension offset */
-    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
-    Time          time;
-    XID           deviceid;     /* id of the device that changed */
-    XID           slaveid;      /* id of the slave device that caused the
-                                   change */
-    int           num_classes;
-    XIAnyClassInfo *inputclassinfo; /* same as in XDeviceInfo */
-} XDeviceClassesChangedEvent;
 
 #endif /* XINPUT2_H */
