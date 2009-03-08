@@ -131,6 +131,14 @@ typedef struct {
     char          pad[68];      /* force same size as XEvent */
 } XIEvent;
 
+
+typedef struct {
+    int           deviceid;
+    int           attachment;
+    int           use;
+    Bool          enabled;
+} XIHierarchyInfo;
+
 /*
  * Notifies the client that the device hierarchy has been changed. The client
  * is expected to re-query the server for the device hierarchy.
@@ -143,7 +151,10 @@ typedef struct {
     int           extension;    /* XI extension offset */
     int           evtype;       /* XI_DeviceHierarchyChangedNotify */
     Time          time;
-} XDeviceHierarchyChangedEvent;
+    int           flags;
+    int           num_devices;
+    XIHierarchyInfo *info;
+} XIDeviceHierarchyEvent;
 
 /*
  * Notifies the client that the classes have been changed. This happens when

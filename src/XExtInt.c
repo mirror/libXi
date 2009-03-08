@@ -128,6 +128,8 @@ static int
 wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out);
 static int
 wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XIDeviceChangedEvent* out);
+static int
+wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent* out);
 
 static /* const */ XEvent emptyevent;
 
@@ -806,6 +808,15 @@ XInputWireToEvent(
                         break;
                     }
                     return ENQUEUE_EVENT;
+                case XI_HierarchyChanged:
+                    *re = *save;
+                    if (!wireToHierarchyChangedEvent(event, re))
+                    {
+                        printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
+                                ge->evtype);
+                        break;
+                    }
+                    return ENQUEUE_EVENT;
 
 #if 0
                 case XI_HierarchyChangedNotify:
@@ -964,3 +975,31 @@ wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XIDeviceChangedEvent* out)
     return 1;
 }
 
+static int
+wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent* out)
+{
+    int i;
+    XIHierarchyInfo *info_out;
+    xXIHierarchyInfo *info_in;
+
+    out->info = Xmalloc(in->num_devices * sizeof(XIHierarchyInfo));
+    out->type           = in->type;
+    out->extension      = in->extension;
+    out->evtype         = in->evtype;
+    out->time           = in->time;
+    out->flags          = in->flags;
+    out->num_devices    = in->num_devices;
+
+    info_out            = out->info;
+    info_in             = (xXIHierarchyInfo*)&in[1];
+
+    for (i = 0; i < out->num_devices; i++, info_out++, info_in++)
+    {
+        info_out->deviceid      = info_in->deviceid;
+        info_out->attachment    = info_in->attachment;
+        info_out->use           = info_in->use;
+        info_out->enabled       = info_in->enabled;
+    }
+
+    return 1;
+}
