@@ -157,12 +157,12 @@ typedef struct {
     int           extension;    /* XI extension offset */
     int           evtype;       /* XI_DeviceHierarchyChangedNotify */
     Time          time;
-    XID           deviceid;     /* id of the device that changed */
-    XID           slaveid;      /* id of the slave device that caused the
-                                   change */
+    int           deviceid;     /* id of the device that changed */
+    int           sourceid;     /* Source for the new classes. */
+    int           reason;       /* Reason for the change */
     int           num_classes;
-    XIAnyClassInfo *inputclassinfo; /* same as in XDeviceInfo */
-} XDeviceClassesChangedEvent;
+    XIAnyClassInfo **classes; /* same as in XIDeviceInfo */
+} XIDeviceChangedEvent;
 
 typedef struct
 {

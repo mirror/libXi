@@ -99,6 +99,9 @@ extern int _XiGetDevicePresenceNotifyEvent(
     Display *		/* dpy */
 );
 
+extern int copy_classes(XIDeviceInfo *to, xXIAnyInfo* from, int nclasses);
+
+
 static XExtensionInfo *xinput_info;
 static /* const */ char *xinput_extension_name = INAME;
 
@@ -123,6 +126,8 @@ static Bool XInputWireToEvent(
 
 static int
 wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out);
+static int
+wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XIDeviceChangedEvent* out);
 
 static /* const */ XEvent emptyevent;
 
@@ -792,6 +797,15 @@ XInputWireToEvent(
                         break;
                     }
                     return ENQUEUE_EVENT;
+                case XI_DeviceChanged:
+                    *re = *save;
+                    if (!wireToDeviceChangedEvent(event, re))
+                    {
+                        printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
+                                ge->evtype);
+                        break;
+                    }
+                    return ENQUEUE_EVENT;
 
 #if 0
                 case XI_HierarchyChangedNotify:
@@ -929,3 +943,24 @@ wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out)
 
     return 1;
 }
+
+
+static int
+wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XIDeviceChangedEvent* out)
+{
+    XIDeviceInfo info;
+    out->type = in->type;
+    out->extension = in->extension;
+    out->evtype = in->evtype;
+    out->time = in->time;
+    out->deviceid = in->deviceid;
+    out->sourceid = in->sourceid;
+    out->reason = in->reason;
+    out->num_classes = in->num_classes;
+
+    copy_classes(&info, (xXIAnyInfo*)&in[1], out->num_classes);
+    out->classes= info.classes;
+
+    return 1;
+}
+

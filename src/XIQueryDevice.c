@@ -35,7 +35,7 @@
  *    |________|___________^
  *             |______________________^
  */
-static int
+int
 copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
 {
     XIAnyClassInfo *any_lib;

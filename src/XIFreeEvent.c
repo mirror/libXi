@@ -49,5 +49,8 @@ XIFreeEventData(XIEvent *event)
                 free(ev->group);
             }
             break;
+        case XI_DeviceChanged:
+            free(((XIDeviceChangedEvent*)event)->classes);
+            break;
     }
 }
