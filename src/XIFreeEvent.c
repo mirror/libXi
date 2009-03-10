@@ -55,5 +55,10 @@ XIFreeEventData(XIEvent *event)
         case XI_HierarchyChanged:
             free(((XIDeviceHierarchyEvent*)event)->info);
             break;
+        case XI_RawEvent:
+            free(((XIRawDeviceEvent*)event)->valuators->values);
+            free(((XIRawDeviceEvent*)event)->valuators);
+            free(((XIRawDeviceEvent*)event)->raw_values);
+            break;
     }
 }

@@ -219,6 +219,22 @@ typedef struct {
     XIGroupState         *group;
 } XIDeviceEvent;
 
+typedef struct {
+    int           type;         /* GenericEvent */
+    unsigned long serial;       /* # of last request processed by server */
+    Bool          send_event;   /* true if this came from a SendEvent request */
+    Display       *display;     /* Display the event was read from */
+    int           extension;    /* XI extension offset */
+    int           evtype;
+    Time          time;
+    int           detail;
+    int           deviceid;
+    int           sourceid;
+    XIValuatorState *valuators;
+    double        *raw_values;
+} XIRawDeviceEvent;
+
+
 _XFUNCPROTOBEGIN
 
 extern Bool     XIQueryDevicePointer(

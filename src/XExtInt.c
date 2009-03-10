@@ -130,6 +130,8 @@ static int
 wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XIDeviceChangedEvent* out);
 static int
 wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent* out);
+static int
+wireToRawEvent(xXIRawDeviceEvent *in, XIRawDeviceEvent *out);
 
 static /* const */ XEvent emptyevent;
 
@@ -818,6 +820,15 @@ XInputWireToEvent(
                     }
                     return ENQUEUE_EVENT;
 
+                case XI_RawEvent:
+                    *re = *save;
+                    if (!wireToRawEvent(event, re))
+                    {
+                        printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
+                                ge->evtype);
+                        break;
+                    }
+                    return ENQUEUE_EVENT;
 #if 0
                 case XI_HierarchyChangedNotify:
                     {
@@ -999,6 +1010,39 @@ wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent*
         info_out->attachment    = info_in->attachment;
         info_out->use           = info_in->use;
         info_out->enabled       = info_in->enabled;
+    }
+
+    return 1;
+}
+
+static int
+wireToRawEvent(xXIRawDeviceEvent *in, XIRawDeviceEvent *out)
+{
+    int len, i;
+    FP3232 *values;
+
+    out->type           = in->type;
+    out->extension      = in->extension;
+    out->evtype         = in->evtype;
+    out->time           = in->time;
+    out->detail         = in->detail;
+    out->deviceid       = in->deviceid;
+
+    out->valuators = malloc(sizeof(XIValuatorState) + in->valuators_len * 4);
+    out->valuators->mask_len = in->valuators_len * 4;
+    out->valuators->mask = (unsigned char*)&out->valuators[1];
+    memcpy(out->valuators->mask, &in[1], out->valuators->mask_len);
+
+    len = count_bits(out->valuators->mask, out->valuators->mask_len);
+    out->valuators->values = calloc(len, sizeof(double));
+    out->raw_values = calloc(len, sizeof(double));
+
+    values = (FP3232*)(((char*)&in[1]) + in->valuators_len * 4);
+    for (i = 0; i < len; i++)
+    {
+        out->valuators->values[i] = values->integral;
+        out->raw_values[i] = (values + len)->integral;
+        values++;
     }
 
     return 1;
