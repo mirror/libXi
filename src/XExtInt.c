@@ -829,55 +829,6 @@ XInputWireToEvent(
                         break;
                     }
                     return ENQUEUE_EVENT;
-#if 0
-                case XI_HierarchyChangedNotify:
-                    {
-                        XDeviceHierarchyChangedEvent* dhc_event = 
-                            (XDeviceHierarchyChangedEvent*)save;
-                        XIDeviceHierarchyEvent* dhc_wire =
-                            (XIDeviceHierarchyEvent*)event;
-
-                        dhc_event->extension = dhc_wire->extension;
-                        dhc_event->evtype = dhc_wire->evtype;
-                        dhc_event->time = dhc_wire->time;
-                        *re = *save;
-                        return ENQUEUE_EVENT;
-                    }
-                case XI_ClassesChangedNotify:
-                    {
-                        XDeviceClassesChangedEvent* dcc_event =
-                            (XDeviceClassesChangedEvent*)save;
-                        XIDeviceChangedEvent* dcc_wire =
-                            (XIDeviceChangedEvent*)event;
-                        int size;
-                        XAnyClassPtr Any;
-                        xAnyClassPtr any;
-
-                        dcc_event->extension = dcc_wire->extension;
-                        dcc_event->evtype = dcc_wire->evtype;
-                        dcc_event->time = dcc_wire->time;
-                        dcc_event->deviceid = dcc_wire->deviceid;
-                        dcc_event->slaveid = dcc_wire->new_slave;
-                        dcc_event->num_classes = dcc_wire->num_classes;
-
-                        any = (xAnyClassPtr)&dcc_wire[1];
-                        size = SizeClassInfo(&any, dcc_wire->num_classes);
-
-                        dcc_event->inputclassinfo = Xmalloc(size);
-                        if (!dcc_event)
-                        {
-                            printf("Allocation error.\n");
-                            return DONT_ENQUEUE;
-                        }
-
-                        any = (xAnyClassPtr)&dcc_wire[1];
-                        Any = (XAnyClassPtr)dcc_event->inputclassinfo;
-                        ParseClassInfo(&any, &Any, dcc_wire->num_classes);
-
-                        *re = *save;
-                        return ENQUEUE_EVENT;
-                    }
-#endif
                 default:
                     printf("XInputWireToEvent: Unknown generic event. type %d\n", ge->evtype);
 
