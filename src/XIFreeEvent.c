@@ -60,5 +60,11 @@ XIFreeEventData(XIEvent *event)
             free(((XIRawDeviceEvent*)event)->valuators);
             free(((XIRawDeviceEvent*)event)->raw_values);
             break;
+        case XI_Enter:
+        case XI_Leave:
+            free(((XIEnterEvent*)event)->mods);
+            free(((XIEnterEvent*)event)->group);
+            free(((XIEnterEvent*)event)->buttons);
+            break;
     }
 }

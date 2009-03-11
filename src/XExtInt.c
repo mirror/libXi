@@ -132,6 +132,8 @@ static int
 wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent* out);
 static int
 wireToRawEvent(xXIRawDeviceEvent *in, XIRawDeviceEvent *out);
+static int
+wireToEnterLeave(xXIEnterEvent *in, XIEnterEvent *out);
 
 static /* const */ XEvent emptyevent;
 
@@ -829,6 +831,16 @@ XInputWireToEvent(
                         break;
                     }
                     return ENQUEUE_EVENT;
+                case XI_Enter:
+                case XI_Leave:
+                    *re = *save;
+                    if (!wireToEnterLeave(event, re))
+                    {
+                        printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
+                                ge->evtype);
+                        break;
+                    }
+                    return ENQUEUE_EVENT;
                 default:
                     printf("XInputWireToEvent: Unknown generic event. type %d\n", ge->evtype);
 
@@ -995,6 +1007,45 @@ wireToRawEvent(xXIRawDeviceEvent *in, XIRawDeviceEvent *out)
         out->raw_values[i] = (values + len)->integral;
         values++;
     }
+
+    return 1;
+}
+
+static int
+wireToEnterLeave(xXIEnterEvent *in, XIEnterEvent *out)
+{
+    out->type           = in->type;
+    out->extension      = in->extension;
+    out->evtype         = in->evtype;
+    out->time           = in->time;
+    out->detail         = in->detail;
+    out->deviceid       = in->deviceid;
+    out->root           = in->root;
+    out->event          = in->event;
+    out->child          = in->child;
+    out->sourceid       = in->sourceid;
+    out->root_x         = in->root_x.integral;
+    out->root_y         = in->root_y.integral;
+    out->event_x        = in->event_x.integral;
+    out->event_y        = in->event_y.integral;
+    out->mode           = in->mode;
+    out->focus          = in->focus;
+    out->same_screen    = in->same_screen;
+
+    out->mods = malloc(sizeof(XIModifierState));
+    out->group = malloc(sizeof(XIGroupState));
+
+    out->mods->base = in->mods.base_mods;
+    out->mods->locked = in->mods.locked_mods;
+    out->mods->latched = in->mods.latched_mods;
+    out->group->base = in->group.base_group;
+    out->group->locked = in->group.locked_group;
+    out->group->latched = in->group.latched_group;
+
+    out->buttons = malloc(sizeof(XIButtonState) + in->buttons_len * 4);
+    out->buttons->mask = (unsigned char*)&out->buttons[1];
+    out->buttons->mask_len = in->buttons_len;
+    memcpy(out->buttons->mask, &in[1], out->buttons->mask_len);
 
     return 1;
 }
