@@ -833,6 +833,8 @@ XInputWireToEvent(
                     return ENQUEUE_EVENT;
                 case XI_Enter:
                 case XI_Leave:
+                case XI_FocusIn:
+                case XI_FocusOut:
                     *re = *save;
                     if (!wireToEnterLeave(event, re))
                     {
