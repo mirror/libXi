@@ -340,6 +340,18 @@ extern XIDeviceInfo* XIQueryDevice(
      int*               ndevices_return
 );
 
+extern Status XISetDeviceFocus(
+     Display*           dpy,
+     int                deviceid,
+     Window             focus,
+     Time               time
+);
+
+extern Status XIGetDeviceFocus(
+     Display*           dpy,
+     int                deviceid,
+     Window             *focus_return);
+
 extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
 extern void XIFreeEventData(XIEvent *ev);
 
