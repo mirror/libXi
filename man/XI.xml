@@ -2856,8 +2856,8 @@
 
     <refsect1><title>Description</title>
         <para>The <constant>XListInputDevices</constant> request lists the
-            available input devices. This list includes all master pointers
-            and master keyboards as well as the physical input devices
+            available input devices. This list includes the core keyboard
+            and any physical input device
             currently accessible through the X server, and any input devices
             that are not currently accessible through the X server but could
             be accessed if requested.
@@ -2871,6 +2871,12 @@
             are always paired (i.e. if shift is pressed on the master
             keyboard, a pointer click would be a shift-click). Multiple master
             pointer/keyboard pairs can exist.
+        </para>
+        <para>
+            X servers supporting the X Input Extension version 2,
+            <constant>XListInputDevices</constant> only returns the first
+            master pointer, the first master keyboard and all slave
+            devices. Additional master devices are not listed.
         </para>
         <para>
             Physical devices (so-called slave devices) are attached to either
