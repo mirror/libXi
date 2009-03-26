@@ -7,8 +7,7 @@
 
 #ifndef _XIINT_H_
 #define _XIINT_H_
-#include <X11/extensions/XIproto.h> /* for xAnyClassPtr */
-#include <X11/extensions/XInput.h> /* for XAnyClassPtr */
+#include <X11/extensions/XI.h>
 
 extern XExtDisplayInfo *XInput_find_display(Display *);
 
