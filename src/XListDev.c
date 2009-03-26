@@ -60,7 +60,7 @@ SOFTWARE.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-int
+static int
 SizeClassInfo(xAnyClassPtr *any, int num_classes)
 {
     int size = 0;
@@ -91,7 +91,7 @@ SizeClassInfo(xAnyClassPtr *any, int num_classes)
     return size;
 }
 
-void
+static void
 ParseClassInfo(xAnyClassPtr *any, XAnyClassPtr *Any, int num_classes)
 {
     int j, k;
