@@ -916,7 +916,10 @@ wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out)
     len = count_bits(out->valuators->mask, out->valuators->mask_len);
     values = (FP3232*)ptr;
     for (i = 0; i < len; i++, values++)
-        out->valuators->values[i] = values->integral; /*XXX: frac part */
+    {
+        out->valuators->values[i] = values->integral;
+        out->valuators->values[i] += ((double)values->frac / (1 << 16) / (1 << 16));
+    }
 
     out->mods = malloc(sizeof(XIModifierState));
     out->group = malloc(sizeof(XIGroupState));
