@@ -352,6 +352,24 @@ extern Status XIGetDeviceFocus(
      int                deviceid,
      Window             *focus_return);
 
+extern Status XIGrabDevice(
+     Display*           dpy,
+     int                deviceid,
+     Window             grab_window,
+     Time               time,
+     Cursor             cursor,
+     int                grab_mode,
+     int                paired_device_mode,
+     Bool               owner_events,
+     XIDeviceEventMask *mask
+);
+
+extern Status XIUngrabDevice(
+     Display*           dpy,
+     int                deviceid,
+     Time               time
+);
+
 extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
 extern void XIFreeEventData(XIEvent *ev);
 

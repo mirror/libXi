@@ -53,6 +53,7 @@ libXi_la_SOURCES = \
 		  XExtInt.c  \
                   XISelEv.c \
 		  XIint.h \
+		  XIGrabDevice.c \
 		  XIQueryVersion.c \
 		  XIQueryDevice.c \
 		  XISetDevFocus.c \
