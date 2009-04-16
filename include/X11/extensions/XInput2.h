@@ -370,6 +370,13 @@ extern Status XIUngrabDevice(
      Time               time
 );
 
+extern Status XIAllowEvents(
+    Display*            display,
+    int                 deviceid,
+    int                 event_mode,
+    Time                time
+);
+
 extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
 extern void XIFreeEventData(XIEvent *ev);
 
