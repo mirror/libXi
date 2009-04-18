@@ -35,7 +35,10 @@ XIQueryVersion(Display *dpy, int *major_return, int *minor_return)
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
-    return _xiQueryVersion(dpy, major_return, minor_return, info);
+    if (_xiQueryVersion(dpy, major_return, minor_return, info) != BadRequest) {
+	UnlockDisplay(dpy);
+	SyncHandle();
+    }
 }
 
 _X_HIDDEN Status
