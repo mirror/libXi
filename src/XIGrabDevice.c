@@ -41,6 +41,8 @@ XIGrabDevice(Display* dpy, int deviceid, Window grab_window, Time time,
     int len;
 
     XExtDisplayInfo *extinfo = XInput_find_display(dpy);
+
+    LockDisplay(dpy);
     if (_XiCheckExtInit(dpy, Dont_Check, extinfo) == -1)
 	return (NoSuchExtension);
 
