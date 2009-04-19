@@ -879,7 +879,7 @@ static int
 wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out)
 {
     int len, i;
-    char *ptr;
+    unsigned char *ptr;
     FP3232 *values;
 
     out->type = in->type;
@@ -897,7 +897,7 @@ wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out)
     out->event_x = FP1616toDBL(in->event_x);
     out->event_y = FP1616toDBL(in->event_y);
 
-    ptr = (char*)&in[1];
+    ptr = (unsigned char*)&in[1];
 
     /* buttons */
     len = in->buttons_len * 4;
