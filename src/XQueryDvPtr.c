@@ -38,6 +38,8 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
+#define FP1616toDBL(x) ((x) * 1.0 / (1 << 16))
+
 Bool
 XIQueryDevicePointer(Display     *dpy,
                     int         deviceid,
@@ -73,10 +75,10 @@ XIQueryDevicePointer(Display     *dpy,
 
     *root = rep.root;
     *child = rep.child;
-    *root_x = cvtINT16toInt(rep.root_x.integral);
-    *root_y = cvtINT16toInt(rep.root_y.integral);
-    *win_x = cvtINT16toInt(rep.win_x.integral);
-    *win_y = cvtINT16toInt(rep.win_y.integral);
+    *root_x = FP1616toDBL(cvtINT16toInt(rep.root_x));
+    *root_y = FP1616toDBL(cvtINT16toInt(rep.root_y));
+    *win_x = FP1616toDBL(cvtINT16toInt(rep.win_x));
+    *win_y = FP1616toDBL(cvtINT16toInt(rep.win_y));
     *mask = rep.mask;
     UnlockDisplay(dpy);
     SyncHandle();

@@ -69,6 +69,7 @@ SOFTWARE.
 
 #define ENQUEUE_EVENT	True
 #define DONT_ENQUEUE	False
+#define FP1616toDBL(x) ((x) * 1.0 / (1 << 16))
 
 extern void _xibaddevice(
     Display *		/* dpy */,
@@ -888,10 +889,10 @@ wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out)
     out->root = in->root;
     out->event = in->event;
     out->child = in->child;
-    out->root_x = in->root_x.integral;
-    out->root_y = in->root_y.integral;
-    out->event_x = in->event_x.integral;
-    out->event_y = in->event_y.integral;
+    out->root_x = FP1616toDBL(in->root_x);
+    out->root_y = FP1616toDBL(in->root_y);
+    out->event_x = FP1616toDBL(in->event_x);
+    out->event_y = FP1616toDBL(in->event_y);
 
     ptr = (char*)&in[1];
 
@@ -1030,10 +1031,10 @@ wireToEnterLeave(xXIEnterEvent *in, XIEnterEvent *out)
     out->event          = in->event;
     out->child          = in->child;
     out->sourceid       = in->sourceid;
-    out->root_x         = in->root_x.integral;
-    out->root_y         = in->root_y.integral;
-    out->event_x        = in->event_x.integral;
-    out->event_y        = in->event_y.integral;
+    out->root_x         = FP1616toDBL(in->root_x);
+    out->root_y         = FP1616toDBL(in->root_y);
+    out->event_x        = FP1616toDBL(in->event_x);
+    out->event_y        = FP1616toDBL(in->event_y);
     out->mode           = in->mode;
     out->focus          = in->focus;
     out->same_screen    = in->same_screen;
