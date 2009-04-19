@@ -32,13 +32,16 @@
 Status
 XIQueryVersion(Display *dpy, int *major_return, int *minor_return)
 {
+    int rc = Success;
+
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
-    if (_xiQueryVersion(dpy, major_return, minor_return, info) != BadRequest) {
-	UnlockDisplay(dpy);
-	SyncHandle();
-    }
+    rc = _xiQueryVersion(dpy, major_return, minor_return, info);
+
+    UnlockDisplay(dpy);
+    SyncHandle();
+    return rc;
 }
 
 _X_HIDDEN Status
