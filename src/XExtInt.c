@@ -995,6 +995,7 @@ wireToRawEvent(xXIRawDeviceEvent *in, XIRawDeviceEvent *out)
     out->time           = in->time;
     out->detail         = in->detail;
     out->deviceid       = in->deviceid;
+    out->eventtype      = in->eventtype;
 
     out->valuators = malloc(sizeof(XIValuatorState) + in->valuators_len * 4);
     out->valuators->mask_len = in->valuators_len * 4;

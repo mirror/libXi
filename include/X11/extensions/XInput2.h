@@ -230,6 +230,7 @@ typedef struct {
     int           detail;
     int           deviceid;
     int           sourceid;
+    int           eventtype;
     XIValuatorState *valuators;
     double        *raw_values;
 } XIRawDeviceEvent;
