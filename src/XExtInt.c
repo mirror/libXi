@@ -797,7 +797,7 @@ XInputWireToEvent(
                 case XI_KeyPress:
                 case XI_KeyRelease:
                     *re = *save;
-                    if (!wireToDeviceEvent(event, re))
+                    if (!wireToDeviceEvent((xXIDeviceEvent*)event, (XIDeviceEvent*)re))
                     {
                         printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
                                 ge->evtype);
@@ -806,7 +806,8 @@ XInputWireToEvent(
                     return ENQUEUE_EVENT;
                 case XI_DeviceChanged:
                     *re = *save;
-                    if (!wireToDeviceChangedEvent(event, re))
+                    if (!wireToDeviceChangedEvent((xXIDeviceChangedEvent*)event,
+                                                   (XIDeviceChangedEvent*)re))
                     {
                         printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
                                 ge->evtype);
@@ -815,7 +816,8 @@ XInputWireToEvent(
                     return ENQUEUE_EVENT;
                 case XI_HierarchyChanged:
                     *re = *save;
-                    if (!wireToHierarchyChangedEvent(event, re))
+                    if (!wireToHierarchyChangedEvent((xXIDeviceHierarchyEvent*)event,
+                                                      (XIDeviceHierarchyEvent*)re))
                     {
                         printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
                                 ge->evtype);
@@ -825,7 +827,7 @@ XInputWireToEvent(
 
                 case XI_RawEvent:
                     *re = *save;
-                    if (!wireToRawEvent(event, re))
+                    if (!wireToRawEvent((xXIRawDeviceEvent*)event, (XIRawDeviceEvent*)re))
                     {
                         printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
                                 ge->evtype);
@@ -837,7 +839,8 @@ XInputWireToEvent(
                 case XI_FocusIn:
                 case XI_FocusOut:
                     *re = *save;
-                    if (!wireToEnterLeave(event, re))
+                    if (!wireToEnterLeave((xXIEnterEvent*)event,
+                                          (XIEnterEvent*)re))
                     {
                         printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
                                 ge->evtype);
