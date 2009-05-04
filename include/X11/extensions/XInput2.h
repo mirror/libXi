@@ -378,6 +378,52 @@ extern Status XIAllowEvents(
     Time                time
 );
 
+extern int XIGrabButton(
+    Display*            display,
+    int                 deviceid,
+    int                 button,
+    Window              grab_window,
+    Cursor              cursor,
+    int                 grab_mode,
+    int                 paired_device_mode,
+    int                 owner_events,
+    XIDeviceEventMask   *mask,
+    int                 num_modifiers,
+    int                 *modifiers_inout
+);
+
+extern int XIGrabKeysym(
+    Display*            display,
+    int                 deviceid,
+    int                 keysym,
+    Window              grab_window,
+    int                 grab_mode,
+    int                 paired_device_mode,
+    int                 owner_events,
+    XIDeviceEventMask   *mask,
+    int                 num_modifiers,
+    int                 *modifiers_inout
+);
+
+extern Status XIUngrabButton(
+    Display*            display,
+    int                 deviceid,
+    int                 button,
+    Window              grab_window,
+    int                 num_modifiers,
+    int                 *modifiers
+);
+
+extern Status XIUngrabKeysym(
+    Display*            display,
+    int                 deviceid,
+    int                 keysym,
+    Window              grab_window,
+    int                 num_modifiers,
+    int                 *modifiers
+);
+
+
 extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
 extern void XIFreeEventData(XIEvent *ev);
 

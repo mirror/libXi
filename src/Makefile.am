@@ -59,6 +59,7 @@ libXi_la_SOURCES = \
 		  XIQueryDevice.c \
 		  XISetDevFocus.c \
 		  XIGetDevFocus.c \
+		  XIPassiveGrab.c \
 		  XIFreeEvent.c
 
 
