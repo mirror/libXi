@@ -135,6 +135,8 @@ static int
 wireToRawEvent(xXIRawDeviceEvent *in, XIRawDeviceEvent *out);
 static int
 wireToEnterLeave(xXIEnterEvent *in, XIEnterEvent *out);
+static int
+wireToPropertyEvent(xXIPropertyEvent *in, XIPropertyEvent *out);
 
 static /* const */ XEvent emptyevent;
 
@@ -847,6 +849,16 @@ XInputWireToEvent(
                         break;
                     }
                     return ENQUEUE_EVENT;
+                case XI_PropertyEvent:
+                    *re = *save;
+                    if (!wireToPropertyEvent((xXIPropertyEvent*)event,
+                                            (XIPropertyEvent*)re))
+                    {
+                        printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
+                                ge->evtype);
+                        break;
+                    }
+                    return ENQUEUE_EVENT;
                 default:
                     printf("XInputWireToEvent: Unknown generic event. type %d\n", ge->evtype);
 
@@ -1056,6 +1068,19 @@ wireToEnterLeave(xXIEnterEvent *in, XIEnterEvent *out)
     out->buttons->mask = (unsigned char*)&out->buttons[1];
     out->buttons->mask_len = in->buttons_len;
     memcpy(out->buttons->mask, &in[1], out->buttons->mask_len);
+
+    return 1;
+}
+
+static int
+wireToPropertyEvent(xXIPropertyEvent *in, XIPropertyEvent *out)
+{
+    out->type           = in->type;
+    out->extension      = in->extension;
+    out->evtype         = in->evtype;
+    out->time           = in->time;
+    out->property       = in->property;
+    out->what           = in->what;
 
     return 1;
 }
