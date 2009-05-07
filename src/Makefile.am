@@ -60,6 +60,7 @@ libXi_la_SOURCES = \
 		  XISetDevFocus.c \
 		  XIGetDevFocus.c \
 		  XIPassiveGrab.c \
+		  XIProperties.c \
 		  XIFreeEvent.c
 
 

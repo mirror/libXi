@@ -436,6 +436,45 @@ extern Status XIUngrabKeysym(
     int                 *modifiers
 );
 
+extern Atom *XIListProperties(
+    Display*            display,
+    int                 deviceid,
+    int                 *num_props_return
+);
+
+extern void XIChangeProperty(
+    Display*            display,
+    int                 deviceid,
+    Atom                property,
+    Atom                type,
+    int                 format,
+    int                 mode,
+    unsigned char       *data,
+    int                 num_items
+);
+
+extern void
+XIDeleteProperty(
+    Display*            display,
+    int                 deviceid,
+    Atom                property
+);
+
+extern Status
+XIGetProperty(
+    Display*            display,
+    int                 deviceid,
+    Atom                property,
+    long                offset,
+    long                length,
+    Bool                delete_property,
+    Atom                type,
+    Atom                *type_return,
+    int                 *format_return,
+    unsigned long       *num_items_return,
+    unsigned long       *bytes_after_return,
+    unsigned char       **data
+);
 
 extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
 extern void XIFreeEventData(XIEvent *ev);
