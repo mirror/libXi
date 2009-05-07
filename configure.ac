@@ -19,7 +19,7 @@ AC_PROG_LIBTOOL
 XORG_CWARNFLAGS
 
 # Checks for pkg-config packages
-PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.1.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 1.9.99.7])
+PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.1.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 1.9.99.8])
 XI_CFLAGS="$CWARNFLAGS $XI_CFLAGS"
 AC_SUBST(XI_CFLAGS)
 AC_SUBST(XI_LIBS)

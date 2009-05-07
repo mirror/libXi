@@ -52,15 +52,15 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
         any_wire = (xXIAnyInfo*)ptr_wire;
         switch(any_wire->type)
         {
-            case ButtonClass:
+            case XIButtonClass:
                 l = sizeof(XIButtonClassInfo);
                 l += ((xXIButtonInfo*)any_wire)->num_buttons * sizeof(Atom);
                 break;
-            case KeyClass:
+            case XIKeyClass:
                 l = sizeof(XIKeyClassInfo);
                 l += ((xXIKeyInfo*)any_wire)->num_keycodes * sizeof(int);
                 break;
-            case ValuatorClass:
+            case XIValuatorClass:
                 l = sizeof(XIValuatorClassInfo);
                 break;
         }
@@ -86,7 +86,7 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
         any_lib->type = any_wire->type;
         switch(any_wire->type)
         {
-            case ButtonClass:
+            case XIButtonClass:
                 {
                     XIButtonClassInfo *cls_lib;
                     xXIButtonInfo *cls_wire;
@@ -103,7 +103,7 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
                     ptr_lib += cls_lib->num_buttons * sizeof(Atom);
                     break;
                 }
-            case KeyClass:
+            case XIKeyClass:
                 {
                     XIKeyClassInfo *cls_lib;
                     xXIKeyInfo *cls_wire;
@@ -120,7 +120,7 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
                     ptr_lib += cls_lib->num_keycodes * sizeof(int);
                     break;
                 }
-            case ValuatorClass:
+            case XIValuatorClass:
                 {
                     XIValuatorClassInfo *cls_lib;
                     xXIValuatorInfo *cls_wire;

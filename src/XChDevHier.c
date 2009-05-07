@@ -63,20 +63,20 @@ XIChangeDeviceHierarchy(Display* dpy,
     {
         switch(any->type)
         {
-            case CH_CreateMasterDevice:
+            case XICreateMasterDevice:
                 {
                     int slen = (strlen(any->create.name));
                     dlen += sizeof(xXICreateMasterInfo) +
                         slen + (4 - (slen % 4));
                 }
                 break;
-            case CH_RemoveMasterDevice:
+            case XIRemoveMasterDevice:
                 dlen += sizeof(xXIRemoveMasterInfo);
                 break;
-            case CH_AttachSlave:
+            case XIAttachSlave:
                 dlen += sizeof(xXIAttachSlaveInfo);
                 break;
-            case CH_DetachSlave:
+            case XIDetachSlave:
                 dlen += sizeof(xXIDetachSlaveInfo);
                 break;
             default:
@@ -94,7 +94,7 @@ XIChangeDeviceHierarchy(Display* dpy,
     {
         switch(any->type)
         {
-                case CH_CreateMasterDevice:
+                case XICreateMasterDevice:
                 {
                     XICreateMasterInfo* C = &any->create;
                     xXICreateMasterInfo* c = (xXICreateMasterInfo*)dptr;
@@ -107,7 +107,7 @@ XIChangeDeviceHierarchy(Display* dpy,
                     dptr += c->length;
                 }
                 break;
-            case CH_RemoveMasterDevice:
+            case XIRemoveMasterDevice:
                 {
                     XIRemoveMasterInfo* R = &any->remove;
                     xXIRemoveMasterInfo* r = (xXIRemoveMasterInfo*)dptr;
@@ -115,7 +115,7 @@ XIChangeDeviceHierarchy(Display* dpy,
                     r->return_mode = R->returnMode;
                     r->deviceid = R->device;
                     r->length = sizeof(xXIRemoveMasterInfo)/4;
-                    if (r->return_mode == AttachToMaster)
+                    if (r->return_mode == XIAttachToMaster)
                     {
                         r->return_pointer = R->returnPointer;
                         r->return_keyboard = R->returnKeyboard;
@@ -123,7 +123,7 @@ XIChangeDeviceHierarchy(Display* dpy,
                     dptr += sizeof(xXIRemoveMasterInfo);
                 }
                 break;
-            case CH_AttachSlave:
+            case XIAttachSlave:
                 {
                     XIAttachSlaveInfo* C = &any->attach;
                     xXIAttachSlaveInfo* c = (xXIAttachSlaveInfo*)dptr;
@@ -136,7 +136,7 @@ XIChangeDeviceHierarchy(Display* dpy,
                     dptr += sizeof(xXIAttachSlaveInfo);
                 }
                 break;
-            case CH_DetachSlave:
+            case XIDetachSlave:
                 {
                     XIDetachSlaveInfo *D = &any->detach;
                     xXIDetachSlaveInfo *d = (xXIDetachSlaveInfo*)dptr;
