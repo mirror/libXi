@@ -137,6 +137,7 @@ typedef struct {
     int           attachment;
     int           use;
     Bool          enabled;
+    int           flags;
 } XIHierarchyInfo;
 
 /*

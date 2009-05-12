@@ -994,6 +994,7 @@ wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent*
         info_out->attachment    = info_in->attachment;
         info_out->use           = info_in->use;
         info_out->enabled       = info_in->enabled;
+        info_out->flags         = info_in->flags;
     }
 
     return 1;
