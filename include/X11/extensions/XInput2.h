@@ -336,7 +336,7 @@ extern Bool     XIGetClientPointer(
     int*                deviceid
 );
 
-extern int      XISelectEvent(
+extern int      XISelectEvents(
      Display*            dpy,
      Window              win,
      XIDeviceEventMask*  masks,

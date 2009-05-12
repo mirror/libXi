@@ -42,7 +42,7 @@ in this Software without prior written authorization from the author.
 #include "XIint.h"
 
 int
-XISelectEvent(Display* dpy, Window win, XIDeviceEventMask* masks, int num_masks)
+XISelectEvents(Display* dpy, Window win, XIDeviceEventMask* masks, int num_masks)
 {
     XIDeviceEventMask  *current;
     xXISelectEventsReq  *req;
