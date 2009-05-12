@@ -26,7 +26,7 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XIQueryDevicePointer - Query the pointer of an extension input device.
+ * XIQueryPointer - Query the pointer of an extension input device.
  *
  */
 
@@ -41,19 +41,19 @@ in this Software without prior written authorization from The Open Group.
 #define FP1616toDBL(x) ((x) * 1.0 / (1 << 16))
 
 Bool
-XIQueryDevicePointer(Display     *dpy,
-                    int         deviceid,
-                    Window      w,
-                    Window      *root,
-                    Window      *child,
-                    int         *root_x,
-                    int         *root_y,
-                    int         *win_x,
-                    int         *win_y,
-                    unsigned int *mask)
+XIQueryPointer(Display     *dpy,
+               int         deviceid,
+               Window      w,
+               Window      *root,
+               Window      *child,
+               int         *root_x,
+               int         *root_y,
+               int         *win_x,
+               int         *win_y,
+               unsigned int *mask)
 {
-    xXIQueryDevicePointerReq *req;
-    xXIQueryDevicePointerReply rep;
+    xXIQueryPointerReq *req;
+    xXIQueryPointerReply rep;
 
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -61,9 +61,9 @@ XIQueryDevicePointer(Display     *dpy,
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return False;
 
-    GetReq(XIQueryDevicePointer, req);
+    GetReq(XIQueryPointer, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_XIQueryDevicePointer;
+    req->ReqType = X_XIQueryPointer;
     req->deviceid = deviceid;
     req->win = w;
 

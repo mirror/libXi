@@ -130,9 +130,9 @@ wireToDeviceEvent(xXIDeviceEvent *in, XIDeviceEvent* out);
 static int
 wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XIDeviceChangedEvent* out);
 static int
-wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent* out);
+wireToHierarchyChangedEvent(xXIHierarchyEvent *in, XIHierarchyEvent* out);
 static int
-wireToRawEvent(xXIRawDeviceEvent *in, XIRawDeviceEvent *out);
+wireToRawEvent(xXIRawEvent *in, XIRawEvent *out);
 static int
 wireToEnterLeave(xXIEnterEvent *in, XIEnterEvent *out);
 static int
@@ -818,8 +818,8 @@ XInputWireToEvent(
                     return ENQUEUE_EVENT;
                 case XI_HierarchyChanged:
                     *re = *save;
-                    if (!wireToHierarchyChangedEvent((xXIDeviceHierarchyEvent*)event,
-                                                      (XIDeviceHierarchyEvent*)re))
+                    if (!wireToHierarchyChangedEvent((xXIHierarchyEvent*)event,
+                                                      (XIHierarchyEvent*)re))
                     {
                         printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
                                 ge->evtype);
@@ -829,7 +829,7 @@ XInputWireToEvent(
 
                 case XI_RawEvent:
                     *re = *save;
-                    if (!wireToRawEvent((xXIRawDeviceEvent*)event, (XIRawDeviceEvent*)re))
+                    if (!wireToRawEvent((xXIRawEvent*)event, (XIRawEvent*)re))
                     {
                         printf("XInputWireToEvent: CONVERSION FAILURE!  evtype=%d\n",
                                 ge->evtype);
@@ -971,7 +971,7 @@ wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XIDeviceChangedEvent* out)
 }
 
 static int
-wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent* out)
+wireToHierarchyChangedEvent(xXIHierarchyEvent *in, XIHierarchyEvent* out)
 {
     int i;
     XIHierarchyInfo *info_out;
@@ -1001,7 +1001,7 @@ wireToHierarchyChangedEvent(xXIDeviceHierarchyEvent *in, XIDeviceHierarchyEvent*
 }
 
 static int
-wireToRawEvent(xXIRawDeviceEvent *in, XIRawDeviceEvent *out)
+wireToRawEvent(xXIRawEvent *in, XIRawEvent *out)
 {
     int len, i;
     FP3232 *values;

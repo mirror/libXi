@@ -42,11 +42,11 @@ in this Software without prior written authorization from the author.
 #include "XIint.h"
 
 int
-XISelectEvents(Display* dpy, Window win, XIDeviceEventMask* masks, int num_masks)
+XISelectEvents(Display* dpy, Window win, XIEventMask* masks, int num_masks)
 {
-    XIDeviceEventMask  *current;
+    XIEventMask  *current;
     xXISelectEventsReq  *req;
-    xXIDeviceEventMask mask;
+    xXIEventMask mask;
     int i;
     int len = 0;
 
@@ -81,7 +81,7 @@ XISelectEvents(Display* dpy, Window win, XIDeviceEventMask* masks, int num_masks
          * and they need to be padded with 0 */
         buff = calloc(1, mask.mask_len * 4);
         memcpy(buff, current->mask, current->mask_len);
-        Data32(dpy, &mask, sizeof(xXIDeviceEventMask));
+        Data32(dpy, &mask, sizeof(xXIEventMask));
         Data(dpy, buff, mask.mask_len * 4);
         free(buff);
     }

@@ -26,7 +26,7 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XIChangeDeviceHierarchy - change the device hierarchy, i.e. which slave
+ * XIChangeHierarchy - change the device hierarchy, i.e. which slave
  * device is attached to which master, etc.
  */
 
@@ -39,12 +39,12 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 int
-XIChangeDeviceHierarchy(Display* dpy,
+XIChangeHierarchy(Display* dpy,
                         XIAnyHierarchyChangeInfo* changes,
                         int num_changes)
 {
     XIAnyHierarchyChangeInfo* any;
-    xXIChangeDeviceHierarchyReq *req;
+    xXIChangeHierarchyReq *req;
     XExtDisplayInfo *info = XInput_find_display(dpy);
     char *data = NULL, *dptr;
     int dlen = 0, i;
@@ -53,9 +53,9 @@ XIChangeDeviceHierarchy(Display* dpy,
     if (_XiCheckExtInit(dpy, XInput_2, info) == -1)
 	return (NoSuchExtension);
 
-    GetReq(XIChangeDeviceHierarchy, req);
+    GetReq(XIChangeHierarchy, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_XIChangeDeviceHierarchy;
+    req->ReqType = X_XIChangeHierarchy;
     req->num_changes = num_changes;
 
     /* alloc required memory */
@@ -63,14 +63,14 @@ XIChangeDeviceHierarchy(Display* dpy,
     {
         switch(any->type)
         {
-            case XICreateMasterDevice:
+            case XICreateMaster:
                 {
                     int slen = (strlen(any->create.name));
                     dlen += sizeof(xXICreateMasterInfo) +
                         slen + (4 - (slen % 4));
                 }
                 break;
-            case XIRemoveMasterDevice:
+            case XIRemoveMaster:
                 dlen += sizeof(xXIRemoveMasterInfo);
                 break;
             case XIAttachSlave:
@@ -94,7 +94,7 @@ XIChangeDeviceHierarchy(Display* dpy,
     {
         switch(any->type)
         {
-                case XICreateMasterDevice:
+                case XICreateMaster:
                 {
                     XICreateMasterInfo* C = &any->create;
                     xXICreateMasterInfo* c = (xXICreateMasterInfo*)dptr;
@@ -107,7 +107,7 @@ XIChangeDeviceHierarchy(Display* dpy,
                     dptr += c->length;
                 }
                 break;
-            case XIRemoveMasterDevice:
+            case XIRemoveMaster:
                 {
                     XIRemoveMasterInfo* R = &any->remove;
                     xXIRemoveMasterInfo* r = (xXIRemoveMasterInfo*)dptr;

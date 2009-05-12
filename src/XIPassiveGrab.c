@@ -33,7 +33,7 @@ static int
 _XIPassiveGrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
                      Window grab_window, Cursor cursor,
                      int grab_mode, int paired_device_mode,
-                     Bool owner_events, XIDeviceEventMask *mask,
+                     Bool owner_events, XIEventMask *mask,
                      int num_modifiers, int *modifiers_inout)
 {
     xXIPassiveGrabDeviceReq *req;
@@ -89,7 +89,7 @@ int
 XIGrabButton(Display* dpy, int deviceid, int button,
              Window grab_window, Cursor cursor,
              int grab_mode, int paired_device_mode,
-             Bool owner_events, XIDeviceEventMask *mask,
+             Bool owner_events, XIEventMask *mask,
              int num_modifiers, int *modifiers_inout)
 {
     return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeButton, button,
@@ -101,7 +101,7 @@ XIGrabButton(Display* dpy, int deviceid, int button,
 int
 XIGrabKeysym(Display* dpy, int deviceid, int keysym,
              Window grab_window, int grab_mode, int paired_device_mode,
-             Bool owner_events, XIDeviceEventMask *mask,
+             Bool owner_events, XIEventMask *mask,
              int num_modifiers, int *modifiers_inout)
 {
     return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeKeysym, keysym,

@@ -30,10 +30,10 @@
 #include "XIint.h"
 
 Status
-XIGetDeviceFocus(Display *dpy, int deviceid, Window *focus_return)
+XIGetFocus(Display *dpy, int deviceid, Window *focus_return)
 {
-    xXIGetDeviceFocusReq   *req;
-    xXIGetDeviceFocusReply reply;
+    xXIGetFocusReq   *req;
+    xXIGetFocusReply reply;
 
     XExtDisplayInfo *extinfo = XInput_find_display(dpy);
 
@@ -41,9 +41,9 @@ XIGetDeviceFocus(Display *dpy, int deviceid, Window *focus_return)
     if (_XiCheckExtInit(dpy, Dont_Check, extinfo) == -1)
 	return (NoSuchExtension);
 
-    GetReq(XIGetDeviceFocus, req);
+    GetReq(XIGetFocus, req);
     req->reqType  = extinfo->codes->major_opcode;
-    req->ReqType  = X_XIGetDeviceFocus;
+    req->ReqType  = X_XIGetFocus;
     req->deviceid = deviceid;
 
     if (!_XReply(dpy, (xReply*) &reply, 0, xFalse)) {

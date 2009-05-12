@@ -37,8 +37,8 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 
-int XIUndefineDeviceCursor(Display *dpy, int deviceid, Window w)
+int XIUndefineCursor(Display *dpy, int deviceid, Window w)
 {
-    return XIDefineDeviceCursor(dpy, deviceid, w, None);
+    return XIDefineCursor(dpy, deviceid, w, None);
 }
 

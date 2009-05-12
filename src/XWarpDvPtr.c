@@ -26,7 +26,7 @@ in this Software without prior written authorization from The Open Group.
 
 /***********************************************************************
  *
- * XIWarpDevicePointer - Warp the pointer of an extension input device.
+ * XIWarpPointer - Warp the pointer of an extension input device.
  *
  */
 
@@ -39,18 +39,18 @@ in this Software without prior written authorization from The Open Group.
 #include "XIint.h"
 
 int
-XIWarpDevicePointer(Display      *dpy,
-                   int          deviceid,
-                   Window       src_win,
-                   Window       dst_win,
-                   int          src_x,
-                   int          src_y,
-                   unsigned int src_width,
-                   unsigned int src_height,
-                   int          dst_x,
-                   int          dst_y)
+XIWarpPointer(Display      *dpy,
+              int          deviceid,
+              Window       src_win,
+              Window       dst_win,
+              int          src_x,
+              int          src_y,
+              unsigned int src_width,
+              unsigned int src_height,
+              int          dst_x,
+              int          dst_y)
 {
-    xXIWarpDevicePointerReq *req;
+    xXIWarpPointerReq *req;
 
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
@@ -58,9 +58,9 @@ XIWarpDevicePointer(Display      *dpy,
     if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
 	return (NoSuchExtension);
 
-    GetReq(XIWarpDevicePointer, req);
+    GetReq(XIWarpPointer, req);
     req->reqType = info->codes->major_opcode;
-    req->ReqType = X_XIWarpDevicePointer;
+    req->ReqType = X_XIWarpPointer;
     req->deviceid = deviceid;
     req->src_win = src_win;
     req->dst_win = dst_win;

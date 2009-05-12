@@ -73,7 +73,7 @@ typedef struct
     int                 deviceid;
     int                 mask_len;
     unsigned char*      mask;
-} XIDeviceEventMask;
+} XIEventMask;
 
 typedef struct
 {
@@ -155,7 +155,7 @@ typedef struct {
     int           flags;
     int           num_devices;
     XIHierarchyInfo *info;
-} XIDeviceHierarchyEvent;
+} XIHierarchyEvent;
 
 /*
  * Notifies the client that the classes have been changed. This happens when
@@ -234,7 +234,7 @@ typedef struct {
     int           eventtype;
     XIValuatorState *valuators;
     double        *raw_values;
-} XIRawDeviceEvent;
+} XIRawEvent;
 
 typedef struct {
     int           type;         /* GenericEvent */
@@ -279,7 +279,7 @@ typedef struct {
 
 _XFUNCPROTOBEGIN
 
-extern Bool     XIQueryDevicePointer(
+extern Bool     XIQueryPointer(
     Display*            display,
     int                 deviceid,
     Window              win,
@@ -292,7 +292,7 @@ extern Bool     XIQueryDevicePointer(
     unsigned int*       mask
 );
 
-extern Bool     XIWarpDevicePointer(
+extern Bool     XIWarpPointer(
     Display*            display,
     int                 deviceid,
     Window              src_win,
@@ -305,20 +305,20 @@ extern Bool     XIWarpDevicePointer(
     int                 dst_y
 );
 
-extern Status   XIDefineDeviceCursor(
+extern Status   XIDefineCursor(
     Display*            display,
     int                 deviceid,
     Window              win,
     Cursor              cursor
 );
 
-extern Status   XIUndefineDeviceCursor(
+extern Status   XIUndefineCursor(
     Display*            display,
     int                 deviceid,
     Window              win
 );
 
-extern Status   XIChangeDeviceHierarchy(
+extern Status   XIChangeHierarchy(
     Display*            display,
     XIAnyHierarchyChangeInfo*  changes,
     int                 num_changes
@@ -339,7 +339,7 @@ extern Bool     XIGetClientPointer(
 extern int      XISelectEvents(
      Display*            dpy,
      Window              win,
-     XIDeviceEventMask*  masks,
+     XIEventMask         *masks,
      int                 nmasks
 );
 
@@ -355,14 +355,14 @@ extern XIDeviceInfo* XIQueryDevice(
      int*               ndevices_return
 );
 
-extern Status XISetDeviceFocus(
+extern Status XISetFocus(
      Display*           dpy,
      int                deviceid,
      Window             focus,
      Time               time
 );
 
-extern Status XIGetDeviceFocus(
+extern Status XIGetFocus(
      Display*           dpy,
      int                deviceid,
      Window             *focus_return);
@@ -376,7 +376,7 @@ extern Status XIGrabDevice(
      int                grab_mode,
      int                paired_device_mode,
      Bool               owner_events,
-     XIDeviceEventMask *mask
+     XIEventMask        *mask
 );
 
 extern Status XIUngrabDevice(
@@ -401,7 +401,7 @@ extern int XIGrabButton(
     int                 grab_mode,
     int                 paired_device_mode,
     int                 owner_events,
-    XIDeviceEventMask   *mask,
+    XIEventMask         *mask,
     int                 num_modifiers,
     int                 *modifiers_inout
 );
@@ -414,7 +414,7 @@ extern int XIGrabKeysym(
     int                 grab_mode,
     int                 paired_device_mode,
     int                 owner_events,
-    XIDeviceEventMask   *mask,
+    XIEventMask         *mask,
     int                 num_modifiers,
     int                 *modifiers_inout
 );

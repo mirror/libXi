@@ -33,7 +33,7 @@
 Status
 XIGrabDevice(Display* dpy, int deviceid, Window grab_window, Time time,
              Cursor cursor, int grab_mode, int paired_device_mode,
-             Bool owner_events, XIDeviceEventMask *mask)
+             Bool owner_events, XIEventMask *mask)
 {
     xXIGrabDeviceReq *req;
     xXIGrabDeviceReply reply;
