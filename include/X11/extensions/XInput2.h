@@ -289,7 +289,9 @@ extern Bool     XIQueryPointer(
     int*                root_y,
     int*                win_x,
     int*                win_y,
-    unsigned int*       mask
+    XIButtonState       *buttons,
+    XIModifierState     *mods,
+    XIGroupState        *group
 );
 
 extern Bool     XIWarpPointer(

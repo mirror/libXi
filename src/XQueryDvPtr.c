@@ -50,7 +50,9 @@ XIQueryPointer(Display     *dpy,
                int         *root_y,
                int         *win_x,
                int         *win_y,
-               unsigned int *mask)
+               XIButtonState       *buttons,
+               XIModifierState     *mods,
+               XIGroupState        *group)
 {
     xXIQueryPointerReq *req;
     xXIQueryPointerReply rep;
@@ -79,7 +81,19 @@ XIQueryPointer(Display     *dpy,
     *root_y = FP1616toDBL(cvtINT16toInt(rep.root_y));
     *win_x = FP1616toDBL(cvtINT16toInt(rep.win_x));
     *win_y = FP1616toDBL(cvtINT16toInt(rep.win_y));
-    *mask = rep.mask;
+
+    mods->base          = rep.mods.base_mods;
+    mods->latched       = rep.mods.latched_mods;
+    mods->locked        = rep.mods.locked_mods;
+    group->base         = rep.group.base_group;
+    group->latched      = rep.group.latched_group;
+    group->locked       = rep.group.locked_group;
+
+    buttons->mask_len   = rep.buttons_len * 4;
+    buttons->mask       = malloc(buttons->mask_len);
+    if (buttons->mask)
+        memcpy(buttons->mask, (char*)(&rep + 1), buttons->mask_len);
+
     UnlockDisplay(dpy);
     SyncHandle();
     return rep.same_screen;
