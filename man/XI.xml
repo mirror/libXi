@@ -14,6 +14,7 @@
 
 
     Copyright © 2008 Peter Hutterer
+    Copyright © 2009 Red Hat, Inc.
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),
@@ -34,8 +35,7 @@
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
     DEALINGS IN THE SOFTWARE.
 
-    Author: Peter Hutterer, UniSA, NICTA
-
+    Author: Peter Hutterer
     -->
 <reference>
 <title>X Input Extension Library</title>
@@ -4471,1204 +4471,7 @@
 
 </refentry>
 
-<!--- MPX -->
-<refentry id="XSetClientPointer.man">
-  <refentryinfo>
-    <productname>__vendorversion__</productname>
-    <pubdate>February 14, 2008</pubdate>
-    <authorgroup>
-      <author>
-        <firstname>Peter</firstname><surname>Hutterer</surname>
-        <contrib>Specification and implementation.</contrib>
-      </author>
-    </authorgroup>
-  </refentryinfo>
-
-  <refmeta>
-    <refentrytitle>XSetClientPointer, XGetClientPointer</refentrytitle>
-        <manvolnum>__libmansuffix__</manvolnum>
-    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
-        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
-</refmeta>
-    <refnamediv>
-        <refname>XSetClientPointer</refname>
-	<refname>XGetClientPointer</refname>
-	<refpurpose>set or get the ClientPointer setting.</refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-	<title>Syntax</title>
-	<funcsynopsis>
-	    <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
-	    <funcprototype>
-		<funcdef><function>XSetClientPointer</function></funcdef>
-		<paramdef>Display *<parameter>display</parameter></paramdef>
-		<paramdef>Window <parameter>win</parameter></paramdef>
-		<paramdef>XDevice *<parameter>device</parameter></paramdef>
-	    </funcprototype>
-	    <funcprototype>
-		<funcdef>Bool <function>XGetClientPointer</function></funcdef>
-		<paramdef>Display *<parameter>display</parameter></paramdef>
-		<paramdef>Window <parameter>win</parameter></paramdef>
-		<paramdef>XID *<parameter>device</parameter></paramdef>
-	    </funcprototype>
-	</funcsynopsis>
-    </refsynopsisdiv>
-
-    <refsect1><title>Arguments</title>
-	<para>
-	    <variablelist>
-		<varlistentry>
-		    <term><parameter>display</parameter></term>
-		    <listitem><para>Specifies the connection to the X server.
-                    </para></listitem>
-		</varlistentry>
-		<varlistentry>
-		    <term><parameter>win</parameter></term>
-		    <listitem><para>Specifies a window belonging to the
-			    client. May be <constant>None</constant>.
-                    </para></listitem>
-		</varlistentry>
-		<varlistentry>
-		    <term><parameter>device</parameter></term>
-		    <listitem><para>Specifies the device to set as
-			    ClientPointer.
-                    </para></listitem>
-		</varlistentry>
-	    </variablelist>
-	</para>
-    </refsect1>
-
-    <refsect1><title>Description</title>
-	<para>
-	    The ClientPointer is the device that is percieved to be the core
-	    pointer for non-XI protocol requests and replies.  Each  time  a
-	    protocol message needs device-dependent data and the  device  is
-	    not explicitly  given,  the ClientPointer device is used to obtain
-            the data. For example, a <function>XQueryPointer</function>
-            request will return the coordinates of the ClientPointer.
-        </para>
-        <para>
-            <function>XSetClientPointer</function> request sets the
-            ClientPointer device for the client that owns the given window. If
-            <parameter>win</parameter> is <constant>None</constant>, the
-            requesting client's ClientPointer is set to the
-            <constant>device</constant>. Only master pointer devices can be
-            set as ClientPointer.
-        </para>
-        <para>
-            <function>XSetClientPointer</function>  and can generate a
-            <errorname>BadDevice</errorname> and a
-            <errorname>BadWindow</errorname> error.
-        </para>
-        <para>
-            The <function>XGetClientPointer</function> request returns the
-            ClientPointer's device ID for the client that owns the given
-            window. If <parameter>win</parameter> is
-            <constant>None</constant>, the requesting client's ClientPointer
-            is returned.
-        </para>
-        <para>
-            <parameter>win</parameter> may be a client ID instead
-            of a window.
-        </para>
-        <para>
-            <function>XGetClientPointer</function> can generate a
-            <errorname>BadWindow</errorname> error.
-        </para>
-    </refsect1>
-
-    <refsect1><title>Diagnosis</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><errorname>BadDevice</errorname></term><listitem>
-                        <para>
-                            An invalid device was specified. The device does
-                            not exist or is not a master pointer device.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not
-                            name a defined window.
-                    </para></listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-</refentry>
-
-<refentry id="XQueryDevicePointer.man">
-    <refentryinfo>
-        <productname>__vendorversion__</productname>
-        <pubdate>February 14, 2008</pubdate>
-        <authorgroup>
-            <author>
-                <firstname>Peter</firstname><surname>Hutterer</surname>
-                <contrib>Specification and implementation.</contrib>
-            </author>
-        </authorgroup>
-    </refentryinfo>
-
-    <refmeta>
-        <refentrytitle>XQueryDevicePointer</refentrytitle>
-        <manvolnum>__libmansuffix__</manvolnum>
-    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
-        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
-</refmeta>
-    <refnamediv>
-        <refname>XQueryDevicePointer</refname>
-        <refpurpose> get device pointer coordinates.</refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-        <title>Syntax</title>
-        <funcsynopsis>
-            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
-            <funcprototype>
-                <funcdef>Bool <function>XQueryDevicePointer</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-                <paramdef>Window <parameter>win</parameter></paramdef>
-                <paramdef>Window *<parameter>root_return</parameter></paramdef>
-                <paramdef>Window *<parameter>child_return</parameter></paramdef>
-                <paramdef>int *<parameter>root_x_return</parameter></paramdef>
-                <paramdef>int *<parameter>root_y_return</parameter></paramdef>
-                <paramdef>int *<parameter>win_x_return</parameter></paramdef>
-                <paramdef>int *<parameter>win_y_return</parameter></paramdef>
-                <paramdef>unsigned int *<parameter>mask_return</parameter></paramdef>
-            </funcprototype>
-        </funcsynopsis>
-    </refsynopsisdiv>
-
-    <refsect1><title>Arguments</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>child_return</parameter></term>
-                    <listitem>
-                        <para>
-                            Returns the child window that the pointer is
-                            located in, if any.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device to query.
-                    </para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>display</parameter></term>
-                    <listitem><para>Specifies the connection to the X server.
-                    </para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>mask_return</parameter></term>
-                    <listitem>
-                        <para>
-                            Returns the current state of the modifier keys and
-                            pointer buttons.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>root_return</parameter></term>
-                    <listitem>
-                        <para>
-                          Returns the root window that the pointer is in.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>root_x_return</parameter></term>
-                    <term><parameter>root_y_return</parameter></term>
-                    <listitem>
-                        <para>
-                          Return the pointer coordinates relative to the root
-                          window's origin.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>win</parameter></term>
-                    <listitem>
-                        <para>
-                          Specifies the window.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>win_x_return</parameter></term>
-                    <term><parameter>win_y_return</parameter></term>
-                    <listitem><para>
-                            Return the pointer coordinates relative to the
-                            specified window.
-                        </para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-
-    <refsect1><title>Description</title>
-        <para>
-        The <function>XQueryDevicePointer</function> function returns the root
-        window the device's pointer is logically on and the pointer
-        coordinates relative to the root window's origin.  If
-        <function>XQueryDevicePointer</function> returns
-        <constant>False</constant>, the pointer is not on the same screen as
-        the specified window, and
-        <function>XQueryDevicePointer</function> returns
-        <constant>None</constant> to <parameter>child_return</parameter> and
-        zero to <parameter>win_x_return</parameter> and
-        <parameter>win_y_return</parameter>.  If
-        <function>XQueryDevicePointer</function> returns
-        <constant>True</constant>, the pointer coordinates returned to
-        <parameter>win_x_return</parameter> and
-        <parameter>win_y_return</parameter> are relative to the origin of the
-        specified window.  In this case,
-        <function>XQueryDevicePointer</function> returns the child that
-        contains the pointer, if any, or else <constant>None</constant> to
-        <parameter>child_return</parameter>.
-        </para>
-        <para>
-            <function>XQueryDevicePointer</function> returns the current
-            logical state of the keyboard buttons and the modifier keys in
-            <parameter>mask_return</parameter>. The keyboard paired with the
-            master pointer is selected to obtain this data. It sets
-            <parameter>mask_return</parameter> to the bitwise inclusive OR of
-            one or more of the button or modifier key bitmasks to match the
-            current state of the mouse buttons and the modifier keys.
-        </para>
-        <para>
-            <function>XQueryDevicePointer</function> is identical to
-            <function>XQueryPointer</function> but specifies the device
-            explicitly.
-        </para>
-        <para>
-            <function>XQueryDevicePointer</function> can generate a
-            <errorname>BadDevice</errorname> and a
-            <errorname>BadWindow</errorname> error.
-        </para>
-    </refsect1>
-
-    <refsect1><title>Diagnosis</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><errorname>BadDevice</errorname></term>
-                    <listitem>
-                        <para>
-                            An invalid device was specified. The device does
-                            not exist or is not a pointer device.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not
-                            name a defined window.
-</para></listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-    <refsect1><title>See also</title>
-        <para>
-            <function>XQueryPointer</function>
-        </para>
-    </refsect1>
-
-</refentry>
-
-<refentry id="XDefineDeviceCursor.man">
-    <refentryinfo>
-        <productname>__vendorversion__</productname>
-        <pubdate>February 14, 2008</pubdate>
-        <authorgroup>
-            <author>
-                <firstname>Peter</firstname><surname>Hutterer</surname>
-                <contrib>Specification and implementation.</contrib>
-            </author>
-        </authorgroup>
-    </refentryinfo>
-
-    <refmeta>
-        <refentrytitle>XDefineDeviceCursor, XUndefineDeviceCursor</refentrytitle>
-        <manvolnum>__libmansuffix__</manvolnum>
-    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
-        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
-</refmeta>
-    <refnamediv>
-        <refname>XDefineDeviceCursor</refname>
-	<refname>XUndefineDeviceCursor</refname>
-        <refpurpose>define device cursors.</refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-        <title>Syntax</title>
-        <funcsynopsis>
-            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
-            <funcprototype>
-                <funcdef>int <function>XDefineCursor</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-                <paramdef>Window <parameter>win</parameter></paramdef>
-                <paramdef>Cursor <parameter>cursor</parameter></paramdef>
-            </funcprototype>
-            <funcprototype>
-                <funcdef>int <function>XUndefineCursor</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-                <paramdef>Window <parameter>win</parameter></paramdef>
-            </funcprototype>
-        </funcsynopsis>
-    </refsynopsisdiv>
-
-    <refsect1><title>Arguments</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>cursor</parameter> </term><listitem>
-                        <para>
-                            Specifies the cursor that is to be displayed or
-                            <constant>None</constant>.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device whose cursor is to
-                            change.
-                    </para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>display</parameter></term>
-                    <listitem><para>Specifies the connection to the X server.
-                    </para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>win</parameter></term>
-                    <listitem><para>Specifies the window.
-                    </para></listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-
-    <refsect1><title>Description</title>
-        <para>
-            If a cursor is set, it will be used when the device's pointer is in the
-            window. If the cursor is <constant>None</constant>, it is equivalent to
-            <function>XUndefineDefineCursor</function>.
-        </para>
-        <para>
-            <function>XDefineDeviceCursor</function> can generate
-            <errorname>BadCursor</errorname> and
-            <errorname>BadWindow</errorname>.
-        </para>
-        <para>
-            The <function>XUndefineDeviceCursor</function> function undoes the
-            effect of a previous <function>XDefineDeviceCursor</function> for
-            this window. When the pointer is in the window, the window's
-            default cursor will now be used. If no default cursor is defined,
-            the parent's cursor for this device will be used (if defined) or
-            the parent's default cursor will be used.
-        </para>
-        <para>
-            <function>XDefineDeviceCursor</function> and
-            <function>XUndefineDeviceCursor</function> are identical to
-            <function>XDefineCursor</function> and
-            <function>XUndefineCursor</function> but specify the device
-            explicitly.
-        </para>
-        <para>
-            <function>XUndefineDevicePointer</function> can generate a
-            <errorname>BadDevice</errorname> and a
-            <errorname>BadWindow</errorname> error.
-        </para>
-    </refsect1>
-
-    <refsect1><title>Diagnosis</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The
-                            device does not exist or is not a pointer
-                            device.
-                    </para></listitem>
-
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not
-                            name a defined window.
-                    </para></listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-    <refsect1> <title>See also</title>
-        <para>
-            <function>XDefineCursor</function>,
-            <function>XUndefineCursor</function>
-        </para>
-    </refsect1>
-</refentry>
-
-<refentry id="XWarpDevicePointer.man">
-    <refentryinfo>
-        <productname>__vendorversion__</productname>
-        <pubdate>February 14, 2008</pubdate>
-        <authorgroup>
-            <author>
-                <firstname>Peter</firstname><surname>Hutterer</surname>
-                <contrib>Specification and implementation.</contrib>
-            </author>
-        </authorgroup>
-    </refentryinfo>
-
-    <refmeta>
-        <refentrytitle>XWarpDevicePointer</refentrytitle>
-        <manvolnum>__libmansuffix__</manvolnum>
-    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
-        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
-</refmeta>
-    <refnamediv>
-        <refname>XWarpDevicePointer</refname>
-        <refpurpose>move device pointer.</refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-        <title>Syntax</title>
-        <funcsynopsis>
-            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
-            <funcprototype>
-                <funcdef>Bool <function>XWarpDevicePointer</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-                <paramdef>Window <parameter>src_w</parameter></paramdef>
-                <paramdef>Window <parameter>dest_w</parameter></paramdef>
-                <paramdef>int <parameter>src_x</parameter></paramdef>
-                <paramdef>int <parameter>src_y</parameter></paramdef>
-                <paramdef>int <parameter>src_width</parameter></paramdef>
-                <paramdef>int <parameter>src_height</parameter></paramdef>
-                <paramdef>int <parameter>dest_x</parameter></paramdef>
-                <paramdef>int <parameter>dest_y</parameter></paramdef>
-            </funcprototype>
-        </funcsynopsis>
-    </refsynopsisdiv>
-
-    <refsect1><title>Arguments</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>dest_w</parameter></term>
-                    <listitem>
-                        <para>
-                            Specifies the destination window or
-                            <constant>None</constant>.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>dest_x</parameter></term>
-                    <term><parameter>dest_y</parameter></term>
-                    <listitem>
-                        <para>
-                            Specify the x and y coordinates within the
-                            destination window.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>device</parameter></term>
-                    <listitem><para>Specifies the device to move.
-                    </para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>display</parameter></term>
-                    <listitem><para>Specifies the connection to the X server.
-                    </para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>src_x</parameter></term>
-                    <term><parameter>src_y</parameter></term>
-                    <term><parameter>src_width</parameter></term>
-                    <term><parameter>src_height</parameter></term>
-                    <listitem>
-                        <para>
-                          Specify a rectangle in the source window.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>src_w</parameter></term>
-                    <listitem>
-                        <para>
-                            Specifies the source window or
-                            <constant>None</constant>.
-                        </para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-
-    <refsect1><title>Description</title>
-        <para>
-             If <parameter>dest_w</parameter> is <constant>None</constant>,
-             <function>XWarpDevicePointer</function> moves the pointer by the
-             offsets (<parameter>dest_x</parameter>,
-             <parameter>dest_y</parameter>) relative to the current position
-             of the pointer.  If
-             <parameter>dest_w</parameter> is a window,
-             <function>XWarpDevicePointer</function> moves the pointer to the
-             offsets
-             (<parameter>dest_x</parameter>, <parameter>dest_y</parameter>)
-             relative to the origin of <parameter>dest_w</parameter>.
-             However, if <parameter>src_w</parameter> is a window, the move
-             only takes place if the window <parameter>src_w</parameter>
-             contains the pointer and if the specified rectangle of
-             <parameter>src_w</parameter> contains the pointer.
-        </para>
-        <para>
-            The <parameter>src_x</parameter> and <parameter>src_y</parameter>
-            coordinates are relative to the origin of
-            <parameter>src_w</parameter>.  If
-            <parameter>src_height</parameter> is zero, it is replaced with the
-            current height of <parameter>src_w</parameter> minus
-            <parameter>src_y</parameter>.  If <parameter>src_w</parameter>idth
-            is zero, it is replaced with the current width of
-            <parameter>src_w</parameter> minus <parameter>src_x</parameter>.
-        </para>
-        <para>
-            There is seldom any reason for calling this function.  The pointer
-            should normally be left to the user.  If you do use this function,
-            however, it generates events just as if the user had
-            instantaneously moved the pointer from one position to another.
-            Note that you cannot use <function>XWarpDevicePointer</function>
-            to move the pointer outside the confine_to window of an active
-            pointer grab.  An attempt to do so will only move the pointer as
-            far as the closest edge of the confine_to window.
-        </para>
-        <para>
-            <function>XWarpDevicePointer</function> is identical to
-            <function>XWarpPointer</function> but specifies the device
-            explicitly.
-        </para>
-        <para>
-            <function>XWarpDevicePointer</function> can generate a
-            <errorname>BadDevice</errorname> and a
-            <errorname>BadWindow</errorname> error.
-        </para>
-    </refsect1>
-
-    <refsect1><title>Diagnosis</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The
-                            device does not exist or is not a pointer
-                            device.
-                    </para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not
-                            name a defined window.
-                    </para></listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-    <refsect1><title>See also</title>
-        <para><function>XWarpPointer</function></para>
-    </refsect1>
-</refentry>
-
-<refentry id="XChangeDeviceHierarchy.man">
-    <refentryinfo>
-        <productname>__vendorversion__</productname>
-        <pubdate>February 14, 2008</pubdate>
-        <authorgroup>
-            <author>
-                <firstname>Peter</firstname><surname>Hutterer</surname>
-                <contrib>Specification and implementation.</contrib>
-            </author>
-        </authorgroup>
-    </refentryinfo>
-
-    <refmeta>
-        <refentrytitle>XChangeDeviceHierarchy</refentrytitle>
-        <manvolnum>__libmansuffix__</manvolnum>
-    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
-        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
-</refmeta>
-    <refnamediv>
-        <refname>XChangeDeviceHierarchy</refname>
-        <refpurpose>change the device hierarchy.</refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-        <title>Syntax</title>
-        <funcsynopsis>
-            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
-            <funcprototype>
-                <funcdef>Status <function>XChangeDeviceHierarchy</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>XAnyHierarchyChangeInfo *<parameter>changes</parameter></paramdef>
-                <paramdef>int <parameter>num_changes</parameter></paramdef>
-            </funcprototype>
-        </funcsynopsis>
-    </refsynopsisdiv>
-
-    <refsect1><title>Arguments</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>display</parameter></term>
-                    <listitem><para>Specifies the connection to the X server.
-                    </para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>num_changes</parameter></term>
-                    <listitem>
-                        <para>
-                            Specifies the number of elements in changes.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>changes</parameter></term>
-                    <listitem>
-                        <para>
-                            Specifies the changes to be made.
-                        </para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-
-    <refsect1><title>Description</title>
-        <para>
-            <function>XChangeDeviceHierarchy</function> modifies the device
-            hierarchy by creating or removing master devices or changing the
-            attachment of slave devices. If <parameter>num_changes</parameter>
-            is non-zero, <parameter>changes</parameter> is an array of
-            <type>XAnyHierarchyChangeInfo</type> structures.
-        </para>
-        <para>
-            <function>XChangeDeviceHierarchy</function> processes
-            <parameter>changes</parameter> in order, effective immediately. If
-            an error occurs, processing is aborted and the error is reported
-            to the client. Changes already made remain effective.
-        </para>
-        <para>
-            The list of <parameter>changes</parameter> is any combination of
-            <structname>XAnyHierarchyChangeInfo</structname>. The
-            <structfield>type</structfield> of a hierarchy change can be
-            <constant>CH_CreateMasterDevice</constant>,
-            <constant>CH_RemoveMasterDevice</constant> or
-            <constant>CH_ChangeAttachment</constant>.
-        </para>
-        <para>
-            <synopsis>
-                typedef union {
-                    int <structfield>type</structfield>;
-                    <structfield>XCreateMasterInfo</structfield> create;
-                    <structfield>XRemoveMasterInfo</structfield> remove;
-                    <structfield>XChangeAttachmentInfo</structfield> change;
-                } <structname>XAnyHierarchyChangeInfo</structname>;
-            </synopsis>
-        </para>
-        <para>
-            <synopsis>
-                typedef struct {
-                    int <structfield>type</structfield>; /* <constant>CH_CreateMasterDevice</constant> */
-                    char* <structfield>name</structfield>;
-                    Bool <structfield>sendCore</structfield>;
-                    Bool <structfield>enable</structfield>;
-                } <structname>XCreateMasterInfo</structname>;
-            </synopsis>
-        </para>
-        <para>
-            <synopsis>
-                typedef struct {
-                    int <structfield>type</structfield>; /* <constant>CH_RemoveMasterDevice</constant> */
-                    XDevice* <structfield>device</structfield>;
-                    int <structfield>returnMode</structfield>;
-                    XDevice* <structfield>returnPointer</structfield>;
-                    XDevice* <structfield>returnKeyboard</structfield>;
-                } <structname>XRemoveMasterInfo</structname>;
-            </synopsis>
-        </para>
-        <para>
-            <synopsis>
-                typedef struct {
-                    int <structfield>type</structfield>; /* <constant>CH_ChangeAttachment</constant> */
-                    XDevice* <structfield>device</structfield>;
-                    int <structfield>changeMode</structfield>;
-                    XDevice* <structfield>newMaster</structfield>;
-                } <structname>XChangeAttachmentInfo</structname>;
-            </synopsis>
-        </para>
-        <para>
-            <structname>XCreateMasterInfo</structname> creates a new master
-            pointer and a new master keyboard labelled
-            &quot;<structfield>name</structfield> pointer&quot; and
-            &quot;<structfield>name</structfield> keyboard&quot; respectively.
-            If <structfield>sendCore</structfield> is
-            <constant>True</constant>, the devices will send core events. If
-            <structfield>enable</structfield> is <constant>True</constant>,
-            the device is enabled immediately.
-        </para>
-        <para>
-            <structname>XCreateMasterInfo</structname> can generate a
-            <errorname>BadValue</errorname> error.
-        </para>
-        <para>
-            <structname>XRemoveMasterInfo</structname> removes
-            <structfield>device</structfield> and its paired master device. If
-            <structfield>returnMode</structfield> is
-            <constant>AttachToMaster</constant>, all pointers attached to
-            <structfield>device</structfield> or its paired master device are
-            attached to <structfield>returnPointer</structfield>. Likewise,
-            all keyboards are attached to
-            <structfield>returnKeyboard</structfield>. If
-            <structfield>returnMode</structfield> is
-            <constant>Floating</constant>, all attached devices are set to
-            floating.
-        </para>
-        <para>
-            <structname>XRemoveMasterInfo</structname> can generate a
-            <errorname>BadValue</errorname> and a
-            <errorname>BadDevice</errorname> error.
-        </para>
-        <para>
-            <structname>XChangeAttachmentInfo</structname> changes the
-            attachment of <structfield>device</structfield> to
-            <structfield>newMaster</structfield> if
-            <structfield>changeMode</structfield> is
-            <constant>AttachToMaster</constant>. Otherwise, if
-            <structfield>changeMode</structfield> is
-            <constant>Floating</constant>, <structfield>device</structfield>
-            is set floating.
-        </para>
-        <para>
-            <function>XChangeAttachmentInfo</function> can generate a
-            <errorname>BadDevice</errorname> and a
-            <errorname>BadValue</errorname> error.
-        </para>
-    </refsect1>
-
-
-    <refsect1><title>Diagnosis</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><errorname>BadDevice</errorname></term>
-                    <listitem>
-                        <para>
-                            An invalid device was specified. The device does
-                            not exist or is not a appropriate for the type of
-                            change.
-                        </para>
-                    </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadValue</errorname></term>
-                    <listitem>
-                        <para>
-                            Some numeric value falls out of the allowed range.
-                        </para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-</refentry>
-
-<refentry id="XiSelectEvent.man">
-    <refentryinfo>
-        <productname>__vendorversion__</productname>
-        <pubdate>February 14, 2008</pubdate>
-        <authorgroup>
-            <author>
-                <firstname>Peter</firstname><surname>Hutterer</surname>
-                <contrib>Specification and implementation.</contrib>
-            </author>
-        </authorgroup>
-    </refentryinfo>
-
-    <refmeta>
-        <refentrytitle>XiSelectEvent</refentrytitle>
-        <manvolnum>__libmansuffix__</manvolnum>
-    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
-        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
-</refmeta>
-    <refnamediv>
-        <refname>XiSelectEvent</refname>
-        <refpurpose>select for generic events on the window.</refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-        <title>Syntax</title>
-        <funcsynopsis>
-            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
-            <funcprototype>
-                <funcdef>Status <function>XiSelectEvent</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>Window <parameter>win</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-                <paramdef>Mask <parameter>mask</parameter></paramdef>
-            </funcprototype>
-        </funcsynopsis>
-    </refsynopsisdiv>
-
-    <refsect1><title>Arguments</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>display</parameter></term>
-                    <listitem><para>Specifies the connection to the X server.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>device</parameter></term>
-                    <listitem><para>The device to select
-                            <parameter>mask</parameter> for. May be
-                            <constant>NULL</constant>.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>mask</parameter></term>
-                    <listitem><para>Generic event mask.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>win</parameter></term>
-                    <listitem>
-                        <para>
-                            Specifies the window.
-                        </para>
-                    </listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-
-    <refsect1><title>Description</title>
-        <para>
-            Events available through the X Generic Event extension (XGE)
-            cannot be selected with <function>XSelectExtensionEvent</function>.
-            For these events, <function>XiSelectEvent</function> must be used.
-        </para>
-        <para>
-            <function>XiSelectEvent</function> causes the X server to report
-            the events defined by <parameter>mask</parameter> on
-            <parameter>win</parameter>. The <parameter>mask</parameter>
-            overrides the previously selected event mask. A
-            <parameter>mask</parameter> of zero de-registers
-            <parameter>win</parameter> from any generic
-            events.
-        </para>
-        <para>
-            If <parameter>device</parameter> is a valid device, the event mask
-            is selected only for this device. If
-            <parameter>device</parameter> is <constant>NULL</constant>, the
-            event mask is selected for all devices.
-        </para>
-        <para>
-            A <parameter>mask</parameter> set for a device is stored
-            seperately for the mask for all devices. Thus, if a mask is set
-            for all devices, it cannot be unset for a single device. It has to
-            be unset for all devices first by supplying
-            <constant>NULL</constant> and then re-set one-by-one for all
-            devices.
-        </para>
-        <para>
-            <function>XiSelectEvent</function> can generate a
-            <errorname>BadValue</errorname>, a
-            <errorname>BadDevice</errorname>, and a
-            <errorname>BadWindow</errorname> error.
-        </para>
-    </refsect1>
-
-    <refsect1><title>Diagnosis</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><errorname>BadValue</errorname></term>
-                    <listitem><para>A value is outside of the permitted range.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not
-                            name a defined window.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The
-                            device does not exist.
-</para></listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-    <refsect1><title>See also</title>
-        <para>
-            <function>XSelectExtensionEvent</function>
-        </para>
-    </refsect1>
-</refentry>
-
-<refentry id="XExtendedGrabDevice.man">
-    <refentryinfo>
-        <productname>__vendorversion__</productname>
-        <pubdate>February 14, 2008</pubdate>
-        <authorgroup>
-            <author>
-                <firstname>Peter</firstname><surname>Hutterer</surname>
-                <contrib>Specification and implementation.</contrib>
-            </author>
-        </authorgroup>
-    </refentryinfo>
-
-    <refmeta>
-        <refentrytitle>XExtendedGrabDevice</refentrytitle>
-        <manvolnum>__libmansuffix__</manvolnum>
-    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
-        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
-</refmeta>
-    <refnamediv>
-        <refname>XExtendedGrabDevice</refname>
-        <refpurpose>actively grab the device.</refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-        <title>Syntax</title>
-        <funcsynopsis>
-            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
-            <funcprototype>
-                <funcdef>Status <function>XExtendedGrabDevice</function></funcdef>
-                <paramdef>Display *<parameter>display</parameter></paramdef>
-                <paramdef>XDevice *<parameter>device</parameter></paramdef>
-                <paramdef>Window <parameter>grab_window</parameter></paramdef>
-                <paramdef>int <parameter>device_mode</parameter></paramdef>
-                <paramdef>Bool <parameter>owner_events</parameter></paramdef>
-                <paramdef>Window <parameter>confine_to</parameter></paramdef>
-                <paramdef>Cursor <parameter>cursor</parameter></paramdef>
-                <paramdef>int <parameter>event_count</parameter></paramdef>
-                <paramdef>XEventClass *<parameter>event_list</parameter></paramdef>
-                <paramdef>int <parameter>generic_event_count</parameter></paramdef>
-                <paramdef>XGenericEventMask *<parameter>generic_events</parameter></paramdef>
-            </funcprototype>
-        </funcsynopsis>
-    </refsynopsisdiv>
-
-    <refsect1><title>Arguments</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><parameter>confine_to</parameter></term>
-		    <listitem><para>Specifies the window to confine the pointer
-		    in or <constant>None</constant>.
-</para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>cursor</parameter></term>
-		    <listitem><para>Specifies the cursor that is to be
-		    displayed during the grab or <constant>None</constant>.
-</para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>display</parameter></term>
-                    <listitem><para>Specifies the connection to the X server.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>device</parameter></term>
-                    <listitem><para>The device to grab.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>device_mode</parameter></term>
-		    <listitem><para>Specifies further processing of device
-		    events. You can pass <constant>GrabModeSync</constant> or
-		    <constant>GrabModeAsync</constant>.
-</para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>event_count</parameter></term>
-		    <listitem><para>Specifies the number of elements in the event_list array.
-</para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>event_list</parameter></term>
-		    <listitem><para>Specifies a pointer to a list of event
-		    classes that indicates which events the client wishes to receive. These event
-		    classes  must have been obtained specifying the device being grabbed.
-		    </para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>generic_event_count</parameter></term>
-		    <listitem><para>Specifies the number of elements in the generic_event_list array.
-</para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>generic_event_list</parameter></term>
-		    <listitem><para>Specifies a pointer to a list of generic event masks
-		    that indicates which generic events the client wishes to receive.
-		    </para></listitem>
-		</varlistentry>
-                <varlistentry>
-                    <term><parameter>grab_window</parameter></term>
-                    <listitem><para>Specifies the grab window.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>time</parameter></term>
-                    <listitem><para>Specifies the time. You can pass either a timestamp or <constant>CurrentTime</constant>.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><parameter>owner_events</parameter></term>
-		    <listitem><para>Specifies a Boolean value that indicates
-		    whether the pointer events are to be reported as usual or reported with respect
-		    to the grab window if selected by the event mask.
-</para></listitem>
-		    </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-
-    <refsect1><title>Description</title>
-        <para>
-            The  <function>XExtendedGrabDevice</function> request  actively  grabs control
-            of the device and generates <function>DeviceFocusIn</function> and
-            <function>DeviceFocusOut</function> events if the device is a keyboard and
-            <function>DeviceEnterNotify</function> and
-            <function>DeviceLeaveNotify</function> if the device is a pointer.  Further
-            device events are reported only to the grabbing client.
-            <function>XExtendedGrabDevice</function> overrides any active device grab by
-            this client.<parameter>event_list</parameter> is a pointer to a  list  of event
-            classes.  This list indicates which events the client wishes to receive
-            while the grab is active.  <parameter>generic_event_list</parameter> is
-            a pointer to a list of generic event masks. These masks indicates which generic
-            events the client wishes to receive while the grab is active.
-            If <parameter>owner_events</parameter> is <constant>False</constant>, all generated device
-            events are reported with respect to grab_window if selected.  If owner_events
-            is <constant>True</constant> and if a generated device event would normally  be  reported
-            to  this  client,  it is reported normally; otherwise, the event is
-            reported with respect to the <parameter>grab_window</parameter>, and is only reported if specified in
-            the <parameter>event_list</parameter> or <parameter>generic_event_list</parameter>.
-        </para>
-	<para>
-            If the <parameter>device_mode</parameter> argument is
-            <constant>GrabModeAsync</constant>, device event processing continues as
-            usual.  If the device is currently frozen by this client, then  processing  of
-            device  events  is  resumed.  If the <parameter>device_mode</parameter>
-            argument is <constant>GrabModeSync</constant>, the state of the device (as
-            seen by client applications) appears to freeze, and the X server generates no
-            further device events until  the  grabbing  client  issues  a  releasing
-            <function>XAllowDeviceEvents</function> call  or  until the device grab is
-            released.  Actual device changes are not lost while the device is frozen; they
-            are simply queued in the server for later processing.
-	</para>
-        <para>
-            If a cursor is specified and the device is a master pointer, it is
-            displayed regardless of what window the device's pointer is in.
-            If <constant>None</constant> is specified, the normal cursor for that window is
-            displayed when the pointer is in <parameter>grab_window</parameter> or one of its
-            subwindows; otherwise, the cursor for <parameter>grab_window</parameter> is displayed.
-        </para>
-        <para>
-            If a <parameter>confine_to</parameter> window is specified and the device is a master
-            pointer, the device's pointer is restricted to stay contained in
-            that window.  The <parameter>confine_to</parameter> window need have no
-            relationship to the <parameter>grab_window</parameter>.  If the
-            pointer is not initially in the <parameter>confine_to</parameter>
-            window, it is warped automatically to the closest edge just before
-            the grab activates and enter/leave events are generated as usual.
-            If the <parameter>confine_to</parameter> window is subsequently
-            reconfigured, the pointer is warped automatically, as
-            necessary, to keep it contained in the window.
-        </para>
-        <para>
-            The <parameter>time</parameter> argument allows you to avoid
-            certain circumstances that come up if applications take a long
-            time to respond or if there are long network delays.  Consider a
-            situation where you have two applications, both of which normally
-            grab the pointer when clicked on.  If both applications specify
-            the timestamp from the event, the second application may wake up
-            faster and successfully grab the pointer before the first
-            application.  The first application then will get an indication
-            that the other application grabbed the pointer before its request
-            was processed.
-        </para>
-        <para>
-            If  the  device  is actively grabbed by some other client,
-            <function>XExtendedGrabDevice</function> fails and returns
-            <constant>AlreadyGrabbed</constant>.  If
-            <parameter>grab_window</parameter> is not viewable, it fails and
-            returns <constant>GrabNotViewable</constant>.  If the device is
-            frozen by an active grab of another client, it fails and returns
-            <constant>GrabFrozen</constant>.  If the specified time is earlier
-            than  the last-device-grab time or later than the current X server
-            time, it fails and returns <constant>GrabInvalidTime</constant>.
-            Otherwise, the last-device-grab time is set to the specified time
-            (<constant>CurrentTime</constant> is replaced by the current X
-            server time).
-        </para>
-        <para>
-            <function>XExtendedGrabDevice</function> is mostly identical to
-            <function>XGrabPointer</function> and
-            <function>XGrabDevice</function> but enables a client to register
-            for generic event masks.
-        </para>
-        <para>
-            <function>XExtendedGrabDevice</function> can generate a
-            <errorname>BadValue</errorname>, a
-            <errorname>BadDevice</errorname>, and a
-            <errorname>BadWindow</errorname> error.
-        </para>
-    </refsect1>
-
-    <refsect1><title>Diagnosis</title>
-        <para>
-            <variablelist>
-                <varlistentry>
-                    <term><errorname>BadValue</errorname></term>
-                    <listitem><para>A value is outside of the permitted range.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadWindow</errorname></term>
-                    <listitem><para>A value for a Window argument does not
-                            name a defined window.
-</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term><errorname>BadDevice</errorname></term>
-                    <listitem><para>An invalid device was specified. The
-                            device does not exist.
-</para></listitem>
-                </varlistentry>
-            </variablelist>
-        </para>
-    </refsect1>
-
-    <refsect1><title>See also</title>
-        <para>
-            <function>XGrabDevice</function>,
-            <function>XUngrabDevice</function>,
-            <function>XGrabPointer</function>
-        </para>
-    </refsect1>
-</refentry>
-
+<!-- XI 1.5 -->
 <refentry id="XListDeviceProperty.man">
     <refentryinfo>
         <productname>__vendorversion__</productname>
@@ -6030,6 +4833,1772 @@
             <function>XQueryDeviceProperty</function>,
             <function>XConfigureDeviceProperty</function>.
         </para>
+    </refsect1>
+</refentry>
+<!--- XI2 -->
+<refentry id="XISetClientPointer.man">
+  <refentryinfo>
+    <productname>__vendorversion__</productname>
+    <pubdate>February 14, 2008</pubdate>
+    <authorgroup>
+      <author>
+        <firstname>Peter</firstname><surname>Hutterer</surname>
+        <contrib>Specification and implementation.</contrib>
+      </author>
+    </authorgroup>
+  </refentryinfo>
+
+  <refmeta>
+    <refentrytitle>XISetClientPointer, XIGetClientPointer</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+    </refmeta>
+    <refnamediv>
+        <refname>XISetClientPointer</refname>
+	<refname>XIGetClientPointer</refname>
+	<refpurpose>set or get the ClientPointer device.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+	<title>Syntax</title>
+	<funcsynopsis>
+	    <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+	    <funcprototype>
+		<funcdef><function>XISetClientPointer</function></funcdef>
+		<paramdef>Display *<parameter>display</parameter></paramdef>
+		<paramdef>Window <parameter>win</parameter></paramdef>
+		<paramdef>int <parameter>deviceid</parameter></paramdef>
+	    </funcprototype>
+	    <funcprototype>
+		<funcdef>Bool <function>XIGetClientPointer</function></funcdef>
+		<paramdef>Display *<parameter>display</parameter></paramdef>
+		<paramdef>Window <parameter>win</parameter></paramdef>
+		<paramdef>int *<parameter>device</parameter></paramdef>
+	    </funcprototype>
+	</funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+	<para>
+	    <variablelist>
+		<varlistentry>
+		    <term><parameter>display</parameter></term>
+		    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+		</varlistentry>
+		<varlistentry>
+		    <term><parameter>win</parameter></term>
+		    <listitem><para>Specifies a window belonging to the
+			    client. May be <constant>None</constant>.
+                    </para></listitem>
+		</varlistentry>
+		<varlistentry>
+		    <term><parameter>deviceid</parameter></term>
+		    <listitem><para>Specifies the ClientPointer device.
+                    </para></listitem>
+		</varlistentry>
+	    </variablelist>
+	</para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+	<para>
+	    The ClientPointer is the device that is percieved to be the core
+	    pointer for non-XI protocol requests and replies.  Each  time  a
+	    protocol message needs device-dependent data and the  device  is
+	    not explicitly  given,  the ClientPointer device is used to obtain
+            the data. For example, a <function>XQueryPointer</function>
+            request will return the coordinates of the ClientPointer.
+        </para>
+        <para>
+            <function>XISetClientPointer</function> request sets the
+            ClientPointer device for the client that owns the given window. If
+            <parameter>win</parameter> is <constant>None</constant>, the
+            requesting client's ClientPointer is set to the device specified
+            with <constant>deviceid</constant>. Only master pointer devices can be
+            set as ClientPointer.
+        </para>
+        <para>
+            <function>XISetClientPointer</function>  and can generate a
+            <errorname>BadDevice</errorname> and a
+            <errorname>BadWindow</errorname> error.
+        </para>
+        <para>
+            The <function>XIGetClientPointer</function> request returns the
+            ClientPointer's device ID for the client that owns the given
+            window. If <parameter>win</parameter> is
+            <constant>None</constant>, the requesting client's ClientPointer
+            is returned.
+        </para>
+        <para>
+            <parameter>win</parameter> may be a client ID instead
+            of a window.
+        </para>
+        <para>
+            <function>XIGetClientPointer</function> can generate a
+            <errorname>BadWindow</errorname> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term><listitem>
+                        <para>
+                            An invalid device was specified. The device does
+                            not exist or is not a master pointer device.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined window.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+</refentry>
+
+<refentry id="XIQueryPointer.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>February 14, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XIQueryPointer</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
+    <refnamediv>
+        <refname>XIQueryPointer</refname>
+        <refpurpose> get device pointer coordinates.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>Bool <function>XIQueryPointer</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>Window <parameter>win</parameter></paramdef>
+                <paramdef>Window *<parameter>root_return</parameter></paramdef>
+                <paramdef>Window *<parameter>child_return</parameter></paramdef>
+                <paramdef>int *<parameter>root_x_return</parameter></paramdef>
+                <paramdef>int *<parameter>root_y_return</parameter></paramdef>
+                <paramdef>int *<parameter>win_x_return</parameter></paramdef>
+                <paramdef>int *<parameter>win_y_return</parameter></paramdef>
+                <paramdef>XIModifierState *<parameter>modifiers_return</parameter></paramdef>
+                <paramdef>XIGroupState *<parameter>group_return</parameter></paramdef>
+                <paramdef>XIButtonState *<parameter>buttons_return</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>buttons_return</parameter></term>
+                    <listitem>
+                        <para>
+                            Returns the current button state.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>child_return</parameter></term>
+                    <listitem>
+                        <para>
+                            Returns the child window that the pointer is
+                            located in, if any.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>deviceid</parameter></term>
+                    <listitem><para>Specifies the device to query.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>group_return</parameter></term>
+                    <listitem>
+                        <para>
+                            Returns the current group state.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>modifiers_return</parameter></term>
+                    <listitem>
+                        <para>
+                            Returns the current state of the modifier keys.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>root_return</parameter></term>
+                    <listitem>
+                        <para>
+                          Returns the root window that the pointer is in.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>root_x_return</parameter></term>
+                    <term><parameter>root_y_return</parameter></term>
+                    <listitem>
+                        <para>
+                          Return the pointer coordinates relative to the root
+                          window's origin.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>win</parameter></term>
+                    <listitem>
+                        <para>
+                          Specifies the window.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>win_x_return</parameter></term>
+                    <term><parameter>win_y_return</parameter></term>
+                    <listitem><para>
+                            Return the pointer coordinates relative to the
+                            specified window.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+        The <function>XIQueryPointer</function> function returns the root
+        window the device's pointer is logically on and the pointer
+        coordinates relative to the root window's origin.  If
+        <function>XIQueryPointer</function> returns
+        <constant>False</constant>, the pointer is not on the same screen as
+        the specified window, and
+        <function>XIQueryPointer</function> returns
+        <constant>None</constant> to <parameter>child_return</parameter> and
+        zero to <parameter>win_x_return</parameter> and
+        <parameter>win_y_return</parameter>.  If
+        <function>XIQueryPointer</function> returns
+        <constant>True</constant>, the pointer coordinates returned to
+        <parameter>win_x_return</parameter> and
+        <parameter>win_y_return</parameter> are relative to the origin of the
+        specified window.  In this case,
+        <function>XIQueryPointer</function> returns the child that
+        contains the pointer, if any, or else <constant>None</constant> to
+        <parameter>child_return</parameter>.
+        </para>
+        <para>
+            <function>XIQueryPointer</function> returns the current
+            logical state of the buttons
+            <parameter>buttons_return</parameter>. The keyboard paired with
+            the master pointer is selected to obtain the data for
+            <parameter>modifiers_return</parameter> and
+            <parameter>group_return</parameter>. 
+        </para>
+        <para>
+            <function>XIQueryPointer</function> is identical to
+            <function>XQueryPointer</function> but specifies the device
+            explicitly.
+        </para>
+        <para>
+            <function>XIQueryPointer</function> can generate a
+            <errorname>BadDevice</errorname> and a
+            <errorname>BadWindow</errorname> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem>
+                        <para>
+                            An invalid device was specified. The device does
+                            not exist or is not a pointer device.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined window.
+</para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+        <para>
+            <function>XQueryPointer</function>
+        </para>
+    </refsect1>
+
+</refentry>
+
+<refentry id="XIDefineCursor.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>February 14, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XIDefineCursor, XIUndefineCursor</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
+    <refnamediv>
+        <refname>XIDefineCursor</refname>
+	<refname>XIUndefineCursor</refname>
+        <refpurpose>define device cursors.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>int <function>XDefineCursor</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>Window <parameter>win</parameter></paramdef>
+                <paramdef>Cursor <parameter>cursor</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>int <function>XUndefineCursor</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>Window <parameter>win</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>cursor</parameter> </term><listitem>
+                        <para>
+                            Specifies the cursor that is to be displayed or
+                            <constant>None</constant>.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>deviceid</parameter></term>
+                    <listitem><para>Specifies the device whose cursor is to
+                            change.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>win</parameter></term>
+                    <listitem><para>Specifies the window.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            If a cursor is set, it will be used when the device's pointer is in the
+            window. If the cursor is <constant>None</constant>, it is equivalent to
+            <function>XUndefineDefineCursor</function>.
+        </para>
+        <para>
+            <function>XIDefineCursor</function> can generate
+            <errorname>BadCursor</errorname> and
+            <errorname>BadWindow</errorname>.
+        </para>
+        <para>
+            The <function>XIUndefineCursor</function> function undoes the
+            effect of a previous <function>XIDefineCursor</function> for
+            this window. When the pointer is in the window, the window's
+            default cursor will now be used. If no default cursor is defined,
+            the parent's cursor for this device will be used (if defined) or
+            the parent's default cursor will be used.
+        </para>
+        <para>
+            <function>XIDefineCursor</function> and
+            <function>XIUndefineCursor</function> are identical to
+            <function>XDefineCursor</function> and
+            <function>XUndefineCursor</function> but specify the device
+            explicitly.
+        </para>
+        <para>
+            <function>XUndefineDevicePointer</function> can generate a
+            <errorname>BadDevice</errorname> and a
+            <errorname>BadWindow</errorname> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem><para>An invalid device was specified. The
+                            device does not exist or is not a pointer
+                            device.
+                    </para></listitem>
+
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined window.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+    <refsect1> <title>See also</title>
+        <para>
+            <function>XDefineCursor</function>,
+            <function>XUndefineCursor</function>
+        </para>
+    </refsect1>
+</refentry>
+
+<refentry id="XIWarpPointer.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>February 14, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XIWarpPointer</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
+    <refnamediv>
+        <refname>XIWarpPointer</refname>
+        <refpurpose>move a device's pointer.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>Bool <function>XIWarpPointer</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>Window <parameter>src_w</parameter></paramdef>
+                <paramdef>Window <parameter>dest_w</parameter></paramdef>
+                <paramdef>int <parameter>src_x</parameter></paramdef>
+                <paramdef>int <parameter>src_y</parameter></paramdef>
+                <paramdef>int <parameter>src_width</parameter></paramdef>
+                <paramdef>int <parameter>src_height</parameter></paramdef>
+                <paramdef>int <parameter>dest_x</parameter></paramdef>
+                <paramdef>int <parameter>dest_y</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>dest_w</parameter></term>
+                    <listitem>
+                        <para>
+                            Specifies the destination window or
+                            <constant>None</constant>.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>dest_x</parameter></term>
+                    <term><parameter>dest_y</parameter></term>
+                    <listitem>
+                        <para>
+                            Specify the x and y coordinates within the
+                            destination window.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>deviceid</parameter></term>
+                    <listitem><para>Specifies the master pointer device or
+                            floating slave device to move.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>src_x</parameter></term>
+                    <term><parameter>src_y</parameter></term>
+                    <term><parameter>src_width</parameter></term>
+                    <term><parameter>src_height</parameter></term>
+                    <listitem>
+                        <para>
+                          Specify a rectangle in the source window.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>src_w</parameter></term>
+                    <listitem>
+                        <para>
+                            Specifies the source window or
+                            <constant>None</constant>.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+             If <parameter>dest_w</parameter> is <constant>None</constant>,
+             <function>XIWarpPointer</function> moves the pointer by the
+             offsets (<parameter>dest_x</parameter>,
+             <parameter>dest_y</parameter>) relative to the current position
+             of the pointer.  If
+             <parameter>dest_w</parameter> is a window,
+             <function>XIWarpPointer</function> moves the pointer to the
+             offsets
+             (<parameter>dest_x</parameter>, <parameter>dest_y</parameter>)
+             relative to the origin of <parameter>dest_w</parameter>.
+             However, if <parameter>src_w</parameter> is a window, the move
+             only takes place if the window <parameter>src_w</parameter>
+             contains the pointer and if the specified rectangle of
+             <parameter>src_w</parameter> contains the pointer.
+        </para>
+        <para>
+            The <parameter>src_x</parameter> and <parameter>src_y</parameter>
+            coordinates are relative to the origin of
+            <parameter>src_w</parameter>.  If
+            <parameter>src_height</parameter> is zero, it is replaced with the
+            current height of <parameter>src_w</parameter> minus
+            <parameter>src_y</parameter>.  If <parameter>src_w</parameter>idth
+            is zero, it is replaced with the current width of
+            <parameter>src_w</parameter> minus <parameter>src_x</parameter>.
+        </para>
+        <para>
+            There is seldom any reason for calling this function.  The pointer
+            should normally be left to the user.  If you do use this function,
+            however, it generates events just as if the user had
+            instantaneously moved the pointer from one position to another.
+            Note that you cannot use <function>XIWarpPointer</function>
+            to move the pointer outside the confine_to window of an active
+            pointer grab.  An attempt to do so will only move the pointer as
+            far as the closest edge of the confine_to window.
+        </para>
+        <para>
+            <function>XIWarpPointer</function> is identical to
+            <function>XWarpPointer</function> but specifies the device
+            explicitly.
+        </para>
+        <para>
+            <function>XIWarpPointer</function> can generate a
+            <errorname>BadDevice</errorname> and a
+            <errorname>BadWindow</errorname> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem><para>An invalid device was specified. The
+                            device does not exist or is not a pointer
+                            device.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined window.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+        <para><function>XWarpPointer</function></para>
+    </refsect1>
+</refentry>
+
+<refentry id="XIChangeHierarchy.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>February 14, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XIChangeHierarchy</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
+    <refnamediv>
+        <refname>XIChangeHierarchy</refname>
+        <refpurpose>change the device hierarchy.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>Status <function>XIChangeHierarchy</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>XIAnyHierarchyChangeInfo *<parameter>changes</parameter></paramdef>
+                <paramdef>int <parameter>num_changes</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>num_changes</parameter></term>
+                    <listitem>
+                        <para>
+                            Specifies the number of elements in changes.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>changes</parameter></term>
+                    <listitem>
+                        <para>
+                            Specifies the changes to be made.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            <function>XIChangeHierarchy</function> modifies the device
+            hierarchy by creating or removing master devices or changing the
+            attachment of slave devices. If <parameter>num_changes</parameter>
+            is non-zero, <parameter>changes</parameter> is an array of
+            <type>XIAnyHierarchyChangeInfo</type> structures.
+        </para>
+        <para>
+            <function>XIChangeHierarchy</function> processes
+            <parameter>changes</parameter> in order, effective immediately. If
+            an error occurs, processing is aborted and the error is reported
+            to the client. Changes already made remain effective.
+        </para>
+        <para>
+            The list of <parameter>changes</parameter> is any combination of
+            <structname>XIAnyHierarchyChangeInfo</structname>. The
+            <structfield>type</structfield> of a hierarchy change can be
+            <constant>XICreateMaster</constant>,
+            <constant>XIRemoveMaster</constant>,
+            <constant>XIAttachSlave</constant> or
+            <constant>XIDetachSlave</constant>.
+        </para>
+        <para>
+            <synopsis>
+                typedef union {
+                    int <structfield>type</structfield>;
+                    <structfield>XICreateMasterInfo</structfield> create;
+                    <structfield>XIRemoveMasterInfo</structfield> remove;
+                    <structfield>XIAttachSlave</structfield> attach;
+                    <structfield>XIDetachSlave</structfield> detach;
+                } <structname>XIAnyHierarchyChangeInfo</structname>;
+            </synopsis>
+        </para>
+        <para>
+            <synopsis>
+                typedef struct {
+                    int <structfield>type</structfield>; /* <constant>XICreateMaster</constant> */
+                    char* <structfield>name</structfield>;
+                    Bool <structfield>sendCore</structfield>;
+                    Bool <structfield>enable</structfield>;
+                } <structname>XICreateMasterInfo</structname>;
+            </synopsis>
+        </para>
+        <para>
+            <synopsis>
+                typedef struct {
+                    int <structfield>type</structfield>; /* <constant>XIRemoveMaster</constant> */
+                    int <structfield>device</structfield>;
+                    int <structfield>returnMode</structfield>;
+                    XDevice* <structfield>returnPointer</structfield>;
+                    XDevice* <structfield>returnKeyboard</structfield>;
+                } <structname>XIRemoveMasterInfo</structname>;
+            </synopsis>
+        </para>
+        <para>
+            <synopsis>
+                typedef struct {
+                    int <structfield>type</structfield>; /* <constant>XIAttachSlave</constant> */
+                    int <structfield>device</structfield>;
+                    int <structfield>newMaster</structfield>;
+                } <structname>XIAttachSlaveInfo</structname>;
+            </synopsis>
+        </para>
+        <para>
+            <synopsis>
+                typedef struct {
+                    int <structfield>type</structfield>; /* <constant>XIDetachSlave</constant> */
+                    int <structfield>device</structfield>;
+                } <structname>XIDetachSlaveInfo</structname>;
+            </synopsis>
+        </para>
+        <para>
+            <structname>XICreateMasterInfo</structname> creates a new master
+            pointer and a new master keyboard labelled
+            &quot;<structfield>name</structfield> pointer&quot; and
+            &quot;<structfield>name</structfield> keyboard&quot; respectively.
+            If <structfield>sendCore</structfield> is
+            <constant>True</constant>, the devices will send core events. If
+            <structfield>enable</structfield> is <constant>True</constant>,
+            the device is enabled immediately.
+        </para>
+        <para>
+            <structname>XICreateMasterInfo</structname> can generate a
+            <errorname>BadValue</errorname> error.
+        </para>
+        <para>
+            <structname>XIRemoveMasterInfo</structname> removes
+            <structfield>device</structfield> and its paired master device. If
+            <structfield>returnMode</structfield> is
+            <constant>XIAttachToMaster</constant>, all pointers attached to
+            <structfield>device</structfield> or its paired master device are
+            attached to <structfield>returnPointer</structfield>. Likewise,
+            all keyboards are attached to
+            <structfield>returnKeyboard</structfield>. If
+            <structfield>returnMode</structfield> is
+            <constant>XIFloating</constant>, all attached devices are set to
+            floating.
+        </para>
+        <para>
+            <structname>XIRemoveMasterInfo</structname> can generate a
+            <errorname>BadValue</errorname> and a
+            <errorname>BadDevice</errorname> error.
+        </para>
+        <para>
+            <structname>XIAttachSlaveInfo</structname> attaches 
+            <structfield>device</structfield> to
+            <structfield>newMaster</structfield>. If the device is currently
+            attached to a master device, it is detached from the master
+            device and attached to the new master device.
+        </para>
+        <para>
+            <function>XIAttachSlaveInfo</function> can generate a
+            <errorname>BadDevice</errorname> error.
+        </para>
+        <para>
+            <structname>XIDettachSlaveInfo</structname> deattaches 
+            <structfield>device</structfield> from the current master device
+            and sets it floating. If the device is already floating, no
+            changes are made.
+        </para>
+        <para>
+            <function>XIDetachSlaveInfo</function> can generate a
+            <errorname>BadDevice</errorname> error.
+        </para>
+        <para>
+            <function>XIChangeHierarchy</function> generates an
+            <constant>XIHierarchyEvent</constant> if any modifications were
+            successful.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem>
+                        <para>
+                            An invalid device was specified. The device does
+                            not exist or is not a appropriate for the type of
+                            change.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadValue</errorname></term>
+                    <listitem>
+                        <para>
+                            Some numeric value falls out of the allowed range.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+</refentry>
+
+<refentry id="XISelectEvents.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>February 14, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XISelectEvents</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
+    <refnamediv>
+        <refname>XISelectEvents</refname>
+        <refpurpose>select for XI2 events on the window.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>Status <function>XISelectEvents</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>Window <parameter>win</parameter></paramdef>
+                <paramdef>XIEventMask *<parameter>masks</parameter></paramdef>
+                <paramdef>int <parameter>num_masks</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>masks</parameter></term>
+                    <listitem><para>Device event mask.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>num_masks</parameter></term>
+                    <listitem><para>Number of masks in
+                            <parameter>masks</parameter>.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>win</parameter></term>
+                    <listitem>
+                        <para>
+                            Specifies the window.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            XI2 events must be selected using
+            <function>XISelectEvents</function>.
+        </para>
+        <para>
+            <function>XISelectEvents</function> sets the event mask for this
+            client on <parameter>win</parameter>. Further events are only
+            reported to this client if the event type matches the selected
+            event mask.
+            The <parameter>masks</parameter> overrides the previously
+            selected event mask for the given device.
+        </para>
+        <para>
+            If <parameter>deviceid</parameter> is a valid device, the event mask
+            is selected only for this device. If
+            <parameter>deviceid</parameter> is
+            <constant>XIAllDevices</constant> or
+            <constant>XIAllMasterDevices</constant>, the event mask is
+            selected for all devices or all master devices, respectively.
+            The effective event mask is the bit-wise OR of the
+            <constant>XIAllDevices</constant>,
+            <constant>XIAllMasterDevices</constant> and the respective
+            device's event mask.
+        </para>
+        <para>
+        <synopsis>
+            typedef struct {
+                int <structfield>deviceid</structfield>;
+                int <structfield>mask_len</structfield>;
+                unsigned char* <structfield>mask</structfield>;
+            } <structname>XIEventMask</structname>;
+        </synopsis>
+        The <structfield>mask_len</structfield> specifies the length of mask
+        in bytes. <structfield>mask</structfield> is a binary mask in the
+        form of (1 &lt;&lt; event type). <structfield>deviceid</structfield>
+        must be either a device or <constant>XIAllDevices</constant> or
+        <constant>XIAllMasterDevices</constant>. A client may submit several
+        masks with the same <structfield>deviceid</structfield> in one
+        request but only the last mask will be effective.
+        </para>
+        <para>
+            <function>XISelectEvents</function> can generate a
+            <errorname>BadValue</errorname>, a
+            <errorname>BadDevice</errorname>, and a
+            <errorname>BadWindow</errorname> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadValue</errorname></term>
+                    <listitem><para>A value is outside of the permitted range.
+</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not
+                            name a defined window.
+</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem><para>An invalid device was specified. The
+                            device does not exist.
+</para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+</refentry>
+
+<refentry id="XIQueryVersion.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>February 14, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XIQueryVersion</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+    <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+</refmeta>
+    <refnamediv>
+        <refname>XIQueryVersion</refname>
+        <refpurpose>announce and query the support XI2 version.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>Status <function>XIQueryVersion</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int *<parameter>major_version_inout</parameter></paramdef>
+                <paramdef>int *<parameter>minor_version_inout</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>major_version_inout</parameter></term>
+                    <listitem><para>Specifies the client's supported XI2 version, and
+                            returns the server's supported version.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>minor_version_inout</parameter></term>
+                    <listitem><para>Specifies the client's supported XI2 version, and
+                            returns the server's supported version.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            <function>XIQueryVersion</function> announces the client's
+            supported XI2 version to the server and returns server's
+            supported version. The server may treat a client differently
+            depending on the version support announced. The
+            <parameter>major_version_inout</parameter> must be 2 or greater,
+            otherwise a <errorname>BadValue</errorname> error occurs.
+        </para>
+        <para>
+            <function>XIQueryVersion</function> can generate a
+            <errorname>BadValue</errorname> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadValue</errorname></term>
+                    <listitem><para>A value is outside of the permitted range.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+</refentry>
+
+<refentry id="XISetFocus.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>February 14, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XISetFocus, XIGetFocus</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+        <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+    </refmeta>
+    <refnamediv>
+        <refname>XISetFocus</refname>
+        <refname>XIGetFocus</refname>
+        <refpurpose>set or get the device's focus.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>Status <function>XISetFocus</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>Window <parameter>focus</parameter></paramdef>
+                <paramdef>Time <parameter>time</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>Status <function>XIGetFocus</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>Window *<parameter>focus_return</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>deviceid</parameter></term>
+                    <listitem><para>Specifies the device whose focus is to be
+                            queried or changed.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>focus</parameter></term>
+                    <listitem><para>The new focus window.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>focus_return</parameter></term>
+                    <listitem><para>Returns the current focus window.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>time</parameter></term>
+                    <listitem><para>A valid timestamp or CurrentTime.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            <function>XISetFocus</function> changes the focus of the
+            specified device ans its last-focus-change time. It
+            has no effect if the specified time is earlier than the current
+            last-focus-change time or is later than the current X server time.
+            Otherwise, the last-focus-change time is set to the specified
+            <parameter>time</parameter>.
+            <constant>CurrentTime</constant> is replaced by the current X
+            server time).  <constant>XISetFocus</constant>  causes the X
+            server to generate core, XI and XI2 focus events.
+        </para>
+        <para>
+            If the <parameter>focus</parameter> window is
+            <constant>None</constant> all keyboard events by this device are
+            discarded until a new focus window is set. Otherwise, if
+            <parameter>focus</parameter> is a window, it becomes the device's
+            focus window. If a generated device event would normally be
+            reported to this window or one of its inferiors, the event is
+            reported as usual. Otherwise, the event is reported relative to
+            the focus window.
+        </para>
+        <para>
+            The specified focus window must be viewable at the time
+            <constant>XISetFocus</constant>  is called, or a
+            <constant>BadMatch</constant> error results. If the focus window
+            later becomes not viewable, the focus reverts to the parent (or
+            the closest viewable ancestor. When the focus reverts, the X
+            server generates core, XI and XI2 focus events but the
+            last-focus-change time is not affected.
+        </para>
+        <para>
+            Attempting to set the focus on a master pointer device or an
+            attached slave device will result in a
+            <constant>BadDevice</constant> error.
+        </para>
+        <para>
+            <constant>XISetFocus</constant>  can generate
+            <constant>BadDevice</constant>, <constant>BadMatch</constant>,
+            <constant>BadValue</constant>, and
+            <constant>BadWindow</constant> errors.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadValue</errorname></term>
+                    <listitem><para>A value is outside of the permitted range.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem>
+                        <para>
+                            An invalid device was specified. The device does
+                            not exist or is not a appropriate for the type of
+                            change.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadMatch</errorname></term>
+                    <listitem>
+                        <para>
+                            The window is not viewable.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not name a defined Window.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+</refentry>
+<refentry id="XIGrabDevice.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+        <pubdate>February 14, 2008</pubdate>
+        <authorgroup>
+            <author>
+                <firstname>Peter</firstname><surname>Hutterer</surname>
+                <contrib>Specification and implementation.</contrib>
+            </author>
+        </authorgroup>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XIGrabDevice, XIUngrabDevice</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+        <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+    </refmeta>
+    <refnamediv>
+        <refname>XIGrabDevice</refname>
+        <refname>XIUngrabDevice</refname>
+        <refpurpose>grab or ungrab the device.</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput2.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>Status <function>XIGrabDevice</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>Window <parameter>grab_window</parameter></paramdef>
+                <paramdef>Time <parameter>time</parameter></paramdef>
+                <paramdef>Cursor <parameter>cursor</parameter></paramdef>
+                <paramdef>int <parameter>grab_mode</parameter></paramdef>
+                <paramdef>int <parameter>paired_device_mode</parameter></paramdef>
+                <paramdef>Bool <parameter>owner_events</parameter></paramdef>
+                <paramdef>XIEventMask *<parameter>mask</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>Status <function>XIUngrabDevice</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>Time <parameter>time</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1><title>Arguments</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><parameter>cursor</parameter></term>
+                    <listitem><para>Specifies the cursor image to display
+                            for the duration of the grab.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>deviceid</parameter></term>
+                    <listitem><para>Specifies the device that should be
+                            grabbed or ungrabbed.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>grab_mode</parameter></term>
+                    <term><parameter>paired_device_mode</parameter></term>
+                    <listitem><para>The grab mode for this device and (if
+                            applicable) the paired device.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>grab_window</parameter></term>
+                    <listitem><para>The grab window.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>mask</parameter></term>
+                    <listitem><para>Event mask.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>owner_events</parameter></term>
+                    <listitem><para>True if events are to be reported
+                            normally.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><parameter>time</parameter></term>
+                    <listitem><para>A valid timestamp or CurrentTime.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            <function>XIGrabDevice</function> actively grabs control of the
+            device. Further device events are reported only to the grabbing
+            client. <constant>XIGrabDevice</constant> overrides any active
+            device grab by this client. if <parameter>deviceid</parameter>
+            is an attached slave device, the device is set floating until
+            the client calls <function>XIUngrabDevice</function>.
+        </para>
+        <para>
+            If <parameter>owner_events</parameter> is
+            <constant>False</constant>, all generated device events are
+            reported with respect to grab_window if selected. If
+            <parameter>owner_events</parameter> is <constant>True</constant>
+            and if a generated device event would normally be reported to
+            this client, it is reported normally; otherwise, the event is
+            reported with respect to the grab_window, and is only reported
+            if specified in the event <parameter>mask</parameter>.
+        </para>
+        <para>
+            If the <parameter>grab_mode</parameter> argument is
+            <constant>GrabModeAsync</constant>, device event processing
+            continues as usual. If the device is currently frozen by this
+            client, then processing of device events is resumed. If the
+            <parameter>grab_mode</parameter> argument is
+            <constant>GrabModeSync</constant>, the state of the device (as
+            seen by client applications) appears
+            to freeze, and the X server generates no further device events
+            until the grabbing client issues a releasing
+            <constant>XIAllowEvents</constant> call or until the device
+            grab is released. Actual device changes are not lost while the
+            device is frozen; they are simply queued in the server for later
+            processing.
+        </para>
+        <para>
+            If <parameter>paired_device_mode</parameter> is
+            <constant>GrabModeAsync</constant>, processing of events from
+            the paired master device is unaffected by
+            activation of the grab. If
+            <parameter>paired_device_mode</parameter> is
+            <constant>GrabModeSync</constant>, the state of the paired
+            master device (as seen by client applications) appears to
+            freeze, and the X server generates no further events from this
+            device until the grabbing client issues a releasing
+            <constant>XIAllowEvents</constant> call or until the device
+            grab is released. Actual events are not lost while the devices are
+            frozen; they are simply queued in the server for later processing.
+            If the device is a slave device
+            <parameter>paired_device_mode</parameter> is ignored.
+        </para>
+        <para>
+            If the device is actively grabbed by some other client,
+            <constant>XIGrabDevice</constant> fails and returns
+            <constant>AlreadyGrabbed</constant>. If
+            <parameter>grab_window</parameter> is not
+            viewable, it fails and returns
+            <constant>GrabNotViewable</constant>. If the device is frozen by
+            an active grab of another client, it fails and returns
+            <constant>GrabFrozen</constant>. If the specified time is earlier
+            than the last-device-grab time or later than the current X server
+            time, it fails and returns <constant>GrabInvalidTime</constant>.
+            Otherwise, the last-device-grab time is set to the specified
+            time. <constant>CurrentTime</constant> is replaced by the
+            current X server time.
+        </para>
+        <para>
+            If cursor is not <constant>None</constant> this cursor is
+            displayed until the client calls
+            <function>XIUngrabDevice</function>.
+        </para>
+        <para>
+            <constant>XIGrabDevice</constant> can generate
+            <constant>BadDevice</constant>, <constant>BadValue</constant>,
+            and <constant>BadWindow</constant> errors.
+        </para>
+        <para>
+            The <constant>XIUngrabDevice</constant> request releases the
+            device and any queued events if this client has it actively
+            grabbed from either <function>XIGrabDevice</function> or
+            <function>XIGrabKey</function> or
+            <function>XIGrabButton</function>. If other devices are frozen
+            by the grab, <function>XUngrabDevice</function> thaws
+            them. <function>XUngrabDevice</function> does not release the
+            device and any queued events if the specified time is earlier than
+            the last-device-grab time or is later than the current X server
+            time. The X server automatically performs an
+            <constant>XIUngrabDevice</constant> request if the event window
+            for an active device grab becomes not
+            viewable.
+        </para>
+        <para>
+            <constant>XIUngrabDevice</constant> can generate a
+            <constant>BadDevice</constant> error.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnosis</title>
+        <para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadValue</errorname></term>
+                    <listitem><para>A value is outside of the permitted range.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem>
+                        <para>
+                            An invalid device was specified. The device does
+                            not exist or is not a appropriate for the type of
+                            change.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadMatch</errorname></term>
+                    <listitem>
+                        <para>
+                            The window is not viewable.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not name a defined Window.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+</refentry>
+<refentry id="XIGrabButton.man">
+    <refentryinfo>
+        <productname>__vendorversion__</productname>
+    </refentryinfo>
+
+    <refmeta>
+        <refentrytitle>XIGrabButton, XIGrabKeysym</refentrytitle>
+        <manvolnum>__libmansuffix__</manvolnum>
+        <refmiscinfo class='source'>__xorgversion__</refmiscinfo>
+        <refmiscinfo class='manual'>XINPUT FUNCTIONS</refmiscinfo>
+    </refmeta>
+    <refnamediv>
+	<refname>XIGrabButton</refname>
+	<refname>XIUngrabButton</refname>
+	<refname>XIGrabKeysym</refname>
+	<refname>XIUngrabKeysym</refname>
+        <refpurpose>grab/ungrab buttons or keys</refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+        <title>Syntax</title>
+        <funcsynopsis>
+            <funcsynopsisinfo>#include &lt;X11/extensions/XInput.h&gt;</funcsynopsisinfo>
+            <funcprototype>
+                <funcdef>int <function>XIGrabButton</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>int <parameter>button</parameter></paramdef>
+                <paramdef>Window <parameter>grab_window</parameter></paramdef>
+                <paramdef>Cursor <parameter>cursor</parameter></paramdef>
+                <paramdef>int <parameter>grab_mode</parameter></paramdef>
+                <paramdef>int <parameter>paired_device_mode</parameter></paramdef>
+                <paramdef>Bool<parameter>owner_events</parameter></paramdef>
+                <paramdef>XIEventMask *<parameter>mask</parameter></paramdef>
+                <paramdef>int <parameter>num_modifiers</parameter></paramdef>
+                <paramdef>XIGrabModifiers *<parameter>modifiers_inout</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>int <function>XIUngrabButton</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>int <parameter>button</parameter></paramdef>
+                <paramdef>Window <parameter>grab_window</parameter></paramdef>
+                <paramdef>int <parameter>num_modifiers</parameter></paramdef>
+                <paramdef>XIGrabModifiers *<parameter>modifiers</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>int <function>XIGrabKeysym</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>int <parameter>keysym</parameter></paramdef>
+                <paramdef>Window <parameter>grab_window</parameter></paramdef>
+                <paramdef>Cursor <parameter>cursor</parameter></paramdef>
+                <paramdef>int <parameter>grab_mode</parameter></paramdef>
+                <paramdef>int <parameter>paired_device_mode</parameter></paramdef>
+                <paramdef>Bool<parameter>owner_events</parameter></paramdef>
+                <paramdef>XIEventMask *<parameter>mask</parameter></paramdef>
+                <paramdef>int <parameter>num_modifiers</parameter></paramdef>
+                <paramdef>XIGrabModifiers *<parameter>modifiers_inout</parameter></paramdef>
+            </funcprototype>
+            <funcprototype>
+                <funcdef>int <function>XIUngrabKeysym</function></funcdef>
+                <paramdef>Display *<parameter>display</parameter></paramdef>
+                <paramdef>int <parameter>deviceid</parameter></paramdef>
+                <paramdef>int <parameter>keysym</parameter></paramdef>
+                <paramdef>Window <parameter>grab_window</parameter></paramdef>
+                <paramdef>int <parameter>num_modifiers</parameter></paramdef>
+                <paramdef>XIGrabModifiers *<parameter>modifiers</parameter></paramdef>
+            </funcprototype>
+        </funcsynopsis>
+    </refsynopsisdiv>
+    <refsect1><title>Arguments</title>
+
+        <para>
+            <variablelist>
+                <varlistentry><term><parameter>display</parameter></term>
+                    <listitem><para>Specifies the connection to the X server.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>device</parameter></term>
+                    <listitem><para>Specifies the device that is to be
+                            grabbed or released</para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>button</parameter></term>
+                    <listitem><para>Specifies the device button that is to
+                            be grabbed or released or <constant>XIAnyButton</constant>.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>keysym</parameter></term>
+                    <listitem><para>Specifies the keysym that is to
+                            be grabbed or released or <constant>XIAnyKeysym</constant>.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>num_modifiers</parameter></term>
+                    <listitem><para>Number of elements in
+                            <parameter>modifiers</parameter> or
+                            <parameter>modifiers_return</parameter>
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>modifiers</parameter></term>
+                    <listitem><para>Specifies the set of latched and base
+                            modifiers or <constant>XIAnyModifier</constant>
+                            to ungrab. The data type is for consistency with
+                            the respective grab request and the status code
+                            of the XIGrabModifiers struct is ignored.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>modifiers_inout</parameter></term>
+                    <listitem><para>Specifies the set of latched and base
+                            modifiers or <constant>XIAnyModifier</constant>
+                            to grab. Returns the modifiers that could not be
+                            grabbed and their status code.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>grab_window</parameter></term>
+                    <listitem><para>Specifies the grab window.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>owner_events</parameter></term>
+                    <listitem><para>Specifies a Boolean value that indicates
+                            whether the are to be reported as
+                            usual or reported with respect to the grab
+                            window.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>mask</parameter></term>
+                    <listitem><para>Specifies the event mask.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>grab_mode</parameter></term>
+                    <listitem><para>Specifies further processing of events
+                            from this device. You can pass
+                            <constant>GrabModeSync</constant> or
+                            <constant>GrabModeAsync</constant>.
+                    </para></listitem>
+                </varlistentry>
+                <varlistentry><term><parameter>paired_device_mode</parameter></term>
+                    <listitem><para>Specifies further processing of events
+                            from the paired master device. You can pass
+                            <constant>GrabModeSync</constant> or
+                            <constant>GrabModeAsync</constant>.
+                            If <parameter>deviceid</parameter> specifies a
+                            floating slave device, this parameter is
+                            ignored.
+                    </para></listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>Description</title>
+        <para>
+            <function>XIGrabButton</function> and
+            <function>XIGrabKeysym</function> establishes a
+            passive grab. The modifier device for a button grab is the
+            paired master device if <parameter>deviceid</parameter>
+            specifies a master pointer. Otherwise, the modifier device is
+            the device specified with <parameter>deviceid</parameter>.
+            In the future, the device is actively grabbed (as
+            for <constant>XIGrabDevice</constant>, the last-grab time is set
+            to the time at which the button or keysym was pressed and the
+            <constant>X_XIButtonPress</constant> or
+            <constant>X_XIKeyPress</constant> event is reported if all
+            of the following conditions are true:
+
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        The device is not grabbed, and the specified button
+                        or keysym is logically pressed when the specified
+                        modifier keys are logically down on the modifier
+                        device and no other buttons or modifier keys are
+                        logically down.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Either the grab window is an ancestor of (or is) the
+                        focus window, OR the grab window is a descendent of the
+                        focus window and contains the device.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        A passive grab on the same button/modifier combination
+                        does not exist on any ancestor of grab_window.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>
+            The interpretation of the remaining arguments is as for
+            <constant>XIGrabDevice</constant>. The active grab is terminated
+            automatically when the logical state of the device has all
+            buttons or keys released (independent of the logical state of
+            the modifier keys).
+        </para>
+        <para>
+            Note that the logical state of a device (as seen by client
+            applications) may lag the physical state if device event
+            processing is frozen.
+        </para>
+        <para>
+            This request overrides all previous grabs by the same client on
+            the same button/modifier or keysym/modifier combinations on the
+            same window. A modifiers of <constant>XIAnyModifier</constant>
+            is equivalent to issuing the grab request for all possible
+            modifier combinations (including the combination of no
+            modifiers). It is not required that all modifiers specified have
+            currently assigned KeyCodes. A button of
+            <constant>XIAnyButton</constant>  is equivalent to
+            issuing the request for all possible buttons. Otherwise, it is not
+            required that the specified button currently be assigned to a
+            physical button.
+        </para>
+        <para>
+            If some other client has already issued a
+            <function>XIGrabButton</function>  or
+            <function>XIGrabKeysym</function> with the same
+            button/modifier or keysym/modifier combination on the same
+            window, a <constant>BadAccess</constant>  error results. When
+            using <constant>XIAnyModifier</constant>  or
+            <constant>XIAnyButton</constant> , the request fails completely, and
+            a  <constant>XIBadAccess</constant>  error results (no grabs are
+            established) if there is a conflicting grab for any combination.
+            <function>XIGrabButton</function> and
+            <function>XIGrabKeysym</function> have no effect on an active
+            grab.
+        </para>
+        <para>
+            <function>XIGrabButton</function> and
+            <function>XIGrabKeysym</function> can generate
+            <constant>BadClass</constant>, <constant>BadDevice</constant>,
+            <constant>BadMatch</constant>, <constant>BadValue</constant>, and
+            <constant>BadWindow</constant> errors. 
+        </para>
+        <para>
+            <function>XIUngrabButton</function> and
+            <function>XIUngrabKeysym</function> releases the
+            passive grab for a button/modifier or keysym/modifier
+            combination on the specified window if it was grabbed by this
+            client. A modifier of <constant>XIAnyModifier</constant>  is
+            equivalent to issuing the ungrab request for all possible
+            modifier combinations, including the combination of no
+            modifiers. A button of <constant>XIAnyButton</constant> is
+            equivalent to issuing the request for all possible buttons.
+            <function>XIUngrabButton</function> and
+            <function>XIUngrabKeysym</function> have no effect on an
+            active grab.
+        </para>
+        <para>
+            <function>XIUngrabButton</function>  and
+            <function>XIUngrabKeysym</function> can generate
+            <constant>BadDevice</constant>,  <constant>BadMatch</constant>,
+            <constant>BadValue</constant>  and  <constant>BadWindow</constant>
+            errors.
+        </para>
+    </refsect1>
+
+    <refsect1><title>Diagnostics</title><para>
+            <variablelist>
+                <varlistentry>
+                    <term><errorname>BadDevice</errorname></term>
+                    <listitem><para>An invalid deviceid was specified.</para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadMatch</errorname></term>
+                    <listitem><para>This error may occur if 
+                            <function>XIGrabButton</function> 
+                            specified a device that has no
+                            buttons, or <function>XIGrabKeysym</function>
+                            specified a device that has no keys.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadValue</errorname></term>
+                    <listitem><para>Some numeric value falls outside the range
+                            of values accepted by the request. Unless a
+                            specific range is specified for an argument, the
+                            full range defined by the argument's type is
+                            accepted.  Any argument defined as a set of
+                            alternatives can generate this error.
+                        </para>
+                    </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term><errorname>BadWindow</errorname></term>
+                    <listitem><para>A value for a Window argument does not name a defined Window.
+                        </para>
+                    </listitem>
+                </varlistentry>
+            </variablelist>
+        </para>
+    </refsect1>
+
+    <refsect1><title>See also</title>
+        <para>XIAllowEvents(3), XIGrabDevice(3)</para>
     </refsect1>
 </refentry>
 </reference>

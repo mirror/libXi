@@ -30,6 +30,26 @@ LIB_MAN_DIR_SUFFIX = $(LIB_MAN_DIR:@mandir@/man%=%)
 
 libman_xml = XI.xml
 
+XI2_manpages= \
+	      XIQueryPointer.man \
+	      XIWarpPointer.man \
+	      XIDefineCursor.man \
+	      XIUndefineCursor.man \
+	      XIChangeHierarchy.man \
+	      XISelectEvents.man \
+	      XISetClientPointer.man \
+	      XIGetClientPointer.man \
+	      XIQueryVersion.man \
+	      XISetFocus.man \
+	      XIGetFocus.man \
+	      XIGrabDevice.man \
+	      XIGrabButton.man \
+	      XIGrabKeysym.man \
+	      XIUngrabDevice.man \
+	      XIUngrabButton.man \
+	      XIUngrabKeysym.man
+
+
 libman_PRE = \
 	      XAllowDeviceEvents.man \
 	      XChangeKeyboardDevice.man \
@@ -41,10 +61,6 @@ libman_PRE = \
 	      XSetDeviceValuators.man \
 	      XChangeDeviceDontPropagateList.man \
 	      XGetDeviceDontPropagateList.man \
-	      XChangeDeviceHierarchy.man \
-	      XDefineDeviceCursor.man \
-	      XUndefineDeviceCursor.man \
-	      XExtendedGrabDevice.man \
 	      XGetDeviceControl.man \
 	      XChangeDeviceControl.man \
 	      XGetDeviceKeyMapping.man \
@@ -61,27 +77,22 @@ libman_PRE = \
 	      XUngrabDeviceKey.man \
 	      XGrabDevice.man \
 	      XUngrabDevice.man \
-	      XiSelectEvent.man \
 	      XListInputDevices.man \
 	      XFreeDeviceList.man \
 	      XOpenDevice.man \
 	      XCloseDevice.man \
-	      XQueryDevicePointer.man \
-	      XQueryInputVersion.man \
 	      XGetExtensionVersion.man \
 	      XSelectExtensionEvent.man \
 	      XGetSelectedExtensionEvents.man \
-	      XSetClientPointer.man \
-	      XGetClientPointer.man \
 	      XSetDeviceButtonMapping.man \
 	      XGetDeviceButtonMapping.man \
 	      XSetDeviceFocus.man \
 	      XGetDeviceFocus.man \
-	      XWarpDevicePointer.man \
 	      XListDeviceProperties.man \
 	      XGetDeviceProperty.man \
 	      XChangeDeviceProperty.man \
-	      XDeleteDeviceProperty.man
+	      XDeleteDeviceProperty.man \
+	      $(XI2_manpages)
 
 EXTRA_DIST = $(libman_PRE) $(libman_xml) xi.stamp
 
