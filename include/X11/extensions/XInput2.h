@@ -116,6 +116,12 @@ typedef struct
     XIAnyClassInfo      **classes;
 } XIDeviceInfo;
 
+typedef struct
+{
+    int                 modifiers;
+    int                 status;
+} XIGrabModifiers;
+
 /**
  * Generic XI2 event. All XI2 events have the same header.
  * Note: this event is padded to be the same size as libX11's XEvent.
@@ -405,7 +411,7 @@ extern int XIGrabButton(
     int                 owner_events,
     XIEventMask         *mask,
     int                 num_modifiers,
-    int                 *modifiers_inout
+    XIGrabModifiers     *modifiers_inout
 );
 
 extern int XIGrabKeysym(
@@ -418,7 +424,7 @@ extern int XIGrabKeysym(
     int                 owner_events,
     XIEventMask         *mask,
     int                 num_modifiers,
-    int                 *modifiers_inout
+    XIGrabModifiers     *modifiers_inout
 );
 
 extern Status XIUngrabButton(
@@ -427,7 +433,7 @@ extern Status XIUngrabButton(
     int                 button,
     Window              grab_window,
     int                 num_modifiers,
-    int                 *modifiers
+    XIGrabModifiers     *modifiers
 );
 
 extern Status XIUngrabKeysym(
@@ -436,7 +442,7 @@ extern Status XIUngrabKeysym(
     int                 keysym,
     Window              grab_window,
     int                 num_modifiers,
-    int                 *modifiers
+    XIGrabModifiers     *modifiers
 );
 
 extern Atom *XIListProperties(

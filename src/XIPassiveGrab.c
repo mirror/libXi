@@ -34,11 +34,12 @@ _XIPassiveGrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
                      Window grab_window, Cursor cursor,
                      int grab_mode, int paired_device_mode,
                      Bool owner_events, XIEventMask *mask,
-                     int num_modifiers, int *modifiers_inout)
+                     int num_modifiers, XIGrabModifiers *modifiers_inout)
 {
     xXIPassiveGrabDeviceReq *req;
     xXIPassiveGrabDeviceReply reply;
-    int len = 0;
+    xXIGrabModifierInfo *failed_mods;
+    int len = 0, i;
     char *buff;
 
     XExtDisplayInfo *extinfo = XInput_find_display(dpy);
@@ -67,7 +68,8 @@ _XIPassiveGrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
     buff = calloc(4, req->mask_len);
     memcpy(buff, mask->mask, mask->mask_len);
     Data32(dpy, buff, req->mask_len * 4);
-    Data32(dpy, modifiers_inout, (num_modifiers * 4));
+    for (i = 0; i < num_modifiers; i++)
+        Data32(dpy, modifiers_inout[i].modifiers, 4);
 
     free(buff);
 
@@ -78,7 +80,17 @@ _XIPassiveGrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
 	return -1;
     }
 
-    _XRead(dpy, (char*)modifiers_inout, reply.num_modifiers * 4);
+    failed_mods = calloc(reply.num_modifiers, sizeof(xXIGrabModifierInfo));
+    if (!failed_mods)
+        return -1;
+    _XRead(dpy, (char*)failed_mods, reply.num_modifiers * sizeof(xXIGrabModifierInfo));
+
+    for (i = 0; i < reply.num_modifiers; i++)
+    {
+        modifiers_inout[i].status = failed_mods[i].status;
+        modifiers_inout[i].modifiers = failed_mods[i].modifiers;
+    }
+    free(failed_mods);
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -90,7 +102,7 @@ XIGrabButton(Display* dpy, int deviceid, int button,
              Window grab_window, Cursor cursor,
              int grab_mode, int paired_device_mode,
              Bool owner_events, XIEventMask *mask,
-             int num_modifiers, int *modifiers_inout)
+             int num_modifiers, XIGrabModifiers *modifiers_inout)
 {
     return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeButton, button,
                                 grab_window, cursor, grab_mode,
@@ -102,7 +114,7 @@ int
 XIGrabKeysym(Display* dpy, int deviceid, int keysym,
              Window grab_window, int grab_mode, int paired_device_mode,
              Bool owner_events, XIEventMask *mask,
-             int num_modifiers, int *modifiers_inout)
+             int num_modifiers, XIGrabModifiers *modifiers_inout)
 {
     return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeKeysym, keysym,
                                 grab_window, None, grab_mode, paired_device_mode,
@@ -112,9 +124,10 @@ XIGrabKeysym(Display* dpy, int deviceid, int keysym,
 
 static int
 _XIPassiveUngrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
-                       Window grab_window, int num_modifiers, int *modifiers)
+                       Window grab_window, int num_modifiers, XIGrabModifiers *modifiers)
 {
     xXIPassiveUngrabDeviceReq *req;
+    int i;
 
     XExtDisplayInfo *extinfo = XInput_find_display(dpy);
 
@@ -132,7 +145,8 @@ _XIPassiveUngrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
     req->grab_type = grabtype;
 
     SetReqLen(req, num_modifiers, num_modifiers);
-    Data32(dpy, modifiers, (num_modifiers * 4));
+    for (i = 0; i < num_modifiers; i++)
+        Data32(dpy, modifiers[i].modifiers, 4);
 
     UnlockDisplay(dpy);
     SyncHandle();
@@ -141,7 +155,7 @@ _XIPassiveUngrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
 
 int
 XIUngrabButton(Display* display, int deviceid, int button,Window grab_window,
-               int num_modifiers, int *modifiers)
+               int num_modifiers, XIGrabModifiers *modifiers)
 {
     return _XIPassiveUngrabDevice(display, deviceid, XIGrabtypeButton, button,
                                   grab_window, num_modifiers, modifiers);
@@ -149,7 +163,7 @@ XIUngrabButton(Display* display, int deviceid, int button,Window grab_window,
 
 int
 XIUngrabKeysym(Display* display, int deviceid, int keysym, Window grab_window,
-               int num_modifiers, int *modifiers)
+               int num_modifiers, XIGrabModifiers *modifiers)
 {
     return _XIPassiveUngrabDevice(display, deviceid, XIGrabtypeKeysym, keysym,
                                   grab_window, num_modifiers, modifiers);
