@@ -30,14 +30,14 @@
 #include "XIint.h"
 
 Status
-XIQueryVersion(Display *dpy, int *major_return, int *minor_return)
+XIQueryVersion(Display *dpy, int *major_inout, int *minor_inout)
 {
     int rc = Success;
 
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
-    rc = _xiQueryVersion(dpy, major_return, minor_return, info);
+    rc = _xiQueryVersion(dpy, major_inout, minor_inout, info);
 
     UnlockDisplay(dpy);
     SyncHandle();

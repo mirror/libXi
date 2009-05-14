@@ -345,8 +345,8 @@ extern int      XISelectEvents(
 
 extern Status XIQueryVersion(
      Display*           dpy,
-     int*               major_version_return,
-     int*               minor_version_return
+     int*               major_version_inout,
+     int*               minor_version_inout
 );
 
 extern XIDeviceInfo* XIQueryDevice(
