@@ -340,7 +340,7 @@ extern int      XISelectEvents(
      Display*            dpy,
      Window              win,
      XIEventMask         *masks,
-     int                 nmasks
+     int                 num_masks
 );
 
 extern Status XIQueryVersion(
