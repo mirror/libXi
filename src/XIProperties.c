@@ -68,7 +68,7 @@ XIListProperties(Display* dpy, int deviceid, int *num_props_return)
             goto cleanup;
         }
 
-        _XRead32(dpy, props, rep.num_properties << 2);
+        _XRead32(dpy, (long*)props, rep.num_properties << 2);
     }
 
     *num_props_return = rep.num_properties;
@@ -197,35 +197,7 @@ XIGetProperty(Display* dpy, int deviceid, Atom property, long offset,
     *data = NULL;
 
     if (rep.type != None) {
-	/*
-	 * One extra byte is malloced than is needed to contain the property
-	 * data, but this last byte is null terminated and convenient for
-	 * returning string properties, so the client doesn't then have to
-	 * recopy the string to make it null terminated.
-	 */
-	switch (rep.format) {
-	case 8:
-	    nbytes = rep.num_items;
-	    rbytes = rep.num_items + 1;
-	    if (rbytes > 0 && (*data = Xmalloc(rbytes)))
-		_XReadPad (dpy, (char *) *data, nbytes);
-	    break;
-
-	case 16:
-	    nbytes = rep.num_items << 1;
-	    rbytes = rep.num_items * sizeof(uint16_t) + 1;
-	    if (rbytes > 0 && (*data = Xmalloc(rbytes)))
-		_XRead16Pad (dpy, (uint16_t*) *data, nbytes);
-	    break;
-
-	case 32:
-	    nbytes = rep.num_items << 2;
-	    rbytes = rep.num_items * sizeof(uint32_t) + 1;
-	    if (rbytes > 0 && (*data = Xmalloc(rbytes)))
-		_XRead32 (dpy, (uint32_t*) *data, nbytes);
-	    break;
-
-	default:
+        if (rep.format != 8 && rep.format != 16 && rep.format != 32) {
 	    /*
 	     * This part of the code should never be reached.  If it is,
 	     * the server sent back a property with an invalid format.
@@ -235,13 +207,27 @@ XIGetProperty(Display* dpy, int deviceid, Atom property, long offset,
 	    UnlockDisplay(dpy);
 	    SyncHandle();
 	    return(BadImplementation);
-	}
+        }
+
+	/*
+	 * One extra byte is malloced than is needed to contain the property
+	 * data, but this last byte is null terminated and convenient for
+	 * returning string properties, so the client doesn't then have to
+	 * recopy the string to make it null terminated.
+	 */
+
+        nbytes = rep.num_items * rep.format/8;
+        rbytes = nbytes + 1;
+        *data = Xmalloc(rbytes);
+
 	if (!(*data)) {
 	    _XEatData(dpy, nbytes);
 	    UnlockDisplay(dpy);
 	    SyncHandle();
 	    return(BadAlloc);
 	}
+
+        _XReadPad (dpy, (char *)*data, nbytes);
 	(*data)[rbytes - 1] = '\0';
     }
 
