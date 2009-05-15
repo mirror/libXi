@@ -1,15 +1,15 @@
 #
 # Copyright 2005 Sun Microsystems, Inc.  All rights reserved.
-# 
+#
 # Permission to use, copy, modify, distribute, and sell this software and its
 # documentation for any purpose is hereby granted without fee, provided that
 # the above copyright notice appear in all copies and that both that
 # copyright notice and this permission notice appear in supporting
 # documentation.
-# 
+#
 # The above copyright notice and this permission notice shall be included
 # in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 # OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -17,97 +17,120 @@
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-# 
+#
 # Except as contained in this notice, the name of the copyright holders shall
 # not be used in advertising or otherwise to promote the sale, use or
 # other dealings in this Software without prior written authorization
 # from the copyright holders.
-# 
+#
 
 libmandir = $(LIB_MAN_DIR)
 
 LIB_MAN_DIR_SUFFIX = $(LIB_MAN_DIR:@mandir@/man%=%)
 
-libman_xml = XI.xml
+XI2_manpages = \
+	XIChangeHierarchy.txt \
+	XIDefineCursor.txt \
+	XIGrabButton.txt \
+	XIGrabDevice.txt \
+	XIQueryPointer.txt \
+	XIQueryVersion.txt \
+	XISelectEvents.txt \
+	XISetClientPointer.txt \
+	XISetFocus.txt \
+	XIWarpPointer.txt
 
-XI2_manpages= \
-	      XIQueryPointer.man \
-	      XIWarpPointer.man \
-	      XIDefineCursor.man \
-	      XIUndefineCursor.man \
-	      XIChangeHierarchy.man \
-	      XISelectEvents.man \
-	      XISetClientPointer.man \
-	      XIGetClientPointer.man \
-	      XIQueryVersion.man \
-	      XISetFocus.man \
-	      XIGetFocus.man \
-	      XIGrabDevice.man \
-	      XIGrabButton.man \
-	      XIGrabKeysym.man \
-	      XIUngrabDevice.man \
-	      XIUngrabButton.man \
-	      XIUngrabKeysym.man
+libman_txt = \
+	XAllowDeviceEvents.txt \
+	XChangeDeviceDontPropagateList.txt \
+	XChangeKeyboardDevice.txt \
+	XChangePointerDevice.txt \
+	XDeviceBell.txt \
+	XGetDeviceControl.txt \
+	XGetDeviceKeyMapping.txt \
+	XGetDeviceModifierMapping.txt \
+	XGetDeviceMotionEvents.txt \
+	XGetExtensionVersion.txt \
+	XGetFeedbackControl.txt \
+	XGrabDeviceButton.txt \
+	XGrabDeviceKey.txt \
+	XGrabDevice.txt \
+	XListDeviceProperties.txt \
+	XListInputDevices.txt \
+	XOpenDevice.txt \
+	XQueryDeviceState.txt \
+	XSelectExtensionEvent.txt \
+	XSendExtensionEvent.txt \
+	XSetDeviceButtonMapping.txt \
+	XSetDeviceFocus.txt \
+	XSetDeviceMode.txt \
+	XSetDeviceValuators.txt \
+        $(XI2_manpages)
+
+libman_xml = $(libman_txt:.txt=.xml)
+# manpages that are references to another page. These are produced as a
+# side effect of the xmlto rule, so they need to be handled specially.
+
+XI2_refpages = \
+	XIUndefineCursor.man \
+	XIUngrabButton.man \
+	XIGrabKeysym.man \
+	XIUngrabKeysym.man \
+	XIUngrabDevice.man  \
+	XIGetClientPointer.man \
+	XIGetFocus.man
+
+libman_ref = \
+	XGetDeviceDontPropagateList.man \
+	XChangeDeviceControl.man \
+	XChangeDeviceKeyMapping.man \
+	XSetDeviceModifierMapping.man \
+	XChangeFeedbackControl.man \
+	XUngrabDeviceButton.man \
+	XUngrabDeviceKey.man \
+	XUngrabDevice.man \
+	XDeviceTimeCoord.man \
+	XFreeDeviceList.man \
+	XCloseDevice.man \
+	XGetSelectedExtensionEvents.man \
+	XGetDeviceButtonMapping.man \
+	XGetDeviceFocus.man \
+        $(XI2_refpages)
 
 
-libman_PRE = \
-	      XAllowDeviceEvents.man \
-	      XChangeKeyboardDevice.man \
-	      XChangePointerDevice.man \
-	      XDeviceBell.man \
-	      XQueryDeviceState.man \
-	      XSendExtensionEvent.man \
-	      XSetDeviceMode.man \
-	      XSetDeviceValuators.man \
-	      XChangeDeviceDontPropagateList.man \
-	      XGetDeviceDontPropagateList.man \
-	      XGetDeviceControl.man \
-	      XChangeDeviceControl.man \
-	      XGetDeviceKeyMapping.man \
-	      XChangeDeviceKeyMapping.man \
-	      XGetDeviceModifierMapping.man \
-	      XSetDeviceModifierMapping.man \
-	      XGetDeviceMotionEvents.man \
-	      XDeviceTimeCoord.man \
-	      XGetFeedbackControl.man \
-	      XChangeFeedbackControl.man \
-	      XGrabDeviceButton.man \
-	      XUngrabDeviceButton.man \
-	      XGrabDeviceKey.man \
-	      XUngrabDeviceKey.man \
-	      XGrabDevice.man \
-	      XUngrabDevice.man \
-	      XListInputDevices.man \
-	      XFreeDeviceList.man \
-	      XOpenDevice.man \
-	      XCloseDevice.man \
-	      XGetExtensionVersion.man \
-	      XSelectExtensionEvent.man \
-	      XGetSelectedExtensionEvents.man \
-	      XSetDeviceButtonMapping.man \
-	      XGetDeviceButtonMapping.man \
-	      XSetDeviceFocus.man \
-	      XGetDeviceFocus.man \
-	      XListDeviceProperties.man \
-	      XGetDeviceProperty.man \
-	      XChangeDeviceProperty.man \
-	      XDeleteDeviceProperty.man \
-	      $(XI2_manpages)
+libman_pre = $(libman_txt:.txt=.man) $(libman_ref)
 
-EXTRA_DIST = $(libman_PRE) $(libman_xml) xi.stamp
+nodist_libman_DATA = $(libman_pre:.man=.$(LIB_MAN_DIR_SUFFIX))
 
-CLEANFILES = $(libman_DATA) $(BUILT_SOURCES)
+EXTRA_DIST = $(libman_txt) $(libman_pre)
+CLEANFILES = $(nodist_libman_DATA) *.libmansuffix
+MAINTAINERCLEANFILES = $(libman_pre) *.xml
 
-MAINTAINERCLEANFILES = $(libman_PRE)
+# prerequisites for the side effect pages
+XGetDeviceDontPropagateList.man: XChangeDeviceDontPropagateList.man
+XChangeDeviceControl.man: XGetDeviceControl.man
+XChangeDeviceKeyMapping.man: XGetDeviceKeyMapping.man
+XSetDeviceModifierMapping.man: XGetDeviceModifierMapping.man
+XDeviceTimeCoord: XGetDeviceMotionEvents.man
+XChangeFeedbackControl.man: XGetFeedbackControl.man
+XUngrabDeviceButton.man: XGrabDeviceButton.man
+XUngrabDeviceKey.man: XGrabDeviceKey.man
+XUngrabDevice.man: XGrabDevice.man
+XFreeDeviceList.man: XListInputDevices.man
+XCloseDevice.man: XOpenDevice.man
+XGetSelectedExtensionEvents.man: XSelectExtensionEvent.man
+XGetDeviceButtonMapping.man: XSetDeviceButtonMapping.man
+XGetDeviceFocus.man: XSetDeviceFocus.man
 
-if HAVE_XMLTO
-libman_DATA = $(libman_PRE:man=@LIB_MAN_SUFFIX@)
-endif
-
-SED = sed
+# XI2 prereqs
+XIUndefineCursor: XIDefineCursor.man
+XIUngrabButton.man XIGrabKeysym.man XIUngrabKeysym.man: XIGrabButton.man
+XIGetClientPointer.man: XISetClientPointer.man
+XIGetFocus.man: XISetFocus.man
+XIUngrabDevice.man: XIGrabDevice.man
 
 # Strings to replace in man pages
-XORGRELSTRING = @PACKAGE_STRING@
+XORGRELSTRING = $(PACKAGE_STRING)
   XORGMANNAME = X Version 11
 
 MAN_SUBSTS = \
@@ -115,33 +138,26 @@ MAN_SUBSTS = \
 	-e 's/__xservername__/Xorg/g' \
 	-e 's/__xconfigfile__/xorg.conf/g' \
 	-e 's/__appmansuffix__/$(APP_MAN_SUFFIX)/g' \
-	-e 's/__libmansuffix__/$(LIB_MAN_SUFFIX)/g' \
+	-e 's/libmansuffix/$(LIB_MAN_SUFFIX)/g' \
 	-e 's/__filemansuffix__/$(FILE_MAN_SUFFIX)/g'
 
-SUFFIXES = .$(LIB_MAN_SUFFIX) .man
-
+SUFFIXES = .man .$(LIB_MAN_SUFFIX)
 .man.$(LIB_MAN_SUFFIX):
-	sed $(MAN_SUBSTS) < $< > $@
+	$(SED) $(MAN_SUBSTS) < $< > $@
 
-# This is ugly, but handling of tools with multiple outputs in make is a
-# huge PITA. The commands below are taken from the automake manual:
-# http://www.gnu.org/software/automake/manual/automake.html#Multiple-Outputs
-if HAVE_XMLTO
-xi.stamp: $(libman_xml)
-	@rm -f xi.tmp
-	@touch xi.tmp
-	$(XMLTO) man $^
-	@for man in $(libman_PRE); do \
-	  out=`echo $$man | sed 's/\.man/.__libmansuffix__/'`; \
-	  echo mv -f $$out $$man; \
-	  mv -f $$out $$man || exit 1; \
-	done
-	@mv -f xi.tmp $@
-$(libman_PRE): xi.stamp
-	@if test -f $@; then :; else \
+if HAVE_DOCTOOLS
+SUFFIXES += .txt .xml
+.txt.xml:
+	$(ASCIIDOC) -b docbook -d manpage -o $@ $<
+.xml.man:
+	$(XMLTO) man $<
+	mv -f $(@:.man=.libmansuffix) $@
+
+# need to force asciidoc/xmlto to run if necessary for side effect pages
+$(libman_ref):
+	@if test ! -f $(@:.man=.libmansuffix); then \
 	  rm -f $<; \
-	  $(MAKE) $(AM_MAKEFLAGS) $<; \
+	  $(MAKE) $(AM_MAKEFLAGS) $< || exit 1; \
 	fi
-CLEANFILES += xi.tmp
-MAINTAINERCLEANFILES += xi.stamp
-endif # HAVE_XMLTO
+	mv -f $(@:.man=.libmansuffix) $@
+endif

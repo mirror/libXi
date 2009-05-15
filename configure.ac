@@ -24,13 +24,23 @@ XI_CFLAGS="$CWARNFLAGS $XI_CFLAGS"
 AC_SUBST(XI_CFLAGS)
 AC_SUBST(XI_LIBS)
 
-# Check for xmlto for man page conversion 
+# Check for xmlto and asciidoc for man page conversion
 # (only needed by people building tarballs)
 AC_ARG_VAR([XMLTO], [Path to xmlto command])
 AC_PATH_PROG([XMLTO], [xmlto])
-AM_CONDITIONAL([HAVE_XMLTO], [test "x$XMLTO" != "x"])
-if test "x$XMLTO" = "x"; then
-	AC_MSG_WARN([xmlto not found - cannot create man pages without it])
+AC_ARG_VAR([ASCIIDOC], [Path to asciidoc command])
+AC_PATH_PROG([ASCIIDOC], [asciidoc])
+AM_CONDITIONAL([HAVE_DOCTOOLS], [test "x$XMLTO" != "x" && test "x$ASCIIDOC" != "x"])
+if test "x$XMLTO" = "x" || test "x$ASCIIDOC" = "x"; then
+	AC_MSG_WARN([xmlto or asciidoc not found - cannot create man pages without it])
+else
+        AC_MSG_WARN([
+                     *********************************************************
+                     xmlto and asciidoc found. I will be building man
+                     pages. Your asciidoc may not support multiple docbook 
+                     targets and building the man pages may fail. See
+                     http://hg.sharesource.org/asciidoc/raw-rev/fc5a653a30a3
+                     *********************************************************])
 fi
 
 XORG_CHECK_MALLOC_ZERO
