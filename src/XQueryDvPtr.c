@@ -69,11 +69,13 @@ XIQueryPointer(Display     *dpy,
     req->deviceid = deviceid;
     req->win = w;
 
-    if (!_XReply(dpy, (xReply *) & rep, 0, xFalse)) {
+    if (!_XReply(dpy, (xReply *)&rep,
+                 (sizeof(xXIQueryPointerReply) - sizeof(xReply))/4, xFalse)) {
 	UnlockDisplay(dpy);
 	SyncHandle();
 	return False;
     }
+
 
     *root = rep.root;
     *child = rep.child;
@@ -92,7 +94,7 @@ XIQueryPointer(Display     *dpy,
     buttons->mask_len   = rep.buttons_len * 4;
     buttons->mask       = malloc(buttons->mask_len);
     if (buttons->mask)
-        memcpy(buttons->mask, (char*)(&rep + 1), buttons->mask_len);
+        _XRead(dpy, (char*)buttons->mask, buttons->mask_len);
 
     UnlockDisplay(dpy);
     SyncHandle();
