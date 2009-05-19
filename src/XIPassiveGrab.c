@@ -69,7 +69,7 @@ _XIPassiveGrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
     memcpy(buff, mask->mask, mask->mask_len);
     Data32(dpy, buff, req->mask_len * 4);
     for (i = 0; i < num_modifiers; i++)
-        Data32(dpy, modifiers_inout[i].modifiers, 4);
+        Data32(dpy, &modifiers_inout[i].modifiers, 4);
 
     free(buff);
 
