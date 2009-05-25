@@ -4,7 +4,7 @@ XISELECTEVENTS(libmansuffix)
 NAME
 ----
 
-   XISelectEvents - select for XI2 events on the window.
+   XISelectEvents, XIGetSelectedEvents - select for or get selected XI2 events on the window.
 
 SYNOPSIS
 --------
@@ -24,6 +24,19 @@ SYNOPSIS
 
    num_masks
           Number of masks in masks.
+
+   win
+          Specifies the window.
+
+   XIEventMask *XIGetSelectedEvents( Display *display,
+                                     Window win,
+                                     int *num_masks_return);
+ 
+   display
+          Specifies the connection to the X server.
+
+   num_masks_return
+          Number of masks in the return value.
 
    win
           Specifies the window.
@@ -59,6 +72,16 @@ DESCRIPTION
 
    XISelectEvents can generate a BadValue, a BadDevice, and a
    BadWindow error.
+
+   XIGetSelectedEvents returns the events selected by this client on the given
+   window. If no events were selected on this window, XIGetSelectedEvents
+   returns NULL and num_masks_return is set to 0. If an internal error occurs,
+   XIGetSelectedEvents returns NULL and num_masks_return is set to -1.
+   Otherwise, XIGetSelectedEvent returns the selected event masks for all
+   devices including the masks for XIAllDevices and XIAllMasterDevices
+
+   The caller must free the returned data using XFree().
+
 
 DIAGNOSTICS
 -----------

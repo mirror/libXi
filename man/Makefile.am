@@ -78,7 +78,8 @@ XI2_refpages = \
 	XIUngrabKeysym.man \
 	XIUngrabDevice.man  \
 	XIGetClientPointer.man \
-	XIGetFocus.man
+	XIGetFocus.man \
+	XIGetSelectedEvents.man
 
 libman_ref = \
 	XGetDeviceDontPropagateList.man \

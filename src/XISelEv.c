@@ -91,3 +91,85 @@ XISelectEvents(Display* dpy, Window win, XIEventMask* masks, int num_masks)
     return Success;
 
 }
+
+XIEventMask*
+XIGetSelectedEvents(Display* dpy, Window win, int *num_masks_return)
+{
+    int i, len = 0;
+    unsigned char *mask;
+    XIEventMask *mask_out = NULL;
+    xXIEventMask *mask_in = NULL, *mi;
+    xXIGetSelectedEventsReq *req;
+    xXIGetSelectedEventsReply reply;
+
+    XExtDisplayInfo *info = XInput_find_display(dpy);
+    LockDisplay(dpy);
+    if (_XiCheckExtInit(dpy, XI_2_Major, info) == -1)
+    {
+        *num_masks_return = -1;
+	return NULL;
+    }
+
+    GetReq(XIGetSelectedEvents, req);
+
+    req->reqType = info->codes->major_opcode;
+    req->ReqType = X_XIGetSelectedEvents;
+    req->window = win;
+
+    if (!_XReply(dpy, (xReply *) &reply, 0, xFalse))
+        goto error;
+
+    if (reply.num_masks == 0)
+    {
+        *num_masks_return = 0;
+        return NULL;
+    }
+
+    mask_in = Xmalloc(reply.length * 4);
+    if (!mask_in)
+        goto error;
+
+    _XRead(dpy, (char*)mask_in, reply.length * 4);
+
+    /* Memory layout of the XIEventMask for a 3 mask reply:
+     * [struct a][struct b][struct c][masks a][masks b][masks c]
+     */
+    len = reply.num_masks * sizeof(XIEventMask);
+
+    for (i = 0, mi = mask_in; i < reply.num_masks; i++)
+    {
+        len += mi->mask_len * 4;
+        mi = (xXIEventMask*)((char*)mi + mi->mask_len * 4);
+        mi++;
+    }
+
+    mask_out = Xmalloc(len);
+    if (!mask_out)
+        goto error;
+
+    mi = mask_in;
+    mask = (unsigned char*)&mask_out[reply.num_masks];
+    for (i = 0; i < reply.num_masks; i++)
+    {
+        mask_out[i].deviceid = mi->deviceid;
+        mask_out[i].mask_len = mi->mask_len * 4;
+        mask_out[i].mask = mask;
+        memcpy(mask_out[i].mask, &mi[1], mask_out[i].mask_len);
+        mask += mask_out[i].mask_len;
+        mi = (xXIEventMask*)((char*)mi + mi->mask_len * 4);
+        mi++;
+    }
+
+    *num_masks_return = reply.num_masks;
+
+    return mask_out;
+
+error:
+    if (mask_in)
+        Xfree(mask_in);
+    *num_masks_return = -1;
+    UnlockDisplay(dpy);
+    SyncHandle();
+    return NULL;
+
+}

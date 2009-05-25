@@ -351,6 +351,12 @@ extern int      XISelectEvents(
      int                 num_masks
 );
 
+extern XIEventMask *XIGetSelectedEvents(
+     Display*            dpy,
+     Window              win,
+     int                 *num_masks_return
+);
+
 extern Status XIQueryVersion(
      Display*           dpy,
      int*               major_version_inout,
