@@ -122,6 +122,29 @@ XIGrabKeysym(Display* dpy, int deviceid, int keysym,
                                 modifiers_inout);
 }
 
+int
+XIGrabEnter(Display *dpy, int deviceid, Window grab_window, Cursor cursor,
+            int grab_mode, int paired_device_mode, Bool owner_events,
+            XIEventMask *mask, int num_modifiers,
+            XIGrabModifiers *modifiers_inout)
+{
+    return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeEnter, 0,
+                                grab_window, cursor, grab_mode, paired_device_mode,
+                                owner_events, mask, num_modifiers,
+                                modifiers_inout);
+}
+
+int
+XIGrabFocusIn(Display *dpy, int deviceid, Window grab_window, int grab_mode,
+            int paired_device_mode, Bool owner_events, XIEventMask *mask,
+            int num_modifiers, XIGrabModifiers *modifiers_inout)
+{
+    return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeFocusIn, 0,
+                                grab_window, None, grab_mode, paired_device_mode,
+                                owner_events, mask, num_modifiers,
+                                modifiers_inout);
+}
+
 static int
 _XIPassiveUngrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
                        Window grab_window, int num_modifiers, XIGrabModifiers *modifiers)
@@ -170,3 +193,18 @@ XIUngrabKeysym(Display* display, int deviceid, int keysym, Window grab_window,
 }
 
 
+int
+XIUngrabEnter(Display* display, int deviceid, Window grab_window,
+               int num_modifiers, XIGrabModifiers *modifiers)
+{
+    return _XIPassiveUngrabDevice(display, deviceid, XIGrabtypeEnter, 0,
+                                  grab_window, num_modifiers, modifiers);
+}
+
+int
+XIUngrabFocusIn(Display* display, int deviceid, Window grab_window,
+               int num_modifiers, XIGrabModifiers *modifiers)
+{
+    return _XIPassiveUngrabDevice(display, deviceid, XIGrabtypeFocusIn, 0,
+                                  grab_window, num_modifiers, modifiers);
+}

@@ -433,6 +433,30 @@ extern int XIGrabKeysym(
     XIGrabModifiers     *modifiers_inout
 );
 
+extern int XIGrabEnter(
+    Display*            display,
+    int                 deviceid,
+    Window              grab_window,
+    Cursor              cursor,
+    int                 grab_mode,
+    int                 paired_device_mode,
+    int                 owner_events,
+    XIEventMask         *mask,
+    int                 num_modifiers,
+    XIGrabModifiers     *modifiers_inout
+);
+
+extern int XIGrabFocusIn(
+    Display*            display,
+    int                 deviceid,
+    Window              grab_window,
+    int                 grab_mode,
+    int                 paired_device_mode,
+    int                 owner_events,
+    XIEventMask         *mask,
+    int                 num_modifiers,
+    XIGrabModifiers     *modifiers_inout
+);
 extern Status XIUngrabButton(
     Display*            display,
     int                 deviceid,
@@ -450,6 +474,23 @@ extern Status XIUngrabKeysym(
     int                 num_modifiers,
     XIGrabModifiers     *modifiers
 );
+
+extern Status XIUngrabEnter(
+    Display*            display,
+    int                 deviceid,
+    Window              grab_window,
+    int                 num_modifiers,
+    XIGrabModifiers     *modifiers
+);
+
+extern Status XIUngrabFocusIn(
+    Display*            display,
+    int                 deviceid,
+    Window              grab_window,
+    int                 num_modifiers,
+    XIGrabModifiers     *modifiers
+);
+
 
 extern Atom *XIListProperties(
     Display*            display,

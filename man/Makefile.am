@@ -33,6 +33,7 @@ XI2_manpages = \
 	XIDefineCursor.txt \
 	XIGrabButton.txt \
 	XIGrabDevice.txt \
+        XIGrabEnter.txt \
 	XIQueryPointer.txt \
 	XIQueryVersion.txt \
 	XISelectEvents.txt \
@@ -77,6 +78,9 @@ XI2_refpages = \
 	XIGrabKeysym.man \
 	XIUngrabKeysym.man \
 	XIUngrabDevice.man  \
+        XIUngrabEnter.man \
+        XIGrabFocusIn.man \
+        XIUngrabFocusIn.man \
 	XIGetClientPointer.man \
 	XIGetFocus.man \
 	XIGetSelectedEvents.man
