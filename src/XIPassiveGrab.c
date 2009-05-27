@@ -146,7 +146,7 @@ _XIPassiveUngrabDevice(Display* dpy, int deviceid, int grabtype, int detail,
 
     SetReqLen(req, num_modifiers, num_modifiers);
     for (i = 0; i < num_modifiers; i++)
-        Data32(dpy, modifiers[i].modifiers, 4);
+        Data32(dpy, &modifiers[i].modifiers, 4);
 
     UnlockDisplay(dpy);
     SyncHandle();
