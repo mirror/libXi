@@ -23,4 +23,10 @@ extern Status _XiEventToWire(
     register int *		/* count */
 );
 
+typedef struct _XInputData
+{
+    XEvent data;
+    XExtensionVersion *vers;
+} XInputData;
+
 #endif

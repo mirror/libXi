@@ -140,12 +140,6 @@ wireToPropertyEvent(xXIPropertyEvent *in, XIPropertyEvent *out);
 
 static /* const */ XEvent emptyevent;
 
-typedef struct _XInputData
-{
-    XEvent data;
-    XExtensionVersion *vers;
-} XInputData;
-
 static /* const */ XExtensionHooks xinput_extension_hooks = {
     NULL,	/* create_gc */
     NULL,	/* copy_gc */

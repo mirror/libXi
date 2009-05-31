@@ -50,8 +50,26 @@ _xiQueryVersion(Display * dpy, int *major, int *minor, XExtDisplayInfo *info)
     xXIQueryVersionReq *req;
     xXIQueryVersionReply rep;
 
-    if (_XiCheckExtInit(dpy, Dont_Check, info) == -1)
+    /* This could mean either a malloc problem, or supported
+        version < XInput_2_0 */
+    if (_XiCheckExtInit(dpy, XInput_2_0, info) == -1)
+    {
+        XExtensionVersion *ext;
+        XExtDisplayInfo *info = XInput_find_display(dpy);
+
+        if (!info || !info->data) {
+            *major = 0;
+            *minor = 0;
+            UnlockDisplay(dpy);
+            return BadRequest;
+        }
+
+        ext = ((XInputData*)info->data)->vers;
+
+        *major = ext->major_version;
+        *minor = ext->minor_version;
 	return BadRequest;
+    }
 
     GetReq(XIQueryVersion, req);
     req->reqType = info->codes->major_opcode;
