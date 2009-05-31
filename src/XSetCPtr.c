@@ -34,7 +34,6 @@ in this Software without prior written authorization from The Open Group.
  */
 
 #include <stdint.h>
-#include <X11/extensions/XI.h>
 #include <X11/extensions/XI2proto.h>
 #include <X11/Xlibint.h>
 #include <X11/extensions/XInput2.h>
@@ -48,7 +47,7 @@ XISetClientPointer(Display* dpy, Window win, int deviceid)
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
-    if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
+    if (_XiCheckExtInit(dpy, Dont_Check, info) == -1)
 	return (NoSuchExtension);
 
     GetReq(XISetClientPointer, req);

@@ -31,7 +31,6 @@ in this Software without prior written authorization from The Open Group.
  */
 
 #include <stdint.h>
-#include <X11/extensions/XI.h>
 #include <X11/extensions/XI2proto.h>
 #include <X11/Xlibint.h>
 #include <X11/extensions/XInput2.h>
@@ -50,7 +49,7 @@ XIChangeHierarchy(Display* dpy,
     int dlen = 0, i;
 
     LockDisplay(dpy);
-    if (_XiCheckExtInit(dpy, XInput_2, info) == -1)
+    if (_XiCheckExtInit(dpy, Dont_Check, info) == -1)
 	return (NoSuchExtension);
 
     GetReq(XIChangeHierarchy, req);

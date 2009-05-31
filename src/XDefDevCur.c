@@ -45,7 +45,7 @@ int XIDefineCursor(Display *dpy, int deviceid, Window w, Cursor cursor)
     XExtDisplayInfo *info = XInput_find_display(dpy);
     LockDisplay(dpy);
 
-    if (_XiCheckExtInit(dpy, XInput_Initial_Release, info) == -1)
+    if (_XiCheckExtInit(dpy, Dont_Check, info) == -1)
 	return (NoSuchExtension);
 
     GetReq(XIChangeCursor, req);
