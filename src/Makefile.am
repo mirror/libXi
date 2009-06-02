@@ -62,7 +62,7 @@ libXi_la_SOURCES = \
 		  XUngrDvK.c \
 		  XExtInt.c  \
 		  XIint.h \
-		  $(XI2_SOURCES)
+		  $(XI2_sources)
 
 
 libXi_la_LIBADD = $(XI_LIBS)
