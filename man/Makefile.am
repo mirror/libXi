@@ -53,6 +53,7 @@ libman_txt = \
 	XGetDeviceKeyMapping.txt \
 	XGetDeviceModifierMapping.txt \
 	XGetDeviceMotionEvents.txt \
+	XGetDeviceProperty.txt \
 	XGetExtensionVersion.txt \
 	XGetFeedbackControl.txt \
 	XGrabDeviceButton.txt \
@@ -104,6 +105,8 @@ libman_ref = \
 	XGetSelectedExtensionEvents.man \
 	XGetDeviceButtonMapping.man \
 	XGetDeviceFocus.man \
+	XChangeDeviceProperty.man \
+	XDeleteDeviceProperty.man \
         $(XI2_refpages)
 
 
@@ -130,6 +133,8 @@ XCloseDevice.man: XOpenDevice.man
 XGetSelectedExtensionEvents.man: XSelectExtensionEvent.man
 XGetDeviceButtonMapping.man: XSetDeviceButtonMapping.man
 XGetDeviceFocus.man: XSetDeviceFocus.man
+XChangeDeviceProperty.man: XGetDeviceProperty.man
+XDeleteDeviceProperty.man: XGetDeviceProperty.man
 
 # XI2 prereqs
 XIUndefineCursor: XIDefineCursor.man
