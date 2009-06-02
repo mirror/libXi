@@ -33,7 +33,6 @@ in this Software without prior written authorization from the author.
 
 #include <stdint.h>
 #include <X11/Xlibint.h>
-#include <X11/extensions/XI.h>
 #include <X11/extensions/XI2proto.h>
 #include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>

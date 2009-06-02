@@ -2,9 +2,23 @@
 
 lib_LTLIBRARIES = libXi.la
 
+XI2_sources = XIAllowEvents.c \
+		  XIGrabDevice.c \
+		  XIQueryVersion.c \
+		  XIQueryDevice.c \
+		  XISetDevFocus.c \
+		  XIGetDevFocus.c \
+		  XIPassiveGrab.c \
+		  XIProperties.c \
+		  XIFreeEvent.c \
+		  XISelEv.c \
+		  XIWarpPointer.c \
+		  XIHierarchy.c \
+		  XIDefineCursor.c \
+		  XIQueryPointer.c
+
 libXi_la_SOURCES = \
 		  XAllowDv.c \
-		  XChDevHier.c \
 		  XChDProp.c \
 		  XChgDCtl.c \
 		  XChgFCtl.c \
@@ -13,7 +27,6 @@ libXi_la_SOURCES = \
 		  XChgPnt.c \
 		  XChgProp.c \
 		  XCloseDev.c \
-		  XDefDevCur.c \
 		  XDelDProp.c \
 		  XDevBell.c \
 		  XExtToWire.c \
@@ -36,7 +49,6 @@ libXi_la_SOURCES = \
 		  XListDProp.c \
 		  XOpenDev.c \
 		  XQueryDv.c \
-                  XQueryDvPtr.c \
 		  XSelect.c \
 		  XSetBMap.c \
 		  XSetCPtr.c \
@@ -45,23 +57,12 @@ libXi_la_SOURCES = \
 		  XSetMode.c \
 		  XSndExEv.c \
 		  XStFocus.c \
-		  XUndefDevCur.c \
 		  XUngrDev.c \
 		  XUngrDvB.c \
 		  XUngrDvK.c \
-                  XWarpDvPtr.c \
 		  XExtInt.c  \
-                  XISelEv.c \
 		  XIint.h \
-		  XIAllowEvents.c \
-		  XIGrabDevice.c \
-		  XIQueryVersion.c \
-		  XIQueryDevice.c \
-		  XISetDevFocus.c \
-		  XIGetDevFocus.c \
-		  XIPassiveGrab.c \
-		  XIProperties.c \
-		  XIFreeEvent.c
+		  $(XI2_SOURCES)
 
 
 libXi_la_LIBADD = $(XI_LIBS)
