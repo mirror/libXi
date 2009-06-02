@@ -19,16 +19,10 @@ SYNOPSIS
           Specifies the connection to the X server.
 
    device
-          The device to grab.
+          The device to list the properties for.
 
    nprops_return
           Specifies the number of Atoms returned.
-
-   num_values
-          Specifies the number of elements in the values list.
-
-   property
-          Specifies the property to modify or query.
 
 DESCRIPTION
 -----------
@@ -46,13 +40,6 @@ DESCRIPTION
 
 DIAGNOSTICS
 -----------
-
-   BadAtom
-          A value does not describe a valid named identifier.
-
-   BadWindow
-          A value for a Window argument does not name a defined
-          window.
 
    BadDevice
           An invalid device was specified. The device does not
