@@ -16,6 +16,7 @@ AM_CONFIG_HEADER(src/config.h)
 # Check for progs
 AC_PROG_CC
 AC_PROG_LIBTOOL
+AC_PROG_SED
 XORG_CWARNFLAGS
 
 # Checks for pkg-config packages
