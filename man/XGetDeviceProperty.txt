@@ -56,7 +56,7 @@ SYNOPSIS
           Specifies the property data.
 
    delete
-          Specifies a Boolean value that determines wether the
+          Specifies a Boolean value that determines whether the
           property is deleted.
 
    display
