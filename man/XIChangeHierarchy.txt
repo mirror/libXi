@@ -60,8 +60,8 @@ DESCRIPTION
                     int type; /* XIRemoveMaster */
                     int deviceid;
                     int returnMode;
-                    XDevice* returnPointer;
-                    XDevice* returnKeyboard;
+                    int returnPointer;
+                    int returnKeyboard;
                 } XIRemoveMasterInfo;
 
                 typedef struct {
