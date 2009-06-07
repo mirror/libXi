@@ -43,7 +43,7 @@ typedef struct {
 
 typedef struct {
     int                 type;
-    int                 device;
+    int                 deviceid;
     int                 returnMode; /* AttachToMaster, Floating */
     int                 returnPointer;
     int                 returnKeyboard;
@@ -51,13 +51,13 @@ typedef struct {
 
 typedef struct {
     int                 type;
-    int                 device;
+    int                 deviceid;
     int                 newMaster;
 } XIAttachSlaveInfo;
 
 typedef struct {
     int                 type;
-    int                 device;
+    int                 deviceid;
 } XIDetachSlaveInfo;
 
 typedef union {

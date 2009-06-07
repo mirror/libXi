@@ -58,7 +58,7 @@ DESCRIPTION
 
                 typedef struct {
                     int type; /* XIRemoveMaster */
-                    int device;
+                    int deviceid;
                     int returnMode;
                     XDevice* returnPointer;
                     XDevice* returnKeyboard;
@@ -66,13 +66,13 @@ DESCRIPTION
 
                 typedef struct {
                     int type; /* XIAttachSlave */
-                    int device;
+                    int deviceid;
                     int newMaster;
                 } XIAttachSlaveInfo;
 
                 typedef struct {
                     int type; /* XIDetachSlave */
-                    int device;
+                    int deviceid;
                 } XIDetachSlaveInfo;
 
    XICreateMasterInfo creates a new master pointer and a new

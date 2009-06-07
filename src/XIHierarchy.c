@@ -112,7 +112,7 @@ XIChangeHierarchy(Display* dpy,
                     xXIRemoveMasterInfo* r = (xXIRemoveMasterInfo*)dptr;
                     r->type = R->type;
                     r->return_mode = R->returnMode;
-                    r->deviceid = R->device;
+                    r->deviceid = R->deviceid;
                     r->length = sizeof(xXIRemoveMasterInfo)/4;
                     if (r->return_mode == XIAttachToMaster)
                     {
@@ -128,7 +128,7 @@ XIChangeHierarchy(Display* dpy,
                     xXIAttachSlaveInfo* c = (xXIAttachSlaveInfo*)dptr;
 
                     c->type = C->type;
-                    c->deviceid = C->device;
+                    c->deviceid = C->deviceid;
                     c->length = sizeof(xXIAttachSlaveInfo)/4;
                     c->new_master = C->newMaster;
 
@@ -141,7 +141,7 @@ XIChangeHierarchy(Display* dpy,
                     xXIDetachSlaveInfo *d = (xXIDetachSlaveInfo*)dptr;
 
                     d->type = D->type;
-                    d->deviceid = D->device;
+                    d->deviceid = D->deviceid;
                     d->length = sizeof(xXIDetachSlaveInfo)/4;
                     dptr += sizeof(xXIDetachSlaveInfo);
                 }
