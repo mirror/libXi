@@ -78,11 +78,13 @@ typedef struct
 typedef struct
 {
     int         type;
+    int         sourceid;
 } XIAnyClassInfo;
 
 typedef struct
 {
     int         type;
+    int         sourceid;
     int         num_buttons;
     Atom        *buttons;
 } XIButtonClassInfo;
@@ -90,6 +92,7 @@ typedef struct
 typedef struct
 {
     int         type;
+    int         sourceid;
     int         num_keycodes;
     int         *keycodes;
 } XIKeyClassInfo;
@@ -97,6 +100,7 @@ typedef struct
 typedef struct
 {
     int         type;
+    int         sourceid;
     int         number;
     Atom        name;
     double      min;

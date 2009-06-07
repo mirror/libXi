@@ -86,6 +86,7 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
 
         to->classes[i] = any_lib;
         any_lib->type = any_wire->type;
+        any_lib->sourceid = any_wire->sourceid;
         switch(any_wire->type)
         {
             case XIButtonClass:
