@@ -37,22 +37,22 @@
 typedef struct {
     int                 type;
     char*               name;
-    Bool                sendCore;
+    Bool                send_core;
     Bool                enable;
 } XICreateMasterInfo;
 
 typedef struct {
     int                 type;
     int                 deviceid;
-    int                 returnMode; /* AttachToMaster, Floating */
-    int                 returnPointer;
-    int                 returnKeyboard;
+    int                 return_mode; /* AttachToMaster, Floating */
+    int                 return_pointer;
+    int                 return_keyboard;
 } XIRemoveMasterInfo;
 
 typedef struct {
     int                 type;
     int                 deviceid;
-    int                 newMaster;
+    int                 new_master;
 } XIAttachSlaveInfo;
 
 typedef struct {

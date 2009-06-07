@@ -52,22 +52,22 @@ DESCRIPTION
                 typedef struct {
                     int type; /* XICreateMaster */
                     char* name;
-                    Bool sendCore;
+                    Bool send_core;
                     Bool enable;
                 } XICreateMasterInfo;
 
                 typedef struct {
                     int type; /* XIRemoveMaster */
                     int deviceid;
-                    int returnMode;
-                    int returnPointer;
-                    int returnKeyboard;
+                    int return_mode;
+                    int return_pointer;
+                    int return_keyboard;
                 } XIRemoveMasterInfo;
 
                 typedef struct {
                     int type; /* XIAttachSlave */
                     int deviceid;
-                    int newMaster;
+                    int new_master;
                 } XIAttachSlaveInfo;
 
                 typedef struct {

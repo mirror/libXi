@@ -98,7 +98,7 @@ XIChangeHierarchy(Display* dpy,
                     XICreateMasterInfo* C = &any->create;
                     xXICreateMasterInfo* c = (xXICreateMasterInfo*)dptr;
                     c->type = C->type;
-                    c->send_core = C->sendCore;
+                    c->send_core = C->send_core;
                     c->enable = C->enable;
                     c->name_len = strlen(C->name);
                     c->length = (sizeof(xXICreateMasterInfo) + c->name_len + 3)/4;
@@ -111,13 +111,13 @@ XIChangeHierarchy(Display* dpy,
                     XIRemoveMasterInfo* R = &any->remove;
                     xXIRemoveMasterInfo* r = (xXIRemoveMasterInfo*)dptr;
                     r->type = R->type;
-                    r->return_mode = R->returnMode;
+                    r->return_mode = R->return_mode;
                     r->deviceid = R->deviceid;
                     r->length = sizeof(xXIRemoveMasterInfo)/4;
                     if (r->return_mode == XIAttachToMaster)
                     {
-                        r->return_pointer = R->returnPointer;
-                        r->return_keyboard = R->returnKeyboard;
+                        r->return_pointer = R->return_pointer;
+                        r->return_keyboard = R->return_keyboard;
                     }
                     dptr += sizeof(xXIRemoveMasterInfo);
                 }
@@ -130,7 +130,7 @@ XIChangeHierarchy(Display* dpy,
                     c->type = C->type;
                     c->deviceid = C->deviceid;
                     c->length = sizeof(xXIAttachSlaveInfo)/4;
-                    c->new_master = C->newMaster;
+                    c->new_master = C->new_master;
 
                     dptr += sizeof(xXIAttachSlaveInfo);
                 }
