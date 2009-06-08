@@ -971,18 +971,18 @@ wireToHierarchyChangedEvent(xXIHierarchyEvent *in, XIHierarchyEvent* out)
     XIHierarchyInfo *info_out;
     xXIHierarchyInfo *info_in;
 
-    out->info = Xmalloc(in->num_devices * sizeof(XIHierarchyInfo));
+    out->info = Xmalloc(in->num_info * sizeof(XIHierarchyInfo));
     out->type           = in->type;
     out->extension      = in->extension;
     out->evtype         = in->evtype;
     out->time           = in->time;
     out->flags          = in->flags;
-    out->num_devices    = in->num_devices;
+    out->num_info       = in->num_info;
 
     info_out            = out->info;
     info_in             = (xXIHierarchyInfo*)&in[1];
 
-    for (i = 0; i < out->num_devices; i++, info_out++, info_in++)
+    for (i = 0; i < out->num_info; i++, info_out++, info_in++)
     {
         info_out->deviceid      = info_in->deviceid;
         info_out->attachment    = info_in->attachment;

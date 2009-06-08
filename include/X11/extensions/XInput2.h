@@ -159,7 +159,7 @@ typedef struct {
     int           evtype;       /* XI_DeviceHierarchyChangedNotify */
     Time          time;
     int           flags;
-    int           num_devices;
+    int           num_info;
     XIHierarchyInfo *info;
 } XIHierarchyEvent;
 
