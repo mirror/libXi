@@ -39,22 +39,22 @@ DESCRIPTION
 
    The list of changes is any combination of
    XIAnyHierarchyChangeInfo. The type of a hierarchy change can be
-   XICreateMaster, XIRemoveMaster, XIAttachSlave or XIDetachSlave.
+   XIAddMaster, XIRemoveMaster, XIAttachSlave or XIDetachSlave.
 
                 typedef union {
                     int type;
-                    XICreateMasterInfo create;
+                    XIAddMasterInfo add;
                     XIRemoveMasterInfo remove;
                     XIAttachSlave attach;
                     XIDetachSlave detach;
                 } XIAnyHierarchyChangeInfo;
 
                 typedef struct {
-                    int type; /* XICreateMaster */
+                    int type; /* XIAddMaster */
                     char* name;
                     Bool send_core;
                     Bool enable;
-                } XICreateMasterInfo;
+                } XIAddMasterInfo;
 
                 typedef struct {
                     int type; /* XIRemoveMaster */
@@ -75,12 +75,12 @@ DESCRIPTION
                     int deviceid;
                 } XIDetachSlaveInfo;
 
-   XICreateMasterInfo creates a new master pointer and a new
+   XIAddMasterInfo creates a new master pointer and a new
    master keyboard labelled "name pointer" and "name keyboard"
    respectively. If sendCore is True, the devices will send core
    events. If enable is True, the device is enabled immediately.
 
-   XICreateMasterInfo can generate a BadValue error.
+   XIAddMasterInfo can generate a BadValue error.
 
    XIRemoveMasterInfo removes device and its paired master device.
    If returnMode is XIAttachToMaster, all pointers attached to

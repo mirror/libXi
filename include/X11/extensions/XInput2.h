@@ -39,7 +39,7 @@ typedef struct {
     char*               name;
     Bool                send_core;
     Bool                enable;
-} XICreateMasterInfo;
+} XIAddMasterInfo;
 
 typedef struct {
     int                 type;
@@ -62,7 +62,7 @@ typedef struct {
 
 typedef union {
     int                   type; /* must be first element */
-    XICreateMasterInfo    create;
+    XIAddMasterInfo       add;
     XIRemoveMasterInfo    remove;
     XIAttachSlaveInfo     attach;
     XIDetachSlaveInfo     detach;

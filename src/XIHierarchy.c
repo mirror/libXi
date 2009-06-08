@@ -62,10 +62,10 @@ XIChangeHierarchy(Display* dpy,
     {
         switch(any->type)
         {
-            case XICreateMaster:
+            case XIAddMaster:
                 {
-                    int slen = (strlen(any->create.name));
-                    dlen += sizeof(xXICreateMasterInfo) +
+                    int slen = (strlen(any->add.name));
+                    dlen += sizeof(xXIAddMasterInfo) +
                         slen + (4 - (slen % 4));
                 }
                 break;
@@ -93,15 +93,15 @@ XIChangeHierarchy(Display* dpy,
     {
         switch(any->type)
         {
-                case XICreateMaster:
+                case XIAddMaster:
                 {
-                    XICreateMasterInfo* C = &any->create;
-                    xXICreateMasterInfo* c = (xXICreateMasterInfo*)dptr;
+                    XIAddMasterInfo* C = &any->add;
+                    xXIAddMasterInfo* c = (xXIAddMasterInfo*)dptr;
                     c->type = C->type;
                     c->send_core = C->send_core;
                     c->enable = C->enable;
                     c->name_len = strlen(C->name);
-                    c->length = (sizeof(xXICreateMasterInfo) + c->name_len + 3)/4;
+                    c->length = (sizeof(xXIAddMasterInfo) + c->name_len + 3)/4;
                     strncpy((char*)&c[1], C->name, c->name_len);
                     dptr += c->length;
                 }
