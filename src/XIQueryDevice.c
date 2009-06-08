@@ -29,6 +29,8 @@
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
+int copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses);
+
 /* Copy classes from any into to->classes and return the number of bytes
  * copied. Memory layout of to->classes is
  * [clsptr][clsptr][clsptr][classinfo][classinfo]...
