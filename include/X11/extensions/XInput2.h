@@ -160,7 +160,7 @@ typedef struct {
     Bool          send_event;   /* true if this came from a SendEvent request */
     Display       *display;     /* Display the event was read from */
     int           extension;    /* XI extension offset */
-    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
+    int           evtype;       /* XI_HierarchyChanged */
     Time          time;
     int           flags;
     int           num_info;
@@ -177,7 +177,7 @@ typedef struct {
     Bool          send_event;   /* true if this came from a SendEvent request */
     Display       *display;     /* Display the event was read from */
     int           extension;    /* XI extension offset */
-    int           evtype;       /* XI_DeviceHierarchyChangedNotify */
+    int           evtype;       /* XI_DeviceChanged */
     Time          time;
     int           deviceid;     /* id of the device that changed */
     int           sourceid;     /* Source for the new classes. */
@@ -236,7 +236,7 @@ typedef struct {
     Bool          send_event;   /* true if this came from a SendEvent request */
     Display       *display;     /* Display the event was read from */
     int           extension;    /* XI extension offset */
-    int           evtype;
+    int           evtype;       /* XI_RawEvent */
     Time          time;
     int           detail;
     int           deviceid;
@@ -281,7 +281,7 @@ typedef struct {
     Bool          send_event;   /* true if this came from a SendEvent request */
     Display       *display;     /* Display the event was read from */
     int           extension;    /* XI extension offset */
-    int           evtype;
+    int           evtype;       /* XI_PropertyEvent */
     Time          time;
     Atom          property;
     int           what;
