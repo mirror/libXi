@@ -57,7 +57,7 @@ XISelectEvents(Display* dpy, Window win, XIEventMask* masks, int num_masks)
 
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_XISelectEvents;
-    req->window = win;
+    req->win = win;
     req->num_masks = num_masks;
 
     /* get the right length */
@@ -113,7 +113,7 @@ XIGetSelectedEvents(Display* dpy, Window win, int *num_masks_return)
 
     req->reqType = info->codes->major_opcode;
     req->ReqType = X_XIGetSelectedEvents;
-    req->window = win;
+    req->win = win;
 
     if (!_XReply(dpy, (xReply *) &reply, 0, xFalse))
         goto error;
