@@ -57,6 +57,7 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
             case XIButtonClass:
                 l = sizeof(XIButtonClassInfo);
                 l += ((xXIButtonInfo*)any_wire)->num_buttons * sizeof(Atom);
+                l += ((((((xXIButtonInfo*)any_wire)->num_buttons + 7)/8) + 3)/4) * 4;
                 break;
             case XIKeyClass:
                 l = sizeof(XIKeyClassInfo);
@@ -93,17 +94,25 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
                 {
                     XIButtonClassInfo *cls_lib;
                     xXIButtonInfo *cls_wire;
+                    uint32_t *atoms;
+                    int j;
 
                     cls_lib = (XIButtonClassInfo*)any_lib;
                     cls_wire = (xXIButtonInfo*)any_wire;
 
                     cls_lib->num_buttons = cls_wire->num_buttons;
-                    cls_lib->buttons = (Atom*)&cls_lib[1];
-                    memcpy(cls_lib->buttons, &cls_wire[1],
+                    cls_lib->state.mask_len = ((((cls_wire->num_buttons + 7)/8) + 3)/4) * 4;
+                    cls_lib->state.mask = (unsigned char*)&cls_lib[1];
+                    memcpy(cls_lib->state.mask, &cls_wire[1],
+                           cls_lib->state.mask_len);
+
+                    cls_lib->names = (Atom*)((char*)&cls_lib[1] + cls_lib->state.mask_len);
+                    memcpy(cls_lib->names, &cls_wire[1],
                             cls_lib->num_buttons);
 
                     ptr_lib += sizeof(XIButtonClassInfo);
                     ptr_lib += cls_lib->num_buttons * sizeof(Atom);
+                    ptr_lib += cls_lib->state.mask_len;
                     break;
                 }
             case XIKeyClass:

@@ -70,6 +70,27 @@ typedef union {
 
 typedef struct
 {
+    int    base;
+    int    latched;
+    int    locked;
+} XIModifierState;
+
+typedef XIModifierState XIGroupState;
+
+typedef struct {
+    int           mask_len;
+    unsigned char *mask;
+} XIButtonState;
+
+typedef struct {
+    int           mask_len;
+    unsigned char *mask;
+    double        *values;
+} XIValuatorState;
+
+
+typedef struct
+{
     int                 deviceid;
     int                 mask_len;
     unsigned char*      mask;
@@ -86,7 +107,8 @@ typedef struct
     int         type;
     int         sourceid;
     int         num_buttons;
-    Atom        *buttons;
+    Atom        *names;
+    XIButtonState state;
 } XIButtonClassInfo;
 
 typedef struct
@@ -185,26 +207,6 @@ typedef struct {
     int           num_classes;
     XIAnyClassInfo **classes; /* same as in XIDeviceInfo */
 } XIDeviceChangedEvent;
-
-typedef struct
-{
-    int    base;
-    int    latched;
-    int    locked;
-} XIModifierState;
-
-typedef XIModifierState XIGroupState;
-
-typedef struct {
-    int           mask_len;
-    unsigned char *mask;
-} XIButtonState;
-
-typedef struct {
-    int           mask_len;
-    unsigned char *mask;
-    double        *values;
-} XIValuatorState;
 
 typedef struct {
     int           type;         /* GenericEvent */
