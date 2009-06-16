@@ -145,6 +145,7 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
                     cls_lib->resolution = cls_wire->resolution;
                     cls_lib->min        = cls_wire->min.integral;
                     cls_lib->max        = cls_wire->max.integral;
+                    cls_lib->value      = cls_wire->value.integral;
                     /* FIXME: fractional parts */
                     cls_lib->mode       = cls_wire->mode;
 

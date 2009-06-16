@@ -127,6 +127,7 @@ typedef struct
     Atom        name;
     double      min;
     double      max;
+    double      value;
     int         resolution;
     int         mode;
 } XIValuatorClassInfo;
