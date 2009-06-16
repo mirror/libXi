@@ -107,8 +107,9 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
                            cls_lib->state.mask_len);
 
                     cls_lib->names = (Atom*)((char*)&cls_lib[1] + cls_lib->state.mask_len);
-                    memcpy(cls_lib->names, &cls_wire[1],
-                            cls_lib->num_buttons);
+                    atoms =(uint32_t*)((char*)&cls_wire[1] + cls_lib->state.mask_len);
+                    for (j = 0; j < cls_lib->num_buttons; j++)
+                        cls_lib->names[j] = *atoms++;
 
                     ptr_lib += sizeof(XIButtonClassInfo);
                     ptr_lib += cls_lib->num_buttons * sizeof(Atom);
