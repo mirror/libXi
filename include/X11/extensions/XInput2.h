@@ -107,7 +107,7 @@ typedef struct
     int         type;
     int         sourceid;
     int         num_buttons;
-    Atom        *names;
+    Atom        *labels;
     XIButtonState state;
 } XIButtonClassInfo;
 
@@ -124,7 +124,7 @@ typedef struct
     int         type;
     int         sourceid;
     int         number;
-    Atom        name;
+    Atom        label;
     double      min;
     double      max;
     double      value;
