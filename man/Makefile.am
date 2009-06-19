@@ -146,6 +146,8 @@ XIGetFocus.man: XISetFocus.man
 XIUngrabDevice.man: XIGrabDevice.man
 XIGetProperty.man: XIChangeProperty.man
 XIDeleteProperty.man: XIChangeProperty.man
+XIUngrabEnter.man XIGrabFocusIn.man XIUngrabFocusIn.man: XIGrabEnter.man
+XIGetSelectedEvents.man: XISelectEvents.man
 
 # Strings to replace in man pages
 XORGRELSTRING = $(PACKAGE_STRING)
