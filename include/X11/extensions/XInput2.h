@@ -73,6 +73,7 @@ typedef struct
     int    base;
     int    latched;
     int    locked;
+    int    effective;
 } XIModifierState;
 
 typedef XIModifierState XIGroupState;

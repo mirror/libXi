@@ -1316,9 +1316,11 @@ wireToDeviceEvent(xXIDeviceEvent *in, XGenericEventCookie* cookie)
     out->mods->base = in->mods.base_mods;
     out->mods->locked = in->mods.locked_mods;
     out->mods->latched = in->mods.latched_mods;
+    out->mods->effective = in->mods.effective_mods;
     out->group->base = in->group.base_group;
     out->group->locked = in->group.locked_group;
     out->group->latched = in->group.latched_group;
+    out->group->effective = in->group.effective_group;
 
     return 1;
 }
@@ -1604,9 +1606,11 @@ wireToEnterLeave(xXIEnterEvent *in, XGenericEventCookie *cookie)
     out->mods->base = in->mods.base_mods;
     out->mods->locked = in->mods.locked_mods;
     out->mods->latched = in->mods.latched_mods;
+    out->mods->effective = in->mods.effective_mods;
     out->group->base = in->group.base_group;
     out->group->locked = in->group.locked_group;
     out->group->latched = in->group.latched_group;
+    out->group->effective = in->group.effective_group;
 
     out->buttons->mask_len = in->buttons_len * 4;
     memcpy(out->buttons->mask, &in[1], out->buttons->mask_len);
