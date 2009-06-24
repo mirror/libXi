@@ -276,7 +276,8 @@ typedef struct {
 } XIEnterEvent;
 
 typedef XIEnterEvent XILeaveEvent;
-
+typedef XIEnterEvent XIFocusInEvent;
+typedef XIEnterEvent XIFocusOutEvent;
 
 typedef struct {
     int           type;         /* GenericEvent */
