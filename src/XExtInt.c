@@ -101,6 +101,7 @@ extern int _XiGetDevicePresenceNotifyEvent(
 );
 
 int copy_classes(XIDeviceInfo *to, xXIAnyInfo* from, int nclasses);
+int size_classes(xXIAnyInfo* from, int nclasses);
 int sizeDeviceClassType(int type, int num_elements);
 
 
@@ -1322,22 +1323,13 @@ wireToDeviceEvent(xXIDeviceEvent *in, XGenericEventCookie* cookie)
     return 1;
 }
 
-/* Copy classes from any into to->classes and return the number of bytes
- * copied. Memory layout of to->classes is
- * [clsptr][clsptr][clsptr][classinfo][classinfo]...
- *    |________|___________^
- *             |______________________^
- */
 int
-copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
+size_classes(xXIAnyInfo* from, int nclasses)
 {
-    XIAnyClassInfo *any_lib;
+    int len, i;
     xXIAnyInfo *any_wire;
-    void *ptr_lib;
     char *ptr_wire;
-    int i, len;
 
-    /* size them up first */
     len = nclasses * sizeof(XIAnyClassInfo*); /* len for to->classes */
     ptr_wire = (char*)from;
     for (i = 0; i < nclasses; i++)
@@ -1363,7 +1355,24 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
         ptr_wire += any_wire->length * 4;
     }
 
-    to->classes = Xmalloc(len);
+    return len;
+}
+
+/* Copy classes from any into to->classes and return the number of bytes
+ * copied. Memory layout of to->classes is
+ * [clsptr][clsptr][clsptr][classinfo][classinfo]...
+ *    |________|___________^
+ *             |______________________^
+ */
+int
+copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
+{
+    XIAnyClassInfo *any_lib;
+    xXIAnyInfo *any_wire;
+    void *ptr_lib;
+    char *ptr_wire;
+    int i, len;
+
     if (!to->classes)
         return -1;
 
@@ -1455,7 +1464,7 @@ wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XGenericEventCookie *cookie)
     XIDeviceInfo info;
     int len;
 
-    len = copy_classes(&info, (xXIAnyInfo*)&in[1], in->num_classes);
+    len = size_classes((xXIAnyInfo*)&in[1], in->num_classes);
 
     cookie->data = out = malloc(sizeof(XIDeviceChangedEvent) + len);
 
@@ -1469,7 +1478,8 @@ wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XGenericEventCookie *cookie)
     out->num_classes = in->num_classes;
 
     out->classes = (XIAnyClassInfo**)&out[1];
-    memcpy(out->classes, info.classes, len);
+
+    copy_classes(&info, (xXIAnyInfo*)&in[1], in->num_classes);
 
     return 1;
 }
