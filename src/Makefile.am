@@ -10,7 +10,6 @@ XI2_sources = XIAllowEvents.c \
 		  XIGetDevFocus.c \
 		  XIPassiveGrab.c \
 		  XIProperties.c \
-		  XIFreeEvent.c \
 		  XISelEv.c \
 		  XIWarpPointer.c \
 		  XIHierarchy.c \

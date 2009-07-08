@@ -542,7 +542,6 @@ XIGetProperty(
 );
 
 extern void XIFreeDeviceInfo(XIDeviceInfo       *info);
-extern void XIFreeEventData(XIEvent *ev);
 
 _XFUNCPROTOEND
 
