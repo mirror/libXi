@@ -1177,6 +1177,41 @@ copyPropertyEvent(XGenericEventCookie *cookie_in,
 }
 
 static Bool
+copyRawEvent(XGenericEventCookie *cookie_in,
+             XGenericEventCookie *cookie_out)
+{
+    XIRawEvent *in, *out;
+    void *ptr;
+    int len;
+    int bits;
+
+    in = cookie_in->data;
+
+    bits = count_bits(in->valuators.mask, in->valuators.mask_len);
+    len = sizeof(XIRawEvent) + in->valuators.mask_len;
+    len += bits * sizeof(double) * 2;
+
+    ptr = cookie_out->data = malloc(sizeof(XIRawEvent));
+    if (!ptr)
+        return False;
+
+    out = next_block(&ptr, sizeof(XIRawEvent));
+    *out = *in;
+    out->valuators.mask = next_block(&ptr, out->valuators.mask_len);
+    memcpy(out->valuators.mask, in->valuators.mask, out->valuators.mask_len);
+
+    out->valuators.values = next_block(&ptr, bits * sizeof(double));
+    memcpy(out->valuators.values, in->valuators.values, bits * sizeof(double));
+
+    out->raw_values = next_block(&ptr, bits * sizeof(double));
+    memcpy(out->raw_values, in->raw_values, bits * sizeof(double));
+
+    return True;
+}
+
+
+
+static Bool
 XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out)
 {
     int ret = True;
@@ -1216,6 +1251,9 @@ XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out
             break;
         case XI_PropertyEvent:
             ret = copyPropertyEvent(in, out);
+            break;
+        case XI_RawEvent:
+            ret = copyRawEvent(in, out);
             break;
         default:
             printf("XInputCopyCookie: unknown evtype %d\n", in->evtype);
