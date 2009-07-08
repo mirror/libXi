@@ -950,33 +950,6 @@ sizeDeviceEvent(int buttons_len, int valuators_len,
     return len;
 }
 
-/* Set up the mods, group, buttons, valuator pointers to the right positions
- * in the memory block after event.
- * Memory layout of XIDeviceEvents:
- * [event][modifiers][group][XIButtonState][btn mask][XIValuatorState][val
- * mask][valuators]
- */
-static inline void
-setupDeviceEventPointers(XIDeviceEvent *event, int buttons_len,
-                         int valuators_len)
-{
-    void *ptr = event;
-
-    next_block(&ptr, sizeof(XIDeviceEvent));
-
-    event->mods = next_block(&ptr, sizeof(XIModifierState));
-    event->group = next_block(&ptr, sizeof(XIGroupState));
-    event->buttons = next_block(&ptr, sizeof(XIButtonState));
-    event->buttons->mask_len = buttons_len;
-    event->buttons->mask = next_block(&ptr, buttons_len);
-    memset(event->buttons->mask, 0, event->buttons->mask_len);
-    event->valuators = next_block(&ptr, sizeof(XIValuatorState));
-    event->valuators->mask_len = valuators_len;
-    event->valuators->mask = next_block(&ptr, valuators_len);
-    memset(event->valuators->mask, 0, event->valuators->mask_len);
-    event->valuators->values = next_block(&ptr, 0 /* doesn't matter here */);
-}
-
 /**
  * Return the size in bytes required to store the matching class type
  * num_elements is num_buttons for XIButtonClass or num_keycodes for
@@ -1134,29 +1107,29 @@ copyDeviceEvent(XGenericEventCookie *cookie_in,
     int len;
     XIDeviceEvent *in, *out;
     int bits; /* valuator bits */
+    void *ptr;
 
     in = cookie_in->data;
-    bits = count_bits(in->valuators->mask, in->valuators->mask_len);
+    bits = count_bits(in->valuators.mask, in->valuators.mask_len);
 
-    len = sizeDeviceEvent(in->buttons->mask_len, in->valuators->mask_len,
-            in->valuators->mask);
+    len = sizeDeviceEvent(in->buttons.mask_len, in->valuators.mask_len,
+                          in->valuators.mask);
 
-    out = cookie_out->data = malloc(len);
-    if (!out)
+    ptr = cookie_out->data = malloc(len);
+    if (!ptr)
         return False;
 
+    out = next_block(&ptr, sizeof(XIDeviceEvent));
     *out = *in;
-    setupDeviceEventPointers(out,
-                             in->buttons->mask_len,
-                             in->valuators->mask_len);
-    *out->group = *in->group;
-    *out->mods  = *in->mods;
 
-    memcpy(out->buttons->mask, in->buttons->mask,
-           out->buttons->mask_len);
-    memcpy(out->valuators->mask, in->valuators->mask,
-           out->valuators->mask_len);
-    memcpy(out->valuators->values, in->valuators->values,
+    out->buttons.mask = next_block(&ptr, in->buttons.mask_len);
+    memcpy(out->buttons.mask, in->buttons.mask,
+           out->buttons.mask_len);
+    out->valuators.mask = next_block(&ptr, in->valuators.mask_len);
+    memcpy(out->valuators.mask, in->valuators.mask,
+           out->valuators.mask_len);
+    out->valuators.values = next_block(&ptr, bits * sizeof(double));
+    memcpy(out->valuators.values, in->valuators.values,
            bits * sizeof(double));
 
     return True;
@@ -1172,29 +1145,17 @@ copyEnterEvent(XGenericEventCookie *cookie_in,
 
     in = cookie_in->data;
 
-    len = sizeof(XIEnterEvent);
-    len += sizeof(XIGroupState) + sizeof(XIModifierState);
-    len += sizeof(XIButtonState) + in->buttons->mask_len;
+    len = sizeof(XIEnterEvent) + in->buttons.mask_len;
 
-    out = cookie_out->data = malloc(len);
-    if (!out)
+    ptr = cookie_out->data = malloc(len);
+    if (!ptr)
         return False;
-
-    ptr = out;
 
     out = next_block(&ptr, sizeof(XIEnterEvent));
     *out = *in;
 
-    out->mods = next_block(&ptr, sizeof(XIModifierState));
-    *out->mods = *in->mods;
-
-    out->group = next_block(&ptr, sizeof(XIGroupState));
-    *out->group = *in->group;
-
-    out->buttons = next_block(&ptr, sizeof(XIButtonState));
-    out->buttons->mask_len = in->buttons->mask_len;
-    out->buttons->mask = next_block(&ptr, in->buttons->mask_len);
-    memcpy(out->buttons->mask, in->buttons->mask, out->buttons->mask_len);
+    out->buttons.mask = next_block(&ptr, in->buttons.mask_len);
+    memcpy(out->buttons.mask, in->buttons.mask, out->buttons.mask_len);
 
     return True;
 }
@@ -1271,6 +1232,7 @@ wireToDeviceEvent(xXIDeviceEvent *in, XGenericEventCookie* cookie)
 {
     int len, i;
     unsigned char *ptr;
+    void *ptr_lib;
     FP3232 *values;
     XIDeviceEvent *out;
 
@@ -1278,9 +1240,9 @@ wireToDeviceEvent(xXIDeviceEvent *in, XGenericEventCookie* cookie)
 
     len = sizeDeviceEvent(in->buttons_len * 4, in->valuators_len * 4, ptr);
 
-    cookie->data = out = malloc(len);
-    setupDeviceEventPointers(out, in->buttons_len * 4, in->valuators_len * 4);
+    cookie->data = ptr_lib = malloc(len);
 
+    out = next_block(&ptr_lib, sizeof(XIDeviceEvent));
     out->type = in->type;
     out->extension = in->extension;
     out->evtype = in->evtype;
@@ -1295,32 +1257,39 @@ wireToDeviceEvent(xXIDeviceEvent *in, XGenericEventCookie* cookie)
     out->root_y = FP1616toDBL(in->root_y);
     out->event_x = FP1616toDBL(in->event_x);
     out->event_y = FP1616toDBL(in->event_y);
+    out->mods.base = in->mods.base_mods;
+    out->mods.locked = in->mods.locked_mods;
+    out->mods.latched = in->mods.latched_mods;
+    out->mods.effective = in->mods.effective_mods;
+    out->group.base = in->group.base_group;
+    out->group.locked = in->group.locked_group;
+    out->group.latched = in->group.latched_group;
+    out->group.effective = in->group.effective_group;
+    out->buttons.mask_len = in->buttons_len * 4;
+    out->valuators.mask_len = in->valuators_len * 4;
+
+    out->buttons.mask = next_block(&ptr_lib, out->buttons.mask_len);
 
     /* buttons */
     ptr = (unsigned char*)&in[1];
-    memcpy(out->buttons->mask, ptr, out->buttons->mask_len);
+    memcpy(out->buttons.mask, ptr, out->buttons.mask_len);
     ptr += in->buttons_len * 4;
 
     /* valuators */
-    memcpy(out->valuators->mask, ptr, out->valuators->mask_len);
+    out->valuators.mask = next_block(&ptr_lib, out->valuators.mask_len);
+    memcpy(out->valuators.mask, ptr, out->valuators.mask_len);
     ptr += in->valuators_len * 4;
 
-    len = count_bits(out->valuators->mask, out->valuators->mask_len);
+    len = count_bits(out->valuators.mask, out->valuators.mask_len);
+    out->valuators.values = next_block(&ptr_lib, len * sizeof(double));
+
     values = (FP3232*)ptr;
     for (i = 0; i < len; i++, values++)
     {
-        out->valuators->values[i] = values->integral;
-        out->valuators->values[i] += ((double)values->frac / (1 << 16) / (1 << 16));
+        out->valuators.values[i] = values->integral;
+        out->valuators.values[i] += ((double)values->frac / (1 << 16) / (1 << 16));
     }
 
-    out->mods->base = in->mods.base_mods;
-    out->mods->locked = in->mods.locked_mods;
-    out->mods->latched = in->mods.latched_mods;
-    out->mods->effective = in->mods.effective_mods;
-    out->group->base = in->group.base_group;
-    out->group->locked = in->group.locked_group;
-    out->group->latched = in->group.latched_group;
-    out->group->effective = in->group.effective_group;
 
     return 1;
 }
@@ -1525,20 +1494,18 @@ wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
     int len, i, bits;
     FP3232 *values;
     XIRawEvent *out;
-    unsigned char *p;
+    void *ptr;
 
 
-    len = sizeof(XIRawEvent);
-    len += sizeof(XIValuatorState) + in->valuators_len * 4;
+    len = sizeof(XIRawEvent) + in->valuators_len * 4;
     bits = count_bits((unsigned char*)&in[1], in->valuators_len * 4);
     len += bits * sizeof(double) * 2; /* raw + normal */
 
-    cookie->data = out = calloc(1, len);
-    p = (unsigned char*)&out[1];
-    out->valuators = (XIValuatorState*)p;
-    out->valuators->values = (double*)(p += sizeof(XIValuatorState) + in->valuators_len * 4);
-    out->raw_values = (double*)(p += bits * sizeof(double));
+    cookie->data = ptr = calloc(1, len);
+    if (!ptr)
+        return 0;
 
+    out = next_block(&ptr, sizeof(XIRawEvent));
     out->type           = in->type;
     out->extension      = in->extension;
     out->evtype         = in->evtype;
@@ -1547,16 +1514,17 @@ wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
     out->deviceid       = in->deviceid;
     out->eventtype      = in->eventtype;
 
-    out->valuators->mask_len = in->valuators_len * 4;
-    out->valuators->mask = (unsigned char*)&out->valuators[1];
-    memcpy(out->valuators->mask, &in[1], out->valuators->mask_len);
+    out->valuators.mask_len = in->valuators_len * 4;
+    out->valuators.mask = next_block(&ptr, out->valuators.mask_len);
+    memcpy(out->valuators.mask, &in[1], out->valuators.mask_len);
 
-    len = count_bits(out->valuators->mask, out->valuators->mask_len);
+    out->valuators.values = next_block(&ptr, bits * sizeof(double));
+    out->raw_values = next_block(&ptr, bits * sizeof(double));
 
     values = (FP3232*)(((char*)&in[1]) + in->valuators_len * 4);
-    for (i = 0; i < len; i++)
+    for (i = 0; i < bits; i++)
     {
-        out->valuators->values[i] = values->integral;
+        out->valuators.values[i] = values->integral;
         out->raw_values[i] = (values + len)->integral;
         values++;
     }
@@ -1572,18 +1540,11 @@ wireToEnterLeave(xXIEnterEvent *in, XGenericEventCookie *cookie)
 {
     int len;
     XIEnterEvent *out;
-    unsigned char *p;
 
-    len = sizeof(XIEnterEvent);
-    len += sizeof(XIButtonState) + in->buttons_len * 4;
-    len += sizeof(XIModifierState) + sizeof(XIGroupState);
+    len = sizeof(XIEnterEvent) + in->buttons_len * 4;
 
     cookie->data = out = malloc(len);
-    p = (unsigned char*)&out[1];
-    out->mods = (XIModifierState*)p;
-    out->group = (XIGroupState*)(p += sizeof(XIModifierState));
-    out->buttons = (XIButtonState*)(p += sizeof(XIGroupState));
-    out->buttons->mask = (p += sizeof(XIButtonState));
+    out->buttons.mask = (unsigned char*)&out[1];
 
     out->type           = in->type;
     out->extension      = in->extension;
@@ -1603,17 +1564,17 @@ wireToEnterLeave(xXIEnterEvent *in, XGenericEventCookie *cookie)
     out->focus          = in->focus;
     out->same_screen    = in->same_screen;
 
-    out->mods->base = in->mods.base_mods;
-    out->mods->locked = in->mods.locked_mods;
-    out->mods->latched = in->mods.latched_mods;
-    out->mods->effective = in->mods.effective_mods;
-    out->group->base = in->group.base_group;
-    out->group->locked = in->group.locked_group;
-    out->group->latched = in->group.latched_group;
-    out->group->effective = in->group.effective_group;
+    out->mods.base = in->mods.base_mods;
+    out->mods.locked = in->mods.locked_mods;
+    out->mods.latched = in->mods.latched_mods;
+    out->mods.effective = in->mods.effective_mods;
+    out->group.base = in->group.base_group;
+    out->group.locked = in->group.locked_group;
+    out->group.latched = in->group.latched_group;
+    out->group.effective = in->group.effective_group;
 
-    out->buttons->mask_len = in->buttons_len * 4;
-    memcpy(out->buttons->mask, &in[1], out->buttons->mask_len);
+    out->buttons.mask_len = in->buttons_len * 4;
+    memcpy(out->buttons.mask, &in[1], out->buttons.mask_len);
 
     return 1;
 }

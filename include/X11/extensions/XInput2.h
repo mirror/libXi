@@ -228,10 +228,10 @@ typedef struct {
     double        root_y;
     double        event_x;
     double        event_y;
-    XIButtonState       *buttons;
-    XIValuatorState     *valuators;
-    XIModifierState      *mods;
-    XIGroupState         *group;
+    XIButtonState       buttons;
+    XIValuatorState     valuators;
+    XIModifierState     mods;
+    XIGroupState        group;
 } XIDeviceEvent;
 
 typedef struct {
@@ -246,7 +246,7 @@ typedef struct {
     int           deviceid;
     int           sourceid;
     int           eventtype;
-    XIValuatorState *valuators;
+    XIValuatorState valuators;
     double        *raw_values;
 } XIRawEvent;
 
@@ -271,9 +271,9 @@ typedef struct {
     int           mode;
     Bool          focus;
     Bool          same_screen;
-    XIButtonState       *buttons;
-    XIModifierState     *mods;
-    XIGroupState        *group;
+    XIButtonState       buttons;
+    XIModifierState     mods;
+    XIGroupState        group;
 } XIEnterEvent;
 
 typedef XIEnterEvent XILeaveEvent;
