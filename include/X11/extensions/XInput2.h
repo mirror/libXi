@@ -152,7 +152,6 @@ typedef struct
 
 /**
  * Generic XI2 event. All XI2 events have the same header.
- * Note: this event is padded to be the same size as libX11's XEvent.
  */
 typedef struct {
     int           type;         /* GenericEvent */
@@ -162,7 +161,6 @@ typedef struct {
     int           extension;    /* XI extension offset */
     int           evtype;
     Time          time;
-    char          pad[68];      /* force same size as XEvent */
 } XIEvent;
 
 
