@@ -1501,11 +1501,11 @@ wireToHierarchyChangedEvent(xXIHierarchyEvent *in, XGenericEventCookie *cookie)
     int i;
     XIHierarchyInfo *info_out;
     xXIHierarchyInfo *info_in;
-    XIHierarchyEvent *out = malloc(sizeof(XIHierarchyEvent));
+    XIHierarchyEvent *out;
 
-    cookie->data = out;
+    cookie->data = out = malloc(sizeof(XIHierarchyEvent) + in->num_info * sizeof(XIHierarchyInfo));;
 
-    out->info = Xmalloc(in->num_info * sizeof(XIHierarchyInfo));
+    out->info           = (XIHierarchyInfo*)&out[1];
     out->type           = in->type;
     out->extension      = in->extension;
     out->evtype         = in->evtype;
