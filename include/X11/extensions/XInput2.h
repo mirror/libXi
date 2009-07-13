@@ -286,6 +286,7 @@ typedef struct {
     int           extension;    /* XI extension offset */
     int           evtype;       /* XI_PropertyEvent */
     Time          time;
+    int           deviceid;     /* id of the device that changed */
     Atom          property;
     int           what;
 } XIPropertyEvent;

@@ -1632,6 +1632,7 @@ wireToPropertyEvent(xXIPropertyEvent *in, XGenericEventCookie *cookie)
     out->time           = in->time;
     out->property       = in->property;
     out->what           = in->what;
+    out->deviceid       = in->deviceid;
 
     return 1;
 }
