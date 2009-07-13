@@ -1229,8 +1229,8 @@ XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out
     out->data = NULL;
     out->cookie = 0;
 
-    /**/
-    switch(in->evtype) { case XI_Motion:
+    switch(in->evtype) {
+        case XI_Motion:
         case XI_ButtonPress:
         case XI_ButtonRelease:
         case XI_KeyPress:
