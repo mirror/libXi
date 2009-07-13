@@ -1303,6 +1303,7 @@ wireToDeviceEvent(xXIDeviceEvent *in, XGenericEventCookie* cookie)
     out->root_y = FP1616toDBL(in->root_y);
     out->event_x = FP1616toDBL(in->event_x);
     out->event_y = FP1616toDBL(in->event_y);
+    out->flags = in->flags;
     out->mods.base = in->mods.base_mods;
     out->mods.locked = in->mods.locked_mods;
     out->mods.latched = in->mods.latched_mods;
@@ -1560,6 +1561,7 @@ wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
     out->time           = in->time;
     out->detail         = in->detail;
     out->deviceid       = in->deviceid;
+    out->flags          = in->flags;
 
     out->valuators.mask_len = in->valuators_len * 4;
     out->valuators.mask = next_block(&ptr, out->valuators.mask_len);

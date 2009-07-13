@@ -226,6 +226,7 @@ typedef struct {
     double        root_y;
     double        event_x;
     double        event_y;
+    int           flags;
     XIButtonState       buttons;
     XIValuatorState     valuators;
     XIModifierState     mods;
@@ -243,6 +244,7 @@ typedef struct {
     int           deviceid;
     int           sourceid;
     int           detail;
+    int           flags;
     XIValuatorState valuators;
     double        *raw_values;
 } XIRawEvent;
