@@ -1488,6 +1488,8 @@ wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XGenericEventCookie *cookie)
 
     out->classes = (XIAnyClassInfo**)&out[1];
 
+    info.classes = out->classes;
+
     copy_classes(&info, (xXIAnyInfo*)&in[1], in->num_classes);
 
     return 1;
