@@ -216,12 +216,12 @@ typedef struct {
     int           extension;    /* XI extension offset */
     int           evtype;
     Time          time;
+    int           deviceid;
+    int           sourceid;
     int           detail;
     Window        root;
     Window        event;
     Window        child;
-    int           deviceid;
-    int           sourceid;
     double        root_x;
     double        root_y;
     double        event_x;
@@ -240,9 +240,9 @@ typedef struct {
     int           extension;    /* XI extension offset */
     int           evtype;       /* XI_RawEvent */
     Time          time;
-    int           detail;
     int           deviceid;
     int           sourceid;
+    int           detail;
     int           eventtype;
     XIValuatorState valuators;
     double        *raw_values;
@@ -256,12 +256,12 @@ typedef struct {
     int           extension;    /* XI extension offset */
     int           evtype;
     Time          time;
+    int           deviceid;
+    int           sourceid;
     int           detail;
     Window        root;
     Window        event;
     Window        child;
-    int           deviceid;
-    int           sourceid;
     double        root_x;
     double        root_y;
     double        event_x;
