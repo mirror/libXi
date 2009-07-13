@@ -893,7 +893,11 @@ XInputWireToCookie(
             }
             return ENQUEUE_EVENT;
 
-        case XI_RawEvent:
+        case XI_RawKeyPress:
+        case XI_RawKeyRelease:
+        case XI_RawButtonPress:
+        case XI_RawButtonRelease:
+        case XI_RawMotion:
             *cookie = *(XGenericEventCookie*)save;
             if (!wireToRawEvent((xXIRawEvent*)event, cookie))
             {
@@ -1252,7 +1256,11 @@ XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out
         case XI_PropertyEvent:
             ret = copyPropertyEvent(in, out);
             break;
-        case XI_RawEvent:
+        case XI_RawKeyPress:
+        case XI_RawKeyRelease:
+        case XI_RawButtonPress:
+        case XI_RawButtonRelease:
+        case XI_RawMotion:
             ret = copyRawEvent(in, out);
             break;
         default:
@@ -1552,7 +1560,6 @@ wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
     out->time           = in->time;
     out->detail         = in->detail;
     out->deviceid       = in->deviceid;
-    out->eventtype      = in->eventtype;
 
     out->valuators.mask_len = in->valuators_len * 4;
     out->valuators.mask = next_block(&ptr, out->valuators.mask_len);

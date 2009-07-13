@@ -238,12 +238,11 @@ typedef struct {
     Bool          send_event;   /* true if this came from a SendEvent request */
     Display       *display;     /* Display the event was read from */
     int           extension;    /* XI extension offset */
-    int           evtype;       /* XI_RawEvent */
+    int           evtype;       /* XI_RawKeyPress, XI_RawKeyRelease, etc. */
     Time          time;
     int           deviceid;
     int           sourceid;
     int           detail;
-    int           eventtype;
     XIValuatorState valuators;
     double        *raw_values;
 } XIRawEvent;
