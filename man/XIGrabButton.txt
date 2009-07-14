@@ -35,7 +35,6 @@ SYNOPSIS
                      int deviceid,
                      int keysym,
                      Window grab_window,
-                     Cursor cursor,
                      int grab_mode,
                      int paired_device_mode,
                      Bool owner_events,
