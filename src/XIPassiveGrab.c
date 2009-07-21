@@ -111,12 +111,12 @@ XIGrabButton(Display* dpy, int deviceid, int button,
 }
 
 int
-XIGrabKeysym(Display* dpy, int deviceid, int keysym,
+XIGrabKeycode(Display* dpy, int deviceid, int keycode,
              Window grab_window, int grab_mode, int paired_device_mode,
              Bool owner_events, XIEventMask *mask,
              int num_modifiers, XIGrabModifiers *modifiers_inout)
 {
-    return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeKeysym, keysym,
+    return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeKeycode, keycode,
                                 grab_window, None, grab_mode, paired_device_mode,
                                 owner_events, mask, num_modifiers,
                                 modifiers_inout);
@@ -185,10 +185,10 @@ XIUngrabButton(Display* display, int deviceid, int button,Window grab_window,
 }
 
 int
-XIUngrabKeysym(Display* display, int deviceid, int keysym, Window grab_window,
+XIUngrabKeycode(Display* display, int deviceid, int keycode, Window grab_window,
                int num_modifiers, XIGrabModifiers *modifiers)
 {
-    return _XIPassiveUngrabDevice(display, deviceid, XIGrabtypeKeysym, keysym,
+    return _XIPassiveUngrabDevice(display, deviceid, XIGrabtypeKeycode, keycode,
                                   grab_window, num_modifiers, modifiers);
 }
 

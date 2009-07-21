@@ -4,7 +4,7 @@ XIGRABBUTTON(libmansuffix)
 NAME
 ----
 
-   XIGrabButton, XIUngrabButton, XIGrabKeysym, XIUngrabKeysym -
+   XIGrabButton, XIUngrabButton, XIGrabKeycode, XIUngrabKeycode -
    grab/ungrab buttons or keys
 
 SYNOPSIS
@@ -31,9 +31,9 @@ SYNOPSIS
                        int num_modifiers,
                        XIGrabModifiers *modifiers);
 
-   int XIGrabKeysym( Display *display,
+   int XIGrabKeycode( Display *display,
                      int deviceid,
-                     int keysym,
+                     int keycode,
                      Window grab_window,
                      int grab_mode,
                      int paired_device_mode,
@@ -42,9 +42,9 @@ SYNOPSIS
                      int num_modifiers,
                      XIGrabModifiers *modifiers_inout);
    
-   int XIUngrabKeysym( Display *display,
+   int XIUngrabKeycode( Display *display,
                        int deviceid,
-                       int keysym,
+                       int keycode,
                        Window grab_window,
                        int num_modifiers,
                        XIGrabModifiers *modifiers);
@@ -59,9 +59,9 @@ SYNOPSIS
           Specifies the device button that is to be grabbed or
           released or XIAnyButton.
 
-   keysym
-          Specifies the keysym that is to be grabbed or released
-          or XIAnyKeysym.
+   keycode
+          Specifies the keycode that is to be grabbed or released
+          or XIAnyKeycode.
 
    num_modifiers
           Number of elements in modifiers or modifiers_return
@@ -101,16 +101,16 @@ SYNOPSIS
 DESCRIPTION
 -----------
 
-   XIGrabButton and XIGrabKeysym establishes a passive grab. The
+   XIGrabButton and XIGrabKeycode establishes a passive grab. The
    modifier device for a button grab is the paired master device
    if deviceid specifies a master pointer. Otherwise, the modifier
    device is the device specified with deviceid. In the future,
    the device is actively grabbed (as for XIGrabDevice, the
-   last-grab time is set to the time at which the button or keysym
+   last-grab time is set to the time at which the button or keycode
    was pressed and the X_XIButtonPress or X_XIKeyPress event is
    reported if all of the following conditions are true:
      * The device is not grabbed, and the specified button or
-       keysym is logically pressed when the specified modifier
+       keycode is logically pressed when the specified modifier
        keys are logically down on the modifier device and no other
        buttons or modifier keys are logically down.
      * Either the grab window is an ancestor of (or is) the focus
@@ -130,7 +130,7 @@ DESCRIPTION
    processing is frozen.
 
    This request overrides all previous grabs by the same client on
-   the same button/modifier or keysym/modifier combinations on the
+   the same button/modifier or keycode/modifier combinations on the
    same window. A modifiers of XIAnyModifier is equivalent to
    issuing the grab request for all possible modifier combinations
    (including the combination of no modifiers). It is not required
@@ -141,28 +141,28 @@ DESCRIPTION
    button.
 
    If some other client has already issued a XIGrabButton or
-   XIGrabKeysym with the same button/modifier or keysym/modifier
+   XIGrabKeycode with the same button/modifier or keycode/modifier
    combination on the same window, a BadAccess error results. When
    using XIAnyModifier or XIAnyButton , the request fails
    completely, and a XIBadAccess error results (no grabs are
    established) if there is a conflicting grab for any
-   combination. XIGrabButton and XIGrabKeysym have no effect on an
+   combination. XIGrabButton and XIGrabKeycode have no effect on an
    active grab.
 
-   XIGrabButton and XIGrabKeysym can generate BadClass, BadDevice,
+   XIGrabButton and XIGrabKeycode can generate BadClass, BadDevice,
    BadMatch, BadValue, and BadWindow errors.
 
-   XIUngrabButton and XIUngrabKeysym releases the passive grab for
-   a button/modifier or keysym/modifier combination on the
+   XIUngrabButton and XIUngrabKeycode releases the passive grab for
+   a button/modifier or keycode/modifier combination on the
    specified window if it was grabbed by this client. A modifier
    of XIAnyModifier is equivalent to issuing the ungrab request
    for all possible modifier combinations, including the
    combination of no modifiers. A button of XIAnyButton is
    equivalent to issuing the request for all possible buttons.
-   XIUngrabButton and XIUngrabKeysym have no effect on an active
+   XIUngrabButton and XIUngrabKeycode have no effect on an active
    grab.
 
-   XIUngrabButton and XIUngrabKeysym can generate BadDevice,
+   XIUngrabButton and XIUngrabKeycode can generate BadDevice,
    BadMatch, BadValue and BadWindow errors.
 
 DIAGNOSTICS
@@ -173,7 +173,7 @@ DIAGNOSTICS
 
    BadMatch
           This error may occur if XIGrabButton specified a device
-          that has no buttons, or XIGrabKeysym specified a device
+          that has no buttons, or XIGrabKeycode specified a device
           that has no keys.
 
    BadValue

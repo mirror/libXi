@@ -78,8 +78,8 @@ libman_xml = $(libman_txt:.txt=.xml)
 XI2_refpages = \
 	XIUndefineCursor.man \
 	XIUngrabButton.man \
-	XIGrabKeysym.man \
-	XIUngrabKeysym.man \
+	XIGrabKeycode.man \
+	XIUngrabKeycode.man \
 	XIUngrabDevice.man  \
         XIUngrabEnter.man \
         XIGrabFocusIn.man \
@@ -140,7 +140,7 @@ XDeleteDeviceProperty.man: XGetDeviceProperty.man
 
 # XI2 prereqs
 XIUndefineCursor: XIDefineCursor.man
-XIUngrabButton.man XIGrabKeysym.man XIUngrabKeysym.man: XIGrabButton.man
+XIUngrabButton.man XIGrabKeycode.man XIUngrabKeycode.man: XIGrabButton.man
 XIGetClientPointer.man: XISetClientPointer.man
 XIGetFocus.man: XISetFocus.man
 XIUngrabDevice.man: XIGrabDevice.man

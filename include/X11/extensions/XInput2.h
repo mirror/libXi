@@ -429,10 +429,10 @@ extern int XIGrabButton(
     XIGrabModifiers     *modifiers_inout
 );
 
-extern int XIGrabKeysym(
+extern int XIGrabKeycode(
     Display*            display,
     int                 deviceid,
-    int                 keysym,
+    int                 keycode,
     Window              grab_window,
     int                 grab_mode,
     int                 paired_device_mode,
@@ -475,10 +475,10 @@ extern Status XIUngrabButton(
     XIGrabModifiers     *modifiers
 );
 
-extern Status XIUngrabKeysym(
+extern Status XIUngrabKeycode(
     Display*            display,
     int                 deviceid,
-    int                 keysym,
+    int                 keycode,
     Window              grab_window,
     int                 num_modifiers,
     XIGrabModifiers     *modifiers
