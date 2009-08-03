@@ -125,7 +125,7 @@ XGetDeviceDontPropagateList.man: XChangeDeviceDontPropagateList.man
 XChangeDeviceControl.man: XGetDeviceControl.man
 XChangeDeviceKeyMapping.man: XGetDeviceKeyMapping.man
 XSetDeviceModifierMapping.man: XGetDeviceModifierMapping.man
-XDeviceTimeCoord: XGetDeviceMotionEvents.man
+XDeviceTimeCoord.man: XGetDeviceMotionEvents.man
 XChangeFeedbackControl.man: XGetFeedbackControl.man
 XUngrabDeviceButton.man: XGrabDeviceButton.man
 XUngrabDeviceKey.man: XGrabDeviceKey.man
@@ -139,7 +139,7 @@ XChangeDeviceProperty.man: XGetDeviceProperty.man
 XDeleteDeviceProperty.man: XGetDeviceProperty.man
 
 # XI2 prereqs
-XIUndefineCursor: XIDefineCursor.man
+XIUndefineCursor.man: XIDefineCursor.man
 XIUngrabButton.man XIGrabKeycode.man XIUngrabKeycode.man: XIGrabButton.man
 XIGetClientPointer.man: XISetClientPointer.man
 XIGetFocus.man: XISetFocus.man
