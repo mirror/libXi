@@ -85,22 +85,21 @@ DESCRIPTION
    by the server.
 
    The type field is of type Atom and indicates the nature of the
-   device.
-
-   The name field contains a pointer to a null-terminated string
-   that corresponds to one of the defined device types. The name
-   will correspond to one of the following strings (defined in the
-   header file XI.h:
+   device. The type will correspond to one of the following strings
+   (defined in the header file XI.h):
 
    XI_MOUSE XI_TABLET XI_KEYBOARD XI_TOUCHSCREEN XI_TOUCHPAD
    XI_BUTTONBOX XI_BARCODE XI_TRACKBALL XI_QUADRATURE XI_ID_MODULE
    XI_ONE_KNOB XI_NINE_KNOB XI_KNOB_BOX XI_SPACEBALL XI_DATAGLOVE
    XI_EYETRACKER XI_CURSORKEYS XI_FOOTMOUSE XI_JOYSTICK
 
-   These names may be directly compared with the name field of the
-   XDeviceInfo structure, or used in an XInternAtom request to
-   return an atom that can be compared with the type field of the
+   These strings may be used in an XInternAtom request to return
+   an atom that can be compared with the type field of the
    XDeviceInfo structure.
+
+   The name field contains a pointer to a null-terminated string
+   that serves as identifier of the device. This identifier may be
+   user-configured or automatically assigned by the server.
 
    The num_classes field is a number in the range 0-255 that
    specifies the number of input classes supported by the device
