@@ -136,7 +136,7 @@ typedef struct
 typedef struct
 {
     int                 deviceid;
-    char*               name;
+    char                *name;
     int                 use;
     int                 attachment;
     Bool                enabled;
