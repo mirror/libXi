@@ -1,5 +1,3 @@
-dnl $XdotOrg: lib/Xi/configure.ac,v 1.9 2005/12/15 00:24:30 kem Exp $
-dnl
 dnl Process this file with autoconf to create configure.
 
 AC_PREREQ([2.57])

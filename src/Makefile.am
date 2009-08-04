@@ -1,5 +1,3 @@
-# $XdotOrg: lib/Xi/src/Makefile.am,v 1.6 2005/12/03 04:41:49 kem Exp $
-
 lib_LTLIBRARIES = libXi.la
 
 XI2_sources = XIAllowEvents.c \
