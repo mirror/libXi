@@ -34,6 +34,7 @@ XI2_manpages = \
 	XIGrabButton.txt \
 	XIGrabDevice.txt \
         XIGrabEnter.txt \
+	XIQueryDevice.txt \
 	XIQueryPointer.txt \
 	XIQueryVersion.txt \
 	XISelectEvents.txt \
@@ -88,7 +89,8 @@ XI2_refpages = \
 	XIGetFocus.man \
 	XIGetSelectedEvents.man \
 	XIDeleteProperty.man \
-	XIGetProperty.man
+	XIGetProperty.man \
+	XIFreeDeviceInfo.man
 
 libman_ref = \
 	XGetDeviceDontPropagateList.man \
@@ -148,6 +150,7 @@ XIGetProperty.man: XIChangeProperty.man
 XIDeleteProperty.man: XIChangeProperty.man
 XIUngrabEnter.man XIGrabFocusIn.man XIUngrabFocusIn.man: XIGrabEnter.man
 XIGetSelectedEvents.man: XISelectEvents.man
+XIFreeDeviceInfo.man: XIQueryDevice.man
 
 # Strings to replace in man pages
 XORGRELSTRING = $(PACKAGE_STRING)
