@@ -3,7 +3,7 @@ dnl Process this file with autoconf to create configure.
 AC_PREREQ([2.57])
 
 AC_INIT(libXi, 1.2.99.3, [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg], libXi)
-AM_INIT_AUTOMAKE([dist-bzip2])
+AM_INIT_AUTOMAKE([dist-bzip2 foreign])
 AM_MAINTAINER_MODE
 
 # Require xorg-macros: XORG_CWARNFLAGS, XORG_CHANGELOG
