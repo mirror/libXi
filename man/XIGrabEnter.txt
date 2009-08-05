@@ -88,52 +88,56 @@ SYNOPSIS
 DESCRIPTION
 -----------
 
-   XIGrabEnter and XIGrabFocusIn establish a passive grab. The modifier device
-   for a enter grab is the paired master device if deviceid specifies a master
-   pointer. Otherwise, the modifier device is the device specified with
-   deviceid. 
+   XIGrabEnter and XIGrabFocusIn establish a passive grab. The
+   modifier device for a enter grab is the paired master device if
+   deviceid specifies a master pointer. Otherwise, the modifier
+   device is the device specified with deviceid.
 
-   For XIGrabEnter and XIGrabFocusIn, in the future, the device is actively
-   grabbed (as for XIGrabDevice, the last-grab time is set to the time at
-   which the pointer/focus entered window) if the device is not grabbed and
-   the pointer has entered the grab_window or the focus has been set to the
-   grab_window when the specified modifier keys are logically down on the
-   modifier device and no other buttons or modifier keys are logically down.
+   For XIGrabEnter and XIGrabFocusIn, in the future, the device is
+   actively grabbed (as for XIGrabDevice, the last-grab time is
+   set to the time at which the pointer/focus entered window) if
+   the device is not grabbed and the pointer has entered the
+   grab_window or the focus has been set to the grab_window when
+   the specified modifier keys are logically down on the modifier
+   device and no other buttons or modifier keys are logically
+   down.
 
    The interpretation of the remaining arguments is as for
    XIGrabDevice. The active grab is terminated automatically when
-   the pointer leaves the window or the focus is set to a different window
-   (independent of the logical state of the modifier keys).
+   the pointer leaves the window or the focus is set to a
+   different window (independent of the logical state of the
+   modifier keys).
 
    Note that the logical state of a device (as seen by client
    applications) may lag the physical state if device event
    processing is frozen.
 
-   This request overrides all previous grabs by the same client of the same
-   type and modifier combinations on the same window. A modifiers of
-   XIAnyModifier is equivalent to issuing the grab request for all possible
-   modifier combinations (including the combination of no modifiers). It is
-   not required that all modifiers specified have currently assigned KeyCodes.
+   This request overrides all previous grabs by the same client of
+   the same type and modifier combinations on the same window. A
+   modifiers of XIAnyModifier is equivalent to issuing the grab
+   request for all possible modifier combinations (including the
+   combination of no modifiers). It is not required that all
+   modifiers specified have currently assigned KeyCodes.
 
    If some other client has already issued a XIGrabEnter or
-   XIGrabFocusIn  on the same window, a BadAccess error results. When
-   using XIAnyModifier, the request fails completely, and a XIBadAccess error
-   results (no grabs are established) if there is a conflicting grab for any
-   combination. XIGrabEnter and XIGrabFocusin have no effect on an
-   active grab.
+   XIGrabFocusIn  on the same window, a BadAccess error results.
+   When using XIAnyModifier, the request fails completely, and a
+   XIBadAccess error results (no grabs are established) if there
+   is a conflicting grab for any combination. XIGrabEnter and
+   XIGrabFocusin have no effect on an active grab.
 
    XIGrabEnter and XIGrabFocusIn can generate BadDevice,
    BadMatch, BadValue, and BadWindow errors.
 
-   XIUngrabEnter and XIUngrabFocusIn releases the passive grab on the
-   specified window if it was grabbed by this client. A modifier
-   of XIAnyModifier is equivalent to issuing the ungrab request
-   for all possible modifier combinations, including the combination of no
-   modifiers. XIUngrabEnter and XIUngrabFocusIn have no effect on an active
-   grab.
+   XIUngrabEnter and XIUngrabFocusIn releases the passive grab on
+   the specified window if it was grabbed by this client. A
+   modifier of XIAnyModifier is equivalent to issuing the ungrab
+   request for all possible modifier combinations, including the
+   combination of no modifiers. XIUngrabEnter and XIUngrabFocusIn
+   have no effect on an active grab.
 
-   XIUngrabEnter and XIUngrabFocusIn can generate BadDevice, BadMatch,
-   BadValue and BadWindow errors.
+   XIUngrabEnter and XIUngrabFocusIn can generate BadDevice,
+   BadMatch, BadValue and BadWindow errors.
 
 DIAGNOSTICS
 -----------
