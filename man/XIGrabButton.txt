@@ -125,6 +125,13 @@ DESCRIPTION
    released (independent of the logical state of the modifier
    keys).
 
+   If the device is an attached slave device, the device is
+   automatically detached from the master device when the grab
+   activates and reattached to the same master device when the
+   grab deactivates. If the master device is removed while the
+   device is floating as a result of a grab, the device remains
+   floating once the grab deactivates.
+
    Note that the logical state of a device (as seen by client
    applications) may lag the physical state if device event
    processing is frozen.

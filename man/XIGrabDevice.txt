@@ -58,8 +58,13 @@ DESCRIPTION
    XIGrabDevice actively grabs control of the device. Further
    device events are reported only to the grabbing client.
    XIGrabDevice overrides any active device grab by this client.
-   if deviceid is an attached slave device, the device is set
-   floating until the client calls XIUngrabDevice.
+
+   If the device is an attached slave device, the device is
+   automatically detached from the master device and reattached to
+   the same master device when client ungrabs the device. If the
+   master device is removed while the device is floating as a
+   result of a grab, the device remains floating once the grab
+   deactivates.
 
    If owner_events is False, all generated device events are
    reported with respect to grab_window if selected. If
