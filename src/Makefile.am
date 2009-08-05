@@ -71,7 +71,7 @@ AM_CFLAGS = -I$(top_srcdir)/include \
             $(MALLOC_ZERO_CFLAGS)
 
 
-libXi_la_LDFLAGS = -version-number 6:0:0 -no-undefined
+libXi_la_LDFLAGS = -version-number 6:1:0 -no-undefined
 
 libXiincludedir = $(includedir)/X11/extensions
 libXiinclude_HEADERS = $(top_srcdir)/include/X11/extensions/XInput.h \
