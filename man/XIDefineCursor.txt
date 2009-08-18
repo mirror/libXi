@@ -37,7 +37,7 @@ DESCRIPTION
 
    If a cursor is set, it will be used when the device's pointer
    is in the window. If the cursor is None, it is equivalent to
-   XUndefineDefineCursor.
+   XIUndefineCursor.
 
    XIDefineCursor can generate BadCursor and BadWindow.
 
@@ -52,11 +52,15 @@ DESCRIPTION
    XDefineCursor and XUndefineCursor but specify the device
    explicitly.
 
-   XUndefineDevicePointer can generate a BadDevice and a BadWindow
+   XIUndefineCursor can generate a BadDevice and a BadWindow
    error.
 
 DIAGNOSTICS
 -----------
+
+   BadCursor
+          A value for a cursor argument does not name a defined
+          cursor.
 
    BadDevice
           An invalid device was specified. The device does not
