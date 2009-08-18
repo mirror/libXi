@@ -39,7 +39,10 @@ DESCRIPTION
    is in the window. If the cursor is None, it is equivalent to
    XIUndefineCursor.
 
-   XIDefineCursor can generate BadCursor and BadWindow.
+   The deviceid must be a master pointer device or a BadDevice error is
+   returned.
+
+   XIDefineCursor can generate BadDevice, BadCursor and BadWindow.
 
    The XIUndefineCursor function undoes the effect of a previous
    XIDefineCursor for this window. When the pointer is in the
