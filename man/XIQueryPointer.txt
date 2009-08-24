@@ -20,9 +20,9 @@ SYNOPSIS
                         double *root_y_return,
                         double *win_x_return,
                         double *win_y_return,
+                        XIButtonState *buttons_return,
                         XIModifierState *modifiers_return,
-                        XIGroupState *group_return,
-                        XIButtonState *buttons_return);
+                        XIGroupState *group_return);
 
    buttons_return
           Returns the current button state.
