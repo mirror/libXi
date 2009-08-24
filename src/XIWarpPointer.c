@@ -42,12 +42,12 @@ XIWarpPointer(Display      *dpy,
               int          deviceid,
               Window       src_win,
               Window       dst_win,
-              int          src_x,
-              int          src_y,
+              double       src_x,
+              double       src_y,
               unsigned int src_width,
               unsigned int src_height,
-              int          dst_x,
-              int          dst_y)
+              double       dst_x,
+              double       dst_y)
 {
     xXIWarpPointerReq *req;
 
@@ -63,12 +63,12 @@ XIWarpPointer(Display      *dpy,
     req->deviceid = deviceid;
     req->src_win = src_win;
     req->dst_win = dst_win;
-    req->src_x = src_x;
-    req->src_y = src_y;
+    req->src_x = (int)(src_x * 65536.0);
+    req->src_y = (int)(src_y * 65536.0);
     req->src_width = src_width;
     req->src_height = src_height;
-    req->dst_x = dst_x;
-    req->dst_y = dst_y;
+    req->dst_x = (int)(dst_x * 65536.0);
+    req->dst_y = (int)(dst_y * 65536.0);
 
 
     UnlockDisplay(dpy);

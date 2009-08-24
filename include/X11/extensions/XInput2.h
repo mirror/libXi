@@ -314,12 +314,12 @@ extern Bool     XIWarpPointer(
     int                 deviceid,
     Window              src_win,
     Window              dst_win,
-    int                 src_x,
-    int                 src_y,
+    double              src_x,
+    double              src_y,
     unsigned int        src_width,
     unsigned int        src_height,
-    int                 dst_x,
-    int                 dst_y
+    double              dst_x,
+    double              dst_y
 );
 
 extern Status   XIDefineCursor(

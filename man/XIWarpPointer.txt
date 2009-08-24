@@ -15,12 +15,12 @@ SYNOPSIS
                        int deviceid,
                        Window src_w,
                        Window dest_w,
-                       int src_x,
-                       int src_y,
+                       double src_x,
+                       double src_y,
                        int src_width,
                        int src_height,
-                       int dest_x,
-                       int dest_y);
+                       double dest_x,
+                       double dest_y);
    
    dest_w
           Specifies the destination window or None.
