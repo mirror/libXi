@@ -32,14 +32,6 @@ AC_PATH_PROG([ASCIIDOC], [asciidoc])
 AM_CONDITIONAL([HAVE_DOCTOOLS], [test "x$XMLTO" != "x" && test "x$ASCIIDOC" != "x"])
 if test "x$XMLTO" = "x" || test "x$ASCIIDOC" = "x"; then
 	AC_MSG_WARN([xmlto or asciidoc not found - cannot create man pages without it])
-else
-        AC_MSG_WARN([
-                     *********************************************************
-                     xmlto and asciidoc found. I will be building man
-                     pages. Your asciidoc may not support multiple docbook 
-                     targets and building the man pages may fail. See
-                     http://hg.sharesource.org/asciidoc/raw-rev/fc5a653a30a3
-                     *********************************************************])
 fi
 
 XORG_CHECK_MALLOC_ZERO
