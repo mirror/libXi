@@ -1292,6 +1292,7 @@ wireToDeviceEvent(xXIDeviceEvent *in, XGenericEventCookie* cookie)
     out->type = in->type;
     out->extension = in->extension;
     out->evtype = in->evtype;
+    out->send_event = ((in->type & 0x80) != 0);
     out->time = in->time;
     out->deviceid = in->deviceid;
     out->sourceid = in->sourceid;
@@ -1489,6 +1490,7 @@ wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XGenericEventCookie *cookie)
     out->type = in->type;
     out->extension = in->extension;
     out->evtype = in->evtype;
+    out->send_event = ((in->type & 0x80) != 0);
     out->time = in->time;
     out->deviceid = in->deviceid;
     out->sourceid = in->sourceid;
@@ -1518,6 +1520,7 @@ wireToHierarchyChangedEvent(xXIHierarchyEvent *in, XGenericEventCookie *cookie)
     out->type           = in->type;
     out->extension      = in->extension;
     out->evtype         = in->evtype;
+    out->send_event = ((in->type & 0x80) != 0);
     out->time           = in->time;
     out->flags          = in->flags;
     out->num_info       = in->num_info;
@@ -1558,6 +1561,7 @@ wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
     out->type           = in->type;
     out->extension      = in->extension;
     out->evtype         = in->evtype;
+    out->send_event = ((in->type & 0x80) != 0);
     out->time           = in->time;
     out->detail         = in->detail;
     out->deviceid       = in->deviceid;
@@ -1600,6 +1604,7 @@ wireToEnterLeave(xXIEnterEvent *in, XGenericEventCookie *cookie)
     out->type           = in->type;
     out->extension      = in->extension;
     out->evtype         = in->evtype;
+    out->send_event = ((in->type & 0x80) != 0);
     out->time           = in->time;
     out->detail         = in->detail;
     out->deviceid       = in->deviceid;
@@ -1640,6 +1645,7 @@ wireToPropertyEvent(xXIPropertyEvent *in, XGenericEventCookie *cookie)
     out->type           = in->type;
     out->extension      = in->extension;
     out->evtype         = in->evtype;
+    out->send_event = ((in->type & 0x80) != 0);
     out->time           = in->time;
     out->property       = in->property;
     out->what           = in->what;
