@@ -55,13 +55,13 @@ XIGrabDevice(Display* dpy, int deviceid, Window grab_window, Time time,
     req->grab_mode = grab_mode;
     req->paired_device_mode = paired_device_mode;
     req->owner_events = owner_events;
-    req->mask_len = mask->mask_len;
+    req->mask_len = (mask->mask_len + 3)/4;
     req->cursor = cursor;
 
 
     /* masks.mask_len is in bytes, but we need 4-byte units on the wire,
      * and they need to be padded with 0 */
-    len = (mask->mask_len + 3) / 4;
+    len = req->mask_len * 4;
     buff = calloc(1, len);
     memcpy(buff, mask->mask, mask->mask_len);
 
