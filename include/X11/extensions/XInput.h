@@ -159,6 +159,11 @@ SOFTWARE.
 extern "C" {
 #endif
     extern int _XiGetDevicePresenceNotifyEvent(Display *);
+    extern void _xibaddevice( Display *dpy, int *error);
+    extern void _xibadclass( Display *dpy, int *error);
+    extern void _xibadevent( Display *dpy, int *error);
+    extern void _xibadmode( Display *dpy, int *error);
+    extern void _xidevicebusy( Display *dpy, int *error);
 #if defined(__cplusplus) || defined(c_plusplus)
 }
 #endif
