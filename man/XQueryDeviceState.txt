@@ -12,8 +12,8 @@ SYNOPSIS
 
    #include <X11/extensions/XInput.h>
 
-   int XQueryDeviceState( Display *display,
-                          XDevice *device);
+   XDeviceState* XQueryDeviceState( Display *display,
+                                    XDevice *device);
    
    display
           Specifies the connection to the X server.
@@ -34,7 +34,7 @@ DESCRIPTION
 
    XQueryDeviceState can generate a BadDevice error.
 
-Structures
+   Structures:
 
    The XDeviceState structure contains:
 
