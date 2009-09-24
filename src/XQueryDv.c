@@ -160,7 +160,8 @@ XQueryDeviceState(
 		CARD32 *valuators = (CARD32 *) (v + 1);
 
 		V->class = v->class;
-		V->length = sizeof(XValuatorState);
+		V->length = sizeof(XValuatorState) +
+			    v->num_valuators * sizeof(int);
 		V->num_valuators = v->num_valuators;
 		V->mode = v->mode;
 		Any = (XInputClass *) (V + 1);
