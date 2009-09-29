@@ -102,8 +102,6 @@ extern int _XiGetDevicePresenceNotifyEvent(
 
 int copy_classes(XIDeviceInfo *to, xXIAnyInfo* from, int nclasses);
 int size_classes(xXIAnyInfo* from, int nclasses);
-int sizeDeviceClassType(int type, int num_elements);
-
 
 static XExtensionInfo *xinput_info;
 static /* const */ char *xinput_extension_name = INAME;
@@ -961,7 +959,7 @@ sizeDeviceEvent(int buttons_len, int valuators_len,
  *
  * Also used from copy_classes in XIQueryDevice.c
  */
-int
+static int
 sizeDeviceClassType(int type, int num_elements)
 {
     int l = 0;
@@ -1342,7 +1340,7 @@ wireToDeviceEvent(xXIDeviceEvent *in, XGenericEventCookie* cookie)
     return 1;
 }
 
-int
+_X_HIDDEN int
 size_classes(xXIAnyInfo* from, int nclasses)
 {
     int len, i;
@@ -1383,7 +1381,7 @@ size_classes(xXIAnyInfo* from, int nclasses)
  *    |________|___________^
  *             |______________________^
  */
-int
+_X_HIDDEN int
 copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int nclasses)
 {
     XIAnyClassInfo *any_lib;
