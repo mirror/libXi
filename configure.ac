@@ -2,7 +2,7 @@ dnl Process this file with autoconf to create configure.
 
 AC_PREREQ([2.57])
 
-AC_INIT(libXi, 1.2.99.4, [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg], libXi)
+AC_INIT(libXi, 1.3, [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg], libXi)
 AM_INIT_AUTOMAKE([dist-bzip2 foreign])
 AM_MAINTAINER_MODE
 
