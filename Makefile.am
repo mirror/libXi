@@ -3,9 +3,8 @@ SUBDIRS = src man
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = xi.pc
 
-EXTRA_DIST = xi.pc.in ChangeLog
+EXTRA_DIST = xi.pc.in 
 
-CLEANFILES = ChangeLog
 
 .PHONY: ChangeLog
 
