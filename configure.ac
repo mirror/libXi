@@ -24,6 +24,11 @@ XI_CFLAGS="$CWARNFLAGS $XI_CFLAGS"
 AC_SUBST(XI_CFLAGS)
 AC_SUBST(XI_LIBS)
 
+# Determine if the source for man pages is available
+# It may already be present (tarball) or can be generated using xmlto
+AM_CONDITIONAL([INSTALL_MANPAGES],
+	[test -f "$srcdir/man/XAllowDeviceEvents.man" || test "x$have_xmlto" = xyes])
+
 # Check for xmlto and asciidoc for man page conversion
 # (only needed by people building tarballs)
 AC_ARG_VAR([XMLTO], [Path to xmlto command])
