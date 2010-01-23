@@ -112,11 +112,11 @@ libman_ref = \
 libman_pre = $(libman_txt:.txt=.man) $(libman_ref)
 
 if INSTALL_MANPAGES
-nodist_libman_DATA = $(libman_pre:.man=.$(LIB_MAN_SUFFIX))
+libman_DATA = $(libman_pre:.man=.$(LIB_MAN_SUFFIX))
 endif
 
 EXTRA_DIST = $(libman_txt) $(libman_pre)
-CLEANFILES = $(nodist_libman_DATA) *.libmansuffix
+CLEANFILES = $(libman_DATA) *.libmansuffix
 MAINTAINERCLEANFILES = $(libman_pre) *.xml
 
 # prerequisites for the side effect pages
