@@ -26,17 +26,23 @@ XI_CFLAGS="$CWARNFLAGS $XI_CFLAGS"
 AC_SUBST(XI_CFLAGS)
 AC_SUBST(XI_LIBS)
 
-# Determine if the source for man pages is available
-# It may already be present (tarball) or can be generated using xmlto
-AM_CONDITIONAL([INSTALL_MANPAGES],
-	[test -f "$srcdir/man/XAllowDeviceEvents.man" || test "x$have_xmlto" = xyes])
-
 # Check for xmlto and asciidoc for man page conversion
 # (only needed by people building tarballs)
-AM_CONDITIONAL([HAVE_DOCTOOLS], [test "x$XMLTO" != "x" && test "x$ASCIIDOC" != "x"])
-if test "x$XMLTO" = "x" || test "x$ASCIIDOC" = "x"; then
+if test "$have_xmlto" = yes && test "$have_asciidoc" = yes; then
+	have_doctools=yes
+else
+	have_doctools=no
+fi
+AM_CONDITIONAL([HAVE_DOCTOOLS], [test $have_doctools = yes])
+if test $have_doctools = no; then
 	AC_MSG_WARN([xmlto or asciidoc not found - cannot create man pages without it])
 fi
+
+# Determine if the source for man pages is available
+# It may already be present (tarball) or can be generated using doctools
+AM_CONDITIONAL([INSTALL_MANPAGES],
+	[test -f "$srcdir/man/XAllowDeviceEvents.man" || \
+	  test $have_doctools = yes])
 
 XORG_CHECK_MALLOC_ZERO
 
