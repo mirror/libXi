@@ -161,6 +161,8 @@ XIGetSelectedEvents(Display* dpy, Window win, int *num_masks_return)
 
     *num_masks_return = reply.num_masks;
 
+    Xfree(mask_in);
+
     return mask_out;
 
 error:
