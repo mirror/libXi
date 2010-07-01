@@ -50,8 +50,6 @@ SOFTWARE.
  *
  */
 
-#define NEED_EVENTS
-#define NEED_REPLIES
 #include <stdio.h>
 #include <stdint.h>
 #include <X11/extensions/XI.h>
