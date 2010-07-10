@@ -6,12 +6,15 @@ AC_INIT(libXi, 1.3, [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg], l
 AM_INIT_AUTOMAKE([foreign dist-bzip2])
 AM_MAINTAINER_MODE
 
-# Require xorg-macros: XORG_DEFAULT_OPTIONS
+# Require xorg-macros minimum of 1.10 for DocBook XML documentation
 m4_ifndef([XORG_MACROS_VERSION],
-          [m4_fatal([must install xorg-macros 1.6 or later before running autoconf/autogen])])
-XORG_MACROS_VERSION(1.6)
+          [m4_fatal([must install xorg-macros 1.10 or later before running autoconf/autogen])])
+XORG_MACROS_VERSION(1.10)
 XORG_DEFAULT_OPTIONS
+XORG_ENABLE_SPECS
 XORG_WITH_XMLTO(0.0.20)
+XORG_WITH_FOP
+XORG_CHECK_SGML_DOCTOOLS(1.5)
 XORG_WITH_ASCIIDOC(8.4.5)
 AM_CONFIG_HEADER(src/config.h)
 
@@ -44,7 +47,9 @@ AM_CONDITIONAL([INSTALL_MANPAGES],
 XORG_CHECK_MALLOC_ZERO
 
 AC_OUTPUT([Makefile
-	   src/Makefile
-	   man/Makefile
+           src/Makefile
+           man/Makefile
+           doc/Makefile
+           specs/Makefile
            xi.pc])
 
