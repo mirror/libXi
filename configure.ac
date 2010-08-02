@@ -30,7 +30,7 @@ AC_ARG_VAR([XMLTO], [Path to xmlto command])
 AC_PATH_PROG([XMLTO], [xmlto])
 AC_ARG_VAR([ASCIIDOC], [Path to asciidoc command])
 AC_PATH_PROG([ASCIIDOC], [asciidoc])
-if test "x$XMLTO" = "x" && test "x$ASCIIDOC" = "x"; then
+if test "x$XMLTO" != "x" && test "x$ASCIIDOC" != "x"; then
 	have_doctools=yes
 else
 	have_doctools=no
