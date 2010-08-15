@@ -23,6 +23,7 @@
 
 libmandir = $(LIB_MAN_DIR)
 
+# Source files for X Input v2 man pages
 XI2_txt = \
 	XIChangeHierarchy.txt \
 	XIDefineCursor.txt \
@@ -39,6 +40,7 @@ XI2_txt = \
 	XIListProperties.txt \
 	XIChangeProperty.txt
 
+# Source files for X Input v1 man pages
 libman_txt = \
 	XAllowDeviceEvents.txt \
 	XChangeDeviceDontPropagateList.txt \
@@ -67,10 +69,12 @@ libman_txt = \
 	XSetDeviceValuators.txt \
         $(XI2_txt)
 
+# Name of DocBook XML files generated from .txt files by asciidoc
 libman_xml = $(libman_txt:.txt=.xml)
-# manpages that are references to another page. These are produced as a
-# side effect of the xmlto rule, so they need to be handled specially.
 
+# Shadow man pages are simply links to a main man page.
+# They are created by the xmlto command when generating man pages from DocBook
+# The shadow man page contains a gtroff .so request to include the main man page
 XI2_shadows = \
 	XIUndefineCursor.man \
 	XIUngrabButton.man \
@@ -107,6 +111,7 @@ libman_shadows = \
         $(XI2_shadows)
 
 
+# Name of man page files generated from DocBook XML files by xmlto
 libman_PRE = $(libman_txt:.txt=.man) $(libman_shadows)
 
 if INSTALL_MANPAGES
@@ -117,7 +122,7 @@ EXTRA_DIST = $(libman_txt) $(libman_PRE)
 CLEANFILES = $(libman_DATA) *.libmansuffix
 MAINTAINERCLEANFILES = $(libman_PRE) *.xml
 
-# prerequisites for the side effect pages
+# Dependencies for X Input v1 shadow pages
 XGetDeviceDontPropagateList.man: XChangeDeviceDontPropagateList.man
 XChangeDeviceControl.man: XGetDeviceControl.man
 XChangeDeviceKeyMapping.man: XGetDeviceKeyMapping.man
@@ -135,7 +140,7 @@ XGetDeviceFocus.man: XSetDeviceFocus.man
 XChangeDeviceProperty.man: XGetDeviceProperty.man
 XDeleteDeviceProperty.man: XGetDeviceProperty.man
 
-# XI2 prereqs
+# Dependencies for X Input v2 shadow pages
 XIUndefineCursor.man: XIDefineCursor.man
 XIUngrabButton.man XIGrabKeycode.man XIUngrabKeycode.man: XIGrabButton.man
 XIGetClientPointer.man: XISetClientPointer.man
@@ -151,6 +156,7 @@ XIFreeDeviceInfo.man: XIQueryDevice.man
 XORGRELSTRING = $(PACKAGE_STRING)
   XORGMANNAME = X Version 11
 
+# Unable to use __libmansuffix__ as underscores are lost in txt --> xml conversion
 MAN_SUBSTS = \
 	-e 's/__xorgversion__/"$(XORGRELSTRING)" "$(XORGMANNAME)"/' \
 	-e 's/__xservername__/Xorg/g' \
@@ -163,6 +169,7 @@ SUFFIXES = .man .$(LIB_MAN_SUFFIX)
 .man.$(LIB_MAN_SUFFIX):
 	$(SED) $(MAN_SUBSTS) < $< > $@
 
+# Generate man pages and shadow pages from .txt and then from DocBook XML
 if HAVE_DOCTOOLS
 SUFFIXES += .txt .xml
 .txt.xml:
@@ -171,7 +178,7 @@ SUFFIXES += .txt .xml
 	$(XMLTO) man $<
 	mv -f $(@:.man=.libmansuffix) $@
 
-# need to force asciidoc/xmlto to run if necessary for side effect pages
+# Invoke asciidoc/xmlto main man page generation for shadow pages
 $(libman_shadows):
 	@if test ! -f $(@:.man=.libmansuffix); then \
 	  rm -f $<; \
