@@ -24,50 +24,50 @@
 libmandir = $(LIB_MAN_DIR)
 
 # Source files for X Input v2 man pages
-XI2_txt = \
-	XIChangeHierarchy.txt \
-	XIDefineCursor.txt \
-	XIGrabButton.txt \
-	XIGrabDevice.txt \
-        XIGrabEnter.txt \
-	XIQueryDevice.txt \
-	XIQueryPointer.txt \
-	XIQueryVersion.txt \
-	XISelectEvents.txt \
-	XISetClientPointer.txt \
-	XISetFocus.txt \
-	XIWarpPointer.txt \
-	XIListProperties.txt \
+XI2_txt = 					\
+	XIChangeHierarchy.txt			\
+	XIDefineCursor.txt			\
+	XIGrabButton.txt			\
+	XIGrabDevice.txt			\
+	XIGrabEnter.txt				\
+	XIQueryDevice.txt			\
+	XIQueryPointer.txt			\
+	XIQueryVersion.txt			\
+	XISelectEvents.txt			\
+	XISetClientPointer.txt			\
+	XISetFocus.txt				\
+	XIWarpPointer.txt			\
+	XIListProperties.txt			\
 	XIChangeProperty.txt
 
 # Source files for X Input v1 man pages
 libman_txt = \
-	XAllowDeviceEvents.txt \
-	XChangeDeviceDontPropagateList.txt \
-	XChangeKeyboardDevice.txt \
-	XChangePointerDevice.txt \
-	XDeviceBell.txt \
-	XGetDeviceControl.txt \
-	XGetDeviceKeyMapping.txt \
-	XGetDeviceModifierMapping.txt \
-	XGetDeviceMotionEvents.txt \
-	XGetDeviceProperty.txt \
-	XGetExtensionVersion.txt \
-	XGetFeedbackControl.txt \
-	XGrabDeviceButton.txt \
-	XGrabDeviceKey.txt \
-	XGrabDevice.txt \
-	XListDeviceProperties.txt \
-	XListInputDevices.txt \
-	XOpenDevice.txt \
-	XQueryDeviceState.txt \
-	XSelectExtensionEvent.txt \
-	XSendExtensionEvent.txt \
-	XSetDeviceButtonMapping.txt \
-	XSetDeviceFocus.txt \
-	XSetDeviceMode.txt \
-	XSetDeviceValuators.txt \
-        $(XI2_txt)
+	XAllowDeviceEvents.txt			\
+	XChangeDeviceDontPropagateList.txt	\
+	XChangeKeyboardDevice.txt		\
+	XChangePointerDevice.txt		\
+	XDeviceBell.txt				\
+	XGetDeviceControl.txt			\
+	XGetDeviceKeyMapping.txt		\
+	XGetDeviceModifierMapping.txt		\
+	XGetDeviceMotionEvents.txt		\
+	XGetDeviceProperty.txt			\
+	XGetExtensionVersion.txt		\
+	XGetFeedbackControl.txt			\
+	XGrabDeviceButton.txt			\
+	XGrabDeviceKey.txt			\
+	XGrabDevice.txt				\
+	XListDeviceProperties.txt		\
+	XListInputDevices.txt			\
+	XOpenDevice.txt				\
+	XQueryDeviceState.txt			\
+	XSelectExtensionEvent.txt		\
+	XSendExtensionEvent.txt			\
+	XSetDeviceButtonMapping.txt		\
+	XSetDeviceFocus.txt			\
+	XSetDeviceMode.txt			\
+	XSetDeviceValuators.txt			\
+	$(XI2_txt)
 
 # Name of DocBook XML files generated from .txt files by asciidoc
 libman_xml = $(libman_txt:.txt=.xml)
@@ -75,40 +75,40 @@ libman_xml = $(libman_txt:.txt=.xml)
 # Shadow man pages are simply links to a main man page.
 # They are created by the xmlto command when generating man pages from DocBook
 # The shadow man page contains a gtroff .so request to include the main man page
-XI2_shadows = \
-	XIUndefineCursor.man \
-	XIUngrabButton.man \
-	XIGrabKeycode.man \
-	XIUngrabKeycode.man \
-	XIUngrabDevice.man  \
-        XIUngrabEnter.man \
-        XIGrabFocusIn.man \
-        XIUngrabFocusIn.man \
-	XIGetClientPointer.man \
-	XIGetFocus.man \
-	XIGetSelectedEvents.man \
-	XIDeleteProperty.man \
-	XIGetProperty.man \
+XI2_shadows = 					\
+	XIUndefineCursor.man			\
+	XIUngrabButton.man			\
+	XIGrabKeycode.man			\
+	XIUngrabKeycode.man			\
+	XIUngrabDevice.man			\
+	XIUngrabEnter.man			\
+	XIGrabFocusIn.man			\
+	XIUngrabFocusIn.man			\
+	XIGetClientPointer.man			\
+	XIGetFocus.man				\
+	XIGetSelectedEvents.man			\
+	XIDeleteProperty.man			\
+	XIGetProperty.man			\
 	XIFreeDeviceInfo.man
 
-libman_shadows = \
-	XGetDeviceDontPropagateList.man \
-	XChangeDeviceControl.man \
-	XChangeDeviceKeyMapping.man \
-	XSetDeviceModifierMapping.man \
-	XChangeFeedbackControl.man \
-	XUngrabDeviceButton.man \
-	XUngrabDeviceKey.man \
-	XUngrabDevice.man \
-	XDeviceTimeCoord.man \
-	XFreeDeviceList.man \
-	XCloseDevice.man \
-	XGetSelectedExtensionEvents.man \
-	XGetDeviceButtonMapping.man \
-	XGetDeviceFocus.man \
-	XChangeDeviceProperty.man \
-	XDeleteDeviceProperty.man \
-        $(XI2_shadows)
+libman_shadows =				\
+	XGetDeviceDontPropagateList.man		\
+	XChangeDeviceControl.man		\
+	XChangeDeviceKeyMapping.man		\
+	XSetDeviceModifierMapping.man		\
+	XChangeFeedbackControl.man		\
+	XUngrabDeviceButton.man			\
+	XUngrabDeviceKey.man			\
+	XUngrabDevice.man			\
+	XDeviceTimeCoord.man			\
+	XFreeDeviceList.man			\
+	XCloseDevice.man			\
+	XGetSelectedExtensionEvents.man		\
+	XGetDeviceButtonMapping.man		\
+	XGetDeviceFocus.man			\
+	XChangeDeviceProperty.man		\
+	XDeleteDeviceProperty.man		\
+	$(XI2_shadows)
 
 # Name of man page files generated from DocBook XML files by xmlto
 libman_PRE = $(libman_txt:.txt=.man) $(libman_shadows)
