@@ -163,16 +163,16 @@ SUFFIXES = .man .$(LIB_MAN_SUFFIX)
 if HAVE_DOCTOOLS
 SUFFIXES += .txt .xml
 .txt.xml:
-	$(ASCIIDOC) -b docbook -d manpage -o $@ $<
+	$(AM_V_GEN)$(ASCIIDOC) -b docbook -d manpage -o $@ $<
 .xml.man:
-	$(XMLTO) man $<
-	mv -f $(@:.man=.libmansuffix) $@
+	$(AM_V_GEN)$(XMLTO) man $<
+	$(AM_V_GEN)mv -f $(@:.man=.libmansuffix) $@
 
 # Invoke asciidoc/xmlto main man page generation for shadow pages
 $(libman_shadows):
 	@if test ! -f $(@:.man=.libmansuffix); then \
-	  rm -f $<; \
-	  $(MAKE) $(AM_MAKEFLAGS) $< || exit 1; \
+	  $(AM_V_GEN)rm -f $<; \
+	  $(AM_V_GEN)$(MAKE) $(AM_MAKEFLAGS) $< || exit 1; \
 	fi
-	mv -f $(@:.man=.libmansuffix) $@
+	$(AM_V_GEN)mv -f $(@:.man=.libmansuffix) $@
 endif
