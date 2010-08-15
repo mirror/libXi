@@ -23,8 +23,6 @@
 
 libmandir = $(LIB_MAN_DIR)
 
-LIB_MAN_DIR_SUFFIX = $(LIB_MAN_DIR:@mandir@/man%=%)
-
 XI2_manpages = \
 	XIChangeHierarchy.txt \
 	XIDefineCursor.txt \
