@@ -110,7 +110,6 @@ libman_shadows = \
 	XDeleteDeviceProperty.man \
         $(XI2_shadows)
 
-
 # Name of man page files generated from DocBook XML files by xmlto
 libman_PRE = $(libman_txt:.txt=.man) $(libman_shadows)
 
@@ -152,22 +151,13 @@ XIUngrabEnter.man XIGrabFocusIn.man XIUngrabFocusIn.man: XIGrabEnter.man
 XIGetSelectedEvents.man: XISelectEvents.man
 XIFreeDeviceInfo.man: XIQueryDevice.man
 
-# Strings to replace in man pages
-XORGRELSTRING = $(PACKAGE_STRING)
-  XORGMANNAME = X Version 11
-
+# String replacements in MAN_SUBSTS now come from xorg-macros.m4 via configure
 # Unable to use __libmansuffix__ as underscores are lost in txt --> xml conversion
-MAN_SUBSTS = \
-	-e 's/__xorgversion__/"$(XORGRELSTRING)" "$(XORGMANNAME)"/' \
-	-e 's/__xservername__/Xorg/g' \
-	-e 's/__xconfigfile__/xorg.conf/g' \
-	-e 's/__appmansuffix__/$(APP_MAN_SUFFIX)/g' \
-	-e 's/libmansuffix/$(LIB_MAN_SUFFIX)/g' \
-	-e 's/__filemansuffix__/$(FILE_MAN_SUFFIX)/g'
+MAN_SUBSTS += -e 's/libmansuffix/$(LIB_MAN_SUFFIX)/g'
 
 SUFFIXES = .man .$(LIB_MAN_SUFFIX)
 .man.$(LIB_MAN_SUFFIX):
-	$(SED) $(MAN_SUBSTS) < $< > $@
+	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < $< > $@
 
 # Generate man pages and shadow pages from .txt and then from DocBook XML
 if HAVE_DOCTOOLS
