@@ -107,15 +107,15 @@ libman_shadows = \
         $(XI2_shadows)
 
 
-libman_pre = $(libman_txt:.txt=.man) $(libman_shadows)
+libman_PRE = $(libman_txt:.txt=.man) $(libman_shadows)
 
 if INSTALL_MANPAGES
-libman_DATA = $(libman_pre:.man=.$(LIB_MAN_SUFFIX))
+libman_DATA = $(libman_PRE:.man=.$(LIB_MAN_SUFFIX))
 endif
 
-EXTRA_DIST = $(libman_txt) $(libman_pre)
+EXTRA_DIST = $(libman_txt) $(libman_PRE)
 CLEANFILES = $(libman_DATA) *.libmansuffix
-MAINTAINERCLEANFILES = $(libman_pre) *.xml
+MAINTAINERCLEANFILES = $(libman_PRE) *.xml
 
 # prerequisites for the side effect pages
 XGetDeviceDontPropagateList.man: XChangeDeviceDontPropagateList.man
