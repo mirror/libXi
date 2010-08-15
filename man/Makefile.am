@@ -23,7 +23,7 @@
 
 libmandir = $(LIB_MAN_DIR)
 
-XI2_manpages = \
+XI2_txt = \
 	XIChangeHierarchy.txt \
 	XIDefineCursor.txt \
 	XIGrabButton.txt \
@@ -65,13 +65,13 @@ libman_txt = \
 	XSetDeviceFocus.txt \
 	XSetDeviceMode.txt \
 	XSetDeviceValuators.txt \
-        $(XI2_manpages)
+        $(XI2_txt)
 
 libman_xml = $(libman_txt:.txt=.xml)
 # manpages that are references to another page. These are produced as a
 # side effect of the xmlto rule, so they need to be handled specially.
 
-XI2_refpages = \
+XI2_shadows = \
 	XIUndefineCursor.man \
 	XIUngrabButton.man \
 	XIGrabKeycode.man \
@@ -87,7 +87,7 @@ XI2_refpages = \
 	XIGetProperty.man \
 	XIFreeDeviceInfo.man
 
-libman_ref = \
+libman_shadows = \
 	XGetDeviceDontPropagateList.man \
 	XChangeDeviceControl.man \
 	XChangeDeviceKeyMapping.man \
@@ -104,10 +104,10 @@ libman_ref = \
 	XGetDeviceFocus.man \
 	XChangeDeviceProperty.man \
 	XDeleteDeviceProperty.man \
-        $(XI2_refpages)
+        $(XI2_shadows)
 
 
-libman_pre = $(libman_txt:.txt=.man) $(libman_ref)
+libman_pre = $(libman_txt:.txt=.man) $(libman_shadows)
 
 if INSTALL_MANPAGES
 libman_DATA = $(libman_pre:.man=.$(LIB_MAN_SUFFIX))
@@ -172,7 +172,7 @@ SUFFIXES += .txt .xml
 	mv -f $(@:.man=.libmansuffix) $@
 
 # need to force asciidoc/xmlto to run if necessary for side effect pages
-$(libman_ref):
+$(libman_shadows):
 	@if test ! -f $(@:.man=.libmansuffix); then \
 	  rm -f $<; \
 	  $(MAKE) $(AM_MAKEFLAGS) $< || exit 1; \
