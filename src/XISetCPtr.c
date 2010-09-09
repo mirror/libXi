@@ -40,7 +40,7 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-Status 
+Status
 XISetClientPointer(Display* dpy, Window win, int deviceid)
 {
     xXISetClientPointerReq* req;
