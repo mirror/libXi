@@ -43,7 +43,7 @@ XIGrabDevice(Display* dpy, int deviceid, Window grab_window, Time time,
     XExtDisplayInfo *extinfo = XInput_find_display(dpy);
 
     LockDisplay(dpy);
-    if (_XiCheckExtInit(dpy, Dont_Check, extinfo) == -1)
+    if (_XiCheckExtInit(dpy, XInput_2_0, extinfo) == -1)
 	return (NoSuchExtension);
 
     GetReq(XIGrabDevice, req);
@@ -86,7 +86,7 @@ XIUngrabDevice(Display* dpy, int deviceid, Time time)
     XExtDisplayInfo *info = XInput_find_display(dpy);
 
     LockDisplay(dpy);
-    if (_XiCheckExtInit(dpy, Dont_Check, info) == -1)
+    if (_XiCheckExtInit(dpy, XInput_2_0, info) == -1)
 	return (NoSuchExtension);
 
     GetReq(XIUngrabDevice, req);
