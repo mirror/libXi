@@ -1638,7 +1638,7 @@ wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
         out->valuators.values[i] = values->integral;
         out->valuators.values[i] += ((double)values->frac / (1 << 16) / (1 << 16));
         out->raw_values[i] = (values + bits)->integral;
-        out->valuators.values[i] += ((double)(values + bits)->frac / (1 << 16) / (1 << 16));
+        out->raw_values[i] += ((double)(values + bits)->frac / (1 << 16) / (1 << 16));
         values++;
     }
 
