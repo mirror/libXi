@@ -19,7 +19,6 @@ XORG_WITH_ASCIIDOC(8.4.5)
 AM_CONFIG_HEADER(src/config.h)
 
 # Check for progs
-AC_PROG_CC
 AC_PROG_LIBTOOL
 AC_PROG_SED
 
