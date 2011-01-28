@@ -20,7 +20,6 @@ AM_CONFIG_HEADER(src/config.h)
 
 # Check for progs
 AC_PROG_LIBTOOL
-AC_PROG_SED
 
 # Checks for pkg-config packages
 PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.2.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 1.9.99.902])
