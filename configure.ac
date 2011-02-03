@@ -51,7 +51,6 @@ AM_CONDITIONAL([INSTALL_MANPAGES],
 AC_CONFIG_FILES([Makefile
 		src/Makefile
 		man/Makefile
-		doc/Makefile
 		specs/Makefile
 		xi.pc])
 AC_OUTPUT
