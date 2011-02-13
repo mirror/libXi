@@ -1627,6 +1627,7 @@ wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
     out->time           = in->time;
     out->detail         = in->detail;
     out->deviceid       = in->deviceid;
+    out->sourceid       = 0; /* https://bugs.freedesktop.org/show_bug.cgi?id=34240 */
     out->flags          = in->flags;
 
     out->valuators.mask_len = in->valuators_len * 4;
