@@ -61,8 +61,8 @@ XIGrabDevice(Display* dpy, int deviceid, Window grab_window, Time time,
 
     /* masks.mask_len is in bytes, but we need 4-byte units on the wire,
      * and they need to be padded with 0 */
-    len = req->mask_len * 4;
-    buff = calloc(1, len);
+    len = req->mask_len;
+    buff = calloc(1, len * 4);
     memcpy(buff, mask->mask, mask->mask_len);
 
     SetReqLen(req, len, len);
