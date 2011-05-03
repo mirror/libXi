@@ -760,7 +760,6 @@ XInputWireToEvent(
                         return (DONT_ENQUEUE);
                     else {
                         *re = *save;
-                        stev = (XDeviceStateNotifyEvent *) re;
                         return (ENQUEUE_EVENT);
                     }
                 }
@@ -788,7 +787,6 @@ XInputWireToEvent(
                         return (DONT_ENQUEUE);
                     else {
                         *re = *save;
-                        kstev = (XDeviceStateNotifyEvent *) re;
                         return (ENQUEUE_EVENT);
                     }
                 }
@@ -816,7 +814,6 @@ XInputWireToEvent(
                         return (DONT_ENQUEUE);
                     else {
                         *re = *save;
-                        bstev = (XDeviceStateNotifyEvent *) re;
                         return (ENQUEUE_EVENT);
                     }
                 }
