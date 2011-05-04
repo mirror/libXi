@@ -149,6 +149,8 @@ wireToPropertyEvent(xXIPropertyEvent *in, XGenericEventCookie *cookie);
 
 static /* const */ XEvent emptyevent;
 
+typedef Status (*core_event_to_wire)(Display*, XEvent*, xEvent*);
+
 static /* const */ XExtensionHooks xinput_extension_hooks = {
     NULL,	/* create_gc */
     NULL,	/* copy_gc */
@@ -158,7 +160,7 @@ static /* const */ XExtensionHooks xinput_extension_hooks = {
     NULL,	/* free_font */
     XInputClose,	/* close_display */
     XInputWireToEvent,	/* wire_to_event */
-    _XiEventToWire,	/* event_to_wire */
+    (core_event_to_wire)_XiEventToWire, /* event_to_wire */
     NULL,	/* error */
     XInputError,	/* error_string */
 };
