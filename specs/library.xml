@@ -479,7 +479,7 @@ error.
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xchangekeyboarddevice'>
 <funcprototype>
   <funcdef>int <function> XChangeKeyboardDevice</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -570,7 +570,7 @@ X pointer, the request will fail with a
 <function>BadDevice</function>
 error.
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xchangepointerdevice'>
 <funcprototype>
   <funcdef>int <function> XChangePointerDevice</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -732,7 +732,7 @@ The device must have previously been opened using the
 <function>XOpenDevice</function>
 function.
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgrabdevice'>
 <funcprototype>
   <funcdef>int <function> XGrabDevice</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -998,7 +998,7 @@ function.
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xungrabdevice'>
 <funcprototype>
   <funcdef>int <function> XUngrabDevice</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -1093,7 +1093,7 @@ the request will fail with a
 <function>BadMatch</function>
 error.
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgrabdevicekey'>
 <funcprototype>
   <funcdef>int <function> XGrabDeviceKey</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -1392,7 +1392,7 @@ errors.
 To release a passive grab of a single key on an extension device, use
 <function>XUngrabDeviceKey .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xungrabdevicekey'>
 <funcprototype>
   <funcdef>int <function> XUngrabDeviceKey</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -1535,7 +1535,7 @@ the request will fail with a
 <function>BadMatch</function>
 error.
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgrabdevicebutton'>
 <funcprototype>
   <funcdef>int <function> XGrabDeviceButton</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -1824,7 +1824,7 @@ errors.
 To release a passive grab of a button on an extension device, use 
 <function>XUngrabDeviceButton .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xungrabdevicebutton'>
 <funcprototype>
   <funcdef>int <function> XUngrabDeviceButton</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -1971,7 +1971,7 @@ errors.
 To allow further events to be processed when a device has been frozen, use
 <function>XAllowDeviceEvents .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xallowdeviceevents'>
 <funcprototype>
   <funcdef>int <function> XAllowDeviceEvents</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -2232,7 +2232,7 @@ To get the current focus state, revert state,
 and focus time of an extension device, use
 <function>XGetDeviceFocus .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetdevicefocus'>
 <funcprototype>
   <funcdef>int <function> XGetDeviceFocus</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -2325,7 +2325,7 @@ errors.
 To set the focus of an extension device, use
 <function>XSetDeviceFocus .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xsetdevicefocus'>
 <funcprototype>
   <funcdef>int <function> XSetDeviceFocus</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -2522,7 +2522,7 @@ errors.
 To determine the current feedback settings of an extension input device, use
 <function>XGetFeedbackControl .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetfeedbackcontrol'>
 <funcprototype>
   <funcdef>XFeedbackState * <function> XGetFeedbackControl</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -2955,7 +2955,7 @@ To free the information returned by the
 function, use 
 <function>XFreeFeedbackList .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xfreefeedbacklist'>
 <funcprototype>
   <funcdef>void <function> XFreeFeedbackList</function></funcdef>
   <paramdef>XFeedbackState<parameter> *list</parameter></paramdef>
@@ -2996,7 +2996,7 @@ using information passed in the appropriate
 structure for the feedback.
 Which values are modified depends on the valuemask passed.
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xchangefeedbackcontrol'>
 <funcprototype>
   <funcdef>int <function> XChangeFeedbackControl</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -3386,7 +3386,7 @@ errors.
 To ring a bell on an extension input device, use
 <function>XDeviceBell .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xdevicebell'>
 <funcprototype>
   <funcdef>int <function> XDeviceBell</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -3511,7 +3511,7 @@ To get the key mapping of an extension device that supports input class
 use 
 <function>XGetDeviceKeyMapping .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetdevicekeymapping'>
 <funcprototype>
   <funcdef>KeySym * <function> XGetDeviceKeyMapping</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -3667,7 +3667,7 @@ To change the keyboard mapping of an extension device that supports input class
 use 
 <function>XChangeDeviceKeyMapping .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xchangedevicekeymapping'>
 <funcprototype>
   <funcdef>int <function> XChangeDeviceKeyMapping</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -3808,7 +3808,7 @@ extension device that supports input class
 use
 <function>XGetDeviceModifierMapping .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetdevicemodifiermapping'>
 <funcprototype>
   <funcdef>XModifierKeymap * <function> XGetDeviceModifierMapping</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -3872,7 +3872,7 @@ errors.
 To set which keycodes are to be used as modifiers for an extension device, use
 <function>XSetDeviceModifierMapping .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xsetdevicemodifiermapping'>
 <funcprototype>
   <funcdef>int <function> XSetDeviceModifierMapping</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -4007,7 +4007,7 @@ errors.
 To set the mapping of the buttons on an extension device, use
 <function>XSetDeviceButtonMapping .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xsetdevicebuttonmapping'>
 <funcprototype>
   <funcdef>int <function> XSetDeviceButtonMapping</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -4106,7 +4106,7 @@ errors.
 To get the button mapping, use
 <function>XGetDeviceButtonMapping .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetdevicebuttonmapping'>
 <funcprototype>
   <funcdef>int <function> XGetDeviceButtonMapping</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -4193,7 +4193,7 @@ To obtain information that describes the state of the keys, buttons, and
 valuators of an extension device, use
 <function>XQueryDeviceState .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xquerydevicestate'>
 <funcprototype>
   <funcdef>XDeviceState * <function> XQueryDeviceState</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -4382,7 +4382,7 @@ errors.
 To free the data returned by this function, use
 <function>XFreeDeviceState .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xfreedevicestate'>
 <funcprototype>
   <funcdef>void <function> XFreeDeviceState</function></funcdef>
   <paramdef>XDeviceState<parameter> *state</parameter></paramdef>
@@ -5243,7 +5243,7 @@ Get motion history
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetextensionversion'>
 <funcprototype>
   <funcdef>XExtensionVersion * <function> XGetExtensionVersion</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -5341,7 +5341,7 @@ request.
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xlistinputdevices'>
 <funcprototype>
   <funcdef>XDeviceInfo * <function> XListInputDevices</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -5556,7 +5556,7 @@ use
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xfreedevicelist'>
 <funcprototype>
   <funcdef>void <function> XFreeDeviceList</function></funcdef>
   <paramdef>XDeviceInfo<parameter> *list</parameter></paramdef>
@@ -5598,7 +5598,7 @@ that the server open that device by calling the
 <function>XOpenDevice</function>
 function.
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xopendevice'>
 <funcprototype>
   <funcdef>XDevice * <function> XOpenDevice</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -5722,7 +5722,7 @@ the device by calling the
 <function>XCloseDevice</function>
 function.
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xclosedevice'>
 <funcprototype>
   <funcdef>int <function> XCloseDevice</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -5804,7 +5804,7 @@ data.
 To change the mode of a device from relative to absolute, use
 <function>XSetDeviceMode .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xsetdevicemode'>
 <funcprototype>
   <funcdef>int <function> XSetDeviceMode</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -5905,7 +5905,7 @@ to a starting value after the mode of the device is changed to
 To initialize the valuators on such a device, use 
 <function>XSetDeviceValuators .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xsetdevicevaluators'>
 <funcprototype>
   <funcdef>Status <function> XSetDeviceValuators</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -6031,7 +6031,7 @@ by data structures unique to that device control.
 To query a device control, use
 <function>XGetDeviceControl .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetdevicecontrol'>
 <funcprototype>
   <funcdef>XDeviceControl * <function> XGetDeviceControl</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -6198,7 +6198,7 @@ by data structures unique to that device control.
 To change a device control, use
 <function>XChangeDeviceControl .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xchangedevicecontrol'>
 <funcprototype>
   <funcdef>Status <function> XChangeDeviceControl</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -6389,7 +6389,7 @@ a list of classes that define the desired event types and devices, a count
 of the number of elements in the list, and the ID of the window from which 
 events are desired.
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xselectextensionevent'>
 <funcprototype>
   <funcdef>int <function> XSelectExtensionEvent</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -6536,7 +6536,7 @@ To determine which extension events are currently selected from a given
 window, use
 <function>XGetSelectedExtensionEvents .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetselectedextensionevents'>
 <funcprototype>
   <funcdef>int <function> XGetSelectedExtensionEvents</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -6666,7 +6666,7 @@ and
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xchangedevicedontpropagatelist'>
 <funcprototype>
   <funcdef>int <function> XChangeDeviceDontPropagateList</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -6765,7 +6765,7 @@ errors.
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetdevicedontpropagatelist'>
 <funcprototype>
   <funcdef>XEventClass * <function> XGetDeviceDontPropagateList</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -6839,7 +6839,7 @@ errors.
 To send an extension event to another client, use
 <function>XSendExtensionEvent .</function>
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xsendextensionevent'>
 <funcprototype>
   <funcdef>int <function> XSendExtensionEvent</function></funcdef>
   <paramdef>Display<parameter> *display</parameter></paramdef>
@@ -7041,7 +7041,7 @@ errors.
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xgetdevicemotionevents'>
 <funcprototype>
   <funcdef>XDeviceTimeCoord * <function> XGetDeviceMotionEvents</function></funcdef>
   <paramdef><parameter> axis_count_return)</parameter></paramdef>
@@ -7221,7 +7221,7 @@ use
 <para>
 <!-- .LP -->
 <!-- .sM -->
-<funcsynopsis>
+<funcsynopsis id='xfreedevicemotionevents'>
 <funcprototype>
   <funcdef>void <function> XFreeDeviceMotionEvents</function></funcdef>
   <paramdef>XDeviceTimeCoord<parameter> *events</parameter></paramdef>
