@@ -171,8 +171,8 @@ SUFFIXES += .txt .xml
 # Invoke asciidoc/xmlto main man page generation for shadow pages
 $(libman_shadows):
 	@if test ! -f $(@:.man=.libmansuffix); then \
-	  $(AM_V_GEN)rm -f $<; \
-	  $(AM_V_GEN)$(MAKE) $(AM_MAKEFLAGS) $< || exit 1; \
+	  rm -f $<; \
+	  $(MAKE) $(AM_MAKEFLAGS) $< || exit 1; \
 	fi
 	$(AM_V_GEN)mv -f $(@:.man=.libmansuffix) $@
 endif
