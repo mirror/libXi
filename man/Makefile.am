@@ -166,7 +166,7 @@ SUFFIXES += .txt .xml
 	$(AM_V_GEN)$(ASCIIDOC) -b docbook -d manpage -o $@ $<
 .xml.man:
 	$(AM_V_GEN)$(XMLTO) man $<
-	$(AM_V_GEN)mv -f $(@:.man=.libmansuffix) $@
+	$(AM_V_at)mv -f $(@:.man=.libmansuffix) $@
 
 # Invoke asciidoc/xmlto main man page generation for shadow pages
 $(libman_shadows):
@@ -174,5 +174,5 @@ $(libman_shadows):
 	  rm -f $<; \
 	  $(MAKE) $(AM_MAKEFLAGS) $< || exit 1; \
 	fi
-	$(AM_V_GEN)mv -f $(@:.man=.libmansuffix) $@
+	$(AM_V_at)mv -f $(@:.man=.libmansuffix) $@
 endif
