@@ -155,6 +155,10 @@ XIFreeDeviceInfo.man: XIQueryDevice.man
 # Unable to use __libmansuffix__ as underscores are lost in txt --> xml conversion
 MAN_SUBSTS += -e 's/libmansuffix/$(LIB_MAN_SUFFIX)/g'
 
+# asciidoc is generating [FIXME...] values in the .TH line we should fix.
+MAN_SUBSTS += -e 's/\[FIXME: source\]/$(XORG_MAN_PAGE)/'
+MAN_SUBSTS += -e 's/\[FIXME: manual\]/XINPUT FUNCTIONS/'
+
 SUFFIXES = .man .$(LIB_MAN_SUFFIX)
 .man.$(LIB_MAN_SUFFIX):
 	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < $< > $@
