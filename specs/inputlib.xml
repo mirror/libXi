@@ -8,7 +8,7 @@
 <book id="inputlib">
 
 <bookinfo>
-   <title>X11 Input Extension Protocol Specification</title>
+   <title>X Input Device Extension Library</title>
    <releaseinfo>X Version 11, Release &fullrelvers;</releaseinfo>
    <releaseinfo>Version 1.0</releaseinfo>
    <authorgroup>
