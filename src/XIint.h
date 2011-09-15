@@ -21,6 +21,7 @@
 #define XInput_2_0			7
 #endif
 #define XInput_2_1			8
+#define XInput_2_2			9
 
 extern XExtDisplayInfo *XInput_find_display(Display *);
 

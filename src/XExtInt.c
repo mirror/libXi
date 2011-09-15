@@ -150,6 +150,9 @@ static int
 wireToEnterLeave(xXIEnterEvent *in, XGenericEventCookie *cookie);
 static int
 wireToPropertyEvent(xXIPropertyEvent *in, XGenericEventCookie *cookie);
+static int
+wireToTouchOwnershipEvent(xXITouchOwnershipEvent *in,
+                          XGenericEventCookie *cookie);
 
 static /* const */ XEvent emptyevent;
 
@@ -275,7 +278,8 @@ static XExtensionVersion versions[] = { {XI_Absent, 0, 0},
 {XI_Present, XI_Add_DeviceProperties_Major,
  XI_Add_DeviceProperties_Minor},
 {XI_Present, 2, 0},
-{XI_Present, 2, 1}
+{XI_Present, 2, 1},
+{XI_Present, 2, 2}
 };
 
 /***********************************************************************
@@ -928,6 +932,9 @@ XInputWireToCookie(
         case XI_ButtonRelease:
         case XI_KeyPress:
         case XI_KeyRelease:
+        case XI_TouchBegin:
+        case XI_TouchUpdate:
+        case XI_TouchEnd:
             *cookie = *(XGenericEventCookie*)save;
             if (!wireToDeviceEvent((xXIDeviceEvent*)event, cookie))
             {
@@ -954,12 +961,25 @@ XInputWireToCookie(
                 break;
             }
             return ENQUEUE_EVENT;
+        case XI_TouchOwnership:
+            *cookie = *(XGenericEventCookie*)save;
+            if (!wireToTouchOwnershipEvent((xXITouchOwnershipEvent*)event,
+                                           cookie))
+            {
+                printf("XInputWireToCookie: CONVERSION FAILURE!  evtype=%d\n",
+                        ge->evtype);
+                break;
+            }
+            return ENQUEUE_EVENT;
 
         case XI_RawKeyPress:
         case XI_RawKeyRelease:
         case XI_RawButtonPress:
         case XI_RawButtonRelease:
         case XI_RawMotion:
+        case XI_RawTouchBegin:
+        case XI_RawTouchUpdate:
+        case XI_RawTouchEnd:
             *cookie = *(XGenericEventCookie*)save;
             if (!wireToRawEvent((xXIRawEvent*)event, cookie))
             {
@@ -1045,6 +1065,9 @@ sizeDeviceClassType(int type, int num_elements)
             break;
         case XIScrollClass:
             l = sizeof(XIScrollClassInfo);
+            break;
+        case XITouchClass:
+            l = sizeof(XITouchClassInfo);
             break;
         default:
             printf("sizeDeviceClassType: unknown type %d\n", type);
@@ -1264,6 +1287,22 @@ copyPropertyEvent(XGenericEventCookie *cookie_in,
 }
 
 static Bool
+copyTouchOwnershipEvent(XGenericEventCookie *cookie_in,
+                        XGenericEventCookie *cookie_out)
+{
+    XITouchOwnershipEvent *in, *out;
+
+    in = cookie_in->data;
+
+    out = cookie_out->data = malloc(sizeof(XITouchOwnershipEvent));
+    if (!out)
+        return False;
+
+    *out = *in;
+    return True;
+}
+
+static Bool
 copyRawEvent(XGenericEventCookie *cookie_in,
              XGenericEventCookie *cookie_out)
 {
@@ -1322,6 +1361,9 @@ XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out
         case XI_ButtonRelease:
         case XI_KeyPress:
         case XI_KeyRelease:
+        case XI_TouchBegin:
+        case XI_TouchUpdate:
+        case XI_TouchEnd:
             ret = copyDeviceEvent(in, out);
             break;
         case XI_DeviceChanged:
@@ -1338,6 +1380,9 @@ XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out
             break;
         case XI_PropertyEvent:
             ret = copyPropertyEvent(in, out);
+            break;
+        case XI_TouchOwnership:
+            ret = copyTouchOwnershipEvent(in, out);
             break;
         case XI_RawKeyPress:
         case XI_RawKeyRelease:
@@ -1454,6 +1499,9 @@ size_classes(xXIAnyInfo* from, int nclasses)
                 break;
             case XIScrollClass:
                 l = sizeDeviceClassType(XIScrollClass, 0);
+                break;
+            case XITouchClass:
+                l = sizeDeviceClassType(XITouchClass, 0);
                 break;
         }
 
@@ -1582,6 +1630,22 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     cls_lib->flags      = cls_wire->flags;
                     cls_lib->increment  = cls_wire->increment.integral;
                     cls_lib->increment += (unsigned int)cls_wire->increment.frac/(double)(1UL << 32);
+
+                    to->classes[cls_idx++] = any_lib;
+                }
+                break;
+            case XITouchClass:
+                {
+                    XITouchClassInfo *cls_lib;
+                    xXITouchInfo *cls_wire;
+
+                    cls_wire = (xXITouchInfo*)any_wire;
+                    cls_lib = next_block(&ptr_lib, sizeof(XITouchClassInfo));
+
+                    cls_lib->type = cls_wire->type;
+                    cls_lib->sourceid = cls_wire->sourceid;
+                    cls_lib->mode = cls_wire->mode;
+                    cls_lib->num_touches = cls_wire->num_touches;
 
                     to->classes[cls_idx++] = any_lib;
                 }
@@ -1777,6 +1841,31 @@ wireToPropertyEvent(xXIPropertyEvent *in, XGenericEventCookie *cookie)
     out->property       = in->property;
     out->what           = in->what;
     out->deviceid       = in->deviceid;
+
+    return 1;
+}
+
+static int
+wireToTouchOwnershipEvent(xXITouchOwnershipEvent *in,
+                          XGenericEventCookie *cookie)
+{
+    XITouchOwnershipEvent *out = malloc(sizeof(XITouchOwnershipEvent));
+
+    cookie->data = out;
+
+    out->type           = in->type;
+    out->display        = cookie->display;
+    out->extension      = in->extension;
+    out->evtype         = in->evtype;
+    out->send_event     = ((in->type & 0x80) != 0);
+    out->time           = in->time;
+    out->deviceid       = in->deviceid;
+    out->sourceid       = in->sourceid;
+    out->touchid        = in->touchid;
+    out->root           = in->root;
+    out->event          = in->event;
+    out->child          = in->child;
+    out->flags          = in->flags;
 
     return 1;
 }
