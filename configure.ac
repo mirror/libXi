@@ -28,7 +28,7 @@ XORG_WITH_ASCIIDOC(8.4.5)
 XORG_CHECK_MALLOC_ZERO
 
 # Obtain compiler/linker options for depedencies
-PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.2.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 1.9.99.902])
+PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.2.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 2.0.99.1])
 
 # Check for xmlto and asciidoc for man page conversion
 # (only needed by people building tarballs)
