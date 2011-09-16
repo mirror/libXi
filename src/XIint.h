@@ -20,7 +20,7 @@
 #define XInput_Add_DeviceProperties	6
 #define XInput_2_0			7
 #endif
-
+#define XInput_2_1			8
 
 extern XExtDisplayInfo *XInput_find_display(Display *);
 

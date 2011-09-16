@@ -133,6 +133,17 @@ typedef struct
     int         mode;
 } XIValuatorClassInfo;
 
+/* new in XI 2.1 */
+typedef struct
+{
+    int         type;
+    int         sourceid;
+    int         number;
+    int         scroll_type;
+    double      increment;
+    int         flags;
+} XIScrollClassInfo;
+
 typedef struct
 {
     int                 deviceid;

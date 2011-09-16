@@ -270,7 +270,8 @@ static XExtensionVersion versions[] = { {XI_Absent, 0, 0},
  XI_Add_DevicePresenceNotify_Minor},
 {XI_Present, XI_Add_DeviceProperties_Major,
  XI_Add_DeviceProperties_Minor},
-{XI_Present, 2, 0}
+{XI_Present, 2, 0},
+{XI_Present, 2, 1}
 };
 
 /***********************************************************************
@@ -1038,6 +1039,9 @@ sizeDeviceClassType(int type, int num_elements)
         case XIValuatorClass:
             l = sizeof(XIValuatorClassInfo);
             break;
+        case XIScrollClass:
+            l = sizeof(XIScrollClassInfo);
+            break;
         default:
             printf("sizeDeviceClassType: unknown type %d\n", type);
             break;
@@ -1096,6 +1100,9 @@ copyDeviceChangedEvent(XGenericEventCookie *in_cookie,
                 break;
             case XIValuatorClass:
                 len += sizeDeviceClassType(XIValuatorClass, 0);
+                break;
+            case XIScrollClass:
+                len += sizeDeviceClassType(XIScrollClass, 0);
                 break;
             default:
                 printf("copyDeviceChangedEvent: unknown type %d\n",
@@ -1159,6 +1166,15 @@ copyDeviceChangedEvent(XGenericEventCookie *in_cookie,
                     vout = next_block(&ptr, sizeof(XIValuatorClass));
                     *vout = *vin;
                     out->classes[i] = (XIAnyClassInfo*)vout;
+                    break;
+                }
+            case XIScrollClass:
+                {
+                    XIScrollClassInfo *sin, *sout;
+                    sin = (XIScrollClassInfo*)any;
+                    sout = next_block(&ptr, sizeof(XIScrollClassInfo));
+                    *sout = *sin;
+                    out->classes[i] = (XIAnyClassInfo*)sout;
                     break;
                 }
         }
@@ -1432,6 +1448,9 @@ size_classes(xXIAnyInfo* from, int nclasses)
             case XIValuatorClass:
                 l = sizeDeviceClassType(XIValuatorClass, 0);
                 break;
+            case XIScrollClass:
+                l = sizeDeviceClassType(XIScrollClass, 0);
+                break;
         }
 
         len += l;
@@ -1540,6 +1559,25 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     cls_lib->value      = cls_wire->value.integral;
                     /* FIXME: fractional parts */
                     cls_lib->mode       = cls_wire->mode;
+
+                    to->classes[cls_idx++] = any_lib;
+                }
+                break;
+            case XIScrollClass:
+                {
+                    XIScrollClassInfo *cls_lib;
+                    xXIScrollInfo *cls_wire;
+
+                    cls_lib = next_block(&ptr_lib, sizeof(XIScrollClassInfo));
+                    cls_wire = (xXIScrollInfo*)any_wire;
+
+                    cls_lib->type = cls_wire->type;
+                    cls_lib->sourceid = cls_wire->sourceid;
+                    cls_lib->number     = cls_wire->number;
+                    cls_lib->scroll_type= cls_wire->scroll_type;
+                    cls_lib->flags      = cls_wire->flags;
+                    cls_lib->increment  = cls_wire->increment.integral;
+                    cls_lib->increment += (unsigned int)cls_wire->increment.frac/(double)(1UL << 32);
 
                     to->classes[cls_idx++] = any_lib;
                 }
