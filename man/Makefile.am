@@ -159,6 +159,9 @@ MAN_SUBSTS += -e 's/libmansuffix/$(LIB_MAN_SUFFIX)/g'
 MAN_SUBSTS += -e 's/\[FIXME: source\]/$(XORG_MAN_PAGE)/'
 MAN_SUBSTS += -e 's/\[FIXME: manual\]/XINPUT FUNCTIONS/'
 
+# asciidoc generates shadow page references without the man section directory
+MAN_SUBSTS += -e 's/^\.so X/.so man$(LIB_MAN_SUFFIX)\/X/'
+
 SUFFIXES = .man .$(LIB_MAN_SUFFIX)
 .man.$(LIB_MAN_SUFFIX):
 	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < $< > $@
