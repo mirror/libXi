@@ -70,6 +70,7 @@ XIQueryDevice(Display *dpy, int deviceid, int *ndevices_return)
 
     for (i = 0; i < reply.num_devices; i++)
     {
+        int             nclasses;
         XIDeviceInfo    *lib = &info[i];
         xXIDeviceInfo   *wire = (xXIDeviceInfo*)ptr;
 
@@ -77,8 +78,8 @@ XIQueryDevice(Display *dpy, int deviceid, int *ndevices_return)
         lib->use         = wire->use;
         lib->attachment  = wire->attachment;
         lib->enabled     = wire->enabled;
-        lib->num_classes = wire->num_classes;
         lib->classes     = (XIAnyClassInfo**)&lib[1];
+        nclasses         = wire->num_classes;
 
         ptr += sizeof(xXIDeviceInfo);
 
@@ -86,8 +87,10 @@ XIQueryDevice(Display *dpy, int deviceid, int *ndevices_return)
         strncpy(lib->name, ptr, wire->name_len);
         ptr += ((wire->name_len + 3)/4) * 4;
 
-        lib->classes = Xmalloc(size_classes((xXIAnyInfo*)ptr, lib->num_classes));
-        ptr += copy_classes(lib, (xXIAnyInfo*)ptr, &lib->num_classes);
+        lib->classes = Xmalloc(size_classes((xXIAnyInfo*)ptr, nclasses));
+        ptr += copy_classes(lib, (xXIAnyInfo*)ptr, &nclasses);
+        /* We skip over unused classes */
+        lib->num_classes = nclasses;
     }
 
     Xfree(buf);
