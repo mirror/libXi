@@ -78,7 +78,6 @@ XIQueryDevice(Display *dpy, int deviceid, int *ndevices_return)
         lib->use         = wire->use;
         lib->attachment  = wire->attachment;
         lib->enabled     = wire->enabled;
-        lib->classes     = (XIAnyClassInfo**)&lib[1];
         nclasses         = wire->num_classes;
 
         ptr += sizeof(xXIDeviceInfo);
