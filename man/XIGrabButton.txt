@@ -75,7 +75,7 @@ SYNOPSIS
    modifiers_inout
           Specifies the set of latched and base modifiers or
           XIAnyModifier to grab. Returns the modifiers that could
-          not be grabbed and their status code.
+          not be grabbed and their error code.
 
    grab_window
           Specifies the grab window.
@@ -160,7 +160,7 @@ DESCRIPTION
    If one or more modifier combinations could not be grabbed,
    XIGrabButton and XIGrabKeycode return the number of failed
    combinations and modifiers_inout contains the failed combinations
-   and their respective status codes.
+   and their respective error codes.
 
    XIGrabButton and XIGrabKeycode can generate BadClass, BadDevice,
    BadMatch, BadValue, and BadWindow errors.
