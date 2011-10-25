@@ -1463,8 +1463,8 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
 
     ptr_wire = (char*)from;
     ptr_lib = to->classes;
-    to->classes = next_block(&ptr_lib, *nclasses * sizeof(XIAnyClassInfo*));
-    memset(to->classes, 0, sizeof(*nclasses * sizeof(XIAnyClassInfo*)));
+    to->classes = next_block(&ptr_lib, (*nclasses) * sizeof(XIAnyClassInfo*));
+    memset(to->classes, 0, (*nclasses) * sizeof(XIAnyClassInfo*));
     len = 0; /* count wire length */
 
     for (i = 0; i < *nclasses; i++)
