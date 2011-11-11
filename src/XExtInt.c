@@ -50,6 +50,10 @@ SOFTWARE.
  *
  */
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdint.h>
 #include <X11/extensions/XI.h>
