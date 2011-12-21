@@ -146,6 +146,14 @@ typedef struct
 
 typedef struct
 {
+    int         type;
+    int         sourceid;
+    int         mode;
+    int         num_touches;
+} XITouchClassInfo;
+
+typedef struct
+{
     int                 deviceid;
     char                *name;
     int                 use;
@@ -303,6 +311,23 @@ typedef struct {
     int           what;
 } XIPropertyEvent;
 
+typedef struct {
+    int           type;         /* GenericEvent */
+    unsigned long serial;       /* # of last request processed by server */
+    Bool          send_event;   /* true if this came from a SendEvent request */
+    Display       *display;     /* Display the event was read from */
+    int           extension;    /* XI extension offset */
+    int           evtype;
+    Time          time;
+    int           deviceid;
+    int           sourceid;
+    unsigned int  touchid;
+    Window        root;
+    Window        event;
+    Window        child;
+    int           flags;
+} XITouchOwnershipEvent;
+
 _XFUNCPROTOBEGIN
 
 extern Bool     XIQueryPointer(
@@ -426,6 +451,14 @@ extern Status XIAllowEvents(
     Time                time
 );
 
+extern Status XIAllowTouchEvents(
+    Display*            display,
+    int                 deviceid,
+    unsigned int        touchid,
+    Window              grab_window,
+    int                 event_mode
+);
+
 extern int XIGrabButton(
     Display*            display,
     int                 deviceid,
@@ -477,6 +510,17 @@ extern int XIGrabFocusIn(
     int                 num_modifiers,
     XIGrabModifiers     *modifiers_inout
 );
+
+extern int XIGrabTouchBegin(
+    Display*            display,
+    int                 deviceid,
+    Window              grab_window,
+    int                 owner_events,
+    XIEventMask         *mask,
+    int                 num_modifiers,
+    XIGrabModifiers     *modifiers_inout
+);
+
 extern Status XIUngrabButton(
     Display*            display,
     int                 deviceid,
@@ -511,6 +555,13 @@ extern Status XIUngrabFocusIn(
     XIGrabModifiers     *modifiers
 );
 
+extern Status XIUngrabTouchBegin(
+    Display*            display,
+    int                 deviceid,
+    Window              grab_window,
+    int                 num_modifiers,
+    XIGrabModifiers     *modifiers
+);
 
 extern Atom *XIListProperties(
     Display*            display,

@@ -1,7 +1,7 @@
 
 # Initialize Autoconf
 AC_PREREQ([2.60])
-AC_INIT([libXi], [1.5.0],
+AC_INIT([libXi], [1.5.99.1],
 	[https://bugs.freedesktop.org/enter_bug.cgi?product=xorg], [libXi])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([src/config.h])
@@ -28,7 +28,7 @@ XORG_WITH_ASCIIDOC(8.4.5)
 XORG_CHECK_MALLOC_ZERO
 
 # Obtain compiler/linker options for depedencies
-PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.2.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 2.0.99.1])
+PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.4.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 2.1.99.3])
 
 # Check for xmlto and asciidoc for man page conversion
 # (only needed by people building tarballs)

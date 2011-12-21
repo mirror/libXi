@@ -33,9 +33,12 @@
 #include <X11/extensions/extutil.h>
 #include "XIint.h"
 
-Status
-XIAllowEvents(Display *dpy, int deviceid, int event_mode, Time time)
+static Status
+_XIAllowEvents(Display *dpy, int deviceid, int event_mode, Time time,
+                    unsigned int touchid, Window grab_window)
 {
+    Bool have_XI22 = True;
+    int req_len = sz_xXIAllowEventsReq; /* in bytes */
     xXIAllowEventsReq *req;
 
     XExtDisplayInfo *extinfo = XInput_find_display(dpy);
@@ -44,14 +47,51 @@ XIAllowEvents(Display *dpy, int deviceid, int event_mode, Time time)
     if (_XiCheckExtInit(dpy, XInput_2_0, extinfo) == -1)
 	return (NoSuchExtension);
 
-    GetReq(XIAllowEvents, req);
+    /* 2.2's XIAllowEvents is 8 bytes longer than 2.0 */
+    if (_XiCheckExtInit(dpy, XInput_2_2, extinfo) == -1) {
+        req_len -= 8;
+        have_XI22 = False;
+    }
+
+    GetReqSized(XIAllowEvents, req_len, req);
+
     req->reqType = extinfo->codes->major_opcode;
     req->ReqType = X_XIAllowEvents;
     req->deviceid = deviceid;
     req->mode = event_mode;
     req->time = time;
 
+    if (have_XI22) {
+        req->touchid = touchid;
+        req->grab_window = grab_window;
+    }
+
     UnlockDisplay(dpy);
     SyncHandle();
     return Success;
+}
+
+Status
+XIAllowEvents(Display *dpy, int deviceid, int event_mode, Time time)
+{
+    return _XIAllowEvents(dpy, deviceid, event_mode, time, 0, None);
+}
+
+Status
+XIAllowTouchEvents(Display *dpy, int deviceid, unsigned int touchid,
+                   Window grab_window, int event_mode)
+{
+    int status;
+    XExtDisplayInfo *extinfo = XInput_find_display(dpy);
+
+    LockDisplay(dpy);
+    if (_XiCheckExtInit(dpy, XInput_2_2, extinfo) == -1)
+	return (NoSuchExtension);
+
+    status = _XIAllowEvents(dpy, deviceid, event_mode, CurrentTime, touchid, grab_window);
+
+    UnlockDisplay(dpy);
+    SyncHandle();
+
+    return status;
 }
