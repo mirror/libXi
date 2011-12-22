@@ -27,7 +27,7 @@ XORG_CHECK_SGML_DOCTOOLS(1.8)
 XORG_WITH_ASCIIDOC(8.4.5)
 XORG_CHECK_MALLOC_ZERO
 
-# Obtain compiler/linker options for depedencies
+# Obtain compiler/linker options for dependencies
 PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.4.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 2.1.99.3])
 
 # Check for xmlto and asciidoc for man page conversion
