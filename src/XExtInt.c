@@ -1036,6 +1036,55 @@ sizeDeviceEvent(int buttons_len, int valuators_len,
     return len;
 }
 
+/* Return the size with added padding so next element would be
+   double-aligned unless the architecture is known to allow unaligned
+   data accesses.  Not doing this can cause a bus error on
+   MIPS N32. */
+static int
+pad_to_double(int size)
+{
+#if !defined(__i386__) && !defined(__sh__)
+    if (size % sizeof(double) != 0)
+        size += sizeof(double) - size % sizeof(double);
+#endif
+    return size;
+}
+
+/**
+ * Set structure and atoms to size in bytes of XIButtonClassInfo, its
+ * button state mask and labels array.
+ */
+static void
+sizeXIButtonClassType(int num_buttons, int* structure, int* state, int* atoms)
+{
+    int size;
+    int labels;
+
+    *structure = pad_to_double(sizeof(XIButtonClassInfo));
+    size = ((((num_buttons + 7)/8) + 3)/4);
+
+    /* Force mask alignment with longs to avoid unaligned
+     * access when accessing the atoms. */
+    *state = pad_to_double(size * 4);
+    labels = num_buttons * sizeof(Atom);
+
+    /* Force mask alignment with longs to avoid
+     * unaligned access when accessing the atoms. */
+    labels += ((((num_buttons + 7)/8) + 3)/4) * sizeof(Atom);
+    *atoms = pad_to_double(labels);
+}
+
+/**
+ * Set structure and keycodes to size in bytes of XIKeyClassInfo and
+ * its keycodes array.
+ */
+static void
+sizeXIKeyClassType(int num_keycodes, int* structure, int* keycodes)
+{
+    *structure = pad_to_double(sizeof(XIKeyClassInfo));
+    *keycodes = pad_to_double(num_keycodes * sizeof(int));
+}
+
 /**
  * Return the size in bytes required to store the matching class type
  * num_elements is num_buttons for XIButtonClass or num_keycodes for
@@ -1047,27 +1096,26 @@ static int
 sizeDeviceClassType(int type, int num_elements)
 {
     int l = 0;
+    int extra1 = 0;
+    int extra2 = 0;
     switch(type)
     {
         case XIButtonClass:
-            l = sizeof(XIButtonClassInfo);
-            l += num_elements * sizeof(Atom);
-            /* Force mask alignment with longs to avoid
-             * unaligned access when accessing the atoms. */
-            l += ((((num_elements + 7)/8) + 3)/4) * sizeof(Atom);
+            sizeXIButtonClassType(num_elements, &l, &extra1, &extra2);
+            l += extra1 + extra2;
             break;
         case XIKeyClass:
-            l = sizeof(XIKeyClassInfo);
-            l += num_elements * sizeof(int);
+            sizeXIKeyClassType(num_elements, &l, &extra1);
+            l += extra1;
             break;
         case XIValuatorClass:
-            l = sizeof(XIValuatorClassInfo);
+            l = pad_to_double(sizeof(XIValuatorClassInfo));
             break;
         case XIScrollClass:
-            l = sizeof(XIScrollClassInfo);
+            l = pad_to_double(sizeof(XIScrollClassInfo));
             break;
         case XITouchClass:
-            l = sizeof(XITouchClassInfo);
+            l = pad_to_double(sizeof(XITouchClassInfo));
             break;
         default:
             printf("sizeDeviceClassType: unknown type %d\n", type);
@@ -1156,20 +1204,21 @@ copyDeviceChangedEvent(XGenericEventCookie *in_cookie,
         {
             case XIButtonClass:
                 {
-                    int size;
+                    int struct_size;
+                    int state_size;
+                    int labels_size;
                     XIButtonClassInfo *bin, *bout;
                     bin = (XIButtonClassInfo*)any;
-                    bout = next_block(&ptr, sizeof(XIButtonClass));
+                    sizeXIButtonClassType(bin->num_buttons, &struct_size,
+                                          &state_size, &labels_size);
+                    bout = next_block(&ptr, struct_size);
 
                     *bout = *bin;
-                    /* Force mask alignment with longs to avoid unaligned
-                     * access when accessing the atoms. */
-                    size = bout->state.mask_len/4 * sizeof(Atom);
-                    bout->state.mask = next_block(&ptr, size);
+                    bout->state.mask = next_block(&ptr, state_size);
                     memcpy(bout->state.mask, bin->state.mask,
                             bout->state.mask_len);
 
-                    bout->labels = next_block(&ptr, bout->num_buttons * sizeof(Atom));
+                    bout->labels = next_block(&ptr, labels_size);
                     memcpy(bout->labels, bin->labels, bout->num_buttons * sizeof(Atom));
                     out->classes[i] = (XIAnyClassInfo*)bout;
                     break;
@@ -1177,11 +1226,15 @@ copyDeviceChangedEvent(XGenericEventCookie *in_cookie,
             case XIKeyClass:
                 {
                     XIKeyClassInfo *kin, *kout;
+                    int struct_size;
+                    int keycodes_size;
                     kin = (XIKeyClassInfo*)any;
+                    sizeXIKeyClassType(kin->num_keycodes, &struct_size,
+                                       &keycodes_size);
 
-                    kout = next_block(&ptr, sizeof(XIKeyClass));
+                    kout = next_block(&ptr, struct_size);
                     *kout = *kin;
-                    kout->keycodes = next_block(&ptr, kout->num_keycodes * sizeof(int));
+                    kout->keycodes = next_block(&ptr, keycodes_size);
                     memcpy(kout->keycodes, kin->keycodes, kout->num_keycodes * sizeof(int));
                     out->classes[i] = (XIAnyClassInfo*)kout;
                     break;
@@ -1190,7 +1243,8 @@ copyDeviceChangedEvent(XGenericEventCookie *in_cookie,
                 {
                     XIValuatorClassInfo *vin, *vout;
                     vin = (XIValuatorClassInfo*)any;
-                    vout = next_block(&ptr, sizeof(XIValuatorClass));
+                    vout = next_block(&ptr,
+                                      sizeDeviceClassType(XIValuatorClass, 0));
                     *vout = *vin;
                     out->classes[i] = (XIAnyClassInfo*)vout;
                     break;
@@ -1199,7 +1253,8 @@ copyDeviceChangedEvent(XGenericEventCookie *in_cookie,
                 {
                     XIScrollClassInfo *sin, *sout;
                     sin = (XIScrollClassInfo*)any;
-                    sout = next_block(&ptr, sizeof(XIScrollClassInfo));
+                    sout = next_block(&ptr,
+                                      sizeDeviceClassType(XIScrollClass, 0));
                     *sout = *sin;
                     out->classes[i] = (XIAnyClassInfo*)sout;
                     break;
@@ -1478,7 +1533,8 @@ size_classes(xXIAnyInfo* from, int nclasses)
     xXIAnyInfo *any_wire;
     char *ptr_wire;
 
-    len = nclasses * sizeof(XIAnyClassInfo*); /* len for to->classes */
+    /* len for to->classes */
+    len = pad_to_double(nclasses * sizeof(XIAnyClassInfo*));
     ptr_wire = (char*)from;
     for (i = 0; i < nclasses; i++)
     {
@@ -1533,7 +1589,8 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
 
     ptr_wire = (char*)from;
     ptr_lib = to->classes;
-    to->classes = next_block(&ptr_lib, (*nclasses) * sizeof(XIAnyClassInfo*));
+    to->classes = next_block(&ptr_lib,
+                             pad_to_double((*nclasses) * sizeof(XIAnyClassInfo*)));
     memset(to->classes, 0, (*nclasses) * sizeof(XIAnyClassInfo*));
     len = 0; /* count wire length */
 
@@ -1549,24 +1606,26 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     XIButtonClassInfo *cls_lib;
                     xXIButtonInfo *cls_wire;
                     uint32_t *atoms;
-                    int size;
                     int j;
+                    int struct_size;
+                    int state_size;
+                    int labels_size;
 
-                    cls_lib = next_block(&ptr_lib, sizeof(XIButtonClassInfo));
                     cls_wire = (xXIButtonInfo*)any_wire;
+                    sizeXIButtonClassType(cls_wire->num_buttons,
+                                          &struct_size, &state_size,
+                                          &labels_size);
+                    cls_lib = next_block(&ptr_lib, struct_size);
 
                     cls_lib->type = cls_wire->type;
                     cls_lib->sourceid = cls_wire->sourceid;
                     cls_lib->num_buttons = cls_wire->num_buttons;
-                    size = ((((cls_wire->num_buttons + 7)/8) + 3)/4);
-                    cls_lib->state.mask_len = size * 4;
-                    /* Force mask alignment with longs to avoid unaligned
-                     * access when accessing the atoms. */
-                    cls_lib->state.mask = next_block(&ptr_lib, size * sizeof(Atom));
+                    cls_lib->state.mask_len = state_size;
+                    cls_lib->state.mask = next_block(&ptr_lib, state_size);
                     memcpy(cls_lib->state.mask, &cls_wire[1],
                            cls_lib->state.mask_len);
 
-                    cls_lib->labels = next_block(&ptr_lib, cls_lib->num_buttons * sizeof(Atom));
+                    cls_lib->labels = next_block(&ptr_lib, labels_size);
                     atoms =(uint32_t*)((char*)&cls_wire[1] + cls_lib->state.mask_len);
                     for (j = 0; j < cls_lib->num_buttons; j++)
                         cls_lib->labels[j] = *atoms++;
@@ -1578,15 +1637,18 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                 {
                     XIKeyClassInfo *cls_lib;
                     xXIKeyInfo *cls_wire;
+                    int struct_size;
+                    int keycodes_size;
 
-                    cls_lib = next_block(&ptr_lib, sizeof(XIKeyClassInfo));
                     cls_wire = (xXIKeyInfo*)any_wire;
+                    sizeXIKeyClassType(cls_wire->num_keycodes,
+                                       &struct_size, &keycodes_size);
+                    cls_lib = next_block(&ptr_lib, struct_size);
 
                     cls_lib->type = cls_wire->type;
                     cls_lib->sourceid = cls_wire->sourceid;
                     cls_lib->num_keycodes = cls_wire->num_keycodes;
-                    cls_lib->keycodes = next_block(&ptr_lib,
-                            cls_lib->num_keycodes * sizeof(int));
+                    cls_lib->keycodes = next_block(&ptr_lib, keycodes_size);
                     memcpy(cls_lib->keycodes, &cls_wire[1],
                             cls_lib->num_keycodes);
 
@@ -1598,7 +1660,9 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     XIValuatorClassInfo *cls_lib;
                     xXIValuatorInfo *cls_wire;
 
-                    cls_lib = next_block(&ptr_lib, sizeof(XIValuatorClassInfo));
+                    cls_lib =
+                      next_block(&ptr_lib,
+                                 sizeDeviceClassType(XIValuatorClass, 0));
                     cls_wire = (xXIValuatorInfo*)any_wire;
 
                     cls_lib->type = cls_wire->type;
@@ -1620,7 +1684,9 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     XIScrollClassInfo *cls_lib;
                     xXIScrollInfo *cls_wire;
 
-                    cls_lib = next_block(&ptr_lib, sizeof(XIScrollClassInfo));
+                    cls_lib =
+                      next_block(&ptr_lib,
+                                 sizeDeviceClassType(XIScrollClass, 0));
                     cls_wire = (xXIScrollInfo*)any_wire;
 
                     cls_lib->type = cls_wire->type;
