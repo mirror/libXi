@@ -1695,7 +1695,7 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     cls_lib->scroll_type= cls_wire->scroll_type;
                     cls_lib->flags      = cls_wire->flags;
                     cls_lib->increment  = cls_wire->increment.integral;
-                    cls_lib->increment += (unsigned int)cls_wire->increment.frac/(double)(1UL << 32);
+                    cls_lib->increment += (unsigned int)cls_wire->increment.frac/(double)(1ULL << 32);
 
                     to->classes[cls_idx++] = any_lib;
                 }
