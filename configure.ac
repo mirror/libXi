@@ -1,7 +1,7 @@
 
 # Initialize Autoconf
 AC_PREREQ([2.60])
-AC_INIT([libXi], [1.5.99.3],
+AC_INIT([libXi], [1.6.0],
 	[https://bugs.freedesktop.org/enter_bug.cgi?product=xorg], [libXi])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([src/config.h])
