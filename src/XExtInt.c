@@ -1610,12 +1610,14 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     int struct_size;
                     int state_size;
                     int labels_size;
+                    int wire_mask_size;
 
                     cls_wire = (xXIButtonInfo*)any_wire;
                     sizeXIButtonClassType(cls_wire->num_buttons,
                                           &struct_size, &state_size,
                                           &labels_size);
                     cls_lib = next_block(&ptr_lib, struct_size);
+                    wire_mask_size = ((cls_wire->num_buttons + 7)/8 + 3)/4 * 4;
 
                     cls_lib->type = cls_wire->type;
                     cls_lib->sourceid = cls_wire->sourceid;
@@ -1623,10 +1625,14 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     cls_lib->state.mask_len = state_size;
                     cls_lib->state.mask = next_block(&ptr_lib, state_size);
                     memcpy(cls_lib->state.mask, &cls_wire[1],
-                           cls_lib->state.mask_len);
+                           wire_mask_size);
+                    if (state_size != wire_mask_size)
+                        memset(&cls_lib->state.mask[wire_mask_size], 0,
+                               state_size - wire_mask_size);
 
                     cls_lib->labels = next_block(&ptr_lib, labels_size);
-                    atoms =(uint32_t*)((char*)&cls_wire[1] + cls_lib->state.mask_len);
+
+                    atoms =(uint32_t*)((char*)&cls_wire[1] + wire_mask_size);
                     for (j = 0; j < cls_lib->num_buttons; j++)
                         cls_lib->labels[j] = *atoms++;
 
