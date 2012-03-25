@@ -344,6 +344,43 @@ static int XInputCheckExtension(Display *dpy, XExtDisplayInfo *info)
     return 1;
 }
 
+/*****************************************************************
+ * Compare version numbers between info and the built-in version table.
+ * Returns
+ *   -1 if info's version is less than version_index's version,
+ *   0 if equal (or DontCheck),
+ *   1 if info's version is greater than version_index's version.
+ * Returns -2 on initialization errors which shouldn't happen if you call it
+ * correctly.
+ */
+_X_HIDDEN int
+_XiCheckVersion(XExtDisplayInfo *info,
+                int version_index)
+{
+    XExtensionVersion *ext;
+
+    if (versions[version_index].major_version == Dont_Check)
+        return 0;
+
+    if (!info->data)
+        return -2;
+
+    ext = ((XInputData *) info->data)->vers;
+    if (!ext)
+        return -2;
+
+    if (ext->major_version == versions[version_index].major_version &&
+        ext->minor_version == versions[version_index].minor_version)
+        return 0;
+
+    if (ext->major_version < versions[version_index].major_version ||
+        (ext->major_version == versions[version_index].major_version &&
+         ext->minor_version < versions[version_index].minor_version))
+        return -1;
+    else
+        return 1;
+}
+
 /***********************************************************************
  *
  * Check to see if the input extension is installed in the server.
@@ -357,8 +394,6 @@ _XiCheckExtInit(
     register int	 version_index,
     XExtDisplayInfo	*info)
 {
-    XExtensionVersion *ext;
-
     if (!XInputCheckExtension(dpy, info)) {
 	UnlockDisplay(dpy);
 	return (-1);
@@ -374,15 +409,11 @@ _XiCheckExtInit(
 	    _XiGetExtensionVersion(dpy, "XInputExtension", info);
     }
 
-    if (versions[version_index].major_version > Dont_Check) {
-	ext = ((XInputData *) info->data)->vers;
-	if ((ext->major_version < versions[version_index].major_version) ||
-	    ((ext->major_version == versions[version_index].major_version) &&
-	     (ext->minor_version < versions[version_index].minor_version))) {
-	    UnlockDisplay(dpy);
-	    return (-1);
-	}
+    if (_XiCheckVersion(info, version_index) < 0) {
+	UnlockDisplay(dpy);
+	return -1;
     }
+
     return (0);
 }
 
