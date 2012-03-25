@@ -145,7 +145,7 @@ wireToDeviceChangedEvent(xXIDeviceChangedEvent *in, XGenericEventCookie *cookie)
 static int
 wireToHierarchyChangedEvent(xXIHierarchyEvent *in, XGenericEventCookie *cookie);
 static int
-wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie);
+wireToRawEvent(XExtDisplayInfo *info, xXIRawEvent *in, XGenericEventCookie *cookie);
 static int
 wireToEnterLeave(xXIEnterEvent *in, XGenericEventCookie *cookie);
 static int
@@ -1012,7 +1012,7 @@ XInputWireToCookie(
         case XI_RawTouchUpdate:
         case XI_RawTouchEnd:
             *cookie = *(XGenericEventCookie*)save;
-            if (!wireToRawEvent((xXIRawEvent*)event, cookie))
+            if (!wireToRawEvent(info, (xXIRawEvent*)event, cookie))
             {
                 printf("XInputWireToCookie: CONVERSION FAILURE!  evtype=%d\n",
                         ge->evtype);
@@ -1832,13 +1832,12 @@ wireToHierarchyChangedEvent(xXIHierarchyEvent *in, XGenericEventCookie *cookie)
 }
 
 static int
-wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
+wireToRawEvent(XExtDisplayInfo *info, xXIRawEvent *in, XGenericEventCookie *cookie)
 {
     int len, i, bits;
     FP3232 *values;
     XIRawEvent *out;
     void *ptr;
-
 
     len = sizeof(XIRawEvent) + in->valuators_len * 4;
     bits = count_bits((unsigned char*)&in[1], in->valuators_len * 4);
@@ -1857,8 +1856,13 @@ wireToRawEvent(xXIRawEvent *in, XGenericEventCookie *cookie)
     out->time           = in->time;
     out->detail         = in->detail;
     out->deviceid       = in->deviceid;
-    out->sourceid       = 0; /* https://bugs.freedesktop.org/show_bug.cgi?id=34240 */
     out->flags          = in->flags;
+
+    /* https://bugs.freedesktop.org/show_bug.cgi?id=34240 */
+    if (_XiCheckVersion(info, XInput_2_2) >= 0)
+        out->sourceid       = in->sourceid;
+    else
+        out->sourceid       = 0;
 
     out->valuators.mask_len = in->valuators_len * 4;
     out->valuators.mask = next_block(&ptr, out->valuators.mask_len);
