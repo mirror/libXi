@@ -434,7 +434,16 @@ XInputClose(
 	XFree((char *)((XInputData *) info->data)->vers);
 	XFree((char *)info->data);
     }
-    return XextRemoveDisplay(xinput_info, dpy);
+
+    if (!XextRemoveDisplay(xinput_info, dpy))
+        return 0;
+
+    if (xinput_info->ndisplays == 0) {
+        XextDestroyExtension(xinput_info);
+        xinput_info = NULL;
+    }
+
+    return 1;
 }
 
 static int
