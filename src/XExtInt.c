@@ -124,6 +124,9 @@ wireToPropertyEvent(xXIPropertyEvent *in, XGenericEventCookie *cookie);
 static int
 wireToTouchOwnershipEvent(xXITouchOwnershipEvent *in,
                           XGenericEventCookie *cookie);
+static int
+wireToBarrierEvent(xXIBarrierEvent *in,
+                   XGenericEventCookie *cookie);
 
 static /* const */ XEvent emptyevent;
 
@@ -1022,6 +1025,16 @@ XInputWireToCookie(
                 break;
             }
             return ENQUEUE_EVENT;
+        case XI_BarrierHit:
+        case XI_BarrierLeave:
+            *cookie = *(XGenericEventCookie*)save;
+            if (!wireToBarrierEvent((xXIBarrierEvent*)event, cookie))
+            {
+                printf("XInputWireToCookie: CONVERSION FAILURE!  evtype=%d\n",
+                        ge->evtype);
+                break;
+            }
+            return ENQUEUE_EVENT;
         default:
             printf("XInputWireToCookie: Unknown generic event. type %d\n", ge->evtype);
 
@@ -1403,7 +1416,21 @@ copyRawEvent(XGenericEventCookie *cookie_in,
     return True;
 }
 
+static Bool
+copyBarrierEvent(XGenericEventCookie *in_cookie,
+                 XGenericEventCookie *out_cookie)
+{
+    XIBarrierEvent *in, *out;
 
+    in = in_cookie->data;
+
+    out = out_cookie->data = calloc(1, sizeof(XIBarrierEvent));
+    if (!out)
+        return False;
+    *out = *in;
+
+    return True;
+}
 
 static Bool
 XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out)
@@ -1458,6 +1485,10 @@ XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out
         case XI_RawButtonRelease:
         case XI_RawMotion:
             ret = copyRawEvent(in, out);
+            break;
+        case XI_BarrierHit:
+        case XI_BarrierLeave:
+            ret = copyBarrierEvent(in, out);
             break;
         default:
             printf("XInputCopyCookie: unknown evtype %d\n", in->evtype);
@@ -1955,6 +1986,37 @@ wireToTouchOwnershipEvent(xXITouchOwnershipEvent *in,
     out->event          = in->event;
     out->child          = in->child;
     out->flags          = in->flags;
+
+    return 1;
+}
+
+#define FP3232_TO_DOUBLE(x) ((double) (x).integral + (x).frac / (1ULL << 32))
+
+static int
+wireToBarrierEvent(xXIBarrierEvent *in, XGenericEventCookie *cookie)
+{
+    XIBarrierEvent *out = malloc(sizeof(XIBarrierEvent));
+
+    cookie->data = out;
+
+    out->display    = cookie->display;
+    out->type       = in->type;
+    out->extension  = in->extension;
+    out->evtype     = in->evtype;
+    out->send_event = ((in->type & 0x80) != 0);
+    out->time       = in->time;
+    out->deviceid   = in->deviceid;
+    out->sourceid   = in->sourceid;
+    out->event      = in->event;
+    out->root       = in->root;
+    out->root_x     = FP1616toDBL(in->root_x);
+    out->root_y     = FP1616toDBL(in->root_y);
+    out->dx         = FP3232_TO_DOUBLE (in->dx);
+    out->dy         = FP3232_TO_DOUBLE (in->dy);
+    out->dtime      = in->dtime;
+    out->flags      = in->flags;
+    out->barrier    = in->barrier;
+    out->eventid    = in->eventid;
 
     return 1;
 }
