@@ -73,35 +73,6 @@ SOFTWARE.
 #define DONT_ENQUEUE	False
 #define FP1616toDBL(x) ((x) * 1.0 / (1 << 16))
 
-extern void _xibaddevice(
-    Display *		/* dpy */,
-    int *		/* error */
-);
-
-extern void _xibadclass(
-    Display *		/* dpy */,
-    int *		/* error */
-);
-
-extern void _xibadevent(
-    Display *		/* dpy */,
-    int *		/* error */
-);
-
-extern void _xibadmode(
-    Display *		/* dpy */,
-    int *		/* error */
-);
-
-extern void _xidevicebusy(
-    Display *		/* dpy */,
-    int *		/* error */
-);
-
-extern int _XiGetDevicePresenceNotifyEvent(
-    Display *		/* dpy */
-);
-
 int copy_classes(XIDeviceInfo *to, xXIAnyInfo* from, int *nclasses);
 int size_classes(xXIAnyInfo* from, int nclasses);
 
@@ -496,7 +467,6 @@ XInputWireToEvent(
     xEvent	*event)
 {
     unsigned int type, reltype;
-    unsigned int i, j;
     XExtDisplayInfo *info = XInput_find_display(dpy);
     XEvent *save = (XEvent *) info->data;
 
@@ -621,6 +591,7 @@ XInputWireToEvent(
                 {
                     deviceValuator *xev = (deviceValuator *) event;
                     int save_type = save->type - info->codes->first_event;
+                    int i;
 
                     if (save_type == XI_DeviceKeyPress || save_type == XI_DeviceKeyRelease) {
                         XDeviceKeyEvent *kev = (XDeviceKeyEvent *) save;
@@ -716,6 +687,7 @@ XInputWireToEvent(
                                 pev->axis_data[0] = xev->valuator0;
                         }
                     } else if (save_type == XI_DeviceStateNotify) {
+                        int j;
                         XDeviceStateNotifyEvent *sev = (XDeviceStateNotifyEvent *) save;
                         XInputClass *any = (XInputClass *) & sev->data[0];
                         XValuatorStatus *v;
@@ -760,6 +732,7 @@ XInputWireToEvent(
                 break;
             case XI_DeviceStateNotify:
                 {
+                    int j;
                     XDeviceStateNotifyEvent *stev = (XDeviceStateNotifyEvent *) save;
                     deviceStateNotify *sev = (deviceStateNotify *) event;
                     char *data;
