@@ -77,7 +77,7 @@ int copy_classes(XIDeviceInfo *to, xXIAnyInfo* from, int *nclasses);
 int size_classes(xXIAnyInfo* from, int nclasses);
 
 static XExtensionInfo *xinput_info;
-static /* const */ char *xinput_extension_name = INAME;
+static const char *xinput_extension_name = INAME;
 
 static int XInputClose(
     Display *		/* dpy */,
@@ -143,7 +143,7 @@ static /* const */ XExtensionHooks xinput_extension_hooks = {
     XInputError,	/* error_string */
 };
 
-static char *XInputErrorList[] = {
+static const char *XInputErrorList[] = {
     "BadDevice, invalid or uninitialized input device",	/* BadDevice */
     "BadEvent, invalid event type",	/* BadEvent */
     "BadMode, invalid mode parameter",	/* BadMode  */
