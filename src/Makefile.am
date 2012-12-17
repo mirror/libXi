@@ -13,7 +13,8 @@ XI2_sources = XIAllowEvents.c \
 		  XIWarpPointer.c \
 		  XIHierarchy.c \
 		  XIDefineCursor.c \
-		  XIQueryPointer.c
+		  XIQueryPointer.c \
+		  XIBarrier.c
 
 libXi_la_SOURCES = \
 		  XAllowDv.c \
