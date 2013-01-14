@@ -1484,6 +1484,9 @@ XInputCopyCookie(Display *dpy, XGenericEventCookie *in, XGenericEventCookie *out
         case XI_RawButtonPress:
         case XI_RawButtonRelease:
         case XI_RawMotion:
+        case XI_RawTouchBegin:
+        case XI_RawTouchUpdate:
+        case XI_RawTouchEnd:
             ret = copyRawEvent(in, out);
             break;
         case XI_BarrierHit:
