@@ -28,6 +28,8 @@ XORG_CHECK_MALLOC_ZERO
 
 # Obtain compiler/linker options for dependencies
 PKG_CHECK_MODULES(XI, [xproto >= 7.0.13] [x11 >= 1.4.99.1] [xextproto >= 7.0.3] [xext >= 1.0.99.1] [inputproto >= 2.2.99.1])
+# CFLAGS only for PointerBarrier typedef
+PKG_CHECK_MODULES(XFIXES, [xfixes >= 5])
 
 # Check for xmlto and asciidoc for man page conversion
 # (only needed by people building tarballs)

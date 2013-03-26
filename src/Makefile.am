@@ -70,6 +70,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include \
               -I$(top_srcdir)/include/X11/extensions
 
 AM_CFLAGS = $(XI_CFLAGS) \
+            $(XFIXES_CFLAGS) \
             $(MALLOC_ZERO_CFLAGS) \
             $(CWARNFLAGS)
 
