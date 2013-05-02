@@ -95,7 +95,7 @@ XGetFeedbackControl(
 	nbytes = (long)rep.length << 2;
 	f = (xFeedbackState *) Xmalloc((unsigned)nbytes);
 	if (!f) {
-	    _XEatData(dpy, (unsigned long)nbytes);
+	    _XEatDataWords(dpy, rep.length);
 	    goto out;
 	}
 	sav = f;

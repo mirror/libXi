@@ -112,7 +112,7 @@ XGetDeviceMotionEvents(
 	Xfree(bufp);
 	Xfree(savp);
 	*nEvents = 0;
-	_XEatData(dpy, (unsigned long)size);
+	_XEatDataWords(dpy, rep.length);
 	UnlockDisplay(dpy);
 	SyncHandle();
 	return (NULL);
