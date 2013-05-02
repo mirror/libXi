@@ -64,7 +64,7 @@ XIListProperties(Display* dpy, int deviceid, int *num_props_return)
         props = (Atom*)Xmalloc(rep.num_properties * sizeof(Atom));
         if (!props)
         {
-            _XEatData(dpy, rep.num_properties << 2);
+            _XEatDataWords(dpy, rep.length);
             goto cleanup;
         }
 
@@ -203,8 +203,7 @@ XIGetProperty(Display* dpy, int deviceid, Atom property, long offset,
 	     * This part of the code should never be reached.  If it is,
 	     * the server sent back a property with an invalid format.
 	     */
-	    nbytes = rep.length << 2;
-	    _XEatData(dpy, nbytes);
+	    _XEatDataWords(dpy, rep.length);
 	    UnlockDisplay(dpy);
 	    SyncHandle();
 	    return(BadImplementation);
@@ -222,7 +221,7 @@ XIGetProperty(Display* dpy, int deviceid, Atom property, long offset,
         *data = Xmalloc(rbytes);
 
 	if (!(*data)) {
-	    _XEatData(dpy, nbytes);
+	    _XEatDataWords(dpy, rep.length);
 	    UnlockDisplay(dpy);
 	    SyncHandle();
 	    return(BadAlloc);

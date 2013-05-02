@@ -112,14 +112,13 @@ XGetDeviceProperty(Display* dpy, XDevice* dev,
 	     * This part of the code should never be reached.  If it is,
 	     * the server sent back a property with an invalid format.
 	     */
-	    nbytes = rep.length << 2;
-	    _XEatData(dpy, (unsigned long) nbytes);
+	    _XEatDataWords(dpy, rep.length);
 	    UnlockDisplay(dpy);
 	    SyncHandle();
 	    return(BadImplementation);
 	}
 	if (! *prop) {
-	    _XEatData(dpy, (unsigned long) nbytes);
+	    _XEatDataWords(dpy, rep.length);
 	    UnlockDisplay(dpy);
 	    SyncHandle();
 	    return(BadAlloc);

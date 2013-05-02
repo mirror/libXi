@@ -95,7 +95,7 @@ XGetDeviceControl(
 	nbytes = (long)rep.length << 2;
 	d = (xDeviceState *) Xmalloc((unsigned)nbytes);
 	if (!d) {
-	    _XEatData(dpy, (unsigned long)nbytes);
+	    _XEatDataWords(dpy, rep.length);
 	    goto out;
 	}
 	sav = d;
