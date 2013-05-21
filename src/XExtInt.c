@@ -915,7 +915,6 @@ static void xge_copy_to_cookie(xGenericEvent* ev,
     cookie->type = ev->type;
     cookie->evtype = ev->evtype;
     cookie->extension = ev->extension;
-    cookie->serial = ev->sequenceNumber;
 }
 
 static Bool
