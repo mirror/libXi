@@ -30,6 +30,7 @@
 #include <X11/extensions/XI2proto.h>
 #include <X11/extensions/XInput2.h>
 #include <X11/extensions/extutil.h>
+#include <limits.h>
 #include "XIint.h"
 
 static int
