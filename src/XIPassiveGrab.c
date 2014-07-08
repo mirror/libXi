@@ -166,6 +166,7 @@ XIGrabTouchBegin(Display *dpy, int deviceid, Window grab_window,
     LockDisplay(dpy);
     if (_XiCheckExtInit(dpy, XInput_2_2, extinfo) == -1)
 	return -1;
+    UnlockDisplay(dpy);
 
     /* FIXME: allow selection of GrabMode for paired devices? */
     return _XIPassiveGrabDevice(dpy, deviceid, XIGrabtypeTouchBegin, 0,
