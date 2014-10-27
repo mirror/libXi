@@ -109,7 +109,7 @@ XIChangeHierarchy(Display* dpy,
                     c->name_len = strlen(C->name);
                     c->length = (sizeof(xXIAddMasterInfo) + c->name_len + 3)/4;
                     strncpy((char*)&c[1], C->name, c->name_len);
-                    dptr += c->length;
+                    dptr += 4 * c->length;
                 }
                 break;
             case XIRemoveMaster:
