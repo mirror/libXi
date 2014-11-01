@@ -380,7 +380,7 @@ _XiCheckExtInit(
 	    return (-1);
 	}
 	((XInputData *) info->data)->vers =
-	    _XiGetExtensionVersion(dpy, "XInputExtension", info);
+	    _XiGetExtensionVersionRequest(dpy, "XInputExtension", info->codes->major_opcode);
     }
 
     if (_XiCheckVersion(info, version_index) < 0) {
