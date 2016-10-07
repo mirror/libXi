@@ -73,27 +73,28 @@ static int pad_to_xid(int base_size)
     return ((base_size + padsize - 1)/padsize) * padsize;
 }
 
-static size_t
-SizeClassInfo(xAnyClassPtr *any, size_t len, int num_classes)
+static int
+SizeClassInfo(xAnyClassPtr *any, size_t len, int num_classes, size_t *size)
 {
-    int size = 0;
     int j;
+    size_t sz = 0;
+
     for (j = 0; j < num_classes; j++) {
         switch ((*any)->class) {
             case KeyClass:
-                size += pad_to_xid(sizeof(XKeyInfo));
+                sz += pad_to_xid(sizeof(XKeyInfo));
                 break;
             case ButtonClass:
-                size += pad_to_xid(sizeof(XButtonInfo));
+                sz += pad_to_xid(sizeof(XButtonInfo));
                 break;
             case ValuatorClass:
                 {
                     xValuatorInfoPtr v;
 
                     if (len < sizeof(v))
-                        return 0;
+                        return 1;
                     v = (xValuatorInfoPtr) *any;
-                    size += pad_to_xid(sizeof(XValuatorInfo) +
+                    sz += pad_to_xid(sizeof(XValuatorInfo) +
                         (v->num_axes * sizeof(XAxisInfo)));
                     break;
                 }
@@ -101,11 +102,13 @@ SizeClassInfo(xAnyClassPtr *any, size_t len, int num_classes)
                 break;
         }
         if ((*any)->length > len)
-            return 0;
+            return 1;
         *any = (xAnyClassPtr) ((char *)(*any) + (*any)->length);
     }
 
-    return size;
+    *size = sz;
+
+    return 0;
 }
 
 static void
@@ -220,8 +223,7 @@ XListInputDevices(
 	sav_any = any;
 	end = (char *)list + rlen;
 	for (i = 0; i < *ndevices; i++, list++) {
-            s = SizeClassInfo(&any, end - (char *)any, (int)list->num_classes);
-            if (!s)
+            if(SizeClassInfo(&any, end - (char *)any, (int)list->num_classes, &s))
                 goto out;
             size += s;
 	}
