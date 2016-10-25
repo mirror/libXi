@@ -66,17 +66,18 @@ XIQueryDevice(Display *dpy, int deviceid, int *ndevices_return)
     {
 	*ndevices_return = reply.num_devices;
 	info = Xmalloc((reply.num_devices + 1) * sizeof(XIDeviceInfo));
+	buf = Xmalloc(reply.length * 4);
     }
     else
     {
 	*ndevices_return = 0;
 	info = NULL;
+	buf = NULL;
     }
 
-    if (!info)
+    if (!info || !buf)
         goto error;
 
-    buf = Xmalloc(reply.length * 4);
     _XRead(dpy, buf, reply.length * 4);
     ptr = buf;
     end = buf + reply.length * 4;
@@ -135,9 +136,9 @@ error_loop:
         Xfree(info[i].name);
         Xfree(info[i].classes);
     }
+error:
     Xfree(info);
     Xfree(buf);
-error:
     UnlockDisplay(dpy);
 error_unlocked:
     SyncHandle();
