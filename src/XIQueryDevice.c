@@ -135,6 +135,8 @@ error_loop:
         Xfree(info[i].name);
         Xfree(info[i].classes);
     }
+    Xfree(info);
+    Xfree(buf);
 error:
     UnlockDisplay(dpy);
 error_unlocked:
