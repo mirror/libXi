@@ -46,7 +46,7 @@ XIQueryDevice(Display *dpy, int deviceid, int *ndevices_return)
     char                *ptr;
     char                *end;
     int                 i;
-    char                *buf;
+    char                *buf = NULL;
 
     XExtDisplayInfo *extinfo = XInput_find_display(dpy);
 
