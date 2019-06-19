@@ -1749,8 +1749,7 @@ copy_classes(XIDeviceInfo* to, xXIAnyInfo* from, int *nclasses)
                     cls_lib->number     = cls_wire->number;
                     cls_lib->scroll_type= cls_wire->scroll_type;
                     cls_lib->flags      = cls_wire->flags;
-                    cls_lib->increment  = cls_wire->increment.integral;
-                    cls_lib->increment += (unsigned int)cls_wire->increment.frac/(double)(1ULL << 32);
+                    cls_lib->increment  = FP3232_TO_DOUBLE(cls_wire->increment);
 
                     to->classes[cls_idx++] = any_lib;
                 }
