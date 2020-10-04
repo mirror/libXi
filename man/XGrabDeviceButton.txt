@@ -42,10 +42,10 @@ SYNOPSIS
           released or AnyButton.
 
    modifiers
-          Specifies the set of keymasks or AnyModifier.The mask is
+          Specifies the set of keymasks or AnyModifier. The mask is
           the bitwise inclusive OR of the valid keymask bits.
           Valid bits are: Shiftmask, LockMask, ControlMask,
-          Mod1Mask, Mod2Mask,Mod3Mask, Mod4Mask, Mod5Mask.
+          Mod1Mask, Mod2Mask, Mod3Mask, Mod4Mask, Mod5Mask.
 
    modifier_device
           specifies the device whose modifiers are to be used. If

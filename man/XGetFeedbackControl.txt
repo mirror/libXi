@@ -30,7 +30,7 @@ SYNOPSIS
 
    num_feedbacks
           Specifies an address into which the number of feedbacks
-          supported by thedevice is to be returned.
+          supported by the device is to be returned.
 
    mask
           Specifies a mask specific to each type of feedback that
