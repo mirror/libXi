@@ -83,14 +83,14 @@ DESCRIPTION
    The event in the XEventstructure must be one of the events
    defined by the input extension (or a BadValueerror results) so
    that the X server can correctly byte-swapthe contents as
-   necessary. The contents of the event areotherwise unaltered and
+   necessary. The contents of the event are otherwise unaltered and
    unchecked by the X server except to force send_event to Truein
    the forwarded event and to set the serial number in the event
    correctly.
 
-   XSendExtensionEventreturns zero if the conversion to wire
-   protocol format failedand returns nonzero
-   otherwise.XSendExtensionEventcan generate BadClass, BadDevice,
+   XSendExtensionEvent returns zero if the conversion to wire
+   protocol format failed and returns nonzero
+   otherwise. XSendExtensionEvent can generate BadClass, BadDevice,
    BadValue, and BadWindow errors.
 
 DIAGNOSTICS

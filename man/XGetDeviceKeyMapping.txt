@@ -36,7 +36,7 @@ SYNOPSIS
 
    keysyms_per_keycode_return
           Specifies the address of a variable into which the
-          number of KeySyms per KeyCodewill be returned.
+          number of KeySyms per KeyCode will be returned.
 
    keysyms
           Specifies the address of an array of KeySyms.

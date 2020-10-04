@@ -34,11 +34,11 @@ SYNOPSIS
 
    mask
           Specifies a mask specific to each type of feedback that
-          describes howthe feedback is to be modified.
+          describes how the feedback is to be modified.
 
    control
           Specifies the address of an XFeedbackControl structure
-          that containsthe new values for the feedback.
+          that contains the new values for the feedback.
 
 DESCRIPTION
 -----------

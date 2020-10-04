@@ -77,7 +77,7 @@ DESCRIPTION
      and the attachment field specifies the paired master pointer.
    - If use is XISlavePointer, the device is a slave device and
      currently attached to the master pointer specified in
-     attachement.
+     attachment.
    - If use is XISlaveKeyboard, the device is a slave device an
      currently attached to the master keyboard specified in
      attachment.
@@ -185,7 +185,7 @@ DESCRIPTION
    describing the axis.
 
    min and max are the minimum and maximum values allowed on this
-   axis. If both are zero, no minumum or maximum values are set on
+   axis. If both are zero, no minimum or maximum values are set on
    this device. value is the current value of this axis.
 
    The resolution field specifies the resolution of the device in
