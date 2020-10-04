@@ -247,7 +247,7 @@ DESCRIPTION
    The mode field is either XIDirectTouch for direct-input touch devices
    such as touchscreens or XIDependentTouch for indirect input devices such
    as touchpads. For XIDirectTouch devices, touch events are sent to window
-   at the position the touch occured. For XIDependentTouch devices, touch
+   at the position the touch occurred. For XIDependentTouch devices, touch
    events are sent to the window at the position of the device's sprite.
 
    The num_touches field defines the maximum number of simultaneous touches
