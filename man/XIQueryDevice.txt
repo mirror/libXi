@@ -101,7 +101,7 @@ DESCRIPTION
    The type field specifies the type of the input class.
    Currently, the following types are defined:
        XIKeyClass, XIButtonClass, XIValuatorClass, XIScrollClass,
-       XITouchClass
+       XITouchClass, XIGestureClass.
 
    In the future, additional types may be added. Clients are
    required to ignore unknown input classes.
@@ -258,6 +258,23 @@ DESCRIPTION
    A device with an XITouchClassInfo may still send pointer events. The
    valuators must be defined with the respective XIValuatorClass
    classes. A valuator may send both pointer and touch-events.
+
+                typedef struct
+                {
+                    int         type;
+                    int         sourceid;
+                    int         num_touches;
+                } XIGestureClassInfo;
+
+   A device may have zero or one XIGestureClassInfo, denoting
+   touchpad gesture capability on the device. A device with a XIGestureClassInfo
+   may send GestureSwipeBegin, GestureSwipeUpdate, GestureSwipeEnd,
+   GesturePinchBegin, GesturePinchUpdate, GesturePinchEnd.
+
+   The num_touches field defines the maximum number of simultaneous touches
+   the device supports. A num_touches of 0 means the maximum number of
+   simultaneous touches is undefined or unspecified. This field should be
+   used as a guide only, devices will lie about their capabilities.
 
    XIQueryDevice can generate a BadDevice error.
 
