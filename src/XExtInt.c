@@ -1047,7 +1047,7 @@ XInputWireToCookie(
         case XI_GesturePinchUpdate:
         case XI_GesturePinchEnd:
             *cookie = *(XGenericEventCookie*)save;
-            if (!wireToPinchEvent((xXIGesturePinchEndEvent*)event, cookie))
+            if (!wireToPinchEvent((xXIGesturePinchEvent*)event, cookie))
             {
                 printf("XInputWireToCookie: CONVERSION FAILURE!  evtype=%d\n",
                         ge->evtype);
@@ -1058,7 +1058,7 @@ XInputWireToCookie(
         case XI_GestureSwipeUpdate:
         case XI_GestureSwipeEnd:
             *cookie = *(XGenericEventCookie*)save;
-            if (!wireToSwipeEvent((xXIGestureSwipeEndEvent*)event, cookie))
+            if (!wireToSwipeEvent((xXIGestureSwipeEvent*)event, cookie))
             {
                 printf("XInputWireToCookie: CONVERSION FAILURE!  evtype=%d\n",
                         ge->evtype);
