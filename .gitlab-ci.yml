@@ -1,0 +1,60 @@
+# vim: set expandtab shiftwidth=2 tabstop=8 textwidth=0 filetype=yaml:
+
+.templates_sha: &template_sha 16f790f93f893394b70d7048fb0e8a981ceaa3c5 # see https://docs.gitlab.com/ee/ci/yaml/#includefile
+
+include:
+  - project: 'freedesktop/ci-templates'
+    ref: *template_sha
+    file: '/templates/debian.yml'
+
+stages:
+  - prep
+  - install xorgproto
+  - build
+
+variables:
+  FDO_DISTRIBUTION_TAG: '2021-05-30.8'  # change this to rebuild the images
+  FDO_UPSTREAM_REPO: 'xorg/lib/libxi'
+  FDO_DISTRIBUTION_VERSION: 'stable'
+  FDO_DISTRIBUTION_PACKAGES: 'git ca-certificates meson g++ make xutils-dev autoconf automake libtool pkg-config xmlto xorg-sgml-doctools w3m xsltproc libx11-dev libxext-dev libxfixes-dev'
+
+  MESON_BUILDDIR: 'build dir'
+  NINJA_ARGS: ''
+  MESON_ARGS: ''
+
+container-prep:
+  extends:
+    - .fdo.container-build@debian
+  stage: prep
+  variables:
+    GIT_STRATEGY: none
+
+xorgproto-build:
+  extends:
+    - .fdo.distribution-image@debian
+  stage: install xorgproto
+  script:
+    - export INSTDIR="$PWD/_inst"
+    - git clone --depth=1 https://gitlab.freedesktop.org/xorg/proto/xorgproto --branch=xorgproto-2021.4.99.2
+    - pushd xorgproto > /dev/null
+    - meson -Dprefix="$INSTDIR" _build
+    - ninja -j${FDO_CI_CONCURRENT:-4} -C _build install
+    - popd > /dev/null
+  variables:
+  artifacts:
+    paths:
+      - _inst
+
+build:
+  extends:
+    - .fdo.distribution-image@debian
+  stage: build
+  script:
+    - export INSTDIR="$PWD/_inst"
+    - export PKG_CONFIG_PATH=$(find $INSTDIR/ -name '*.pc' -printf "%h:")
+    - autoreconf -fi
+    - mkdir build
+    - pushd build > /dev/null
+    - ../configure
+    - make all -j${FDO_CI_CONCURRENT:-4}
+    - popd > /dev/null
